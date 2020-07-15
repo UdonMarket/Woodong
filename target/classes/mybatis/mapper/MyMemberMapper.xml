@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="model.MybatisMemberImpl">
+ 
+ 	<!-- 방명록리스트 : 게시물 갯수 카운트 -->
+ 	<select id="getTotalCount" resultType="int" parameterType="model.MemberVO">
+ 		SELECT COUNT(*) from woo_member
+ 		<if test="searchTxt!=null and !searchTxt.equals('')"> <!-- JSTL형식은 아니지만 비슷하게 if사용가능함. -->
+ 			WHERE ${searchField} like '%'||#{searchTxt}||'%' <!-- $는 싱글쿼테이션이 안붙음. #은 싱글쿼테이션이 붙음. -->
+ 		</if>
+ 	</select>
+ 	 
+ 	<!-- 
+ 		매개변수를 받는 두번째 방법으로 #{0}, #{1}과 같이
+ 		인덱스로 받을 수 있다.
+ 	 -->
+ 	<insert id="regist" parameterType="model.MemberVO">
+ 		 insert into woo_member(id, pass, mobile, addr, grade)
+      values(#{id},#{pass},#{mobile},#{addr},#{grade})  
+ 	</insert>
+ 	
+ 	<!-- 자동으로 model.MyBoardDTO형 객체들을 컬렉션으로 묶어서 보냄 -->
+ 	<!-- <select id="listPage" resultType="model.MyBoardDTO">
+ 		SELECT * FROM (
+ 			SELECT Tb.*, rownum rNum FROM (
+ 				SELECT * FROM myboard ORDER BY idx DESC
+ 			) Tb
+ 		)
+ 		WHERE rNum BETWEEN #{param1} AND #{param2}
+ 	</select> -->
+ 	<select id="listPage" resultType="model.MemberVO">
+ 		SELECT * FROM (
+ 			SELECT Tb.*, rownum rNum FROM (
+ 				SELECT * FROM woo_member 
+ 			 <if test="searchTxt!=null and !searchTxt.equals('')">
+ 					WHERE ${searchField} like '%'||#{searchTxt}||'%'
+ 				</if>
+ 				ORDER BY id DESC
+ 			) Tb
+ 		)
+ 		WHERE rNum BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<delete id="delete">
+ 		DELETE FROM woo_member WHERE id=#{param1}
+ 	</delete>
+ 	
+ 	<!-- 수정폼 넘어가기전 패스워드 검증폼 처리하는 코드 -->
+ 	<select id="passwordAction" resultType="model.MemberVO">
+ 		 SELECT * FROM woo_member WHERE id=#{param1} AND pass=#{param2}
+ 	</select>
+ 	
+ 	<!--회원정보 수정  -->
+ 	<update id="changeInfomation">
+ 		UPDATE woo_member set mobile = #{param1}, pass = #{param2} where id = #{param3}
+ 	</update>
+ 	
+ 	<!--회원 탈퇴  -->
+ 	<delete id="deleteMemberAction">
+		DELETE FROM woo_member WHERE id=#{param1} AND pass=#{param2} 	
+ 	</delete>
+ 	
+ 	<select id="myInfo" resultType="model.MemberVO">
+ 		select * from woo_member where id=#{0}
+ 	</select>
+ 	
+ 	
+ </mapper>

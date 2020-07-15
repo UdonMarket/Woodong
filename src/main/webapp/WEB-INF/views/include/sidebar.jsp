@@ -1,0 +1,76 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<div id="floatMenu">
+	<div style="text-align: center;margin-left: 5px;margin-bottom: -20px;">
+		<img src="../resources/img/sidebar/판매하기로고.png" alt="판매하기" style="width: 200px;"/>
+	</div>
+	<div id="floatMenuBox1" style="background:none;border:1px solid black;padding-top:10px;">
+		<div>
+			<div>
+				<a href="../member/myPlace.woo" style="link:black;">
+					<img src="../resources/img/sidebar/location.png" alt="동네인증" width="20" height="20" />
+					동네인증
+				</a>
+			</div>
+		</div>
+	</div>
+	<div id="floatMenuBox1"  style="background:none;border:1px solid black;padding-top:10px;">
+		<div>
+			<div>
+				<a href="../member/myList_L.woo">
+					<img src="../resources/img/sidebar/heart.png" alt="찜상품" width="20" height="20" />
+					찜상품
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	<div id="floatMenuBox3"  style="background:none; height:300px;border:1px solid black;">
+		<div style="padding-left:50px;font-weight:bold;">최근 본 상품 <br><br><br></div>
+		
+		<div id="floatMenuBox2"  style="background:none;border:none;">
+			<img src="../resources/img/sidebar/none.png" alt="최근본상품이미지" width="30" height="30"/>
+			<div id="floatMenuBox2"  style="background:none;border:none;color:#D5D5D5">
+				최근 본 상품이
+				<br>
+				없습니다.
+				<br>
+			</div>
+		</div>
+	</div>
+	
+	<a href="#">
+		<button style="width:205px; height:60px;margin-top:5px;background-color:white;border:1px solid black;" > TOP </button>
+	</a>
+	
+</div>
+ 
+<script>
+	$(function() {
+
+		// 기존 css에서 플로팅 배너 위치(top)값을 가져와 저장한다.
+		var floatPosition = parseInt($("#floatMenu").css('top'));
+		// 250px 이런식으로 가져오므로 여기서 숫자만 가져온다. parseInt( 값 );
+
+		$(window).scroll(function() {
+			// 현재 스크롤 위치를 가져온다.
+			var scrollTop = $(window).scrollTop();
+			var newPosition = scrollTop + floatPosition + "px";
+			if(scrollTop<500){
+				newPosition = 500 + floatPosition + "px";
+			}
+
+			/* 애니메이션 없이 바로 따라감
+			 $("#floatMenu").css('top', newPosition);
+			 */
+
+			$("#floatMenu").stop().animate({
+				"top" : newPosition
+			}, 500);
+
+		}).scroll();
+
+	});
+</script>
+
+

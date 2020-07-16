@@ -43,6 +43,14 @@ public class MainController {
 	public String main(Principal principal, Model model, Authentication authentication) {
 		return "main/main";
 	}
+	@RequestMapping("/main/chatting.woo")
+	public String chatting() {
+		return "main/chatting";
+	}
+	@RequestMapping("/main/chat_main.woo")
+	public String chat_main() {
+		return "main/chat_main";
+	}
 
 	@RequestMapping("/about/about.woo")
 	public String about() {
@@ -59,8 +67,9 @@ public class MainController {
 		return "community/notice";
 	}
 
-	@RequestMapping("/write.woo")
+	@RequestMapping("/board/write.woo")
 	public String write() {
-		return "write";
+		return "board/write";
 	}
+	
 }

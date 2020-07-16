@@ -16,13 +16,5 @@
   <!-- CSS Files -->
   <link href="../resources/admin/css/argon-dashboard.css?v=1.1.2" rel="stylesheet" />
   
-  <script>
-function deleteRow(id){
-	
-	if(confirm("정말로 삭제하시겠습니까?")){
-		location.href="delete.woo?id="+ id;
-	}
-	
-}
-</script>
+
 </head>

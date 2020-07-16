@@ -8,23 +8,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import model.BoardListDTO;
+import model.BoardListImpl;
+
 @Controller
 public class myController {
 	@Autowired
 	private SqlSession sqlSession;
 
 	@RequestMapping({"/board/create1.woo"})
-	public String aa(Model model, CreateBoardDTO createBoardDTO) {
+	public String aa(Model model, BoardListDTO createBoardDTO) {
 		return "board/create";
 	}
 
 	@RequestMapping({"/board/create.woo"})
-	public String list(Model model, CreateBoardDTO createBoardDTO) {
-		createBoardDTO.setRequestname(createBoardDTO.getBlocation() + "?bname=" + createBoardDTO.getBname() + "&");
-		int border = ((CreateBoardImpl) this.sqlSession.getMapper(CreateBoardImpl.class))
-				.selectOrder(createBoardDTO.getBlocation());
-		createBoardDTO.setBorder(String.valueOf(border + 1));
-		((CreateBoardImpl) this.sqlSession.getMapper(CreateBoardImpl.class)).createboard(createBoardDTO);
+	public String list(Model model, BoardListDTO boardListDTO) {
+		boardListDTO.setRequestname(boardListDTO.getLocation() + "?bname=" + boardListDTO.getBname() + "&");
+		int border = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
+				.selectOrder(boardListDTO.getLocation());
+		boardListDTO.setBoardorder(String.valueOf(border + 1));
+		((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).createboard(boardListDTO);
 		return "board/create";
 	}
 
@@ -32,7 +35,7 @@ public class myController {
 	public String productlist(Model model, HttpServletRequest req) {
 		String blocation = ".." + req.getServletPath();
 		System.out.println(blocation);
-		List<CreateBoardDTO> lists = ((CreateBoardImpl) this.sqlSession.getMapper(CreateBoardImpl.class))
+		List<BoardListDTO> lists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
 				.selectBoard(blocation);
 		model.addAttribute("lists", lists);
 		return "product/productList";
@@ -42,7 +45,7 @@ public class myController {
 	public String community(Model model, HttpServletRequest req) {
 		String blocation = ".." + req.getServletPath();
 		System.out.println(blocation);
-		List<CreateBoardDTO> lists = ((CreateBoardImpl) this.sqlSession.getMapper(CreateBoardImpl.class))
+		List<BoardListDTO> lists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
 				.selectBoard(blocation);
 		model.addAttribute("lists", lists);
 		return "community/notice";

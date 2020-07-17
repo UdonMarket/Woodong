@@ -8,41 +8,36 @@
 <jsp:include page="../include/head.jsp"/>
 <script>
 //폼값체크
-function frmCheck() {
+function frmCheck(frm) {
 	
-	var frm = document.joinFrm;
-	
-	if(frm.email.value==""){
+	if(!frm.email.value){
 		alert("이메일을 입력하세요");
 		frm.email.focus();
-		return;
+		return false;
 	}
-	if(frm.pass.value==""){
+	if(!idAssemble(frm)){
+		alert("아이디는 6자 이상 12자 이내의 영문/숫자(@포함)를 조합하여 기입해주세요");
+		return false;
+	}
+	if(!frm.pass.value){
 		alert("비밀번호를 입력하세요");
 		frm.pass.focus();
-		return;
-	}
-	if(frm.mobile.value==""){
-		alert("핸드폰번호를 입력하세요");
-		frm.mobile.focus();
-		return;
+		return false;
 	}
 	if(!passAssemble()){
 		alert("비밀번호는 6자 이상 12자 이내의 영문/숫자를 조합하여 기입해주세요");
 		return false;
 	}
-	if(!idAssemble()){
-		alert("아이디는 6자 이상 12자 이내의 영문/숫자(@포함)를 조합하여 기입해주세요");
-		showErrorMsg(oMsg,"5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.");
+	if(!frm.mobile.value){
+		alert("핸드폰번호를 입력하세요");
+		frm.mobile.focus();
 		return false;
 	}
-	frm.submit();
 }	
 	//아이디 6자 이상 12자 이내의 영문/숫자 조합하여 공백 없이 기입 및 이메일 형식 체크
-	function idAssemble() {
-		var frm = document.joinFrm;
+	function idAssemble(frm) {
 		
-		 var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){6,12}$/;
+		 var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+)$/;
 
 			
 		var flag = true;
@@ -112,7 +107,7 @@ function frmCheck() {
                         
                             <div style="margin-bottom:10px;">
                             <form:form class="row contact_form" action="../member/addMember.woo" method="post"
-									novalidate="novalidate" name="joinFrm" id="joinFrm">
+									novalidate="novalidate" name="joinFrm" id="joinFrm" onsubmit="return frmCheck(this);">
                                 <div class="col-md-12 form-group p_star">
                                     <div class="profile_edit_main">
 										<ul>
@@ -133,7 +128,7 @@ function frmCheck() {
 												<div style="margin-top: 15px;">휴대폰</div>
 												<div class="row">
 													<div class="col-8" style="margin-top: 10px;margin-left: 16px;">
-														<input class="form-control" type="tel" placeholder="숫자만 입력가능" name="tel" id="tel"/>
+														<input class="form-control" type="tel" placeholder="숫자만 입력가능" name="mobile" id="mobile"/>
 													</div>
 													<div class="form-group mt-3 col-3" style="text-align: right; margin-left: 10px;">
 														<button class="btn_my" type="button">인증</button>
@@ -160,7 +155,7 @@ function frmCheck() {
 										</ul>
 									</div>
 									 <div style="margin-bottom:20px;">
-	                                    <button type="submit" value="submit" class="btn_3"  onclick="frmCheck();">
+	                                    <button type="submit" value="submit" class="btn_3">
 	                                        가입하기
 	                                    </button>
                                     </div>

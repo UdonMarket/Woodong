@@ -177,11 +177,11 @@ public class MypageController {
 		}
 
 		for (int i = 0; i < list.size(); i++) {
-
+ 
 			if (list.get(i).equals(idx)) {
 				System.out.println("listgeti" + list.get(i));
 				list.remove(i);
-				String new_goodsStr = "";
+				String new_goodsStr = ""; 
 				for (int j = 0; j < list.size(); j++) {
 					new_goodsStr += list.get(j) + "#";
 

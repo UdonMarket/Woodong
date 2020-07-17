@@ -79,7 +79,7 @@
 	                    		</button>
 	                       	</div>
 	                  	</div>
-	                 	<button style="border: 0;background: none;color: #ff4f4f;" onclick="checkchat();">
+	                 	<button style="border: 0;background: none;color: #ff4f4f;" onclick="window.open('../main/chat_main.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);">
 	                     	<i style="font-size:26px;margin: 5px;margin-top: 2px;" class="fa">&#xf0e6;</i>
                   		</button>
                		</div>
@@ -111,4 +111,3 @@ function checkchat(){
    window.open('../main/catting_main.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);
 }
 </script>
-

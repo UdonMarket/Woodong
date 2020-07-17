@@ -75,9 +75,4 @@
 	 	DELETE FROM woo_board WHERE idx= #{param1} AND id=#{param2}
 	 </delete>
 	 
-	 
-	 
-	 
-	 
-	 
 </mapper>

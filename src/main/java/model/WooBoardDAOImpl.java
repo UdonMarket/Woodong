@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+//
 public interface WooBoardDAOImpl {
 	int getTotalCount(ParameterVO var1);
 
@@ -11,5 +12,5 @@ public interface WooBoardDAOImpl {
 
 	int modify(WooBoardVO var1);
 
-	int delete(String var1, String var2);
+	int delete(String var1, String var2);   
 }

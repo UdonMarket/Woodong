@@ -2,7 +2,12 @@ package com.kosmo.woodong;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
+import model.BoardListDTO;
+import model.BoardListImpl;
 import model.ParameterVO;
 import model.WooBoardDAOImpl;
 import model.WooBoardVO;
@@ -19,7 +24,14 @@ public class WooBoardController {
 	private SqlSession sqlSession;
 
 	@RequestMapping("/product/productList.woo")
-	public String board() {
+	public String board(Model model, HttpServletRequest req) {
+		
+		String location = ".." + req.getServletPath();
+		System.out.println(location);
+		List<BoardListDTO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
+				.selectBoard(location);
+		model.addAttribute("blists", blists);
+		
 		return "product/productList";
 	}
 
@@ -79,5 +91,14 @@ public class WooBoardController {
 	@RequestMapping("/product/writeAction.woo")
 	public String productWriteAction() {
 		return "redirect:productList.do?nowPage=1";
+	}
+	
+	@RequestMapping("/community/community.woo")
+	public String community(Model model, HttpServletRequest req) {
+		String location = ".." + req.getServletPath();
+		List<BoardListDTO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
+				.selectBoard(location);
+		model.addAttribute("blists", blists);
+		return "community/community";
 	}
 }

@@ -111,4 +111,3 @@ function checkchat(){
    window.open('../main/catting_main.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);
 }
 </script>
-

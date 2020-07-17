@@ -6,7 +6,7 @@
 
 <mapper  namespace="model.MypageDAOImpl" > 
 
-
+	
 	 <select id="selectLike" resultType="String">
 	 	select goods from mypage where id = #{0}
 	 </select>
@@ -15,16 +15,30 @@
 	<update id="updateLike" >
  		update mypage set goods = #{0} where id = #{1}
  	</update>
+
+
+	<!-- 좋아요 토글 -->
+  	<update id="likeCheck">
+  		update WOO_BOARD set like_check = -like_check where idx = #{0}
+  	</update>
+  	
+  	<!-- likeCheck select -->
+  	<select id="selectLikeCheck" resultType="int">
+  		select like_check from WOO_BOARD where idx = #{0}
+  	</select>
+  	
+  	<update id="likeCount_puls_minus">
+  		update woo_board set likecount = likecount-#{0} where idx = #{1}
+  	</update>
+  	
+	<update id="updateLikeBoard">
+  		update mypage set goods = #{0} where id = #{1}
+  	</update>
+	
+
 	 
-	<!--  <select id="selectBoard" resultType="model.WooBoardVO" parameterType="model.ParameterVO"> 
-	 	
-	 	select * from WOO_BOARD where idx in
-	 	
-	 	<foreach collection="list" item="item" open="(" close=")" separator=",">
- 			#{item}
-		</foreach>
 	 
-	 </select> -->
+	 
 	 
 	 
 	 <select id="selectBoard" resultType="model.WooBoardVO" parameterType="model.ParameterVO"> 
@@ -49,18 +63,7 @@
   	</select>
   	
   	
-  	<!-- 좋아요 토글 -->
-  	<update id="likeCheck">
-  		update WOO_BOARD set like_check = -like_check where idx = #{0}
-  	</update>
   	
-  	<!-- likeCheck select -->
-  	<select id="selectLikeCheck" resultType="int">
-  		select like_check from WOO_BOARD where idx = #{0}
-  	</select>
-  	
-  	<update id="likeCount_puls_minus">
-  		update woo_board set likecount = likecount-#{0} where idx = #{1}
-  	</update>
-  	
+	
+	
 </mapper>

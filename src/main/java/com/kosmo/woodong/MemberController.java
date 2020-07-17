@@ -26,7 +26,7 @@ public class MemberController {
 		MemberVO memberVO = new MemberVO();
 		memberVO.setId(req.getParameter("email"));
 		memberVO.setPass(req.getParameter("pass"));
-		memberVO.setMobile(req.getParameter("tel"));
+		memberVO.setMobile(req.getParameter("mobile"));
 		((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class)).regist(memberVO);
 		return "main/main";
 	}

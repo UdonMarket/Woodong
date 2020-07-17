@@ -203,37 +203,36 @@
 						</li>
 
 					</ul>
-					<div class="review_paging">
-						<div class="paging">
+					<div class="paging">
 							<ul>
 								<li></li>
 								<li class="active">
 									<a href="/s/@16059379?tab=review&amp;page=1">
-										<div class="paging_box">1</div>
+										<div class="paging_box"  style="padding-top: 2px;">1</div>
 									</a>
 								</li>
 								<li class="">
 									<a href="/s/@16059379?tab=review&amp;page=2">
-										<div class="paging_box">2</div>
+										<div class="paging_box"  style="padding-top: 2px;">2</div>
 									</a>
 								</li>
 								<li class="">
 									<a href="/s/@16059379?tab=review&amp;page=3">
-										<div class="paging_box">3</div>
+										<div class="paging_box"  style="padding-top: 2px;">3</div>
 									</a>
 								</li>
 								<li>
 									<a href="/s/@16059379?tab=review&amp;page=2">
-										<div class="paging_box">
-											<svg viewBox="0 0 18 18" role="img" aria-label="이전" focusable="false" class="prev">
+										<div class="paging_box"  style="padding-top: 2px;">
+											<i style='font-size:15px' class='fas'>&#xf054;</i> 
+											<!-- <svg viewBox="0 0 18 18" role="img" aria-label="이전" focusable="false" class="prev">
 												<path d="m4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z"></path>
-											</svg>
+											</svg> -->
 										</div>
 									</a>
 								</li>
 							</ul>
 						</div>
-					</div>
 				</div>
 			</div>
 		</div>

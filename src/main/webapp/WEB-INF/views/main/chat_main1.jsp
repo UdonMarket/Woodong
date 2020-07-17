@@ -20,7 +20,7 @@
 	<input type="hidden" id="chat_room" value="${param.chat_room }" style="border:1px dotted red;" />
 	<ul id="channel-list" class="">
 		<li>
-			<a href="javascript:void(0);" onclick="window.open('../main/catting.woo', '_blank', 'height=600; width=480; top=200; left=700;', true);"> 
+			<a href="javascript:void(0);" onclick="window.open('../main/chatting.woo', '_blank', 'height=600; width=480; top=200; left=700;', true);"> 
 				<div class="catting_room row">
 					<div class="col-3" style="text-align: left;">
 						<img src="../resources/img/myPage/nor-blue.png" alt="" width="50px;"/>

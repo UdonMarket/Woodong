@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import model.BoardListDTO;
 import model.BoardListImpl;
@@ -67,8 +68,12 @@ public class AdminController {
 
 	@RequestMapping("/admin/delete.woo")
 	public String delete(HttpServletRequest req) {
-		((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class)).delete(req.getParameter("id"));
-		return "redirect:../member/memberTable.woo";
+		((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class)).delete(req.getParameter("delete"));
+		
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("LoginNG", "삭제되었습니다.");
+		
+		return "admin/main/memberTable";
 	}
 	
 	// board

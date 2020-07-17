@@ -72,15 +72,17 @@
 					</div>
 					<div class="hearer_icon d-flex align-items-center">
 	                  	<div class="input-group mb-3">
-		              		<input type="text" placeholder="검색어를 입력하세요" class="form-control search_input" style="border:none; border-bottom: 2px solid #d9d9d9;width: 320px;border-radius: 0;margin-bottom: -5px;">
-		                       	<div class="input-group-append" style="margin-bottom: -20px;margin-left: 5px;">
-		                    		<button class="btn btn-basic" type="submit"><i style="font-size:22px;color: #ff4f4f;" class="ti-search"></i></button>
-		                       	</div>
-		                  	</div>
-		                 	<button style="border: 0;background: none;color: #ff4f4f;" onclick="checkchat();">
-		                     	<i style="font-size:26px;margin: 5px;margin-top: 2px;" class="fa">&#xf0e6;</i>
-	                  		</button>
-	               		</div>
+	              			<input type="text" placeholder="검색어를 입력하세요" class="form-control search_input" style="border:none; border-bottom: 2px solid #d9d9d9;width: 320px;border-radius: 0;margin-bottom: -5px;">
+	                       	<div class="input-group-append" style="margin-bottom: -20px;margin-left: 5px;">
+	                    		<button class="btn btn-basic" type="submit">
+	                    			<i style="font-size:22px;color: #ff4f4f;" class="ti-search"></i>
+	                    		</button>
+	                       	</div>
+	                  	</div>
+	                 	<button style="border: 0;background: none;color: #ff4f4f;" onclick="window.open('../main/chat_main.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);">
+	                     	<i style="font-size:26px;margin: 5px;margin-top: 2px;" class="fa">&#xf0e6;</i>
+                  		</button>
+               		</div>
 				</nav>
 			</div>
 		</div>
@@ -109,4 +111,3 @@ function checkchat(){
    window.open('../main/catting_main.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);
 }
 </script>
-

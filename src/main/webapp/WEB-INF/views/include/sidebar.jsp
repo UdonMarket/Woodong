@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <div id="floatMenu">
 	<div style="text-align: center;margin-left: 5px;margin-bottom: -20px;">
-		<img src="../resources/img/sidebar/판매하기로고.png" alt="판매하기" style="width: 200px;"/>
+		<img src="../resources/img/sidebar/판매하기로고.png" alt="판매하기" 
+		style="width: 200px;cursor:pointer;" onclick="location.href='../board/write.woo'">
 	</div>
 	<div id="floatMenuBox1" style="background:none;border:1px solid black;padding-top:10px;">
 		<div>

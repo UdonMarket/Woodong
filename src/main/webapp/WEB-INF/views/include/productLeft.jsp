@@ -75,7 +75,7 @@
 	                                    <label for="priceRange">가격:</label>
 	                                    <input type="text" id="priceRange" readonly>
 	                                </div>
-	                                <div id="price-range" class="slider" style="background: red"></div>
+	                                <div id="price-range" class="slider" style="background: #d9d9d9;"></div>
 	                            </div> 
 	                            <button type="button" class="search-btn">Search</button>
 	                        </div>
@@ -99,7 +99,7 @@
 						<li>
 							<a class="active" id="scrollMain"href="/m/level.hm"><span style="font-size:1.4em;color:#ff4f4f;">상품 리스트</span></a>
 						</li>
-						<c:forEach items="${lists }" var="row">
+						<c:forEach items="${blists }" var="row">
 							<li>
 					 			<a href="${row.requestname }"><span>${row.bname }</span></a>
 							</li>

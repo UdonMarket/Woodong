@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MemberController {
@@ -83,6 +84,10 @@ public class MemberController {
 		} else {
 			((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class))
 					.deleteMemberAction(authentication.getName(), req.getParameter("pass"));
+			
+			ModelAndView mv = new ModelAndView();
+				mv.addObject("LoginNG", "삭제되었습니다.");
+			
 			return "main/main";
 		}
 	}

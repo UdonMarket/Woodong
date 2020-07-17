@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>  
 <!DOCTYPE html>
 <html lang="en">
 
 <jsp:include page="../include/head.jsp" />
 
+<head>
 
-
+</head>
 
 <body class="">
 	<jsp:include page="../include/left.jsp" />
@@ -38,28 +40,29 @@
 					value="검색" />
 			</form>
 		</div> --%>
-		<div class="text-center" style="margin-left: 350px;">
-			<form class="form-inline ml-auto" name="searchFrm"
-				action="<c:url value="/admin/memberTable.woo"/>" style="margin-bottom: 10px;">
+			<div class="text-center" style="margin-left: 350px;">
+				<form class="form-inline ml-auto" name="searchFrm"
+					action="<c:url value="/admin/memberTable.woo"/>"
+					style="margin-bottom: 10px;">
 
-				<div class="form-group">
-					<select name="searchField" class="form-control">
-						<option value="id">아이디</option>
-						<!-- <option value="">작성자</option>
+					<div class="form-group">
+						<select name="searchField" class="form-control">
+							<option value="id">아이디</option>
+							<!-- <option value="">작성자</option>
 						<option value="content">내용</option> -->
-					</select>
-				</div>
-				<div class="input-group">
-					<input type="text" name="searchTxt" class="form-control" />
-					<div class="input-group-btn">
-						<button type="submit" class="btn btn-warning"
-							style="height: 40px;" value="검색">
-							<i class='fa fa-search' style='font-size: 20px'></i>
-						</button>
+						</select>
 					</div>
-				</div>
-			</form>
-		</div>
+					<div class="input-group">
+						<input type="text" name="searchTxt" class="form-control" />
+						<div class="input-group-btn">
+							<button type="submit" class="btn btn-warning"
+								style="height: 40px;" value="검색">
+								<i class='fa fa-search' style='font-size: 20px'></i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
 
 			<div class="row">
 				<!-- 게시판리스트부분 -->
@@ -111,20 +114,39 @@
 
 											<td class="text-center"><input type="button"
 												class="btn btn-primary" value="수정" /></td>
-											<td class="text-center"><input type="button"
-												class="btn btn-danger" value="삭제"
-												onclick="javascript:deleteRow('${row.id}');" /></td>
-											<%-- <td class="text-center"><button class="btn btn-danger"
-												onclick="javascript:deleteRow(${row.id});">
-												삭제</button></td> --%>
+											<!-- <td class="text-center"><input type="button"
+												class="btn btn-danger" id="delete btn" value="삭제"
+												onclick="isDelete(this.form);" /></td> -->
+
+											<td class="text-center">
+												<form:form name="deleteFrm">
+													<button class="btn btn-danger"
+														onclick="isDelete(this.form);">삭제</button>
+												<input type="hid den" name="delete" value="${row.id }"/>
+												</form:form>
+											</td>
 										</tr>
+
 									</div>
 								</div>
 							</div>
 						</c:forEach>
 					</tbody>
+
 				</table>
+
 			</div>
+			<script>
+				function isDelete(frm) {
+					var c = confirm("삭제할까요?");
+					if (c) {
+						frm.method = "post";
+						frm.action = "../admin/delete.woo";
+						frm.submit();
+					}
+				}
+			</script>
+
 			<!-- 방명록 반복 부분 e -->
 			<ul class="pagination justify-content-center">${pagingImg }</ul>
 		</div>

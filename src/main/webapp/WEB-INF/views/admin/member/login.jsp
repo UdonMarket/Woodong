@@ -125,7 +125,7 @@
 								<small>Or sign in with credentials</small>
 							</div>
 							<%-- 추가부분 --%>
-							 <c:url value="/loginAction2" var="loginUrl"/>
+							 <c:url value="/loginAction" var="loginUrl"/>
 							<form:form name="loginFrm" action="${loginUrl }" method="post"
 								novalidate="novalidate">
 								<c:if test="${param.error != null} }">

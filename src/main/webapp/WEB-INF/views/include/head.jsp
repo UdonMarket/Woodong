@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>우동마켓</title>
-    <link rel="icon" href="../resources/img/favicon.png">
+    <link rel="icon" href="../resources/img/main/favicon.png">
     
         <!-- Required meta tags -->
     <meta name='viewport' content='width=device-width, initial-scale=1'>

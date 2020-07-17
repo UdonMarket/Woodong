@@ -5,7 +5,7 @@
 	<div class="container-fluid">
 		<!-- Brand -->
 		<a class="navbar-brand pt-0" href="../admin/admin.woo">
-			<img src="../resources/admin/img/logo.png" alt="">
+			<img src="../resources/admin/img/logo.png" alt="" style="width: 150px; height: 150px">
 		</a>
 		
 		
@@ -87,34 +87,36 @@
 			</form>
 			<!-- Navigation -->
 			<ul class="navbar-nav">
-				<li class="nav-item  active "><a class="nav-link  active "
-					href="./index.html"> <i class="ni ni-tv-2 text-primary"></i>
-						Dashboard
+				<li class="nav-item active ">
+					<div style="text-align: left; margin-left: 40px">
+						<h3>멤버관리</h3>
+					</div>
+				</li>
+				<li class="nav-item"><a class="nav-link "
+					href="../admin/memberTable.woo?grade=admin"> <i
+						class="ni ni-bullet-list-67 text-red"></i> 관리자
 				</a></li>
 				<li class="nav-item"><a class="nav-link "
-					href="../admin/memberTable.woo"> <i
-						class="ni ni-bullet-list-67 text-red"></i> 회원관리
+					href="../admin/memberTable.woo?grade=normal"> <i
+						class="ni ni-bullet-list-67 text-red"></i> 회원
 				</a></li>
+				<li class="nav-item active ">
+					<div style="text-align: left; margin-left: 40px; margin-top: 30px">
+						<h3>게시판관리</h3>
+					</div>
+				</li>
 				<li class="nav-item"><a class="nav-link "
-					href="../admin/contentTable.woo"> <i
-						class="ni ni-bullet-list-67 text-red"></i> 게시물관리
+					href="../admin/addBoard.woo"> <i
+						class="ni ni-bullet-list-67 text-red"></i> 게시판 생성
 				</a></li>
 				<li class="nav-item"><a class="nav-link "
 					href="../admin/banwordTable.woo"> <i
-						class="ni ni-bullet-list-67 text-red"></i> 사이트관리
+						class="ni ni-bullet-list-67 text-red"></i> 게시판
 				</a></li>
 				<li class="nav-item"><a class="nav-link "
 					href="../admin/addTable.woo"> <i
-						class="ni ni-bullet-list-67 text-red"></i> 게시판 생성관리
+						class="ni ni-bullet-list-67 text-red"></i> 
 				</a></li>
-				<li class="nav-item"><a class="nav-link "
-					href="../admin/addTable.woo"> <i
-						class="ni ni-bullet-list-67 text-red"></i> 게시판 그룹관리
-				</a></li>
-				<!-- <li class="nav-item"><a class="nav-link"
-					href="../admin/login.woo"> <i
-						class="ni ni-key-25 text-info"></i> Login
-				</a></li> -->
 			</ul>
 			<!-- Divider -->
 			<hr class="my-3">

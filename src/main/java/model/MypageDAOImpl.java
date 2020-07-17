@@ -16,4 +16,6 @@ public interface MypageDAOImpl {
 	int selectLikeCheck(String var1);
 
 	int likeCount_puls_minus(int var1, String var2);
+	
+	public int updateLikeBoard(String new_goodsStr, String user_id);
 }

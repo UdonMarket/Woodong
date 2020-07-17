@@ -1,6 +1,7 @@
 package com.kosmo.woodong;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import model.BoardListDTO;
+import model.BoardListImpl;
 import model.MemberVO;
 import model.MybatisMemberImpl;
 import util.EnvFileReader;
@@ -20,7 +23,8 @@ import util.PagingUtil;
 public class AdminController {
 	@Autowired
 	private SqlSession sqlSession;
-
+	
+	// main
 	@RequestMapping("/admin.woo")
 	public String admin1() {
 		return "admin/main/adminHome";
@@ -31,6 +35,7 @@ public class AdminController {
 		return "admin/main/admin";
 	}
 
+	// member
 	@RequestMapping("/admin/login.woo")
 	public String login() {
 		return "admin/member/login";
@@ -41,6 +46,7 @@ public class AdminController {
 		MemberVO memberVO = new MemberVO();
 		memberVO.setSearchField(req.getParameter("searchField"));
 		memberVO.setSearchTxt(req.getParameter("searchTxt"));
+		memberVO.setGrade(req.getParameter("grade"));
 		int totalRecordCount = ((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class))
 				.getTotalCount(memberVO);
 		int pageSize = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.pageSize"));
@@ -57,7 +63,7 @@ public class AdminController {
 				req.getContextPath() + "/admin/memberTable.woo?");
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
-		return "admin/main/memberTable";
+		return "admin/member/memberTable";
 	}
 
 	@RequestMapping("/admin/delete.woo")
@@ -68,5 +74,31 @@ public class AdminController {
 		mv.addObject("LoginNG", "삭제되었습니다.");
 		
 		return "admin/main/memberTable";
+	}
+	
+	// board
+	@RequestMapping("/admin/addBoard.woo")
+	public String addBoard(Model model, HttpServletRequest req) {
+		
+		String location = ".." + req.getServletPath();
+		
+		List<BoardListDTO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).selectBoard(location);
+		
+		model.addAttribute("blists", blists);
+		
+		return "admin/board/addBoard";
+	}
+	@RequestMapping("/admin/addBoardAction.woo")
+	public String addBoardAction(Model model, BoardListDTO boardListDTO) {
+		
+		boardListDTO.setRequestname(boardListDTO.getLocation() + "?bname=" + boardListDTO.getBname() + "&");
+		
+		int border = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).selectOrder(boardListDTO.getLocation());
+		
+		boardListDTO.setBoardorder(String.valueOf(border + 1));
+		
+		((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).createboard(boardListDTO);
+		
+		return "redirect:../admin/addBoard.woo";
 	}
 }

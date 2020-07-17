@@ -99,7 +99,7 @@
 						<li>
 							<a class="active" id="scrollMain"href="/m/level.hm"><span style="font-size:1.4em;color:#ff4f4f;">상품 리스트</span></a>
 						</li>
-						<c:forEach items="${lists }" var="row">
+						<c:forEach items="${blists }" var="row">
 							<li>
 					 			<a href="${row.requestname }"><span>${row.bname }</span></a>
 							</li>

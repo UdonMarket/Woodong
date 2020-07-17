@@ -82,31 +82,34 @@
 						<td class="text-center">${row.trade_count }</td>
 						<td class="text-center">
 							<input type="button" class="btn btn-primary" value="수정" /></td>
-						<td class="text-center"><input type="button"
-							class="btn btn-danger" value="삭제"
-							onclick="javascript:deleteRow('${row.id}');" /></td>
+						<td class="text-center">
+							<form:form name="deleteFrm">
+								<button class="btn btn-danger" onclick="isDelete(this.form);">삭제</button>
+								<input type="hid den" name="delete" value="${row.id }"/>
+							</form:form>
+						</td>
 					</tr>
-
 				</c:forEach>
 			</tbody>
-		</table>
-		<!-- 방명록 반복 부분 e -->
-		<ul class="pagination justify-content-center">${pagingImg }</ul>
-		<!-- Footer -->
-		<jsp:include page="../include/bottom.jsp" />
-		<form:form name="deleteFrm">
-			<input type="hidden" name="grade"  />
-			<input type="hidden" name="id" />
-		</form:form>
-		<script>
-			function deleteRow(id){
-				
-				if(confirm("정말로 삭제하시겠습니까?")){
-					location.href="delete.woo?id="+ id;
-				}
-				
-			}
-		</script>
-</body>
 
+		</table>
+
+	</div>
+	<script>
+		function isDelete(frm) {
+			var c = confirm("삭제할까요?");
+			if (c) {
+				frm.method = "post";
+				frm.action = "../admin/delete.woo";
+				frm.submit();
+			}
+		}
+	</script>
+
+	<!-- 방명록 반복 부분 e -->
+	<ul class="pagination justify-content-center">${pagingImg }</ul>
+</div>
+<!-- Footer -->
+<%-- <jsp:include page="../include/bottom.jsp" /> --%>
+</body>
 </html>

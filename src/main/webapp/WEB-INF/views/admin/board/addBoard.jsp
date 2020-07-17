@@ -6,7 +6,16 @@
 <html lang="en">
 
 <jsp:include page="../include/head.jsp" />
-
+<script>
+	$(window).ready(function() {
+		$('#locationname').val($('#location option:checked').text());
+	})
+	$(function() {
+		$('#location').change(function() {
+			$('#locationname').val($('#location option:checked').text());
+		})
+	})
+</script>
 <body class="">
 	<jsp:include page="../include/left.jsp" />
 	<div class="main-content">
@@ -22,6 +31,8 @@
 			<form:form action="../admin/addBoardAction.woo">
 				<input type="hidden" name="requestname" />
 				<input type="hidden" name="boardorder" />
+				<input type="hidden" id="locationname" name="locationname"/>
+				<input type="hidden" name="type" />
 				<table>
 					<tr>
 						<td>게시판 이름 : </td>
@@ -32,8 +43,8 @@
 					<tr>
 						<td>게시판 위치 : </td>
 						<td>
-							<select name="location">
-								<option value="../product/productList.woo">상품게시판</option>
+							<select id="location" name="location">
+								<option value="../product/productList.woo">카테고리</option>
 								<option value="../community/community.woo">커뮤니티</option>
 							</select>
 						</td>
@@ -46,7 +57,6 @@
 				</table>
 			</form:form>
 		</div>
-		<%-- 뷰(View)영역 --%>
 			<div class="text-center" style="float: right">
 				<form class="form-inline" name="searchFrm" action="<c:url value="/admin/memberTable.woo"/>" style="margin-bottom: 10px;">
 	
@@ -67,7 +77,6 @@
 					</div>
 				</form>
 			</div>
-		<!-- 게시판리스트부분 -->
 		<table class="table table-bordered table-hover table-striped" style="width: 100%;">
 			<colgroup>
 				<col width="50px" />
@@ -78,42 +87,27 @@
 
 			<thead>
 				<tr style="background-color: rgb(133, 133, 133);" class="text-center text-white">
-					<th class="text-center">이름</th>
-					<th class="text-center">위치</th>
-					<th class="text-center">요청명</th>
 					<th class="text-center">순서</th>
+					<th class="text-center">위치</th>
+					<th class="text-center">이름</th>
+					<th class="text-center">유형</th>
 
 				</tr>
 			</thead>
 			<tbody>
-				<%-- 방명록 반복 부분 --%>
 				<c:forEach items="${blists }" var="row">
 					<tr>
-						<td class="text-center">${row.bname }</td>
-						<td class="text-center">${row.location }</td>
-						<td class="text-center">${row.requestname }</td>
 						<td class="text-center">${row.boardorder }</td>
+						<td class="text-center">${row.location }</td>
+						<td class="text-center">${row.bname }</td>
+						<td class="text-center">${row.requestname }</td>
 					</tr>
 
 				</c:forEach>
 			</tbody>
 		</table>
-		<!-- 방명록 반복 부분 e -->
 		<!-- Footer -->
 		<jsp:include page="../include/bottom.jsp" />
-		<form:form name="deleteFrm">
-			<input type="hidden" name="grade"  />
-			<input type="hidden" name="id" />
-		</form:form>
-		<script>
-			function deleteRow(id){
-				
-				if(confirm("정말로 삭제하시겠습니까?")){
-					location.href="delete.woo?id="+ id;
-				}
-				
-			}
-		</script>
 </body>
 
 </html>

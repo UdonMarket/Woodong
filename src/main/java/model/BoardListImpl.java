@@ -3,9 +3,9 @@ package model;
 import java.util.List;
 
 public interface BoardListImpl {
-	int selectOrder(String var1);
+	int selectOrder(String location);
 
-	void createboard(BoardListDTO var1);
+	void createboard(BoardListDTO boardListDTO);
 
-	List<BoardListDTO> selectBoard(String var1);
+	List<BoardListDTO> selectBoard(String location);
 }

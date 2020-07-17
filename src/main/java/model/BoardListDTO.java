@@ -3,8 +3,10 @@ package model;
 public class BoardListDTO {
 	private String bname;
 	private String location;
+	private String locationname;
 	private String requestname;
 	private String boardorder;
+	private String type;
 	public String getBname() {
 		return bname;
 	}
@@ -16,6 +18,12 @@ public class BoardListDTO {
 	}
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	public String getLocationname() {
+		return locationname;
+	}
+	public void setLocationname(String locationname) {
+		this.locationname = locationname;
 	}
 	public String getRequestname() {
 		return requestname;
@@ -29,8 +37,11 @@ public class BoardListDTO {
 	public void setBoardorder(String boardorder) {
 		this.boardorder = boardorder;
 	}
-	
-	
-	
-	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+		
 }

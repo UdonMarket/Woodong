@@ -76,7 +76,7 @@ public class AdminController {
 	public String addBoard(Model model, HttpServletRequest req) {
 		
 		String location = ".." + req.getServletPath();
-		System.out.println(location);
+		
 		List<BoardListDTO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).selectBoard(location);
 		
 		model.addAttribute("blists", blists);
@@ -87,10 +87,11 @@ public class AdminController {
 	public String addBoardAction(Model model, BoardListDTO boardListDTO) {
 		
 		boardListDTO.setRequestname(boardListDTO.getLocation() + "?bname=" + boardListDTO.getBname() + "&");
-		System.out.println(boardListDTO.getLocation());
-		int border = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
-				.selectOrder(boardListDTO.getLocation());
+		
+		int border = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).selectOrder(boardListDTO.getLocation());
+		
 		boardListDTO.setBoardorder(String.valueOf(border + 1));
+		
 		((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).createboard(boardListDTO);
 		
 		return "redirect:../admin/addBoard.woo";

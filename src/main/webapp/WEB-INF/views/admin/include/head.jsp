@@ -15,6 +15,6 @@
   <link href="../resources/admin/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link href="../resources/admin/css/argon-dashboard.css?v=1.1.2" rel="stylesheet" />
-  
+  <script src="../resources/admin/js/plugins/jquery/dist/jquery.min.js"></script>  
 
 </head>

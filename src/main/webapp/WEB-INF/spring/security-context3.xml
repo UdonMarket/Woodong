@@ -21,9 +21,10 @@
    <security:http>
       <security:intercept-url pattern="/member/login.do" access="permitAll"/>
       <!-- 추가부분 -->
-      <security:intercept-url pattern="/member/join01.woo" access="isAnonymous()"/>
-      <security:intercept-url pattern="/member/join02.woo" access="isAnonymous()"/>
+      <security:intercept-url pattern="/member/join.woo" access="isAnonymous()"/>
       <security:intercept-url pattern="/mypage/myPage.woo" access="hasRole('USER')"/>
+      <security:intercept-url pattern="/main/chatting.woo" access="hasRole('USER')"/>
+      <security:intercept-url pattern="/main/chat_main.woo" access="hasRole('USER')"/>
       <security:intercept-url pattern="/admins/admin/**" access="hasRole('ADMIN')"/>
       <security:intercept-url pattern="/**" access="permitAll"/>
       

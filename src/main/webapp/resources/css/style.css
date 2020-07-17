@@ -9167,7 +9167,7 @@ a:hover { color: black; text-decoration: none;}
 	border-radius: 50px;
 }
 .ui-slider .ui-slider-range {
-	background: #2cbdb8;
+	background: #ff4f4f;;
 }
 .ui-slider-horizontal .ui-slider-handle {
 	width: 14px;
@@ -9218,6 +9218,9 @@ a:hover { color: black; text-decoration: none;}
 }
 .owl-prev{
 	margin-top:60px;
+}
+.accordion_list p{
+	color:black;
 }
 
 

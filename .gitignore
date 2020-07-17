@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 # Compiled class file
 *.class
 
@@ -94,4 +96,5 @@ MANIFEST.MF
 .sts4-cache/
 
 # End of https://www.toptal.com/developers/gitignore/api/eclipse
+>>>>>>> branch 'min' of https://github.com/UdonMarket/Woodong.git
 /target/

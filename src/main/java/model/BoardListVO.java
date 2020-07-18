@@ -1,6 +1,6 @@
 package model;
 
-public class BoardListDTO {
+public class BoardListVO {
 	private String bname;
 	private String location;
 	private String locationname;

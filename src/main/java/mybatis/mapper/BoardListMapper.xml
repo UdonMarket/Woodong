@@ -7,15 +7,19 @@
 		SELECT count(*) FROM boardlist WHERE location=#{0}
 	</select>
 
-	<insert id="createboard" parameterType="model.BoardListDTO"> 
-		INSERT INTO boardlist (bname, location, locationname, requestname, borderorder) VALUES (#{bname}, #{location}, #{locationname} #{requestname}, #{boardorder})
+	<insert id="createboard" parameterType="model.BoardListVO"> 
+		INSERT INTO boardlist (bname, location, locationname, requestname, boardorder) VALUES (#{bname}, #{location}, #{locationname}, #{requestname}, #{boardorder})
 	</insert>
 	
-	<select id="selectBoard" resultType="model.BoardListDTO">
+	<select id="selectBoard" resultType="model.BoardListVO">
 		SELECT * FROM boardlist 
 		<if test="!(_parameter.equals('../admin/addBoard.woo'))">
 			WHERE location=#{0}
 		</if>
 		ORDER BY location, boardorder
 	</select>
+	
+	<update id="editboard" parameterType="model.BoardListVO">
+		UPDATE boardlist SET bname=${bname}, location=${location}, requestname=${requestname}, locationname=${locationname}, type=${type} 
+	</update>
 </mapper>

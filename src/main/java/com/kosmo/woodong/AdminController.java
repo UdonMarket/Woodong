@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import model.BoardListDTO;
+import model.BoardListVO;
 import model.BoardListImpl;
 import model.MemberVO;
 import model.MybatisMemberImpl;
@@ -82,14 +82,14 @@ public class AdminController {
 		
 		String location = ".." + req.getServletPath();
 		
-		List<BoardListDTO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).selectBoard(location);
+		List<BoardListVO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).selectBoard(location);
 		
 		model.addAttribute("blists", blists);
 		
 		return "admin/board/addBoard";
 	}
 	@RequestMapping("/admin/addBoardAction.woo")
-	public String addBoardAction(Model model, BoardListDTO boardListDTO) {
+	public String addBoardAction(BoardListVO boardListDTO) {
 		
 		boardListDTO.setRequestname(boardListDTO.getLocation() + "?bname=" + boardListDTO.getBname() + "&");
 		
@@ -98,6 +98,20 @@ public class AdminController {
 		boardListDTO.setBoardorder(String.valueOf(border + 1));
 		
 		((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).createboard(boardListDTO);
+		
+		return "redirect:../admin/addBoard.woo";
+	}
+	
+	@RequestMapping("/admin/editBoard.woo")
+	public String editBoard(BoardListVO boardListDTO) {
+		
+		boardListDTO.setRequestname(boardListDTO.getLocation() + "?bname=" + boardListDTO.getBname() + "&");
+		
+		int border = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).selectOrder(boardListDTO.getLocation());
+		
+		boardListDTO.setBoardorder(String.valueOf(border + 1));
+		
+		((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).editboard(boardListDTO);
 		
 		return "redirect:../admin/addBoard.woo";
 	}

@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import model.BoardListDTO;
+import model.BoardListVO;
 import model.BoardListImpl;
 import model.ParameterVO;
 import model.WooBoardDAOImpl;
@@ -28,7 +28,7 @@ public class WooBoardController {
 		
 		String location = ".." + req.getServletPath();
 		System.out.println(location);
-		List<BoardListDTO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
+		List<BoardListVO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
 				.selectBoard(location);
 		model.addAttribute("blists", blists);
 		
@@ -96,7 +96,7 @@ public class WooBoardController {
 	@RequestMapping("/community/community.woo")
 	public String community(Model model, HttpServletRequest req) {
 		String location = ".." + req.getServletPath();
-		List<BoardListDTO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
+		List<BoardListVO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
 				.selectBoard(location);
 		model.addAttribute("blists", blists);
 		return "community/community";

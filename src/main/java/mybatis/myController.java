@@ -1,5 +1,6 @@
 package mybatis;
 
+import java.security.Principal;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.ibatis.session.SqlSession;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import model.BoardListDTO;
+import model.BoardListVO;
 import model.BoardListImpl;
 
 @Controller
@@ -17,12 +18,12 @@ public class myController {
 	private SqlSession sqlSession;
 
 	@RequestMapping({"/board/create1.woo"})
-	public String aa(Model model, BoardListDTO createBoardDTO) {
+	public String aa(Model model, BoardListVO createBoardDTO) {
 		return "board/create";
 	}
 
 	@RequestMapping({"/board/create.woo"})
-	public String list(Model model, BoardListDTO boardListDTO) {
+	public String list(Model model, BoardListVO boardListDTO) {
 		boardListDTO.setRequestname(boardListDTO.getLocation() + "?bname=" + boardListDTO.getBname() + "&");
 		int border = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
 				.selectOrder(boardListDTO.getLocation());
@@ -35,7 +36,7 @@ public class myController {
 	public String productlist(Model model, HttpServletRequest req) {
 		String blocation = ".." + req.getServletPath();
 		System.out.println(blocation);
-		List<BoardListDTO> lists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
+		List<BoardListVO> lists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
 				.selectBoard(blocation);
 		model.addAttribute("lists", lists);
 		return "product/productList";
@@ -45,9 +46,16 @@ public class myController {
 	public String community(Model model, HttpServletRequest req) {
 		String blocation = ".." + req.getServletPath();
 		System.out.println(blocation);
-		List<BoardListDTO> lists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
+		List<BoardListVO> lists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
 				.selectBoard(blocation);
 		model.addAttribute("lists", lists);
 		return "community/notice";
+	}
+	
+	public String prin(Principal principal) {
+		
+		String id = principal.getName();
+		
+		return id;
 	}
 }

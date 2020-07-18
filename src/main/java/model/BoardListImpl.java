@@ -5,7 +5,9 @@ import java.util.List;
 public interface BoardListImpl {
 	int selectOrder(String location);
 
-	void createboard(BoardListDTO boardListDTO);
+	void createboard(BoardListVO boardListDTO);
 
-	List<BoardListDTO> selectBoard(String location);
+	List<BoardListVO> selectBoard(String location);
+	
+	void editboard(BoardListVO boardListVO);
 }

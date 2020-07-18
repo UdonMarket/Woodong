@@ -48,7 +48,7 @@ var loadlist = function(){
         	
        	    if(state=='false'){ 
        	    	scrollchk = false;
-       	    	alert("데이터가 없습니다. nowPage :"+ nowPage);
+       	    	//alert("데이터가 없습니다. nowPage :"+ nowPage);
        	    	nowPage--;
        	    	
        	    	//페이지 끝에 도달시 스크롤 업! 수정 예정
@@ -95,7 +95,7 @@ if(location.hash){  //현재 주소에 ##이라는앵커가 박혀있을경우 t
 	if(data){  
 		scrollchk = false; //데이터를 세팅하는동안 스크롤 체크를 하지않게하자.  
 		nowPage = data.page-1;     //저장되었던 마지막 페이지를 세팅
-		alert(nowPage);
+		//alert(nowPage);
 		loadlist(); 
 		scrollchk = true;  //데이터 세팅 종료 후 스크롤 체크  
 	}   

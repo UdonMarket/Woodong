@@ -8,7 +8,7 @@
 	</select>
 
 	<insert id="createboard" parameterType="model.BoardListDTO"> 
-		INSERT INTO boardlist (bname, location, locationname, requestname, borderorder) VALUES (#{bname}, #{location}, #{locationname} #{requestname}, #{boardorder})
+		 INSERT INTO boardlist (bname, location, locationname, requestname, boardorder) VALUES (#{bname}, #{location}, #{locationname}, #{requestname}, #{boardorder})
 	</insert>
 	
 	<select id="selectBoard" resultType="model.BoardListDTO">

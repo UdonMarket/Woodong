@@ -5,13 +5,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper  namespace="model.MypageDAOImpl" > 
-
-	
+	<!-- 카테고리에서 좋아요 누를 때 -->
+	<!--ㅡmypage goods에 연결된 String 가져오기 -->	
 	 <select id="selectLike" resultType="String">
 	 	select goods from mypage where id = #{0}
 	 </select>
 	 
-	 
+	 <!--ㅡmypage goods에 새로운 idx update -->	
 	<update id="updateLike" >
  		update mypage set goods = #{0} where id = #{1}
  	</update>
@@ -27,14 +27,14 @@
   		select like_check from WOO_BOARD where idx = #{0}
   	</select>
   	
-  	<update id="likeCount_puls_minus">
-  		update woo_board set likecount = likecount-#{0} where idx = #{1}
+  	<update id="likeCount_minus">
+  		update woo_board set likecount = likecount -1 where idx = #{1}
+  	</update>
+  	<update id="likeCount_puls">
+  		update woo_board set likecount = likecount +1 where idx = #{1}
   	</update>
   	
-	<update id="updateLikeBoard">
-  		update mypage set goods = #{0} where id = #{1}
-  	</update>
-	
+
 
 	 
 	 

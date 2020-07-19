@@ -5,8 +5,16 @@ public class BoardListVO {
 	private String location;
 	private String locationname;
 	private String requestname;
-	private String boardorder;
+	private String idx;
 	private String type;
+	private int boardorder;
+	
+	public int getBoardorder() {
+		return boardorder;
+	}
+	public void setBoardorder(int boardorder) {
+		this.boardorder = boardorder;
+	}
 	public String getBname() {
 		return bname;
 	}
@@ -31,11 +39,11 @@ public class BoardListVO {
 	public void setRequestname(String requestname) {
 		this.requestname = requestname;
 	}
-	public String getBoardorder() {
-		return boardorder;
+	public String getIdx() {
+		return idx;
 	}
-	public void setBoardorder(String boardorder) {
-		this.boardorder = boardorder;
+	public void setIdx(String idx) {
+		this.idx = idx;
 	}
 	public String getType() {
 		return type;

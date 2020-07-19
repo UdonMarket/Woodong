@@ -15,17 +15,32 @@
 			}
 		});
 		$('select[name=type]').each(function(index, item) {
-			if(index!=0){
-				$(item).val($('input[name=ty]:eq(' + (index) + ')').val()).prop("selected", true);
-			}
+			$(item).val($('input[name=ty]:eq(' + (index) + ')').val()).prop("selected", true);
+		});
+		
+		$('select[name=boardorder]').each(function(index, item) {
+			$(item).val($('input[name=bo]:eq(' + (index) + ')').val()).prop("selected", true);
 		});
 		
 	})
 	$(function() {
 		$('#location').change(function() {
 			$('#locationname').val($('#location option:checked').text());
-		})
-	})
+		});
+		$('select[name=location]').change(function() {
+			$('select[name=location]').each(function(index, item) {
+				$('input[name=locationname]:eq(' + (index) + ')').val($(item).find("option:checked").text());
+			});
+		});
+	});
+
+	function deleteBoard(f) {
+		if(confirm("삭제하시겠습니까?")){
+			f.action="../admin/deleteBoard.woo";
+			f.submit();
+		}
+	}
+
 </script>
 <body class="">
 	<jsp:include page="../include/left.jsp" />
@@ -40,16 +55,17 @@
 		</div>
 		<div class="container">
 			<div style="margin-top:20px;margin-left:20px; padding: 20px; width:400px; border: 1px gray solid;" >
-				<form:form action="../admin/addBoardAction.woo">
+				<form:form action="../admin/addBoardAction.woo" method="post">
+					<input type="hidden" name="idx" />
 					<input type="hidden" name="requestname" />
-					<input type="hidden" name="boardorder" />
 					<input type="hidden" id="locationname" name="locationname"/>
 					<input type="hidden" name="type" />
+					<input type="hidden" name="boardorder" value="0"/>
 					<table>
 						<tr>
 							<td>게시판 이름 : </td>
 							<td>
-								<input type="text" name="bname" style="width: 150px"/>
+								<input type="text" name="bname" style="width: 150px" required/>
 							</td>
 						</tr>
 						<tr>
@@ -115,13 +131,22 @@
 					<c:forEach items="${blists }" var="row" varStatus="index">
 						<input type="hidden" name="loc" value="${row.location }"/>
 						<input type="hidden" name="ty" value="${row.type }"/>
-						<form:form action="../admin/editBoard.woo">
-							<input type="hidden" name="boardorder" value="${row.boardorder }" />
+						<input type="hidden" name="bo" value="${row.boardorder }"/>
+						<form:form action="../admin/editBoard.woo" method="post">
+							<input type="hidden" name="idx" value="${row.idx }"/>
 							<input type="hidden" name="requestname" value="${row.requestname }"/>
 							<input type="hidden" name="locationname" value="${row.locationname }"/>
 							<tr>
 								<td class="text-center">
-									1
+									<select name="boardorder" id="">
+									<c:forEach items="${locationOrder }" var="end">
+										<<c:if test="${end.LOCATIONNAME eq row.locationname }">
+											<c:forEach begin="1" end="${end.C }" varStatus="status">
+												<option value="${status.count }">${status.count }</option>
+											</c:forEach>
+										</c:if>
+									</c:forEach>
+									</select>
 								</td>
 								<td class="text-center">
 									<select name="location">
@@ -130,7 +155,7 @@
 									</select>
 								</td>
 								<td class="text-center">
-									<input type="text" name="bname" value="${row.bname }" />
+									<input type="text" name="bname" value="${row.bname }" required/>
 								</td>
 								<td class="text-center">
 									<select name="type">
@@ -142,7 +167,7 @@
 									<input type="submit" class="btn btn-primary" style="height: 20px; padding-top: 0px" value="수정" />
 								</td>
 								<td class="text-center">
-									<input type="button" class="btn btn-danger" style="height: 20px; padding-top: 0px " value="삭제" />
+									<input type="button" class="btn btn-danger" style="height: 20px; padding-top: 0px " value="삭제" onclick="deleteBoard(this.form);" />
 								</td>
 							</tr>
 						</form:form>

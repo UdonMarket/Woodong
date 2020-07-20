@@ -1,6 +1,6 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <html lang="zxx">
 
@@ -29,7 +29,7 @@
 							<div class="profile_review_image col-6">
 								<div class="profile_review_image_box">
 									<img
-										src="https://ccimage.hellomarket.com/web/2019/member/img_review_star_26x26_x2.png"
+									src="https://ccimage.hellomarket.com/web/2019/member/img_review_star_26x26_x2.png"
 										alt="프로필 별점 한개 이미지 1"> <img
 										src="https://ccimage.hellomarket.com/web/2019/member/img_review_star_26x26_x2.png"
 										alt="프로필 별점 한개 이미지 2"> <img

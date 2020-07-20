@@ -96,3 +96,6 @@ MANIFEST.MF
 # End of https://www.toptal.com/developers/gitignore/api/eclipse
 
 /target/
+*/target/
+*/target/*
+.classpath

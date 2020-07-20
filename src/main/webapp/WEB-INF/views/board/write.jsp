@@ -65,50 +65,6 @@
 										<img id="fileimage1" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0' onclick='fileClick(this);'> 
 									</div>
 								</li>
-								<li>
-									<div style="width: 146px;height: 146px">
-										<input type="file" name="file2" id="file2" style="display: none;" accept="image/*"/>
-										<img id="fileimage2" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0' onclick='fileClick(this);'> 
-									</div>
-								</li>
-								<li>
-									<div style="width: 146px;height: 146px">
-										<input type="file" name="file3" id="file3" style="display: none;" accept="image/*"/>
-										<img id="fileimage3" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0' onclick='fileClick(this);'> 
-									</div>
-								</li>
-								<li>
-									<div style="width: 146px;height: 146px">
-										<input type="file" name="file4" id="file4" style="display: none;" accept="image/*"/>
-										<img id="fileimage4" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0' onclick='fileClick(this);'> 
-									</div>
-								</li>
-								<li>
-									<div style="width: 146px;height: 146px">
-										<input type="file" name="file5" id="file5" style="display: none;" accept="image/*"/>
-										<img id="fileimage5" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0' onclick='fileClick(this);'> 
-									</div>
-								</li>
-								<li>
-									<div style="width: 146px;height: 146px">
-										<input type="file" name="file6" id="file6" style="display: none;" accept="image/*"/>
-										<img id="fileimage6" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0' onclick='fileClick(this);'> 
-									</div>
-								</li>
-								<li>
-									<div style="width: 146px;height: 146px">
-										<input type="file" name="file7" id="file7" style="display: none;" accept="image/*"/>
-										<img id="fileimage7" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0' onclick='fileClick(this);'> 
-									</div>
-								</li>
-								<li>
-									<div style="width: 146px;height: 146px">
-										<input type="file" name="file8" id="file8" style="display: none;" accept="image/*"/>
-										<img id="fileimage8" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0' onclick='fileClick(this);'> 
-									</div>
-								</li>
-								
-								
 							</ul>
 							<div class="up_img_label">대표이미지</div>
 							<div class="up_img_description">

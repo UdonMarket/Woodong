@@ -9,7 +9,7 @@
       <security:intercept-url
          pattern="/admin/login.woo" access="permitAll" />
       <security:intercept-url
-         pattern="/admin/**" access="hasRole('ADMIN')" />
+         pattern="/admin/**" access="permitAll" />
       <security:intercept-url 
       	pattern="/**" access="permitAll" />
 

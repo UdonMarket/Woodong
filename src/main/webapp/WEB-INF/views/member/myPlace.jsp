@@ -65,13 +65,15 @@
 									var drawingOverlay; // 그려지고 있는 원의 반경을 표시할 커스텀오버레이 입니다
 									var drawingDot; // 그려지고 있는 원의 중심점을 표시할 커스텀오버레이 입니다
 									// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+									var lat, lon;
+									
 									if (navigator.geolocation) {
 									    
 									    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
 									    navigator.geolocation.getCurrentPosition(function(position) {
 									        
-									        var lat = position.coords.latitude, // 위도
-									            lon = position.coords.longitude; // 경도
+									        lat = position.coords.latitude; // 위도
+									        lon = position.coords.longitude; // 경도
 									        
 									        var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 							                // 인포윈도우에 표시될 내용입니다
@@ -171,9 +173,20 @@
 						            '</div>'; */
 									// 지도에 클릭 이벤트를 등록합니다
 									// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-									kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+									kakao.maps.event.addListener(map, 'click', function(mouseEvent) {    
 									    
 										searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
+											//var distance = Math.round(clickLine.getLength() + moveLine.getLength()) // 선의 총 거리를 계산합니다
+								            var lat = mouseEvent.latLng.getLat(); // 현재 위도
+								            var lng = mouseEvent.latLng.getLng(); // 현재 경도
+								            var clat = lat; // 중심 위도
+								            var clng = lon; // 중심 경도
+								            var distance1 = distance(lat, lng, clat, clng, "meter");
+								         
+											if(distance1>1000){
+												
+												return false;
+											}
 									        if (status === kakao.maps.services.Status.OK) {
 									            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
 									            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
@@ -311,6 +324,28 @@
 									            }
 									        }).open();
 									    }
+									    function distance(lat1, lon1, lat2, lon2, unit) {
+									    	var theta = lon1 - lon2;
+									        var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+									         
+									        dist = Math.acos(dist);
+									        dist = rad2deg(dist);
+									        dist = dist * 60 * 1.1515;
+									         
+									        if (unit == "kilometer") {
+									            dist = dist * 1.609344;
+									        } else if(unit == "meter"){
+									            dist = dist * 1609.344;
+									        }
+									 
+									        return dist;
+										}
+									    function deg2rad(deg) {
+									    	return (deg * Math.PI / 180.0);
+										}
+									    function rad2deg(rad) {
+									    	return (rad * 180 / Math.PI);
+										}
 									</script>
 							      <div class="row">
 							        <div class=""style="padding-left: 30px; padding-top: 50px;">

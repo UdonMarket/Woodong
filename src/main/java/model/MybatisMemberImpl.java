@@ -20,4 +20,8 @@ public interface MybatisMemberImpl {
 	void deleteMemberAction(String var1, String var2);
 
 	MemberVO myInfo(String var1);
+	
+	MemberVO view(String var1);
+	void modify(String var1, String var2);
+	
 }

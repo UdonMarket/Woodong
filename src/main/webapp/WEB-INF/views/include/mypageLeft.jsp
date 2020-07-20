@@ -100,7 +100,7 @@
 														<a href="../member/passwordform.woo"><span>회원정보 수정</span></a>
 													</li>
 													<li>
-														<a href="../mypage/myPlace.woo"><span>동네인증</span></a>
+														<a href="../member/myPlace.woo"><span>동네인증</span></a>
 													</li>
 													<li>
 														<a href="../mypage/withdraw.woo"><span>회원탈퇴</span></a>

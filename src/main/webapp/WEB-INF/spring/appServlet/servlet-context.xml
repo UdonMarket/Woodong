@@ -33,9 +33,12 @@
 	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<beans:constructor-arg index="0" ref="sqlSessionFactory" />
 	</beans:bean>
-	
+	<!-- 웹소켓 핸들러 -->
 	<websocket:handlers>
 		<websocket:mapping handler="echoHandler" path="/echo"/>
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+		</websocket:handshake-interceptors>
 		<websocket:sockjs/>
 	</websocket:handlers>
 	<beans:bean id="echoHandler" class="util.EchoHandler"/>

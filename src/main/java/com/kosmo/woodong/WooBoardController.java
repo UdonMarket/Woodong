@@ -1,5 +1,6 @@
 package com.kosmo.woodong;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import model.BoardListVO;
 import model.BoardListImpl;
+import model.MypageDAOImpl;
 import model.ParameterVO;
 import model.WooBoardDAOImpl;
 import model.WooBoardVO;
@@ -36,7 +38,7 @@ public class WooBoardController {
 	}
 
 	@RequestMapping("/product/ajaxList.woo")
-	public ModelAndView list(Model model, HttpServletRequest req) {
+	public ModelAndView list(Model model, HttpServletRequest req, Principal principal) {
 		ModelAndView mv = new ModelAndView();
 		ParameterVO parameterDTO = new ParameterVO();
 		int pageSize = 15;
@@ -52,7 +54,22 @@ public class WooBoardController {
 		ArrayList<WooBoardVO> lists = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class))
 				.listPage(parameterDTO);
 		Iterator var12 = lists.iterator();
+		
+		//소영 추가부분
+		String user_id = principal.getName();
 
+		String str = sqlSession.getMapper(MypageDAOImpl.class).selectLike(user_id);
+		String[] splitStr = str.split("#");
+		
+		for (int i = 0; i < lists.size(); i++) {
+				for (int j = 0; j < splitStr.length; j++) {
+				if(splitStr[j].equals(lists.get(i).getIdx())) {
+					lists.get(i).setLike_check(1);
+				}
+			}
+		}
+		
+		
 		while (var12.hasNext()) {
 			WooBoardVO dto = (WooBoardVO) var12.next();
 			String temp = dto.getContent().replace("\r\n", "<br/>");
@@ -66,8 +83,10 @@ public class WooBoardController {
 			mv.addObject("state", "true");
 		}
 
+		
 		mv.setViewName("product/ajaxList");
 		mv.addObject("lists", lists);
+		
 		return mv;
 	}
 

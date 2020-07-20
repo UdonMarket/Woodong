@@ -5,13 +5,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper  namespace="model.MypageDAOImpl" > 
-
-	
+	<!-- 카테고리에서 좋아요 누를 때 -->
+	<!--ㅡmypage goods에 연결된 String 가져오기 -->	
 	 <select id="selectLike" resultType="String">
 	 	select goods from mypage where id = #{0}
 	 </select>
 	 
-	 
+	 <!--ㅡmypage goods에 새로운 idx update -->	
 	<update id="updateLike" >
  		update mypage set goods = #{0} where id = #{1}
  	</update>
@@ -27,28 +27,49 @@
   		select like_check from WOO_BOARD where idx = #{0}
   	</select>
   	
-  	<update id="likeCount_puls_minus">
-  		update woo_board set likecount = likecount-#{0} where idx = #{1}
+  	<update id="likeCount_minus">
+  		update woo_board set likecount = likecount -1 where idx = #{1}
   	</update>
-  	
-	<update id="updateLikeBoard">
-  		update mypage set goods = #{0} where id = #{1}
+  	<update id="likeCount_puls">
+  		update woo_board set likecount = likecount +1 where idx = #{1}
   	</update>
-	
 
-	 
-	 
-	 
 	 
 	 
 	 <select id="selectBoard" resultType="model.WooBoardVO" parameterType="model.ParameterVO"> 
   		SELECT * FROM (
   			SELECT Tb.*, rownum rNum FROM(
   				SELECT * FROM WOO_BOARD
-  					WHERE idx in
-	 	<foreach collection="list" item="item" open="(" close=")" separator=",">
- 			#{item}
-		</foreach>
+  					WHERE 
+  			<!-- 거래중 -->	
+  			<if test="mode.equals('deal')">
+  				escrow = 'true'
+  					<!-- 거래중 & 판매목록 -->	
+  				<if test="dealMode.equals('sell')">
+  					and id = #{user_id} 
+  				</if>
+  					<!-- 거래중 & 구매목록 -->	
+  				<if test="dealMode.equals('buy')">
+  					and buyer_id = #{user_id} 
+  				</if>
+  			</if>
+  			<!-- 판매목록 -->
+  			<if test="mode.equals('sell')">	
+  				id = #{user_id} 
+  			</if>
+  			<!-- 구매목록 -->
+  			<!-- 에스크로 결제 버튼, qr결제 구매버튼 누를시 buyer_id 넘겨주어야함. -->
+  			<if test="mode.equals('buy')">
+  				buyer_id = #{user_id} 
+  			</if>
+  			<!-- 관심목록 -->
+  			<if test="mode.equals('like')">	
+  				idx in
+				 	<foreach collection="list" item="item" open="(" close=")" separator=",">
+			 			#{item}
+					</foreach>
+  			</if>	
+  			<!-- 후기는 테이블 따로 할지 의논해봐야함. -->		
   		ORDER BY idx DESC) TB) WHERE rNum BETWEEN #{start} AND #{end}
   	</select>
 	 

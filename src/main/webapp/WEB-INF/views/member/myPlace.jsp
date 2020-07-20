@@ -31,8 +31,8 @@
 	.info:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}    
 	.info .label {display:inline-block;width:50px;}
 	.number {font-weight:bold;color:#00a0e9;} 
-</style>
 	</style>
+	
 	<body>
 		<!--::header part start::-->
 		<!-- header.jsp --> 
@@ -54,26 +54,23 @@
 									var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 									    mapOption = { 
 									        center: new kakao.maps.LatLng(37.54699, 127.09598), // 지도의 중심좌표
-									        level: 4 // 지도의 확대 레벨
+									        level: 6 // 지도의 확대 레벨
 									    };
 									
 									var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 									var marker;
 									var infowindow;
-									var centerPosition; // 원의 중심좌표 입니다
-									var drawingLine; // 그려지고 있는 원의 반지름을 표시할 선 객체입니다
-									var drawingOverlay; // 그려지고 있는 원의 반경을 표시할 커스텀오버레이 입니다
-									var drawingDot; // 그려지고 있는 원의 중심점을 표시할 커스텀오버레이 입니다
+									var lat, lon;
 									// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
 									if (navigator.geolocation) {
 									    
 									    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
 									    navigator.geolocation.getCurrentPosition(function(position) {
 									        
-									        var lat = position.coords.latitude, // 위도
-									            lon = position.coords.longitude; // 경도
+									        lat = position.coords.latitude // 위도
+								            lon = position.coords.longitude; // 경도
 									        
-									        var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+									            var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 							                // 인포윈도우에 표시될 내용입니다
 							             	searchDetailAddrFromCoords(locPosition, function(result, status) {
 									        if (status === kakao.maps.services.Status.OK) {
@@ -85,6 +82,19 @@
 									                            detailAddr + 
 									                        '</div>';
 									            document.getElementById('juso').value = result[0].address.address_name;
+									            var circle = new kakao.maps.Circle({
+									                center : locPosition,  // 원의 중심좌표 입니다 
+									                radius: 1000, // 미터 단위의 원의 반지름입니다 
+									                strokeWeight: 5, // 선의 두께입니다 
+									                strokeColor: '#75B8FA', // 선의 색깔입니다
+									                strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+									                strokeStyle: 'solid', // 선의 스타일 입니다
+									                fillColor: '#CFE7FF', // 채우기 색깔입니다
+									                fillOpacity: 0.5  // 채우기 불투명도 입니다   
+									            }); 
+
+									            // 지도에 원을 표시합니다 
+									            circle.setMap(map); 
 									            // 마커를 클릭한 위치에 표시합니다 
 									            marker.setPosition(locPosition);
 									            marker.setMap(map);
@@ -102,7 +112,7 @@
 									    
 									} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 									    
-									    var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
+										var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
 									        message = 'geolocation을 사용할수 없어요..'
 									        
 									    displayMarker(locPosition, message);
@@ -174,6 +184,16 @@
 									kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
 									    
 										searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
+											var lat = mouseEvent.latLng.getLat(); // 현재 위도
+		                                    var lng = mouseEvent.latLng.getLng(); // 현재 경도
+		                                    var clat = lat; // 중심 위도
+		                                    var clng = lon; // 중심 경도
+		                                    var distance1 = distance(lat, lng, clat, clng, "meter");
+		                                 
+			                                 if(distance1>800){
+			                                    
+			                                    return false;
+			                                 }
 									        if (status === kakao.maps.services.Status.OK) {
 									            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
 									            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
@@ -253,6 +273,28 @@
 								                zIndex: 1
 								            });              
 									}
+									function distance(lat1, lon1, lat2, lon2, unit) {
+		                                  var theta = lon1 - lon2;
+		                                   var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+		                                    
+		                                   dist = Math.acos(dist);
+		                                   dist = rad2deg(dist);
+		                                   dist = dist * 60 * 1.1515;
+		                                    
+		                                   if (unit == "kilometer") {
+		                                       dist = dist * 1.609344;
+		                                   } else if(unit == "meter"){
+		                                       dist = dist * 1609.344;
+		                                   }
+		                            
+		                                   return dist;
+		                              }
+		                               function deg2rad(deg) {
+		                                  return (deg * Math.PI / 180.0);
+		                              }
+		                               function rad2deg(rad) {
+		                                  return (rad * 180 / Math.PI);
+		                              }
 									</script>
 									<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 									<script>

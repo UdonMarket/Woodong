@@ -10,10 +10,10 @@ public class ParameterVO {
 	private String searchField;
 	private String searchTxt;
 	private List<String> list;
+	private int num;
+	private String locationname;
 	private String mode;
 	private String dealMode;
-	
-	
 	public String getDealMode() {
 		return dealMode;
 	}
@@ -28,6 +28,21 @@ public class ParameterVO {
 
 	public void setMode(String mode) {
 		this.mode = mode;
+	}
+	public String getLocationname() {
+		return locationname;
+	}
+
+	public void setLocationname(String locationname) {
+		this.locationname = locationname;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 	public String getUser_id() {

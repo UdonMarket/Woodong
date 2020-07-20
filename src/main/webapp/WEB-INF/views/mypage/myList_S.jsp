@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<!doctype html>
 	<html lang="zxx">
 	
@@ -21,14 +22,7 @@
 								<div class="my_specialist_name">
 									전체 <span>1</span>
 								</div>
-								<select class="mobile_filter_icon profile_filter_icon"><option
-										value="current-wish">찜한 상품순</option>
-									<option value="high-wish">찜 많은 상품순</option>
-									<option value="lowprice">저가순</option>
-									<option value="current">최근 등록순</option></select>
-								<div class="regist_category_profile regist_category_profile_wish">
-									<select><option selected="" value="">카테고리 전체</option>
-										<option value="HAR0000">자동차용품</option></select>
+							
 								</div>
 							</div>
 							<div class="tab_content">
@@ -36,8 +30,9 @@
 									<div class="infinite-scroll-component "
 										style="height: auto; overflow: auto; -webkit-overflow-scrolling: touch">
 										<ul class="mian_row profile_main_row">
-											<li class="main_col_3"><div
-													class="search_icon_box related_item_icon profile_libs_page">
+											<c:forEach var="list" items="${likeList }">
+											<li class="main_col_3" style="padding: 5px">
+											<div class="search_icon_box related_item_icon profile_libs_page">
 													<div class="search_icon">
 														<div class="search_circle"></div>
 														<div class="search_rectangle"></div>
@@ -50,7 +45,7 @@
 															<div class="image_outside">
 																<div class="image_centerbox">
 																	<img
-																		src="https://ccimage.hellomarket.com/web/2018/main/img_default_thumbnail_495x495.png"
+																		src="../resources/Upload/${list.image }"
 																		data-src="https://ccimg.hellomarket.com/images/2020/item/04/28/15/1709868_4830039_1.jpg?size=s4"
 																		class="thumbnail_img" alt="18인치 휠 타이어 판매합니다(배송비,스페이스1조포함)" />
 																</div>
@@ -62,12 +57,11 @@
 															</div>
 														</div>
 														<div class="cont">
-															<div class="item_title related_item_icon">18인치 휠 타이어
-																판매합니다(배송비,스페이스1조포함)</div>
-															<div class="item_price profile_price">240,000원</div>
+															<div class="item_title related_item_icon">${list.title }</div>
+															<div class="item_price profile_price">${list.price }원</div>
 														</div>
 													</div></a>
-											<div class="image_wish_box">
+											<!-- <div class="image_wish_box">
 													<button type="button" class="image_wish_box_btn">
 														<svg viewBox="0 0 24 24" fill="#FF2C41" fill-opacity="1"
 															stroke="#ffffff" stroke-width="2" focusable="false"
@@ -77,11 +71,16 @@
 																d="m17.5 2.9c-2.1 0-4.1 1.3-5.4 2.8-1.6-1.6-3.8-3.2-6.2-2.7-1.5.2-2.9 1.2-3.6 2.6-2.3 4.1 1 8.3 3.9 11.1 1.4 1.3 2.8 2.5 4.3 3.6.4.3 1.1.9 1.6.9s1.2-.6 1.6-.9c3.2-2.3 6.6-5.1 8.2-8.8 1.5-3.4 0-8.6-4.4-8.6"
 																stroke-linejoin="round"></path></svg>
 													</button>
-												</div></li>
+												</div> -->
+												</li>
+												</c:forEach>
 										</ul>
 									</div>
+									<ul class="pagination justify-content-center">
+										${pagingImg }
+									</ul>
 								</div>
-								<div class="paging">
+								<!-- <div class="paging">
 									<ul>
 										<li></li>
 										<li class="active">
@@ -91,7 +90,7 @@
 										</li>
 										<li></li>
 									</ul>
-								</div>
+								</div> -->
 							</div>
 							</section>
 						</div>

@@ -3,19 +3,55 @@
 
 <mapper namespace="model.BoardListImpl">
 	
-	<select id="selectOrder" resultType="int">
-		SELECT count(*) FROM boardlist WHERE location=#{0}
+	<select id="selectMaxOrder" resultType="int">
+		SELECT COUNT(*) FROM boardlist WHERE location=#{location}
 	</select>
-
-	<insert id="createboard" parameterType="model.BoardListDTO"> 
-		INSERT INTO boardlist (bname, location, locationname, requestname, borderorder) VALUES (#{bname}, #{location}, #{locationname} #{requestname}, #{boardorder})
+	
+	<select id="selectorder" resultType="int">
+		SELECT boardorder FROM boardlist WHERE idx=#{idx}
+	</select>
+	
+	<select id="selectLocation" resultType="String">
+		SELECT location FROM boardlist WHERE idx=#{idx}
+	</select>
+	
+	<select id="selectLocationOrder" resultType="map">
+		SELECT count(*) c, locationname FROM boardlist GROUP BY locationname
+	</select>
+	
+	<insert id="createboard" parameterType="model.BoardListVO"> 
+		INSERT INTO boardlist (idx, bname, location, locationname, requestname, boardorder) VALUES (boardlist_seq.nextval, #{bname}, #{location}, #{locationname}, #{requestname}, ${boardorder})
 	</insert>
 	
-	<select id="selectBoard" resultType="model.BoardListDTO">
+	<select id="selectBoard" resultType="model.BoardListVO">
 		SELECT * FROM boardlist 
 		<if test="!(_parameter.equals('../admin/addBoard.woo'))">
 			WHERE location=#{0}
 		</if>
 		ORDER BY location, boardorder
 	</select>
-</mapper>
+	
+	<update id="editboard" parameterType="model.BoardListVO">
+		UPDATE boardlist SET bname=#{bname}, location=#{location}, requestname=#{requestname}, locationname=#{locationname}, type=#{type}, boardorder=${boardorder} WHERE idx=#{idx}
+	</update>
+	
+	<delete id="deleteboard" parameterType="String">
+		DELETE FROM boardlist WHERE idx=#{0}
+	</delete>
+	
+	<update id="updateOrder">
+		UPDATE boardlist SET boardorder = boardorder-1 WHERE location=#{0} AND boardorder>#{1}
+	</update>
+	
+	<update id="updateOrder1" parameterType="String">
+		UPDATE boardlist SET boardorder = 0 WHERE idx=#{0}
+	</update>
+	 
+	<update id="updateOrder2" parameterType="model.ParameterVO">
+		UPDATE boardlist SET boardorder = boardorder + ${num} WHERE boardorder between ${start} AND ${end} AND locationname=#{locationname}
+	</update>
+	
+	<update id="updateOrder3" parameterType="model.BoardListVO">
+		UPDATE boardlist SET boardorder = #{boardorder} WHERE idx=#{idx}
+	</update>
+</mapper> 

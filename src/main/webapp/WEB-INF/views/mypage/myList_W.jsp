@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<!doctype html>
 	<html lang="zxx">
 	
@@ -17,18 +18,18 @@
 							<div class="col-12" style="text-align: center;">
 					          	<img src="../resources/img/myPage/거래중1.png" alt="" width="280px;"/>
 					        </div>
+					        <div class="container" style="padding-top: 50px;">
+							  <ul class="nav nav-tabs" style="border-bottom: 1px solid #d9d9d9;">
+							    <li class="nav-item" style="border-color: #d9d9d9#d9d9d9#fff;">
+							      <a class="nav-link active" href="#"><img src="../resources/img/myPage/판매중.png" alt="" width="100px;"/></a>
+							    </li>
+							    <li class="nav-item" style="border-color: #d9d9d9#d9d9d9#fff;">
+							      <a class="nav-link" href="#"><img src="../resources/img/myPage/구매중.png" alt="" width="100px;"/></a>
+							  </ul>
+							</div>
 							<div class="cat_box">
 								<div class="my_specialist_name">
 									전체 <span>1</span>
-								</div>
-								<select class="mobile_filter_icon profile_filter_icon"><option
-										value="current-wish">찜한 상품순</option>
-									<option value="high-wish">찜 많은 상품순</option>
-									<option value="lowprice">저가순</option>
-									<option value="current">최근 등록순</option></select>
-								<div class="regist_category_profile regist_category_profile_wish">
-									<select><option selected="" value="">카테고리 전체</option>
-										<option value="HAR0000">자동차용품</option></select>
 								</div>
 							</div>
 							<div class="tab_content">
@@ -44,8 +45,8 @@
 													</div>
 												</div>
 												<a class="card card_list"
-												href="/item/166608634?viewPath=wish_list&amp;clickPath=member"><div
-														class="card_box">
+												href="/item/166608634?viewPath=wish_list&amp;clickPath=member">
+												<div class="card_box">
 														<div class="image_wrapper">
 															<div class="image_outside">
 																<div class="image_centerbox">

@@ -1,48 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:security="http://www.springframework.org/schema/security"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
+   <security:http pattern="/admin/**">
+      <security:intercept-url
+         pattern="/admin/login.woo" access="permitAll" />
+      <security:intercept-url
+         pattern="/admin/**" access="hasRole('ADMIN')" />
+      <security:intercept-url 
+      	pattern="/**" access="permitAll" />
 
-	<security:http>
-		<security:intercept-url
-			pattern="/member/login.do" access="permitAll" />
-
-
-		<security:intercept-url
-			pattern="/member/join.woo" access="isAnonymous()" />
-		<security:intercept-url
-			pattern="/mypage/myPage.woo" access="hasRole('USER')" />
-		<security:intercept-url pattern="/main/chatting.woo" access="hasRole('USER')"/>
-      		<security:intercept-url pattern="/main/chat_main.woo" access="hasRole('USER')"/>
-		<security:intercept-url
-			pattern="/admin/login.woo" access="permitAll" />
-		<security:intercept-url
-			pattern="/admins/admin/**" access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/**"
-			access="permitAll" />
-
-		<security:form-login
-			login-page="/admin/login.woo" default-target-url="/admin/admin.woo"
-			authentication-failure-url="/admin/login.woo?error"
-			login-processing-url="/loginAction" username-parameter="admin_id"
-			password-parameter="admin_pw" />
-
-		<security:logout logout-url="/logout"
-			logout-success-url="/main/main.woo" />
-		<security:access-denied-handler
-			error-page="/admin/admin.woo" />
-	</security:http>
-	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:jdbc-user-service
-				data-source-ref="dataSource" role-prefix=""
-				users-by-username-query="SELECT id,pass,enabled FROM woo_member WHERE id=?"
-				authorities-by-username-query="SELECT id,authority FROM woo_member WHERE id=?" />
-		</security:authentication-provider>
-	</security:authentication-manager>
-
-
+      <security:form-login
+         login-page="/admin/login.woo" default-target-url="/admin/admin.woo"
+         authentication-failure-url="/admin/login.woo?error"
+         login-processing-url="/admin/login" username-parameter="admin_id"
+         password-parameter="admin_pw" />
+         
+      <security:logout logout-url="/admin/logout"
+         logout-success-url="/admin/admin.woo" />
+      <security:access-denied-handler
+         error-page="/admin/admin.woo" />
+   </security:http>
+   
+   
+   <security:http>
+      <security:intercept-url
+         pattern="/member/login.do" access="permitAll" />
+      <security:intercept-url
+         pattern="/member/join.woo" access="isAnonymous()" />
+      <security:intercept-url
+         pattern="/mypage/myPage.woo" access="hasRole('USER')" />
+      <security:intercept-url 
+      	pattern="/main/chatting.woo" access="hasRole('USER')"/>
+      <security:intercept-url 
+      	pattern="/main/chat_main.woo" access="hasRole('USER')"/>
+      <security:intercept-url pattern="/**" access="permitAll" />
+      
+      <security:form-login
+         login-page="/member/login.woo" default-target-url="/main/main.woo"
+         authentication-failure-url="/member/login.woo?error"
+         login-processing-url="/loginAction" username-parameter="name"
+         password-parameter="password" />
+      <security:logout logout-url="/logout"
+         logout-success-url="/main/main.woo" />
+      <security:access-denied-handler
+         error-page="/main/main.woo" />
+   </security:http>
+   
+   
+   <security:authentication-manager>
+      <security:authentication-provider>
+         <security:jdbc-user-service
+            data-source-ref="dataSource" role-prefix=""
+            users-by-username-query="SELECT id,pass,enabled FROM woo_member WHERE id=?"
+            authorities-by-username-query="SELECT id,authority FROM woo_member WHERE id=?" />
+      </security:authentication-provider>
+   </security:authentication-manager>
+   
 </beans>

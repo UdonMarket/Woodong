@@ -97,13 +97,13 @@
 														<a class="active" id="scrollMain"href="../mypage/myProfile.woo"><span style="font-size:1.4em;color:#ff4f4f;">회원설정</span></a>
 													</li>
 													<li>
-														<a href="../member/passwordform.woo"><span>회원정보 수정</span></a>
+														<a href="../member/myProfile_modify.woo"><span>회원정보 수정</span></a>
 													</li>
 													<li>
 														<a href="../mypage/myPlace.woo"><span>동네인증</span></a>
 													</li>
 													<li>
-														<a href="../mypage/withdraw.woo"><span>회원탈퇴</span></a>
+														<a href="../member/deleteMember.woo"><span>회원탈퇴</span></a>
 													</li>
 													
 												</ul>

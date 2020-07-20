@@ -86,27 +86,8 @@
 				</form:form>
 			</div>
 		
-		<div class="text-center" style="float: right">
-			<form class="form-inline" name="searchFrm" action="<c:url value="/admin/memberTable.woo"/>" style="margin-bottom: 10px;">
-
-				<div class="form-group">
-					<select name="searchField" class="form-control">
-						<option value="blocation">위치</option>
-						<!-- <option value="">작성자</option>
-						<option value="content">내용</option> -->
-					</select>
-				</div>
-				<div class="input-group">
-					<input type="text" name="searchTxt" class="form-control" />
-					<div class="input-group-btn">
-						<button type="submit" class="btn btn-warning" style="height: 40px;" value="검색">
-							<i class='fa fa-search' style='font-size: 20px'></i>
-						</button>
-					</div>
-				</div>
-			</form>
-		</div>
-		<div>
+		
+		<div style="margin-top : 20px">
 			<table class="table table-bordered table-hover table-striped">
 				<colgroup>
 					<col width="100px" />

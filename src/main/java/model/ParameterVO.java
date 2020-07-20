@@ -12,7 +12,23 @@ public class ParameterVO {
 	private List<String> list;
 	private int num;
 	private String locationname;
+	private String mode;
+	private String dealMode;
+	public String getDealMode() {
+		return dealMode;
+	}
 
+	public void setDealMode(String dealMode) {
+		this.dealMode = dealMode;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
 	public String getLocationname() {
 		return locationname;
 	}

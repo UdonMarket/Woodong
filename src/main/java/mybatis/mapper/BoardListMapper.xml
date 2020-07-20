@@ -54,4 +54,4 @@
 	<update id="updateOrder3" parameterType="model.BoardListVO">
 		UPDATE boardlist SET boardorder = #{boardorder} WHERE idx=#{idx}
 	</update>
-</mapper>
+</mapper> 

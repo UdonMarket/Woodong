@@ -46,10 +46,9 @@ function errFunc(resData) {
 					<h3> <a href="./productView.woo?idx=${row.idx}&nowPage=${param.nowPage}">${row.title}</a></h3>
 				</div>
 				<div>
-					<h4>${row.price}</h4>
+					<h4>${row.price} 원 ( 임시 : ${row.idx})</h4>
 				</div>
 				<div>
-					<h4>${row.idx}</h4>
 					 <button onclick="like(${row.idx})">좋아요하트</button>
 				</div>
 			</div>

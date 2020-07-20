@@ -9,6 +9,8 @@
 <jsp:include page="../include/head.jsp" />
 <body>
 
+<!--우동 파일명 : productList.jsp  -->
+
 	<!--::header part start::-->
 	<!-- header.jsp -->
 	<jsp:include page="../include/hearder.jsp" />

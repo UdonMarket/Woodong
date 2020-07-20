@@ -139,8 +139,8 @@ public class MypageController {
 		System.out.println(pagingImg);
 		for (WooBoardVO vo : likeList) {
 			// 내용에 대해 줄바꿈 처리
-			String temp = vo.getContent().replace("\r\n", "<br/>");
-			vo.setContent(temp);
+			String temp = vo.getContents().replace("\r\n", "<br/>");
+			vo.setContents(temp);
 		}
 
 		model.addAttribute("likeList", likeList);

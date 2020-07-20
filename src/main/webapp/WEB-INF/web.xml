@@ -53,6 +53,17 @@
       <url-pattern>/*</url-pattern>
    </filter-mapping>
    
+	<!-- 시큐리티 용 파일업로드 -->   
+	 <filter>
+	   <filter-name>MultipartFilter</filter-name>
+	   <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	   <filter-name>MultipartFilter</filter-name>
+	   <url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+   
    <!-- 시큐리티를 웹 어플리케이션에 적용하기 위한 필터설정 -->
    <filter>
       <display-name>springMultipartFilter</display-name>

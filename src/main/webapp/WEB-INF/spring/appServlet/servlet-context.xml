@@ -25,6 +25,7 @@
 	
 	<context:component-scan base-package="com.kosmo.woodong" />
 	
+	<!--sqlSession :) 마이바티스  -->
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource" />
 		<beans:property name="mapperLocations" value="classpath:mybatis/mapper/*.xml" />
@@ -34,10 +35,17 @@
 		<beans:constructor-arg index="0" ref="sqlSessionFactory" />
 	</beans:bean>
 	
+	<!-- 웹소켓 -->
 	<websocket:handlers>
 		<websocket:mapping handler="echoHandler" path="/echo"/>
 		<websocket:sockjs/>
 	</websocket:handlers>
 	<beans:bean id="echoHandler" class="util.EchoHandler"/>
+	
+	<!--파일 첨부 -->
+	<beans:bean id="fileUtils" class="util.FileUtils">
+	</beans:bean>
+	
+	
 	
 </beans:beans>

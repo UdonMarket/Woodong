@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%> 	
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%> 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
 <!doctype html>
 <html lang="zxx">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -10,6 +11,8 @@
 <!-- head.jsp -->
 <jsp:include page="../include/head.jsp" />
 <body>
+<!--우동 파일명 : productWrite.jsp  -->
+
 	<!--::header part start::-->
 	<!-- header.jsp -->
 	<jsp:include page="../include/hearder.jsp" />
@@ -26,40 +29,38 @@
 
 	<!-- ================ contact section start ================= -->
 	<section class="contact-section section_padding" style="padding-top: 50px">
-	<form:form>
+	<form:form name="writeFrm" action="./writeAction.woo" method="post" enctype="multipart/form-data">
 		<div class="container">
 			<div class="regist_box">
 				<div class="description">
 					<dl id="mainDiv">
 						<dt>
-							<label style="color: rgb(51, 51, 51);">거래방법</label>
+							<label style="color: rgb(51, 51, 51);">우동페이  <span>(선택 사항)</span></label>
 						</dt>
 						<dd>
 							<div class="hellopay_box_area">
 								<ul>
 									<li>
 										<label>
-											<input type="checkbox" /> 우동페이
-										</label>
-									</li>
-									<li style="margin-left: 10px;">
-										<label>
-											<input type="checkbox" /> 직거래
+											<input type="checkbox" name="woopay_check" value="" /> 우동페이 (이용)
+											<input type="hidden" name="woopay" value="N" /> 
 										</label>
 									</li>
 								</ul>
 							</div>
 							<div class="hellopay_direct_notice">
-								<span class="normal_notice">우동페이만 선택 후 등록시 노출, 할인 혜택 지원으로 빠른 판매를 도와드립니다.</span>
+								<span class="normal_notice">우동페이 이용시 카드결제 , 모바일결제가 가능합니다.</span>
 							</div>
 						</dd>
 					</dl>
 					<dl class="regist_image_dl" id="registImage">
 						<dt>
-							<label style="color: rgb(51, 51, 51);">상품사진</label><span
-								class="photo_max">* 최대 12장</span>
+							<label style="color: rgb(51, 51, 51);">상품사진</label><span class="photo_max">* 최대 8장</span>
 						</dt>
 						<dd>
+							<!-- 상품 사진 등록 (최대 8개) -->
+							<input type="hidden" name="image" value="imageimage"/>
+							
 							<ul class="image_list">
 								<li>
 									<div style="width: 146px;height: 146px">
@@ -128,14 +129,34 @@
 
 						</dd>
 					</dl>
+					
+					<dl id="mainDiv">
+					<dt>
+						<label style="color: rgb(51, 51, 51);">3D 이미지 <span>(선택 사항)</span></label>
+					</dt>
+					<dd>
+						<div class="hellopay_box_area">
+							<ul>
+								<li>
+									<label>
+										<input type="checkbox" name="three_check" value=""/> 3D 이미지 (이용)
+										<input type="hidden" name="three_dimens" value="N"/> 
+									</label>
+								</li>
+							</ul>
+						</div>
+						<div class="hellopay_direct_notice">
+							<span class="normal_notice">3D 이미지 선택시 8장의 이미지를 모두 첨부해주세요.</span>
+						</div>
+					</dd>
+				</dl>
+					
 					<dl id="title">
 						<dt>
 							<label style="color: rgb(51, 51, 51);">제목</label>
 						</dt>
 						<dd>
-							<input type="text" class="title_input" placeholder="상품 제목을 입력하세요"
-								value="">
-							<ul class="item_recommend_box"></ul>
+							<input type="text" class="title_input" placeholder="상품 제목을 입력하세요" name="title">
 						</dd>
 					</dl>
 					<dl id="category">
@@ -144,18 +165,11 @@
 						</dt>
 						<dd>
 							<div>
-								<select>
+								<select name="bname">
 									<option value="" hidden="">카테고리</option>
-									<option value="HAR0000">남성의류</option>
-									<option value="HFB0000">여성의류</option>
-									<option value="HFC0000">아동의류</option>
-									<option value="HAO0000">가전/디지털</option>
-									<option value="HAN0000">가구</option>
-									<option value="HBA0000">유아용품</option>
-									<option value="HAE0000">뷰티/여성잡화</option>
-									<option value="HAD0000">게임/도서</option>
-									<option value="HAA0000">반려동물</option>
-									<option value="HZZ0000">기타</option>
+									<c:forEach items="${selectlist}" var="row">
+									<option value="${row.bname}">${row.bname}</option>
+									</c:forEach>
 								</select>
 							</div>
 							<!-- <div class="item_select_box item_select_margin">
@@ -168,20 +182,45 @@
 							<label style="color: rgb(51, 51, 51);">상품설명</label>
 						</dt>
 						<dd>
-							<textarea rows="5" class="introduce"
-								placeholder="상품 정보를 상세하게 적어보세요.
+							<textarea rows="5" class="introduce" name="contents"
+								placeholder="상품 정보를 상세하게 적어주세요.
 설명되지 않은 하자나 문제 발생시 책임은 판매자에게 있습니다.
 - 구매정보(구매일시, 구매시 가격)
 - 상품 정보(사이즈, 색상, 브랜드 등)
 - 상품 사용감(스크래치, 고장, 수리 여부 등)"></textarea>
 						</dd>
 					</dl>
-					<dl>
+					<!-- 상품 태그 :) 
+						 1.태그 입력후   태그 저장 클릭시 span 태그와 hidden input에 값  입력됨 
+						 2.태그를 입력하지 않을시 div 박스는 display none 상태 유지
+					 -->
+					<dl id="mainDiv">
 						<dt>
 							<label>태그</label>
 						</dt>
-						<dd>
-							<span class="tag_open_btn">태그입력</span>
+						
+						<dd class="map_box">
+						
+							<div class="hellopay_box_area">
+								<ul>
+									<li>
+										<input type="hidden" name="product_tag"/>
+										<input type="text" class="my_location_input item_location_input" placeholder="최소 1개의 태그를 입력해주세요." name="input_tag" >
+										<div class="my_location_map" >
+											<span id="tagsave">태그 저장</span>
+										</div>
+										
+									</li>
+								</ul>
+							</div>
+							
+							<div class="hellopay_direct_notice" >
+								<span class="normal_notice">태그는 최대 3개까지 입력가능합니다.
+								&nbsp;&nbsp;각 태그는 최대 10자까지 입력할 수 있습니다.</span>
+							</div>
+							<div class="hellopay_direct_notice" id="div_tag" style="display: none;">
+								<span class="normal_notice" id="sapn_tag"></span>
+							</div>
 						</dd>
 					</dl>
 					<dl>
@@ -192,20 +231,20 @@
 							<ul class="item_status_list">
 								<li class="item_status">
 									<label>
-										<input type="radio" name="chek" id="" />새상품
+										<input type="radio" name="product_state" value="새상품"/>새상품
 									</label>
 								</li>
 								<li class="item_status">
 									<label>
-										<input type="radio" name="chek" id="" />거의새것
+										<input type="radio" name="product_state" value="거의새것"/>거의새것
 									</label>
 								</li><li class="item_status">
 									<label>
-										<input type="radio" name="chek" id="" />중고
+										<input type="radio" name="product_state" value="중고"/>중고
 									</label>
 								</li><li class="item_status">
 									<label>
-										<input type="radio" name="chek" id="" />하자있음
+										<input type="radio" name="product_state" value="하자있음"/>하자있음
 									</label>
 								</li>
 							</ul>
@@ -221,17 +260,17 @@
 								<ul class="item_status_list">
 									<li class="item_status">
 										<label>
-											<input type="radio" name="chek1" id="" />판매
+											<input type="radio" name="deal_type" value="판매"/>판매
 										</label>
 									</li>
 									<li class="item_status">
 										<label>
-											<input type="radio" name="chek1" id="" />무료나눔
+											<input type="radio" name="deal_type"  value="무료나눔"/>무료나눔
 										</label>
 									</li>
 									<li class="item_status">
 										<label>
-											<input type="radio" name="chek1" id="" />삽니다
+											<input type="radio" name="deal_type"  value="삽니다"/>삽니다
 										</label>
 									</li>
 								</ul>
@@ -242,19 +281,18 @@
 						<dt style="color: rgb(51, 51, 51);">판매가격</dt>
 						<dd>
 							<div class="box_price box_area">
-								<input type="text" placeholder="판매희망 가격을 입력하세요"
-									class="sell_type_input" value=""><span
-									class="box_prive_text">원</span>
+								<input type="text" placeholder="판매희망 가격을 입력하세요"class="sell_type_input" name="price">
+									<span class="box_prive_text">원</span>
 							</div>
 						</dd>
 					</dl>
 					<dl>
 						<dt>
-							<label>거래희망 위치 <span>(선택)</span></label>
+							<label>거래희망 위치</label>
 						</dt>
 						<dd class="map_box">
-							<input type="text" class="my_location_input item_location_input"
-								placeholder="위치 선택" readonly="" value="">
+							<!-- readonly="" -->	
+							<input type="text" class="my_location_input item_location_input" placeholder="위치 선택"  name="deal_location">
 							<div class="close_button item_close_button"></div>
 							<div class="my_location_map">
 								<span>검색</span>
@@ -265,19 +303,51 @@
 						</dd>
 					</dl>
 				</div>
+		<button type="submit" class="btn btn-danger" id="subtn">글쓰기</button>
 			</div>
 		</div>
+				
+		
 		</form:form>
 	</section>
 	<!-- ================ contact section end ================= -->
 <script>
+
+	
+	//라디오 토글
 	$(function() {
-		$("input:radio[name=chek]").checkboxradio({
+		$("input:radio[name=product_state]").checkboxradio({
 			icon: false
 		});
-		$("input:radio[name=chek1]").checkboxradio({
+		$("input:radio[name=deal_type]").checkboxradio({
 			icon: false
 		});
+		
+		
+		$('input[type=checkbox]').click(function(){
+			
+			if($(this).is(':checked')){
+		        $(this).val('Y');
+		    }else{
+		    	 $(this).val('N');
+		    }
+		});
+		
+		$('#subtn').click(function(){
+			
+			if($('input:checkbox[name=woopay_check]').is(':checked')==true){
+				$('[name=woopay]').val('Y');
+		    }else{
+		    	$('[name=woopay]').val('N');
+		    }
+			
+			if($('input:checkbox[name=three_check]').is(':checked')==true){
+				$('[name=three_dimens]').val('Y');
+		    }else{
+		    	$('[name=three_dimens]').val('N');
+		    }
+		});
+		
 	});
 
 	function fileClick(f) {
@@ -350,6 +420,35 @@
 			readFile(this);
 		})
 	});
+	
+	var count = 1;	
+	var msg="";
+	$(function() {
+		
+		//readFile 실행 시키는 함수
+		$('input[type=file]').change(function() {
+			readFile(this);
+		});
+		//태그 추가 함수
+		$('#tagsave').click(function() {
+			var msg = $("[name=product_tag]").val();
+			if(count<4 && $("input[name=input_tag]").val()!=""){
+				$("input[name=product_tag]").val(msg+'#'+$("input[name=input_tag]").val());
+				console.log($("[name=product_tag]").val());
+				$("#div_tag").removeAttr('style');
+				$("#sapn_tag").append('#'+$("input[name=input_tag]").val()+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+				count++;
+			}
+			$("[name=input_tag]").val('');
+		});
+	});
+	
+	
+	
+
+	
+	
+	
 </script>
   <script>
   </script>

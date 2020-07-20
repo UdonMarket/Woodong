@@ -3,11 +3,19 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 
-			<!-- Root Context: defines shared resources visible to all other web components -->
-		<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl" />
 		<property name="username" value="kosmo" />
 		<property name="password" value="1234" />
-		</bean>
+	</bean>
+		
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000" />
+    	<property name="maxInMemorySize" value="100000000" /><!--1000byte * 1000 =  1 메가바이트 -->
+	</bean>
+	
+	
+	
 </beans>

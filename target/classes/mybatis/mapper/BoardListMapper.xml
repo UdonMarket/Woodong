@@ -8,7 +8,8 @@
 	</select>
 
 	<insert id="createboard" parameterType="model.BoardListDTO"> 
-		INSERT INTO boardlist (bname, location, locationname, requestname, borderorder) VALUES (#{bname}, #{location}, #{locationname} #{requestname}, #{boardorder})
+		INSERT INTO boardlist (bname, location, locationname, requestname, borderorder) 
+				VALUES (#{bname}, #{location}, #{locationname} #{requestname}, #{boardorder})
 	</insert>
 	
 	<select id="selectBoard" resultType="model.BoardListDTO">
@@ -17,5 +18,10 @@
 			WHERE location=#{0}
 		</if>
 		ORDER BY location, boardorder
+	</select>
+	
+	<!--bname 검색  -->
+	<select id="selectBname" resultType="model.BoardListDTO">
+		SELECT * FROM boardlist
 	</select>
 </mapper>

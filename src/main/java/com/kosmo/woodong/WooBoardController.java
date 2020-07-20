@@ -60,7 +60,7 @@ public class WooBoardController {
 
 		String str = sqlSession.getMapper(MypageDAOImpl.class).selectLike(user_id);
 		String[] splitStr = str.split("#");
-
+		
 		for (int i = 0; i < lists.size(); i++) {
 				for (int j = 0; j < splitStr.length; j++) {
 				if(splitStr[j].equals(lists.get(i).getIdx())) {
@@ -68,7 +68,6 @@ public class WooBoardController {
 				}
 			}
 		}
-
 		
 		
 		while (var12.hasNext()) {

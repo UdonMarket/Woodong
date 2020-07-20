@@ -15,7 +15,8 @@ function like(idx) {
 	    data:{str : str, idx : idx},
 
 		success : function (d) {
-			alert("DB update성공");			
+			alert("DB update성공");
+			 location.reload();
 		},
 		error : errFunc
 	    });
@@ -27,12 +28,11 @@ function errFunc(resData) {
 
 function like_toggle(idx) {
 	$.ajax({
-		url : "./like_toggle.woo",
+		url : "../mypage/like_toggle.woo",
 		type:"get",
 	    contentType:"text/html;charset:utf-8",
 	    data:{idx : idx},
-	    dataType : "json" ,
- 	  success : function(d) {
+ 	  	success : function(d) {
  		/*  if(d.like_check == 1){
 				//이미지 바꾸기 (빈하트)
 				$("img[name=" + idx + "]").attr('src', "../resources/img/2.png");
@@ -50,6 +50,9 @@ function like_toggle(idx) {
 	});
 }
 
+function restartFunc(){  
+    location.reload();
+}
 
 </script>
 
@@ -74,7 +77,7 @@ function like_toggle(idx) {
 	
 			
 				 	<c:if test="${row.like_check eq 1}"><!-- 빨간하트 -->
-						<img src="../resources/img/1.png" width="30px;" height="30px" name = "${list.idx}" onclick="like(${row.idx})"/>
+						<img src="../resources/img/1.png" width="30px;" height="30px" name = "${list.idx}" onclick="like_toggle(${row.idx})"/>
 					</c:if> 
 					 <c:if test="${row.like_check ne 1}"><!-- 빈하트 --> 
 						<img src="../resources/img/2.png" width="30px;" height="30px" name = "${list.idx}" onclick="like(${row.idx})"/>

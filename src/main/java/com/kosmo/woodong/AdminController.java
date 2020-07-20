@@ -77,7 +77,7 @@ public class AdminController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("LoginNG", "삭제되었습니다.");
 		
-		return "admin/main/memberTable";
+		return "redirect:../admin/memberTable.woo";
 	}
 	
 	// board

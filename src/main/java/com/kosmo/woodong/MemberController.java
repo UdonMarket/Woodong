@@ -78,7 +78,10 @@ public class MemberController {
 
 	@RequestMapping("/member/deleteMember.woo")
 	public String deleteMember(Authentication authentication) {
-		return authentication.getName() == null ? "redirect:login.do" : "member/withdraw";
+		if(authentication.getName() == null) {
+			return "redirect:login.do";
+		}
+		return "member/withdraw";
 	}
 	
 	//동네인증 
@@ -115,7 +118,8 @@ public class MemberController {
 	public String deleteMemberAction(HttpServletRequest req, Authentication authentication) {
 		if (authentication.getName() == null) {
 			return "redirect:login.do";
-		} else {
+		} 
+		else {
 			((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class))
 					.deleteMemberAction(authentication.getName(), req.getParameter("pass"));
 			

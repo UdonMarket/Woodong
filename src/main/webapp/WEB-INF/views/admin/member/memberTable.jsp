@@ -120,10 +120,10 @@
 						<td class="text-center">${row.avg_score }</td>
 						<td class="text-center">${row.grade }</td>
 						<td class="text-center">${row.trade_count }</td>
-						<td class="text-center"><input type="button"
-							class="btn btn-primary" value="수정" /></td>
+						<td class="text-center">
+							<input type="button" class="btn btn-primary" style="height: 20px; padding-top: 0px"  value="수정" /></td>
 						<td class="text-center"><form:form name="deleteFrm">
-								<button class="btn btn-danger" onclick="isDelete(this.form);">삭제</button>
+								<button class="btn btn-danger" style="height: 20px; padding-top: 0px"  onclick="isDelete(this.form);">삭제</button>
 								<input type="hid den" name="delete" value="${row.id }" />
 							</form:form></td>
 					</tr>

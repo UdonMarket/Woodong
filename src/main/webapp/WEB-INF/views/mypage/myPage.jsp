@@ -42,7 +42,7 @@
 															</a>
 														</div>
 														<div class="col-4">
-															<a href="../mypage/myPlace.woo">
+															<a href="../member/myPlace.woo">
 																<img src="../resources/img/myPage/동네인증.png" alt="동네인증" style="width: 230px;height: 130px;" />
 															</a>
 														</div>

@@ -15,18 +15,13 @@ function like_toggle(idx) {
 	    data:{idx : idx},
 	    dataType : "json" ,
  	  success : function(d) {
- 		 // alert(d);
- 		 if(d.like_check == 1){
+ 		/*  if(d.like_check == 1){
 				//이미지 바꾸기 (빈하트)
-	 		// alert("토글성공");
 				$("img[name=" + idx + "]").attr('src', "../resources/img/2.png");
-			//alert("이미지 토글성공");
-				 //idx짤라서 update 
 			}
 			else{
-				/* 빨간하트로 이미지 변경 */
 				$("img[name=" + idx + "]").attr('src', "../resources/img/1.png");
-			}
+			} */
  			restartFunc();
  	
 		},
@@ -69,6 +64,9 @@ function restartFunc(){
 
 					<ul class="mian_row profile_main_row">
 						<c:forEach var="list" items="${likeList }">
+						<c:if test="list == null">
+							게시물이 없습니다.
+						</c:if>
 							<li class="main_col_3" style="padding: 5px">
 								<a class="card card_list"
 								href="/item/166608634?viewPath=wish_list&amp;clickPath=member">
@@ -98,14 +96,14 @@ function restartFunc(){
 							</a>
 								<div class="image_wish_box">
 								
-								<c:if test="${list.like_check eq 1}"><!-- 빈하트 -->
-								<img src="../resources/img/2.png" width="30px;" height="30px" name = "${list.idx}" onclick="like_toggle(${list.idx});"/>
+								<%-- <c:if test="${list.idx ne idx}"><!-- 빈하트 -->
+								<img src="../resources/img/2.png" width="30px;" height="30px" name = "${list.idx}" onclick="like_toggle(${list.idx},1);"/>
 
-								</c:if>
-								<c:if test="${list.like_check eq -1}"><!-- 빨간하트 바꾸기 -->
+								</c:if> --%>
+								<%-- <c:if test="${list.idx eq idx}"><!-- 빨간하트 --> --%>
 								<img src="../resources/img/1.png" width="30px;" height="30px" name = "${list.idx}" onclick="like_toggle(${list.idx});"/>
 
-								</c:if>
+							<%-- 	</c:if> --%>
 								
 								</div>
 							</li>

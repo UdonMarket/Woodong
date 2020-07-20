@@ -24,6 +24,7 @@
 		// 메시지 전송
 		function sendMessage() {
 			sock.send($("#inputMessage").val());
+			$('#inputMessage').val("");
 		}
 		// 서버로부터 메시지를 받았을 때
 		function onMessage(msg) {
@@ -35,13 +36,21 @@
 			$("#chat-container").append("연결 끊김");
 
 		}
-		function enterkey(){
-			if(window.event.keyCode==13){
+		$("#inputMessage").keyup(function(key){
+			if(key.keyCode==13){
 				sendMessage();
 			}
-		}
+		});
 	});
 	
+	
+	/* function enterkey(){
+		
+		if(window.event.keyCode==13){
+			alert("22222");
+			sendMessage();
+		}
+	} */
 
 </script>
 
@@ -59,8 +68,7 @@
 		</div>
 		<footer id="chat-footer">
 			<p class="text-area">
-				<input type="text" id="inputMessage" onkeyup="enterkey();"
-					style="width:310px; height:60px; font-size:1.5em; border:0px;" placeholder="개인정보 공유를 주의바랍니다" autofocus/>
+				<input type="text" id="inputMessage" style="width:310px; height:60px; font-size:1.5em; border:0px;" placeholder="개인정보 공유를 주의바랍니다" autofocus/>
 				<button type="button" id="sendBtn">보내기</button>
 				
 			</p>

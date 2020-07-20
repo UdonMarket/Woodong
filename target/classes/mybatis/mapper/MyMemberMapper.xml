@@ -60,4 +60,14 @@
  	<select id="myInfo" resultType="model.MemberVO">
  		select * from woo_member where id=#{0}
  	</select>
+ 	
+ 	<!-- 동네인증 -->
+ 	
+  	<select id="view" resultType="model.MemberVO">
+  		SELECT * FROM woo_member WHERE id=#{0}
+  	</select>
+  	<update id="modify" >
+  		UPDATE woo_member SET addr=#{0} WHERE id=#{1}
+  	</update>
+ 	
  </mapper>

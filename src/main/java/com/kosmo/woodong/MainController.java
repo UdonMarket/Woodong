@@ -2,6 +2,8 @@ package com.kosmo.woodong;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,7 +46,8 @@ public class MainController {
 		return "main/main";
 	}
 	@RequestMapping("/main/chatting.woo")
-	public String chatting() {
+	public String chatting(Principal principal, HttpSession session) {
+		session.setAttribute("id", principal.getName());
 		return "main/chatting";
 	}
 	@RequestMapping("/main/chat_main.woo")

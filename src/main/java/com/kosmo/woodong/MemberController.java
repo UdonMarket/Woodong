@@ -1,8 +1,11 @@
 package com.kosmo.woodong;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import model.MemberVO;
 import model.MybatisMemberImpl;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -61,6 +64,7 @@ public class MemberController {
 		}
 	}
 
+	//회원정보수정
 	@RequestMapping("/member/changeInfomation.woo")
 	public String changeInfomation(HttpServletRequest req, Authentication authentication) {
 		if (authentication.getName() == null) {
@@ -76,7 +80,37 @@ public class MemberController {
 	public String deleteMember(Authentication authentication) {
 		return authentication.getName() == null ? "redirect:login.do" : "member/withdraw";
 	}
+	
+	//동네인증 
+	@RequestMapping("/member/myPlace.woo")
+	public String myPlace(Model model, HttpServletRequest req, HttpSession sessoin, Authentication authentication) {
+		
+		if (authentication.getName() == null) {
+			return "redirect:login.woo";
+		} else {
+			String id = authentication.getName();
+			MemberVO dto = ((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class)).view(id);
+			model.addAttribute("dto", dto);
+			
+			return "member/myPlace";
+		}
+		
+	}
+	@RequestMapping("/member/myPlaceAction.woo")
+	public String myPlaceAction(HttpServletRequest req, Authentication authentication) {
+		System.out.println(req.getParameter("addr"));
+		System.out.println(authentication.getName());
+		if (authentication.getName() == null) {
+			return "redirect:login.woo";
+		} else {
+			((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class))
+			.modify(req.getParameter("selectJuso"), authentication.getName());
+			
+			return "redirect:myPlace.woo";
+		}
+	}
 
+	//회원삭제
 	@RequestMapping("/member/deleteMemberAction")
 	public String deleteMemberAction(HttpServletRequest req, Authentication authentication) {
 		if (authentication.getName() == null) {

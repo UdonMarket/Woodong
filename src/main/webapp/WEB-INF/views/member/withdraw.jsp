@@ -62,7 +62,7 @@ function deleteMember(){
 									<div class="col-md-12 form-group p_star">
 										<input type="password" class="single-input-primary"
 											id="pass" name="pass" value="" placeholder="비밀번호"
-											style="border-bottom: 1px solid gray;">
+											style="border-bottom: 1px solid gray;" required="required">
 									</div>
 									<div class="col-md-12 form-group">
 										<div style="margin-bottom: 20px;">

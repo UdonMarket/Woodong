@@ -5,51 +5,59 @@
    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
-   <!--  
-   우동마켓 
-   jdbc-user-service 
-      data-source-ref : 데이터베이스 연결을 나타내는 dataSource로 
-      해당 연결은 반드시 root-context.xml에서 해야한다. (servlet-context.xml에서는 연결할 수 없음.)
-      role-prefix : "ROLE_"와 같은 권한명 앞에 붙는 접두어
-         (prefix)를 지정한다. 만약 해당 항목을 "ROLE_"로 지정한다면
-         테이블에서는 "USER"와 같이 접두어를 제거한 상태로 권한명을 입력해야 한다.
-      users-by-username-query : 아이디를 이용하여 사용자 정보를 가져오는 쿼리문을 작성한다.
-      authorities-by-username-query : 아이디를 이용하여 권한정보를 가져오는 쿼리문을 작성한다.
-      
-      글쓰기
-   -->
-   <security:http>
-      <security:intercept-url pattern="/member/login.do" access="permitAll"/>
-      <!-- 추가부분 -->
-      <security:intercept-url pattern="/member/join01.woo" access="isAnonymous()"/>
-      <security:intercept-url pattern="/member/join02.woo" access="isAnonymous()"/>
-      <security:intercept-url pattern="/mypage/myPage.woo" access="hasRole('USER')"/>
-      <security:intercept-url pattern="/admins/admin/**" access="hasRole('ADMIN')"/>
-      <security:intercept-url pattern="/**" access="permitAll"/>
+   <security:http pattern="/admin/**">
+      <security:intercept-url
+         pattern="/admin/login.woo" access="permitAll" />
+      <security:intercept-url
+         pattern="/admin/**" access="hasRole('ADMIN')" />
+      <security:intercept-url 
+      	pattern="/**" access="permitAll" />
 
       <security:form-login
-         login-page="/member/login.woo"
-         default-target-url="/main/main.woo"
-         authentication-failure-url="/member/login.woo?error"
-         login-processing-url="/loginAction"
-         username-parameter="name"
-         password-parameter="password"
-      />
-      <security:logout
-         logout-url="/logout"
-         logout-success-url="/main/main.woo"/>
+         login-page="/admin/login.woo" default-target-url="/admin/admin.woo"
+         authentication-failure-url="/admin/login.woo?error"
+         login-processing-url="/admin/login" username-parameter="admin_id"
+         password-parameter="admin_pw" />
+         
+      <security:logout logout-url="/admin/logout"
+         logout-success-url="/admin/admin.woo" />
       <security:access-denied-handler
-         error-page="/member/login.woo"/>
+         error-page="/admin/admin.woo" />
    </security:http>
+   
+   
+   <security:http>
+      <security:intercept-url
+         pattern="/member/login.do" access="permitAll" />
+      <security:intercept-url
+         pattern="/member/join.woo" access="isAnonymous()" />
+      <security:intercept-url
+         pattern="/mypage/myPage.woo" access="hasRole('USER')" />
+      <security:intercept-url 
+      	pattern="/main/chatting.woo" access="hasRole('USER')"/>
+      <security:intercept-url 
+      	pattern="/main/chat_main.woo" access="hasRole('USER')"/>
+      <security:intercept-url pattern="/**" access="permitAll" />
+      
+      <security:form-login
+         login-page="/member/login.woo" default-target-url="/main/main.woo"
+         authentication-failure-url="/member/login.woo?error"
+         login-processing-url="/loginAction" username-parameter="name"
+         password-parameter="password" />
+      <security:logout logout-url="/logout"
+         logout-success-url="/main/main.woo" />
+      <security:access-denied-handler
+         error-page="/main/main.woo" />
+   </security:http>
+   
+   
    <security:authentication-manager>
       <security:authentication-provider>
-         <security:jdbc-user-service data-source-ref="dataSource"
-         role-prefix=""
-          users-by-username-query="SELECT id,pass,enabled FROM woo_member WHERE id=?"
-      authorities-by-username-query="SELECT id,authority FROM woo_member WHERE id=?"
-         />
-      </security:authentication-provider>   
+         <security:jdbc-user-service
+            data-source-ref="dataSource" role-prefix=""
+            users-by-username-query="SELECT id,pass,enabled FROM woo_member WHERE id=?"
+            authorities-by-username-query="SELECT id,authority FROM woo_member WHERE id=?" />
+      </security:authentication-provider>
    </security:authentication-manager>
-
-
+   
 </beans> 

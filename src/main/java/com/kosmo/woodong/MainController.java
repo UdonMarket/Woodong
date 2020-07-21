@@ -40,6 +40,7 @@ public class MainController {
 	public String idpwfind() {
 		return "member/idpwfind";
 	}
+	
 
 	@RequestMapping("/main/main.woo")
 	public String main(Principal principal, Model model, Authentication authentication) {

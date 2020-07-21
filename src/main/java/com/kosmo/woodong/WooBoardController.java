@@ -111,6 +111,10 @@ public class WooBoardController {
 	public String productWriteAction() {
 		return "redirect:productList.do?nowPage=1";
 	}
+	@RequestMapping("/product/productListMap.woo")
+	public String productListMap() {
+		return "product/productListMap";
+	}
 	
 	@RequestMapping("/community/community.woo")
 	public String community(Model model, HttpServletRequest req) {

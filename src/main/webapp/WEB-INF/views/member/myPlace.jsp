@@ -188,10 +188,10 @@
 		                                    var lng = mouseEvent.latLng.getLng(); // 현재 경도
 		                                    var clat = lat; // 중심 위도
 		                                    var clng = lon; // 중심 경도
-		                                    var distance1 = distance(lat, lng, clat, clng, "meter");
-		                                 
-			                                 if(distance1>800){
-			                                    
+		                                    //var distance1 = distance(lat, lng, clat, clng, "meter");
+		                                 	var distance2 = getDistanceFromLatLonInKm(lat, lng, clat, clng);
+			                                 if(distance2>1){
+			                                    alert("동네인증은 원안에서만 이동이 가능합니다.")
 			                                    return false;
 			                                 }
 									        if (status === kakao.maps.services.Status.OK) {
@@ -273,7 +273,7 @@
 								                zIndex: 1
 								            });              
 									}
-									function distance(lat1, lon1, lat2, lon2, unit) {
+									/* function distance(lat1, lon1, lat2, lon2, unit) {
 		                                  var theta = lon1 - lon2;
 		                                   var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
 		                                    
@@ -294,7 +294,20 @@
 		                              }
 		                               function rad2deg(rad) {
 		                                  return (rad * 180 / Math.PI);
-		                              }
+		                              } */
+		                              function getDistanceFromLatLonInKm(lat1,lng1,lat2,lng2) {
+		                            	    function deg2rad(deg) {
+		                            	        return deg * (Math.PI/180)
+		                            	    }
+
+		                            	    var R = 6371; // Radius of the earth in km
+		                            	    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+		                            	    var dLon = deg2rad(lng2-lng1);
+		                            	    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+		                            	    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		                            	    var d = R * c; // Distance in km
+		                            	    return d;
+		                            	}
 									</script>
 									<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 									<script>

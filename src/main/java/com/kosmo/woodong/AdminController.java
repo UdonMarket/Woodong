@@ -13,9 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import model.BoardListVO;
+import model.Listaaa;
 import model.BoardListImpl;
 import model.MemberVO;
 import model.MybatisMemberImpl;
@@ -158,5 +163,17 @@ public class AdminController {
 		sqlSession.getMapper(BoardListImpl.class).updateOrder(boardListVO.getLocation(), boardListVO.getBoardorder());
 		
 		return "redirect:../admin/addBoard.woo";
+	}
+	
+	@RequestMapping("/admin/boardTable.woo")
+	public String boardTable() {
+		return "admin/board/boardTable";
+	}
+	
+	@RequestMapping(value = "/board/wwwww.woo", headers = "content-type=multipart/*", method = RequestMethod.POST)
+	public String aaa(Listaaa listaaa, MultipartHttpServletRequest req) {
+		String aa = req.getParameter("111");
+		System.out.println(listaaa.getNum());
+		return "admin/board/boardTable";
 	}
 }

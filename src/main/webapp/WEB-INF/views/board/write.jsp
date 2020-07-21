@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!doctype html>
 <html lang="zxx">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- head.jsp -->
@@ -58,14 +59,61 @@
 								class="photo_max">* 최대 12장</span>
 						</dt>
 						<dd>
+							<form:form action="../board/wwwww.woo" method="POST" enctype="multipart/form-data">
 							<ul class="image_list">
-								<li>
+								<li id="image1">
 									<div style="width: 146px;height: 146px">
-										<input type="file" name="file1" id="file1" style="display: none;" accept="image/*"/>
-										<img id="fileimage1" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0' onclick='fileClick(this);'> 
+										<input type="file" name="file" id="file1" style="display: none;" accept="image/*"/>
+										<img name="fileimage" id="1" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
 									</div>
 								</li>
+								<li id="image2">
+									<div style="width: 146px;height: 146px">
+										<input type="file" name="file" id="file2" style="display: none;" accept="image/*"/>
+										<img name="fileimage" id="2" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
+									</div>
+								</li>
+								<li id="image3">
+									<div style="width: 146px;height: 146px">
+										<input type="file" name="file" id="file3" style="display: none;" accept="image/*"/>
+										<img name="fileimage" id="3" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
+									</div>
+								</li>
+								<li id="image4">
+									<div style="width: 146px;height: 146px">
+										<input type="file" name="file" id="file4" style="display: none;" accept="image/*"/>
+										<img name="fileimage" id="4" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
+									</div>
+								</li>
+								<li id="image5">
+									<div style="width: 146px;height: 146px">
+										<input type="file" name="file" id="file5" style="display: none;" accept="image/*"/>
+										<img name="fileimage" id="5" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
+									</div>
+								</li>
+								<li id="image6">
+									<div style="width: 146px;height: 146px">
+										<input type="file" name="file" id="file6" style="display: none;" accept="image/*"/>
+										<img name="fileimage" id="6" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
+									</div>
+								</li>
+								<li id="image7">
+									<div style="width: 146px;height: 146px">
+										<input type="file" name="file" id="file7" style="display: none;" accept="image/*"/>
+										<img name="fileimage" id="7" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
+									</div>
+								</li>
+								<li id="image8">
+									<div style="width: 146px;height: 146px">
+										<input type="file" name="file" id="file8" style="display: none;" accept="image/*"/>
+										<img name="fileimage" id="8" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
+									</div>
+								</li>
+								<li>
+								<input type="text" name="num" value="aaa" />
+								<input type="submit" value="aa" /></li>
 							</ul>
+								</form:form>
 							<div class="up_img_label">대표이미지</div>
 							<div class="up_img_description">
 								<span class="up_img_description_title">* 첫번째 사진은 직접 촬영한
@@ -224,6 +272,8 @@
 	</section>
 	<!-- ================ contact section end ================= -->
 <script>
+	var fileCount = 1;
+	var maxfile = 9;
 	$(function() {
 		$("input:radio[name=chek]").checkboxradio({
 			icon: false
@@ -232,80 +282,81 @@
 			icon: false
 		});
 	});
-
-	function fileClick(f) {
-		switch (f.id) {
-		case "fileimage1":
-			document.all.file1.click();
-			break;
-		case "fileimage2":
-			document.all.file2.click();
-			break;
-		case "fileimage3":
-			document.all.file3.click();
-			break;
-		case "fileimage4":
-			document.all.file4.click();
-			break;
-		case "fileimage5":
-			document.all.file5.click();
-			break;
-		case "fileimage6":
-			document.all.file6.click();
-			break;
-		case "fileimage7":
-			document.all.file7.click();
-			break;
-		case "fileimage8":
-			document.all.file8.click();
-			break;
-		default:
-			break;
-		}
-	}
+	
 	function readFile(f) {
 		if(f.files && f.files[0]) {
 	        var reader = new FileReader();
 	        reader.onload = function (e) {
-				switch (f.id) {
-				case "file1":
-	            	$('#fileimage1').attr("src", e.target.result);
-					break;
-				case "file2":
-	            	$('#fileimage2').attr("src", e.target.result);
-					break;
-				case "file3":
-	            	$('#fileimage3').attr("src", e.target.result);
-					break;
-				case "file4":
-	            	$('#fileimage4').attr("src", e.target.result);
-					break;
-				case "file5":
-	            	$('#fileimage5').attr("src", e.target.result);
-					break;
-				case "file6":
-	            	$('#fileimage6').attr("src", e.target.result);
-					break;
-				case "file7":
-	            	$('#fileimage7').attr("src", e.target.result);
-					break;
-				case "file8":
-	            	$('#fileimage8').attr("src", e.target.result);
-					break;
-				}
+	            	$('img[name=fileimage]:eq(' + (fileCount-2) + ')').prop("src", e.target.result);
+				
 	        }
 	        reader.readAsDataURL(f.files[0]);
 		}
 	}
 	
 	$(function() {
-		$('input:file').change(function() {
+		$(document).on("change", 'input:file', function() {
 			readFile(this);
-		})
+		});
+		$('img[name=deleteImage]').click(function() {
+			$('input:file[name=file]:eq(' + (this.id-1) + ')').val('');
+		});
+		$(document).on('click', 'img[name=fileimage]', function() {
+			var id = this.id;
+				// 클릭한 이미지가 기본이미지라면 파일 선택 이벤트 실행
+				if(this.src=="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png"){
+					for(var i=1 ; i<=8 ; i++){
+						if(!$('input:file[name]:eq(' + (fileCount-1) + ')').val()){
+							if(fileCount>8){
+								return;
+							}
+							$('input:file[name]:eq(' + (fileCount-1) + ')').click();
+							fileCount++;
+							break;
+							
+						}
+					}
+				}
+				// 클릭한 이미지가 기본이미지가 아니라면 파일 삭제 이벤트 실행
+				else{
+					if(confirm("삭제하시겠습니까?")){
+						$('input:file[name]:eq(' + (fileCount-1) + ')').val('');
+						$('#image' + id).remove();
+						$('.image_list').append(
+							'<li id="image'+maxfile+'">'
+							+	'<div style="width: 146px;height: 146px">'
+							+		'<input type="file" name="file" id="file'+maxfile+'" style="display: none;" accept="image/*"/>'
+							+		'<img name="fileimage" id="'+maxfile+'" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border="0">'
+							+	'</div>'
+							+'</li>'		
+						);
+						maxfile++;
+						fileCount--;
+					}
+				}
+		});
 	});
+	
+	/*function fileClick(f) {
+		var file = document.getElementsByName("file");
+		if(!file[f-1].value){
+			if(fileCount>8){
+				return;
+			}
+			file[fileCount-1].click();
+			fileCount++;
+		}
+		else{
+			if(confirm("삭제하시겠습니까?")){
+				file[f-1].value = '';
+				$('#image' + f).remove();
+				fileCount--;
+			}
+		}
+			
+	} */
+	
 </script>
-  <script>
-  </script>
 	<!--::footer_part start::-->
 	<jsp:include page="../include/bottom.jsp" />
 	<jsp:include page="../include/sidebar.jsp" />

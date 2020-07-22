@@ -169,11 +169,5 @@ public class AdminController {
 	public String boardTable() {
 		return "admin/board/boardTable";
 	}
-	
-	@RequestMapping(value = "/board/wwwww.woo", headers = "content-type=multipart/*", method = RequestMethod.POST)
-	public String aaa(Listaaa listaaa, MultipartHttpServletRequest req) {
-		String aa = req.getParameter("111");
-		System.out.println(listaaa.getNum());
-		return "admin/board/boardTable";
-	}
+
 }

@@ -78,8 +78,8 @@
 	                                    <button type="submit" value="submit" class="btn_3">
                                         			로그인
 	                                    </button>
-	                                    <a class="lost_pass" href="pwFind.woo" style="color:#ff4f4f; font-size:1em;font-weight:bold;">비밀번호 찾기</a>
-	                                    <a class="lost_id" href="idFind.woo" style="color:#ff4f4f; font-size:1em;font-weight:bold;margin-left: 60%">아이디 찾기</a>
+	                                    <a class="lost_pass" href="../member/pwFind.woo" style="color:#ff4f4f; font-size:1em;font-weight:bold;">비밀번호 찾기</a>
+	                                    <a class="lost_id" href="../member/idFind.woo" style="color:#ff4f4f; font-size:1em;font-weight:bold;margin-left: 60%">아이디 찾기</a>
                                     </div>
                                 </div>
                              </form:form>

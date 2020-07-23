@@ -37,6 +37,7 @@ public class MypageController {
 	public String mylist_l(Model model, HttpServletRequest req, Principal principal) {
 		
 		String user_id = principal.getName();
+		
 		ArrayList<String> review_score  = sqlSession.getMapper(MypageDAOImpl.class).review_score(user_id);
 		double review_scoreSum = 0;
 		for(int i=0; i<review_score.size(); i++) {
@@ -150,8 +151,8 @@ public class MypageController {
 
 		for (WooBoardVO vo : likeList) {
 			// 내용에 대해 줄바꿈 처리
-			String temp = vo.getContent().replace("\r\n", "<br/>");
-			vo.setContent(temp);
+			String temp = vo.getContents().replace("\r\n", "<br/>");
+			vo.setContents(temp);
 		}
 
 		model.addAttribute("likeList", likeList);

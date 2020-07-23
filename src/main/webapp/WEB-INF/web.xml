@@ -10,7 +10,7 @@
       /WEB-INF/spring/root-context.xml
       /WEB-INF/spring/security-context3.xml
       /WEB-INF/spring/transaction.xml
-      /WEB-INF/spring/multipartResolver.xml
+      /WEB-INF/spring/multipart.xml
       </param-value>
    </context-param>
    

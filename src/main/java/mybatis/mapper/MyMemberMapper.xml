@@ -57,12 +57,9 @@
 		DELETE FROM woo_member WHERE id=#{param1} AND pass=#{param2} 	
  	</delete>
  	
- 	<select id="myInfo" resultType="model.MemberVO">
- 		select * from woo_member where id=#{0}
- 	</select>
+ 	
  	
  	<!-- 동네인증 -->
- 	
   	<select id="view" resultType="model.MemberVO">
   		SELECT * FROM woo_member WHERE id=#{0}
   	</select>
@@ -70,10 +67,14 @@
   		UPDATE woo_member SET addr=#{0} WHERE id=#{1}
   	</update>
  	
+ 	<!-- 동네인증 거리계산 -->
+ 	<select id="distance" resultType="int">
+ 		SELECT DISTNACE_WGS84(#{0}, #{1}, #{2}, #{3}) FROM dual
+ 	</select>
+	 
  	<!-- 네이버 아이디 로그인 처리 -->
  	<insert id="naverLoginAction" parameterType="model.MemberVO">
  		 insert into woo_member(id,mobile,pass)
       values(#{id},#{mobile},#{pass})  
  	</insert>
- 	
  </mapper>

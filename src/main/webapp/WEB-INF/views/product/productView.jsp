@@ -52,10 +52,16 @@
 											      <img src="../resources/img/product.png" alt="Los Angeles" width="100%" >
 											    </div>
 											    <div class="carousel-item">
-											      <img src="../resources/img/product.png" alt="Chicago" width="100%">
+											      <img src="../resources/img/product.pn" alt="Chicago" width="100%">
 											    </div>
 											    <div class="carousel-item">
 											      <img src="../resources/img/product.png" alt="New York" width="100%" >
+											    </div>
+											    <div class="carousel-item">
+											      <img src="../resources/img/product.pn" alt="New York" width="100%" >
+											    </div>
+											    <div class="carousel-item">
+											      <img src="../resources/img/product.pn" alt="New York" width="100%" >
 											    </div>
 											  </div>
 											  

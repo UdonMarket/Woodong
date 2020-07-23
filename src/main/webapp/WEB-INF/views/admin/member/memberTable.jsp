@@ -43,15 +43,23 @@
 		<jsp:include page="../include/header.jsp" />
 		<!-- End Navbar -->
 		<!-- Header -->
-		<div class="header bg-gradient-primary pb-8 pt-5 pt-md-5">
+		<div class="header bg-gradient-primary pb-8 pt-5 pt-md-5" style="height: 200px">
 			<div class="container-fluid">
-				<div class="header-body"></div>
+				<div class="header-body">
+					<div style="text-align: center">
+						<img src="../resources/admin/img/멤버관리.png" alt="" style="width: 200px;"/>
+					</div>
+				</div>
 			</div>
 		</div>
 
-
+		<div class="container">
 		<%-- 뷰(View)영역 --%>
 		<div class="text-center" style="float: right">
+			<div>
+				<img src="../resources/admin/img/관리자.png" alt="" style="width: 200px;"/>
+			</div>
+		
 			<form class="form-inline" name="searchFrm"
 				action="<c:url value="/admin/memberTable.woo"/>"
 				style="margin-bottom: 10px;">
@@ -74,7 +82,6 @@
 				</div>
 			</form>
 		</div>
-
 
 		<!-- 게시판리스트부분 -->
 		<table class="table table-bordered table-hover table-striped"
@@ -131,7 +138,7 @@
 			</tbody>
 
 		</table>
-
+</div>
 	</div>
 
 	<!-- 방명록 반복 부분 e -->

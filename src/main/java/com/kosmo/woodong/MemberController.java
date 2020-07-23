@@ -1,5 +1,8 @@
 package com.kosmo.woodong;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -113,6 +117,20 @@ public class MemberController {
 		}
 	}
 
+	//동네인증 거리계산
+	@RequestMapping("/member/myPlaceDistance.woo")
+	@ResponseBody
+	public Map<String, Object> myPlaceDistance(HttpServletRequest req) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		double lat = Double.parseDouble(req.getParameter("lat"));
+		double lng = Double.parseDouble(req.getParameter("lng"));
+		double clat = Double.parseDouble(req.getParameter("clat"));
+		double clng = Double.parseDouble(req.getParameter("clng"));
+		int distance = sqlSession.getMapper(MybatisMemberImpl.class).distance(lat, lng, clat, clng);
+		
+		map.put("distance", distance);
+		return map;
+	}
 	//회원삭제
 	@RequestMapping("/member/deleteMemberAction")
 	public String deleteMemberAction(HttpServletRequest req, Authentication authentication) {

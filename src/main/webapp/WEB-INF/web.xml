@@ -9,8 +9,8 @@
       <param-value>
       /WEB-INF/spring/root-context.xml
       /WEB-INF/spring/security-context3.xml
-      /WEB-INF/spring/multipart.xml
       /WEB-INF/spring/transaction.xml
+      /WEB-INF/spring/multipart.xml
       </param-value>
    </context-param>
    
@@ -55,19 +55,8 @@
       <url-pattern>/*</url-pattern>
    </filter-mapping>
    
-	<!-- 시큐리티 용 파일업로드 -->   
-	<filter>
-	   <filter-name>MultipartFilter</filter-name>
-	   <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
-	</filter>
-	<filter-mapping>
-	   <filter-name>MultipartFilter</filter-name>
-	   <url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-   
    <!-- 시큐리티를 웹 어플리케이션에 적용하기 위한 필터설정 -->
-  <filter>
+   <filter>
       <display-name>springMultipartFilter</display-name>
       <filter-name>springMultipartFilter</filter-name>
       <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
@@ -75,7 +64,7 @@
    <filter-mapping>
       <filter-name>springMultipartFilter</filter-name>
       <url-pattern>/*</url-pattern>
-   </filter-mapping> 
+   </filter-mapping>
    
    <filter>
       <filter-name>springSecurityFilterChain</filter-name>
@@ -85,5 +74,14 @@
       <filter-name>springSecurityFilterChain</filter-name>
       <url-pattern>/*</url-pattern>
    </filter-mapping>   
+   
+   <filter>
+	  <filter-name>MultipartFilter</filter-name>
+	  <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	  <filter-name>MultipartFilter</filter-name>
+	  <url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 </web-app>

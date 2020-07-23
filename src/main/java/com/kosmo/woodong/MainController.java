@@ -26,22 +26,32 @@ import naverlogin.NaverLoginBO;
 
 @Controller
 public class MainController {
-
-	/* NaverLoginBO */
-	private NaverLoginBO naverLoginBO;
-	private String apiResult = null;
-
+	
 	@Autowired
-	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
-		this.naverLoginBO = naverLoginBO;
+	private SqlSession sqlSession;
+	
+	// 메인화면
+	@RequestMapping("/main/main.woo")
+	public String main() {
+		return "main/main";
+	}
+	// 소개
+	@RequestMapping("/about/about.woo")
+	public String about() {
+		return "about/about";
 	}
 
-	@RequestMapping("/member/join01.woo")
-	public String join01() {
-		return "member/join01";
+	// 커뮤니티
+	@RequestMapping("/community/community.woo")
+	public String community(Model model, HttpServletRequest req) {
+		String location = ".." + req.getServletPath();
+		List<BoardListVO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
+				.selectBoard(location);
+		model.addAttribute("blists", blists);
+		return "community/community";
 	}
 
-	@RequestMapping("/member/login.woo")
+	// 로그인
 	public String securityIndex2Login(Principal principal, Model model, HttpSession session) {
 		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -52,7 +62,49 @@ public class MainController {
 		model.addAttribute("url", naverAuthUrl);
 		return "member/login";
 	}
+	
+	// 아이디 비밀번호 찾기
+	@RequestMapping("/member/idFind.woo")
+	public String idFind() {
+		return "member/idFind";
+	}
+	@RequestMapping("/member/pwFind.woo")
+	public String pwFind() {
+		return "member/pwFind";
+	}	
+	
+	// 채팅
+	@RequestMapping("/main/chatting.woo")
+	public String chatting(Principal principal, HttpSession session) {
+		session.setAttribute("id", principal.getName());
+		return "main/chatting";
+	}
+	@RequestMapping("/main/chat_main.woo")
+	public String chat_main() {
+		return "main/chat_main";
+	}
+		
+	
+	
+	@RequestMapping("/member/accessDenied.woo")
+	public String securityIndex2AccessDenied() {
+		return "member/accessDenied";
+	}
+	
+	@RequestMapping("/board/write.woo")
+	public String write() {
+		return "board/write";
+	}
+	
+	/* NaverLoginBO */
+	private NaverLoginBO naverLoginBO;
+	private String apiResult = null;
 
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+		this.naverLoginBO = naverLoginBO;
+	}
+	
 	// 네이버 로그인 성공시 callback호출 메소드
 	@RequestMapping(value = "/callback", method = { RequestMethod.GET, RequestMethod.POST })
 	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
@@ -92,75 +144,8 @@ public class MainController {
 			model.addAttribute("name", email);
 			return "member/naverloginAction";
 		}
-		
+
 	}
 	
-	@Autowired
-	private SqlSession sqlSession;
 	
-
-	// 로그아웃
-	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
-	public String logout(HttpSession session) throws IOException {
-		System.out.println("여기는 logout");
-		session.invalidate();
-		return "main/main";
-	}
-
-	@RequestMapping("/member/accessDenied.woo")
-	public String securityIndex2AccessDenied() {
-		return "member/accessDenied";
-	}
-
-	@RequestMapping("/member/join02.woo")
-	public String join02() {
-		return "member/join02";
-	}
-
-	@RequestMapping("/member/modify.woo")
-	public String join03() {
-		return "member/modify";
-	}
-
-	@RequestMapping("/member/idpwfind.woo")
-	public String idpwfind() {
-		return "member/idpwfind";
-	}
-
-	@RequestMapping("/main/main.woo")
-	public String main(Principal principal, Model model, Authentication authentication) {
-		return "main/main";
-	}
-
-	@RequestMapping("/main/chatting.woo")
-	public String chatting(Principal principal, HttpSession session) {
-		session.setAttribute("id", principal.getName());
-		return "main/chatting";
-	}
-
-	@RequestMapping("/main/chat_main.woo")
-	public String chat_main() {
-		return "main/chat_main";
-	}
-
-	@RequestMapping("/about/about.woo")
-	public String about() {
-		return "about/about";
-	}
-
-	@RequestMapping("/mypage/myList.woo")
-	public String mylist() {
-		return "mypage/myList";
-	}
-
-	@RequestMapping("/community/notice.woo")
-	public String notice() {
-		return "community/notice";
-	}
-
-	@RequestMapping("/board/write.woo")
-	public String write() {
-		return "board/write";
-	}
-
-}
+} 

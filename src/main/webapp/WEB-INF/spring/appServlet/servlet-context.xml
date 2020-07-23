@@ -46,11 +46,12 @@
 	<beans:bean id="echoHandler" class="util.EchoHandler"/>
 	
 	<tx:annotation-driven transaction-manager="txManager" />
-	
+
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	    <beans:property name="maxUploadSize" value="200000000" />
-	    <beans:property name="maxInMemorySize" value="200000000" />
-	</beans:bean>
+		<beans:property name="maxUploadSize" value="200000000" />
+		 <beans:property name="maxInMemorySize" value="200000000" />
+    		<beans:property name="defaultEncoding" value="UTF-8" />
+	</beans:bean> 
 	
 	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
 	<beans:bean id="naverLoginBO" class="naverlogin.NaverLoginBO" />

@@ -1,51 +1,64 @@
 package com.kosmo.woodong;
 
 import java.security.Principal;
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.security.core.Authentication;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import model.BoardListImpl;
+import model.BoardListVO;
+
 @Controller
 public class MainController {
-	@RequestMapping("/member/join01.woo")
-	public String join01() {
-		return "member/join01";
+	
+	@Autowired
+	private SqlSession sqlSession;
+	
+	// 메인화면
+	@RequestMapping("/main/main.woo")
+	public String main() {
+		return "main/main";
+	}
+	// 소개
+	@RequestMapping("/about/about.woo")
+	public String about() {
+		return "about/about";
 	}
 
+	// 커뮤니티
+	@RequestMapping("/community/community.woo")
+	public String community(Model model, HttpServletRequest req) {
+		String location = ".." + req.getServletPath();
+		List<BoardListVO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
+				.selectBoard(location);
+		model.addAttribute("blists", blists);
+		return "community/community";
+	}
+
+	// 로그인
 	@RequestMapping("/member/login.woo")
 	public String securityIndex2Login(Principal principal, Model model) {
 		return "member/login";
 	}
-
-	@RequestMapping("/member/accessDenied.woo")
-	public String securityIndex2AccessDenied() {
-		return "member/accessDenied";
-	}
-
-	@RequestMapping("/member/join02.woo")
-	public String join02() {
-		return "member/join02";
-	}
-
-	@RequestMapping("/member/modify.woo")
-	public String join03() {
-		return "member/modify";
-	}
-
-	@RequestMapping("/member/idpwfind.woo")
-	public String idpwfind() {
-		return "member/idpwfind";
-	}
 	
-
-	@RequestMapping("/main/main.woo")
-	public String main(Principal principal, Model model, Authentication authentication) {
-		return "main/main";
+	// 아이디 비밀번호 찾기
+	@RequestMapping("/member/idFind.woo")
+	public String idFind() {
+		return "member/idFind";
 	}
+	@RequestMapping("/member/pwFind.woo")
+	public String pwFind() {
+		return "member/pwFind";
+	}	
+	
+	// 채팅
 	@RequestMapping("/main/chatting.woo")
 	public String chatting(Principal principal, HttpSession session) {
 		session.setAttribute("id", principal.getName());
@@ -55,25 +68,20 @@ public class MainController {
 	public String chat_main() {
 		return "main/chat_main";
 	}
-
-	@RequestMapping("/about/about.woo")
-	public String about() {
-		return "about/about";
+		
+	
+	
+	@RequestMapping("/member/accessDenied.woo")
+	public String securityIndex2AccessDenied() {
+		return "member/accessDenied";
 	}
-
-	@RequestMapping("/mypage/myList.woo")
-	public String mylist() {
-		return "mypage/myList";
-	}
-
-	@RequestMapping("/community/notice.woo")
-	public String notice() {
-		return "community/notice";
-	}
-
+	
 	@RequestMapping("/board/write.woo")
 	public String write() {
 		return "board/write";
 	}
+	
+
+	
 	
 }

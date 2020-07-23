@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.MemberVO;
@@ -31,15 +32,29 @@ public class MypageController {
 	private SqlSession sqlSession;
 
 	// 마이페이지
-
 	// 나의우동 평점, 등급 그림 바뀌기
-	@RequestMapping("/mypage/myPage.woo")
-	public String mypage(Model model, HttpServletRequest req, Principal principal) {
+	@RequestMapping("/mypage/myList_L.woo")
+	public String mylist_l(Model model, HttpServletRequest req, Principal principal) {
+		
 		String user_id = principal.getName();
-		MemberVO memberVO = sqlSession.getMapper(MybatisMemberImpl.class).myInfo(user_id);
+		
+		ArrayList<String> review_score  = sqlSession.getMapper(MypageDAOImpl.class).review_score(user_id);
+		double review_scoreSum = 0;
+		for(int i=0; i<review_score.size(); i++) {
+			System.out.println(review_score.get(i));
+			review_scoreSum += Double.parseDouble(review_score.get(i));
+			System.out.println("total" + review_scoreSum);
+		}
+		MemberVO memberVO = sqlSession.getMapper(MypageDAOImpl.class).myInfo(user_id);
 
-		double avg_score = Double.parseDouble(memberVO.getAvg_score());
 		int trade_count = Integer.parseInt(memberVO.getTrade_count());
+		
+		double avg_score1 = review_scoreSum / (double)trade_count;
+		double avg_score2 = ((double)Math.round(avg_score1*10)/10);
+		System.out.println("업데이트 할 avg_score2 : " + avg_score2);
+		int avg_score_update = sqlSession.getMapper(MypageDAOImpl.class).avg_score_update(avg_score2);	
+		double avg_score = Double.parseDouble(memberVO.getAvg_score());
+		System.out.println("업데이트 된avg_score : " + avg_score);
 
 		String score = "";
 
@@ -88,15 +103,11 @@ public class MypageController {
 		model.addAttribute("memberVO", memberVO);
 		model.addAttribute("score", score);
 		model.addAttribute("udongGrade", udongGrade);
-
-		return "mypage/myPage";
-	}
-
-	
-	@RequestMapping("/mypage/myList_L.woo")
-	public String mylist_l(Model model, HttpServletRequest req, Principal principal) {
-
+		
+		
+		
 		String mode = req.getParameter("mode");
+		if(mode ==  null) mode = "";
 		String dealMode = req.getParameter("dealMode");
 		System.out.println(mode);
 		System.out.println(dealMode);
@@ -118,7 +129,6 @@ public class MypageController {
 		System.out.println(start);
 		System.out.println(end);
 
-		String user_id = principal.getName();
 		parameterVO.setUser_id(user_id);
 		System.out.println(user_id);
 		String str = sqlSession.getMapper(MypageDAOImpl.class).selectLike(user_id);
@@ -141,8 +151,8 @@ public class MypageController {
 
 		for (WooBoardVO vo : likeList) {
 			// 내용에 대해 줄바꿈 처리
-			String temp = vo.getContent().replace("\r\n", "<br/>");
-			vo.setContent(temp);
+			String temp = vo.getContents().replace("\r\n", "<br/>");
+			vo.setContents(temp);
 		}
 
 		model.addAttribute("likeList", likeList);
@@ -175,6 +185,9 @@ public class MypageController {
 			PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
 					"../mypage/myList_L.woo?");
 			page = "mypage/myList_L";
+		}
+		else {
+			page =  "mypage/myPage";
 		}
 		
 		model.addAttribute("pagingImg", pagingImg);
@@ -252,5 +265,52 @@ public class MypageController {
 
 		return "product/ajaxList";
 	}
-
+	
+	//리뷰작성글 팝업열기
+	@RequestMapping("/mypage/reviewPop.woo")
+	public String reviewPop(Model model, HttpServletRequest req) {
+		
+		String idx = req.getParameter("idx");
+		System.out.println("팝업" + idx); 
+		
+		model.addAttribute("idx", idx);
+		
+		return "mypage/reviewPop";
+	}
+	
+	//리뷰버튼 클릭시 review테이블에 id, idx, title 저장
+	@RequestMapping("/mypage/write_review.woo")
+	public String write_review(Model model, HttpServletRequest req, Principal principal) {
+			
+		String user_id = principal.getName();
+		String id = req.getParameter("id");
+		String idx = req.getParameter("idx");
+		String title = req.getParameter("title");
+		
+		ParameterVO parameterVO = new ParameterVO();
+		parameterVO.setId(id);
+		parameterVO.setIdx(idx);
+		parameterVO.setTitle(title);
+		parameterVO.setUser_id(user_id);
+		
+		int update = sqlSession.getMapper(MypageDAOImpl.class).update_reviewTable(parameterVO);
+		System.out.println("review update : " + update);
+		
+		return "mypage/myList_B";
+	}
+	
+	
+	//리뷰팝업에서 contents DB저장
+	@RequestMapping(value="/mypage/write_review_contents.woo", method = RequestMethod.POST)
+	public String write_review_contents(Model model, HttpServletRequest req) {
+		
+		System.out.println("글내용 : " + req.getParameter("contents"));
+		System.out.println("글idx" + req.getParameter("write_idx"));
+		int update1 = sqlSession.getMapper(MypageDAOImpl.class).update_reviewContents(req.getParameter("contents"), req.getParameter("write_idx"));
+		System.out.println("review contents update : " + update1);
+		int update = sqlSession.getMapper(MypageDAOImpl.class).update_reviewScore(req.getParameter("cal_reviewPoint"), req.getParameter("write_idx"));
+		
+		return "mypage/myList_B_popclose";
+	}
+	
 }

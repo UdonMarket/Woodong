@@ -5,6 +5,23 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper  namespace="model.MypageDAOImpl" > 
+	
+	<!-- 우동좌측이미지 -->
+	<!-- id마다 평점불러오기 -->
+	<select id="review_score" resultType="String"> 
+		select review_score from woo_board where id = #{0}
+	</select>
+	<!-- avg-score update -->
+	<update id="avg_score_update">
+		update woo_member set avg_score = #{0}
+	</update>
+	
+	
+	<select id="myInfo" resultType="model.MemberVO">
+ 		select * from woo_member where id=#{0}
+ 	</select>
+
+
 	<!-- 카테고리에서 좋아요 누를 때 -->
 	<!--ㅡmypage goods에 연결된 String 가져오기 -->	
 	 <select id="selectLike" resultType="String">
@@ -40,10 +57,10 @@
   		SELECT * FROM (
   			SELECT Tb.*, rownum rNum FROM(
   				SELECT * FROM WOO_BOARD
-  					WHERE 
+  					WHERE 1=1
   			<!-- 거래중 -->	
   			<if test="mode.equals('deal')">
-  				escrow = 'true'
+  				and escrow = 'true'
   					<!-- 거래중 & 판매목록 -->	
   				<if test="dealMode.equals('sell')">
   					and id = #{user_id} 
@@ -55,16 +72,16 @@
   			</if>
   			<!-- 판매목록 -->
   			<if test="mode.equals('sell')">	
-  				id = #{user_id} 
+  				and id = #{user_id} 
   			</if>
   			<!-- 구매목록 -->
   			<!-- 에스크로 결제 버튼, qr결제 구매버튼 누를시 buyer_id 넘겨주어야함. -->
   			<if test="mode.equals('buy')">
-  				buyer_id = #{user_id} 
+  				and buyer_id = #{user_id} 
   			</if>
   			<!-- 관심목록 -->
   			<if test="mode.equals('like')">	
-  				idx in
+  				and idx in
 				 	<foreach collection="list" item="item" open="(" close=")" separator=",">
 			 			#{item}
 					</foreach>
@@ -84,7 +101,17 @@
   	</select>
   	
   	
+  	<!-- review table 업데이트 -->
+  	<insert id="update_reviewTable" parameterType="model.ParameterVO">
+  		insert into woo_review (seller_id, buyer_id, idx, title) values (#{id}, #{user_id}, ${idx},#{title})
+  	</insert>
   	
+	<update id="update_reviewContents">
+		update woo_review set contents = #{0} where idx = #{1}
+	</update>
 	
+	<update id="update_reviewScore">
+		update woo_board set review_score = #{0} where idx = #{1}
+	</update>
 	
 </mapper>

@@ -44,6 +44,7 @@
 	                                <option value="">최신순</option>
 	                                <option value="">저가순</option>
 	                                <option value="">고가순</option>
+	                                <option value="">인기순</option>
 	                            </select>
 	                            <select>
 	                                <option value="">상품상태</option>
@@ -60,8 +61,10 @@
 	                            </select>
 	                            <select>
 	                                <option value="">판매자 온도</option>
-	                                <option value="">튀김우동</option>
-	                                <option value="">일반우동</option>
+	                                <option value="">차가운 일반우동</option>
+	                                <option value="">따뜻한 일반우동</option>
+	                                <option value="">차가운 튀김우동</option>
+	                                <option value="">따뜻한 튀김우동</option>
 	                            </select>
 	                        </div>
 	                        <div class="second-row">

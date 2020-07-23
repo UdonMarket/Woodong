@@ -4,7 +4,6 @@
    xmlns:security="http://www.springframework.org/schema/security"
    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
-
    <security:http pattern="/admin/**">
       <security:intercept-url
          pattern="/admin/login.woo" access="permitAll" />
@@ -14,7 +13,7 @@
       	pattern="/**" access="permitAll" />
 
       <security:form-login
-         login-page="/admin/login.woo" default-target-url="/admin/admin .woo"
+         login-page="/admin/login.woo" default-target-url="/admin/admin.woo"
          authentication-failure-url="/admin/login.woo?error"
          login-processing-url="/admin/login" username-parameter="admin_id"
          password-parameter="admin_pw" />
@@ -32,7 +31,7 @@
       <security:intercept-url
          pattern="/member/join.woo" access="isAnonymous()" />
       <security:intercept-url
-         pattern="/mypage/myPage.woo" access="hasRole('USER')" />
+         pattern="/mypage/myList_L.woo" access="hasRole('USER')" />
       <security:intercept-url 
       	pattern="/main/chatting.woo" access="hasRole('USER')"/>
       <security:intercept-url 
@@ -61,4 +60,3 @@
    </security:authentication-manager>
    
 </beans> 
- 

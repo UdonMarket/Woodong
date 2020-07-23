@@ -37,6 +37,7 @@ public class MypageController {
 	public String mylist_l(Model model, HttpServletRequest req, Principal principal) {
 		
 		String user_id = principal.getName();
+		
 		ArrayList<String> review_score  = sqlSession.getMapper(MypageDAOImpl.class).review_score(user_id);
 		double review_scoreSum = 0;
 		for(int i=0; i<review_score.size(); i++) {

@@ -43,7 +43,7 @@ public class WooBoardController {
 		
 		String location = ".." + req.getServletPath();
 		System.out.println(location);
-		List<BoardListDTO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
+		List<BoardListVO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
 				.selectBoard(location);
 		model.addAttribute("blists", blists);
 		
@@ -52,7 +52,7 @@ public class WooBoardController {
 
 	//2. 상품게시판 (리스트) ajax 처리
 	@RequestMapping("/product/ajaxList.woo")
-	public ModelAndView list(Model model, HttpServletRequest req) {
+	public ModelAndView list(Model model, HttpServletRequest req, Principal principal) {
 		
 		ModelAndView mv = new ModelAndView();
 		ParameterVO parameterVO = new ParameterVO();
@@ -77,6 +77,20 @@ public class WooBoardController {
 				
 		
 		Iterator itr = lists.iterator();
+
+		//소영 추가부분
+		String user_id = principal.getName();
+
+		String str = sqlSession.getMapper(MypageDAOImpl.class).selectLike(user_id);
+		String[] splitStr = str.split("#");
+
+		for (int i = 0; i < lists.size(); i++) {
+				for (int j = 0; j < splitStr.length; j++) {
+				if(splitStr[j].equals(lists.get(i).getIdx())) {
+					lists.get(i).setLike_check(1);
+				}
+			}
+		}
 
 		while (itr.hasNext()) {
 			WooBoardVO dto = (WooBoardVO) itr.next();
@@ -263,16 +277,11 @@ public class WooBoardController {
 		return "redirect:./productList.woo";
 	}
 	
-	
-	
-	//커뮤니티 게시판 진입
-	@RequestMapping("/community/community.woo")
-	public String community(Model model, HttpServletRequest req) {
-		String location = ".." + req.getServletPath();
-		List<BoardListDTO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
-				.selectBoard(location);
-		model.addAttribute("blists", blists);
-		return "community/community";
+	@RequestMapping("/product/productListMap.woo")
+	public String productListMap() {
+		return "product/productListMap";
 	}
+	
+	
 	
 }

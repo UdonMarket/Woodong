@@ -6,12 +6,9 @@
       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
    <security:http pattern="/admin/**">
-      <security:intercept-url
-         pattern="/admin/login.woo" access="permitAll" />
-      <security:intercept-url
-         pattern="/admin/**" access="hasRole('ADMIN')" />
-      <security:intercept-url 
-      	pattern="/**" access="permitAll" />
+      <security:intercept-url pattern="/admin/login.woo" access="permitAll" />
+      <security:intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
+      <security:intercept-url pattern="/**" access="permitAll" />
 
       <security:form-login
          login-page="/admin/login.woo" default-target-url="/admin/admin.woo"
@@ -27,16 +24,11 @@
    
    
    <security:http>
-      <security:intercept-url
-         pattern="/member/login.do" access="permitAll" />
-      <security:intercept-url
-         pattern="/member/join.woo" access="isAnonymous()" />
-      <security:intercept-url
-         pattern="/mypage/myPage.woo" access="hasRole('USER')" />
-      <security:intercept-url 
-      	pattern="/main/chatting.woo" access="hasRole('USER')"/>
-      <security:intercept-url 
-      	pattern="/main/chat_main.woo" access="hasRole('USER')"/>
+      <security:intercept-url pattern="/member/login.do" access="permitAll" />
+      <security:intercept-url pattern="/member/join.woo" access="isAnonymous()" />
+      <security:intercept-url pattern="/mypage/myPage.woo" access="hasRole('USER')" />
+      <security:intercept-url pattern="/main/chatting.woo" access="hasRole('USER')"/>
+      <security:intercept-url pattern="/main/chat_main.woo" access="hasRole('USER')"/>
       <security:intercept-url pattern="/**" access="permitAll" />
       
       <security:form-login

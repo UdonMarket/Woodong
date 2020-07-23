@@ -7,32 +7,30 @@
 	
 	<!-- head.jsp -->
 	<jsp:include page="../include/head.jsp"/>
-	<style>
-    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
-    .wrap * {padding: 0;margin: 0;}
-    .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
-    .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
-    .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
-    .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
-    .info .close:hover {cursor: pointer;}
-    .info .body {position: relative;overflow: hidden;}
-    .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
-    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
-    .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
-    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
-    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-    .info .link {color: #5085BB;}
-    .map_wrap {position:relative;width:100%;height:350px;}
-    .title {font-weight:bold;display:block;}
-    .hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
-    #centerAddr {display:block;margin-top:2px;font-weight: normal;}
-    .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-    .info {position:relative;top:5px;left:5px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;font-size:12px;padding:5px;background:#fff;list-style:none;margin:0;} 
-	.info:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}    
-	.info .label {display:inline-block;width:50px;}
-	.number {font-weight:bold;color:#00a0e9;} 
-	</style>
 	
+	<script>
+		function distance(lat, lng, clat, clng) {
+			$.ajax({
+				url : "../member/myPlaceDistance.woo",
+				dataType : "json",
+				type : "get",
+				async : false,
+				contentType : "text/html;charset:utf-8",
+				data : {
+					lat : lat,
+					lng : lng,
+					clat : clat,
+					clng : clng
+				},
+				success : function(d){
+					$('#dis').val(d.distance);
+				},
+				error : function(e){
+					alert("실패:"+e.status+":"+e.statusText);
+				}
+			});
+		}
+	</script>
 	<body>
 		<!--::header part start::-->
 		<!-- header.jsp --> 
@@ -47,7 +45,7 @@
 							          <img src="../resources/img/myPage/동네인증1.png" alt="" width="280px;"/>
 							        </div>
 							        </div>
-									<div id="map" style="width:100%;height:350px;"></div>
+									<div id="map" style="width:100%;height:400px;"></div>
 									<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4416f1cdac23198286eb3f5394e6240d&libraries=services"></script>
 									<script>
 									
@@ -74,13 +72,14 @@
 							                // 인포윈도우에 표시될 내용입니다
 							             	searchDetailAddrFromCoords(locPosition, function(result, status) {
 									        if (status === kakao.maps.services.Status.OK) {
-									            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
-									            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+									            var detailAddr = !!result[0].road_address ? 
+									            		'<div class="juso" style="top:77px;">도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+									            detailAddr += '<div class="juso">지번 주소 : ' + result[0].address.address_name + '</div>';
 									            
 									            var message = '<div class="bAddr">' +
 									                            '<span class="title">위치</span>' + 
-									                            detailAddr + 
-									                        '</div>';
+									                             detailAddr + 
+									                           '</div>';
 									            document.getElementById('juso').value = result[0].address.address_name;
 									            var circle = new kakao.maps.Circle({
 									                center : locPosition,  // 원의 중심좌표 입니다 
@@ -100,8 +99,8 @@
 									            marker.setMap(map);
 
 									            // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
-									            infowindow.setContent(message);
-									            infowindow.open(map, marker);
+									            //infowindow.setContent(message);
+									            //infowindow.open(map, marker);
 									        }   
 									    });
 									        
@@ -153,7 +152,7 @@
 									   
 									    
 									    // 인포윈도우를 마커위에 표시합니다 
-									    infowindow.open(map, marker);
+									    //infowindow.open(map, marker);
 									    
 									    // 지도 중심좌표를 접속위치로 변경합니다
 									    map.setCenter(locPosition);      
@@ -161,39 +160,22 @@
 										marker.setMap(map);  
 										
 									}
-									/* var content = '<div class="wrap">' + 
-						            '    <div class="info">' + 
-						            '        <div class="title">' + 
-						            '            카카오 스페이스닷원' + 
-						            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
-						            '        </div>' + 
-						            '        <div class="body">' + 
-						            '            <div class="img">' +
-						            '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
-						            '           </div>' + 
-						            '            <div class="desc">' + 
-						            '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
-						            '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
-						            '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
-						            '            </div>' + 
-						            '        </div>' + 
-						            '    </div>' +    
-						            '</div>'; */
-									// 지도에 클릭 이벤트를 등록합니다
-									// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+									
 									kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
 									    
 										searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
-											var lat = mouseEvent.latLng.getLat(); // 현재 위도
+											var lat1 = mouseEvent.latLng.getLat(); // 현재 위도
 		                                    var lng = mouseEvent.latLng.getLng(); // 현재 경도
 		                                    var clat = lat; // 중심 위도
 		                                    var clng = lon; // 중심 경도
-		                                    //var distance1 = distance(lat, lng, clat, clng, "meter");
-		                                 	var distance2 = getDistanceFromLatLonInKm(lat, lng, clat, clng);
-			                                 if(distance2>1){
-			                                    alert("동네인증은 원안에서만 이동이 가능합니다.")
-			                                    return false;
+		                                   
+		                                    distance(lat1,lng,clat,clng);
+		                                    var distance2 = document.getElementById("dis").value;
+			                                 if(distance2>=1){
+			                                    alert("원 안에서만 이동이 가능합니다.")
+			                                    return;
 			                                 }
+			                                 
 									        if (status === kakao.maps.services.Status.OK) {
 									            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
 									            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
@@ -208,8 +190,8 @@
 									            marker.setMap(map);
 
 									            // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
-									            infowindow.setContent(content);
-									            infowindow.open(map, marker);
+									            //infowindow.setContent(content);
+									           // infowindow.open(map, marker);
 									        }   
 									    });
 									});
@@ -231,23 +213,6 @@
 										    
 									    
 									}
-									// 마커 위에 커스텀오버레이를 표시합니다
-									// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
-									/* var overlay = new kakao.maps.CustomOverlay({
-									    content: content,
-									    map: map,
-									    position: marker.getPosition()       
-									});
-
-									// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-									kakao.maps.event.addListener(marker, 'click', function() {
-									    overlay.setMap(map);
-									});
-
-									// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
-									function closeOverlay() {
-									    overlay.setMap(null);     
-									} */
 									
 									
 									//본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
@@ -273,41 +238,7 @@
 								                zIndex: 1
 								            });              
 									}
-									/* function distance(lat1, lon1, lat2, lon2, unit) {
-		                                  var theta = lon1 - lon2;
-		                                   var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
-		                                    
-		                                   dist = Math.acos(dist);
-		                                   dist = rad2deg(dist);
-		                                   dist = dist * 60 * 1.1515;
-		                                    
-		                                   if (unit == "kilometer") {
-		                                       dist = dist * 1.609344;
-		                                   } else if(unit == "meter"){
-		                                       dist = dist * 1609.344;
-		                                   }
-		                            
-		                                   return dist;
-		                              }
-		                               function deg2rad(deg) {
-		                                  return (deg * Math.PI / 180.0);
-		                              }
-		                               function rad2deg(rad) {
-		                                  return (rad * 180 / Math.PI);
-		                              } */
-		                              function getDistanceFromLatLonInKm(lat1,lng1,lat2,lng2) {
-		                            	    function deg2rad(deg) {
-		                            	        return deg * (Math.PI/180)
-		                            	    }
-
-		                            	    var R = 6371; // Radius of the earth in km
-		                            	    var dLat = deg2rad(lat2-lat1);  // deg2rad below
-		                            	    var dLon = deg2rad(lng2-lng1);
-		                            	    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
-		                            	    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-		                            	    var d = R * c; // Distance in km
-		                            	    return d;
-		                            	}
+									
 									</script>
 									<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 									<script>
@@ -367,23 +298,36 @@
 									        }).open();
 									    }
 									</script>
-							      <div class="row">
-							        <div class=""style="padding-left: 30px; padding-top: 50px;">
+							      <div class="">
+							        <div class=""style="padding-left: 5px; padding-top: 50px;">
 							          <form:form class="form-contact contact_form" action="../member/myPlaceAction.woo" method="post"
 							            novalidate="novalidate" onsubmit="return jusoCheck(this);">
-							            <input type="hid den" name="juso" id="juso"  />
 							            <div class="row">
-							              <div class="col-12">
+							            
+							              <div class="col-6" style="text-align: center;padding-bottom: 10px;">
+							                <span style="font-size: 15px;font-weight: bold;">지금 내 위치</span>
+							              </div>
+							              <div class="col-6"  style="text-align: center;padding-bottom: 10px;">
+							                <span style="font-size: 15px;font-weight: bold;">인증한 우리 동네</span>
+							              </div>
+							              <div class="col-6">
+							                <div class="form-group">
+							                  <input class="form-control" name="juso" id="juso" type="text" placeholder='내 위치를 확인해주세요'>
+							                </div>
+							              </div>
+							              <div class="col-6">
 							                <div class="form-group">
 							                  <input class="form-control" name="" id="" type="text" placeholder='동네인증을 해주세요' 
 							                  readonly="readonly"  value="${dto.addr}">
 							                </div>
 							              </div>
+							             
 							              <input type="hidden" id="sample4_postcode" placeholder="우편번호">
 										  <input type="hidden" id="sample4_roadAddress" placeholder="도로명주소">
 										  <span id="guide" style="color:#999;visibility: hidden;"></span>
 										  <input type="hidden" id="sample4_detailAddress" placeholder="상세주소">
 										  <input type="hidden" id="sample4_extraAddress" placeholder="참고항목">
+										  <input type="hidden" id="dis">
 							              <div class="col-8">
 							                <div class="form-group">
 							                  <input type="text" id="sample4_jibunAddress" name="selectJuso" class="form-control" readonly="readonly">
@@ -395,7 +339,7 @@
 							                </div>
 							              </div>
 							            </div>
-							            <div class="form-group mt-3" style="text-align: right;">
+							            <div class="form-group mt-3" style="text-align: right;margin-right: 15px;">
 							              <button type="submit" class="btn_3 button-contactForm">인증완료</button>
 							            </div>
 							          </form:form>

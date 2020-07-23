@@ -62,7 +62,6 @@
  	</select>
  	
  	<!-- 동네인증 -->
- 	
   	<select id="view" resultType="model.MemberVO">
   		SELECT * FROM woo_member WHERE id=#{0}
   	</select>
@@ -70,4 +69,8 @@
   		UPDATE woo_member SET addr=#{0} WHERE id=#{1}
   	</update>
  	
+ 	<!-- 동네인증 거리계산 -->
+ 	<select id="distance" resultType="int">
+ 		SELECT DISTNACE_WGS84(#{0}, #{1}, #{2}, #{3}) FROM dual
+ 	</select>
  </mapper>

@@ -97,7 +97,7 @@ $(window).scroll(function(){
 	if(data){  
 		scrollchk = false; //데이터를 세팅하는동안 스크롤 체크를 하지않게하자.  
 		nowPage = data.page-1;     //저장되었던 마지막 페이지를 세팅
-		alert(nowPage);
+		//alert(nowPage);
 		loadlist(); 
 		scrollchk = true;  //데이터 세팅 종료 후 스크롤 체크  
 	}   

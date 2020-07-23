@@ -9,7 +9,7 @@
 
 <link rel="icon" href="../resources/img/main/favicon.png">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/default.css">
-
+ 
 <script>
 var messageWindow;
 var inputMessage;

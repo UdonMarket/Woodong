@@ -10,6 +10,69 @@ public class ParameterVO {
 	private String searchField;
 	private String searchTxt;
 	private List<String> list;
+	private int num;
+	private String locationname;
+	private String mode;
+	private String dealMode;
+	private String id;
+	private String idx;
+	private String title;
+	
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getIdx() {
+		return idx;
+	}
+
+	public void setIdx(String idx) {
+		this.idx = idx;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDealMode() {
+		return dealMode;
+	}
+
+	public void setDealMode(String dealMode) {
+		this.dealMode = dealMode;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+	public String getLocationname() {
+		return locationname;
+	}
+
+	public void setLocationname(String locationname) {
+		this.locationname = locationname;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
 
 	
 	

@@ -21,43 +21,47 @@
 									<div class="left" >
 										<div class="my_profile_left">
 											<div class="my_profile_info">
-												<div class="breadcrumbs">
+		
+												<div class="breadcrumbs" style="margin-top: 100px;">
 													<ul>
 														<li><a href="/">HOME</a></li>
 													</ul>
-												</div>
+												</div>		
 												<div class="my_profile_image">
-													<img src="../resources/img/myPage/nor-blue.png" alt="우동등급" />
+												    ${udongGrade }
+												<!-- 	<img src="../resources/img/myPage/nor-blue.png" alt="우동등급" /> -->
 												</div>
-												<div class="my_profile_nick">우동이</div>
+												<div class="my_profile_nick">'${memberVO.id }' 님</div>
 												<div class="my_profile_shop_created">
-													<div class="my_profile_start_mobile">2020년 07월 시작</div>
+													<div class="my_profile_start_mobile"></div>
 													
-													<div class="my_profile_start">2020년 07월 시작</div>
+													<div class="my_profile_start">우동마켓 시작일 : ${memberVO.regidate }</div>
 												</div>
+							
 												<div class="my_profile_follow">
 													
 												</div>
 												<div class="my_profile_pro_review">
 													
 													<div class="my_profile_pro_review_box">
-														<a href="../main/write.woo"><span>거래후기</span><span>0</span>
-													<div class="my_profile_pro_review_rating">
-																<img
-																	src="https://ccimage.hellomarket.com/web/2019/member/img_review_star_blank_16x16_x2.png"
-																	alt="프로필 별점 없는 이미지 1" /><img
-																	src="https://ccimage.hellomarket.com/web/2019/member/img_review_star_blank_16x16_x2.png"
-																	alt="프로필 별점 없는 이미지 2" /><img
-																	src="https://ccimage.hellomarket.com/web/2019/member/img_review_star_blank_16x16_x2.png"
-																	alt="프로필 별점 없는 이미지 3" /><img
-																	src="https://ccimage.hellomarket.com/web/2019/member/img_review_star_blank_16x16_x2.png"
-																	alt="프로필 별점 없는 이미지 4" /><img
-																	src="https://ccimage.hellomarket.com/web/2019/member/img_review_star_blank_16x16_x2.png"
-																	alt="프로필 별점 없는 이미지 5" />
-															</div></a>
+														<a href="/s/@16128096?tab=review"><span>거래후기</span><span>${memberVO.avg_score} 점</span>
+														<div class="my_profile_pro_review_rating">
+															${score }
+														</div>
+														</a>
 													</div>
 												</div>
+												<span class="my_profile_more_text" width="0">
+													<span></span>
+												<span>
 												
+												</span>
+													<span style="position: fixed; visibility: hidden; top: 0; left: 0">
+														<span class="text_trcucate_more">...
+															<p>전체보기</p>
+														</span>
+													</span>
+												</span>
 											</div>
 											<div class="my_profile_nav">
 												<ul style="background-color:#FFF;border:1px solid #d9d9d9;">
@@ -79,16 +83,16 @@
 														<a class="active" id="scrollMain"href="/m/level.hm"><span style="font-size:1.4em;color:#ff4f4f;">쇼핑 활동</span></a>
 													</li>
 													<li>
-														<a href="../mypage/myList_W.woo"><span>거래중</span></a>
+														<a href="../mypage/myList_L.woo?mode=deal&dealMode=sell"><span>거래중</span></a>
 													</li>
 													<li>
-														<a href="../mypage/myList_S.woo"><span>판매목록</span></a>
+														<a href="../mypage/myList_L.woo?mode=sell"><span>판매목록</span></a>
 													</li>
 													<li>
-														<a href="../mypage/myList_L.woo"><span>관심목록</span></a>
+														<a href="../mypage/myList_L.woo?mode=like"><span>관심목록</span></a>
 													</li>
 													<li>
-														<a href="../mypage/myList_B.woo"><span>구매목록</span></a>
+														<a href="../mypage/myList_L.woo?mode=buy"><span>구매목록</span></a>
 													</li>
 													<li>
 														<a href="../mypage/myReview.woo"><span>후기</span></a>
@@ -97,13 +101,13 @@
 														<a class="active" id="scrollMain"href="../mypage/myProfile.woo"><span style="font-size:1.4em;color:#ff4f4f;">회원설정</span></a>
 													</li>
 													<li>
-														<a href="../member/passwordform.woo"><span>회원정보 수정</span></a>
+														<a href="../member/myProfile_modify.woo"><span>회원정보 수정</span></a>
 													</li>
 													<li>
-														<a href="../mypage/myPlace.woo"><span>동네인증</span></a>
+														<a href="../member/myPlace.woo"><span>동네인증</span></a>
 													</li>
 													<li>
-														<a href="../mypage/withdraw.woo"><span>회원탈퇴</span></a>
+														<a href="../member/deleteMember.woo"><span>회원탈퇴</span></a>
 													</li>
 													
 												</ul>

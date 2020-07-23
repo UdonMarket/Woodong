@@ -25,7 +25,8 @@ public class WooBoardVO {
 	private String product_tag;//상품 태그
 	private String woopay;//우동페이 체크
 	private String deal_type;//거래 종류
-	private String deal_location;//거래희망 위치
+	private String latitude;//거래희망 위치 좌표
+	private String longitude;//거래희망 위치 좌표
 	private String imagefile;
 	private List<MultipartFile> file;
 	private int seq_woo_board;
@@ -181,12 +182,23 @@ public class WooBoardVO {
 	public void setDeal_type(String deal_type) {
 		this.deal_type = deal_type;
 	}
-	public String getDeal_location() {
-		return deal_location;
+
+	public String getLatitude() {
+		return latitude;
 	}
-	public void setDeal_location(String deal_location) {
-		this.deal_location = deal_location;
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
 	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	
 	
 	
 	

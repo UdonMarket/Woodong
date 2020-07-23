@@ -9241,5 +9241,12 @@ body, input, textarea, select, button, table {
     font-size: 12px;
     -webkit-font-smoothing: subpixel-antialiased;
 }
-
+.juso{
+	 display:inline-block; 
+	 border: 1.5px solid #4C4C4C; 
+	 width: 392px;
+	 height: 38px;
+	 text-align: right;
+	 padding: 10px;
+}
  

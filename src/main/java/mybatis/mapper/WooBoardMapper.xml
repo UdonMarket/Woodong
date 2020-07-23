@@ -33,7 +33,8 @@
 		product_tag,
 		woopay,
 		deal_type,
-		deal_location
+		latitude,
+		longitude
 	 FROM 
 	 	( SELECT Tb.*, rownum rNum FROM 
 	 		(SELECT * FROM woo_board 
@@ -63,7 +64,8 @@
 			product_tag,
 			woopay,
 			deal_type,
-			deal_location
+			latitude,
+			longitude
 	 	FROM woo_board 
 	 	WHERE idx = #{param1} 
 	 </select>
@@ -88,11 +90,11 @@
 	 	INSERT INTO woo_board (
 					idx, id, title, contents, bname,
 					price, product_state, three_dimens, product_tag, woopay, 
-					deal_type, deal_location) 
+					deal_type, latitude, longitude) 
 		VALUES (
 				seq_woo_board.nextval, #{id}, #{title}, #{contents}, #{bname},
 				#{price}, #{product_state}, #{three_dimens}, #{product_tag}, #{woopay}, 
-				#{deal_type}, #{deal_location})
+				#{deal_type}, #{latitude}, #{longitude})
  					
  		<selectKey  keyProperty="seq_woo_board" resultType="int" order="AFTER">
 	       SELECT seq_woo_board.currval FROM dual
@@ -133,8 +135,26 @@
 	 	DELETE FROM woo_board WHERE idx=#{idx} AND id=#{id}
 	 </delete>
 	 
-	 
-	 
+	 <!-- 7. 내주변 상품 찾아오기  -->
+	 <select id="searchRadius" resultType="model.WooBoardVO">
+  		SELECT
+			title,
+			id,
+			bname,
+			ltrim(to_char(price,'999,999,999')) price,
+			product_state,
+			three_dimens,
+			product_tag,
+			latitude,
+			longitude,
+			trunc(to_number(DISTNACE_WGS84(#{param1}, #{param2},latitude,longitude)),5) AS disKM,
+			ROWNUM AS rNum 
+		FROM woo_board
+		WHERE 
+			trunc(to_number(DISTNACE_WGS84(#{param1}, #{param2},latitude,longitude)),5)<![CDATA[<=]]> 5
+			AND ROWNUM BETWEEN 1 and 20
+		ORDER BY trunc(to_number(DISTNACE_WGS84(#{param1}, #{param2},latitude,longitude)),5) ASC
+  	</select>
 	 
 	 
 	 

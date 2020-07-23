@@ -9,19 +9,74 @@
 		</div>
 	</section>
     <!-- breadcrumb part end-->
-    
+    <script>
+    var span;
+	window.onload = function(){
+		span = document.getElementById("result");
+		if(navigator.geolocation){
+			span.innerHTML = "Geolocation API를 지원합니다.";
+			
+			var options = {	
+				enableHighAccurcy:true, 
+				timeout:5000,
+				maximumAge:3000
+			};
+			navigator.geolocation.getCurrentPosition(showPosition,showError,options);
+			
+		}
+		else{
+			span.innerHTML = "이 브라우저는 Geolocation API를 지원하지 않습니다.";
+		}	
+	}
+	var showPosition = function(position){
+		//위도를 가져오는 부분
+		var latitude = position.coords.latitude;
+		//경도를 가져오는 부분
+		var longitude = position.coords.longitude;
+		span.innerHTML = "위도:"+latitude+",경도:"+longitude;	
+		
+		////////////////////////////////////////////////////////////////////////
+		//위경도를 text input에 입력
+		document.getElementById("lat").value = latitude;
+		document.getElementById("lon").value = longitude;
+		////////////////////////////////////////////////////////////////////////
+		
+			
+		//위경도를 가져온후 지도 표시
+		initMap(latitude, longitude) ;
+	}
+	var showError = function(error){
+	switch(error.code){
+		case error.UNKNOWN_ERROR:
+			span.innerHTML = "알수없는오류발생";break;
+		case error.PERMISSION_DENIED:
+			span.innerHTML = "권한이 없습니다";break;
+		case error.POSITION_UNAVAILABLE:
+			span.innerHTML = "위치 확인불가";break;
+		case error.TIMEOUT:
+			span.innerHTML = "시간초과";break;
+	}
+	}
+    </script>
     <!-- Search Form Section Begin -->
     <section style="padding-top: 130px">
+    <span id="result" style="display: none"></span>
 	    <div class="search-form">
 	        <div class="container">
 	        	<div class="row">
 	        		<div class="col-9"></div>
 	        		<div class="col-3" style="padding: 0px;">
-	        		<div style="display: inline;">
-	        			<img src="../resources/img/product/map1.png" alt="" style="width: 120px;cursor: pointer;"onclick="location.href='../product/productListMap.woo';"/>
+	        		<div style="display: inline-block;">
+        			    <form:form action="../product/productListMap.woo" method="post">
+				    <!-- 현재위치 위경도 입력상자 -->
+							<input type="hidden" id="lat" name="lat" />
+							<input type="hidden" id="lon" name="lon" />
+							<input type="image" src="../resources/img/product/map1.png" alt=""style="margin-bottom: -20px;width: 120px;cursor: pointer;" />
+		        			<!-- <img src="../resources/img/product/map1.png" alt="" style="width: 120px;cursor: pointer;"onclick="location.href='../product/productListMap.woo';"/> -->
+					    </form:form>
         			</div>
-        			<div style="display: inline;">
-	        			<img src="../resources/img/product/이미지로보기.png" alt="" style="width: 155px; margin-bottom: -10px; cursor: pointer;"onclick="location.href='../product/productList.woo';"/>
+        			<div style="display: inline-block;">
+	        			<img src="../resources/img/product/이미지로보기.png" alt="" style="margin-bottom: -12px;width: 155px; cursor: pointer;"onclick="location.href='../product/productList.woo';"/>
         			</div>
 	        		</div>
 	        	</div>

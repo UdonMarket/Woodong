@@ -124,7 +124,7 @@ public class WooBoardController {
 	//3.상품리스트 상세보기 
 	@RequestMapping("/product/productView.woo")
 	public String productView(Model model, HttpServletRequest req) {
-		
+		//
 		String idx = req.getParameter("idx");
 		String nowPage = req.getParameter("nowPage");
 		
@@ -140,6 +140,7 @@ public class WooBoardController {
 		dto.setContents(dto.getContents().replace("\r\n","<br/>"));
 		
 		model.addAttribute("viewRow", dto);
+		//
 		model.addAttribute("uploadFileList", uploadFileList);
 		model.addAttribute("nowPage", nowPage);
 		
@@ -278,11 +279,20 @@ public class WooBoardController {
 		return "redirect:./productList.woo";
 	}
 	
-	@RequestMapping("/product/productListMap.woo")
-	public String productListMap() {
+	@RequestMapping(value = "/product/productListMap.woo")
+	public String productListMap(Model model, HttpServletRequest req) {
+		
+		//폼값받기
+		double latTxt = (req.getParameter("lat")==null)? 0 : Double.parseDouble(req.getParameter("lat"));
+		double lngTxt = (req.getParameter("lon")==null)? 0 : Double.parseDouble(req.getParameter("lon"));
+		
+		ArrayList<WooBoardVO> searchLists = null;
+		searchLists = sqlSession.getMapper(WooBoardDAOImpl.class).searchRadius(latTxt, lngTxt);
+
+		model.addAttribute("searchLists",searchLists);
+		
 		return "product/productListMap";
 	}
-	
 	
 	
 }

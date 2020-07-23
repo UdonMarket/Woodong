@@ -14,7 +14,7 @@
       	pattern="/**" access="permitAll" />
 
       <security:form-login
-         login-page="/admin/login.woo" default-target-url="/admin/admin.woo"
+         login-page="/admin/login.woo" default-target-url="/admin/admin .woo"
          authentication-failure-url="/admin/login.woo?error"
          login-processing-url="/admin/login" username-parameter="admin_id"
          password-parameter="admin_pw" />

@@ -249,7 +249,7 @@
 									class="box_prive_text">원</span>
 							</div>
 						</dd>
-					</dl>
+					</dl> 
 					<dl>
 						<dt>
 							<label>거래희망 위치 <span>(선택)</span></label>

@@ -262,7 +262,7 @@
 							
 							<div class="">
 								<input class="my_location_map" type="button" onclick="sample4_execDaumPostcode()" value="검색" style="background-color: #fff;"><br>
-							</div>
+							</div> 
 						</dd>
 					</dl>
 				</div>

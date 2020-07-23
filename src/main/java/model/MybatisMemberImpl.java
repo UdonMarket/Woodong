@@ -25,6 +25,8 @@ public interface MybatisMemberImpl {
 	
 	void modify(String var1, String var2);
 	
-	void naverLoginAction(MemberVO var1);
+	int distance(double var1, double var2, double var3, double var4);
 	
+	void naverLoginAction(MemberVO var1);
+	 
 }

@@ -90,10 +90,7 @@ function restartFunc(){
 					<h3> <a href="./productView.woo?idx=${row.idx}&nowPage=${param.nowPage}">${row.title}</a></h3>
 				</div>
 				<div>
-					<h4>${row.price}</h4>
-				</div>
-				<div>
-					<h4>${row.idx}</h4>
+					<h4>${row.price} 원 ( idx : ${row.idx})</h4>
 				</div>
 			</div>
 		 </c:forEach>   

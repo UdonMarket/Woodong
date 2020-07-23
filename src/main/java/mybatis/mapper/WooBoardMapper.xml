@@ -1,15 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper  namespace="model.WooBoardDAOImpl" >
 
-	<!-- 방명록 리스트 게시물 갯수 카운트  버전 (1)-->
-	<!-- <select id="getTotalCount" resultType="int" >
-	SELECT  count(*) FROM woo_board
-	 </select>  -->
 	 
-	 
+	 <!--1. 게시물 갯수 카운트 -->
 	 <select id="getTotalCount" resultType="int" parameterType="model.ParameterVO">
 		SELECT  count(*) FROM woo_board
 	<if test="searchTxt != null and !searchTxt.equals('')">
@@ -18,23 +14,27 @@
 	 </select> 
 
 	 
-	 <!--방명록 리스트 : start 와 end 에 해당하는 게시물 가져오기 (페이지 처리)  -->
-	 
-	 <!--방명록 리스트 버전 1)  -->
-	<!--
-	  <select id="listPage" resultType="mybatis.MyBoardDTO"  parameterType="int">
-	 SELECT * FROM 
-	 	( SELECT Tb.*, rownum rNum FROM 
-	 		(SELECT * FROM myboard 
-	 		
-	 		order by idx DESC ) Tb) 
-	 			WHERE rNum BETWEEN #{param1} AND #{param2}
-	 </select> 
-	 -->
-	 
-	 <!-- 방명록 리스트 버전 2) -->
+	 <!--2. start 와 end 에 해당하는 게시물 가져오기 (페이지 처리 & 검색 처리 )  -->
 	 <select id="listPage" resultType="model.WooBoardVO"  parameterType="model.ParameterVO">
-	 SELECT * FROM 
+	 SELECT  
+	 	idx,
+		title,
+		contents,
+		postdate,
+		id,
+		bname,
+		visitcount,
+		likecount,
+		ltrim(to_char(price,'999,999,999')) price,
+		product_state,
+		chatcount,
+		like_check,
+		three_dimens,
+		product_tag,
+		woopay,
+		deal_type,
+		deal_location
+	 FROM 
 	 	( SELECT Tb.*, rownum rNum FROM 
 	 		(SELECT * FROM woo_board 
 	<if test="searchTxt != null and !searchTxt.equals('')">
@@ -44,35 +44,93 @@
 	 			WHERE rNum BETWEEN #{start} AND #{end}
 	 </select> 
 	 
-	 
-	 <!--  <select id="listPage" resultType="model.WooBoardVO" >
-	 	 SELECT * FROM woo_board 
-	 </select> -->
-	 
-	 
-	<!--  글쓰기 : 파라미터를 전달하는 3번째 방식 -->	 
-	  <insert id="write">
-	 	INSERT INTO woo_board (idx,id,title,contents,bname,image,price,good_state) 
-	 			VALUES (woo_board_seq.nextval,#{id},#{title},#{contents},#{bname},#{image},#{price},#{good_state})
-	 </insert>
-	 
-	 
-	 
-	 <!-- 상세보기 -->
+	 <!--3. 상세보기 -->
 	 <select resultType="model.WooBoardVO" id="view" parameterType="String">
-	 	select * from woo_board where idx = #{param1} 
+	 	SELECT  
+		 	idx,
+			title,
+			contents,
+			postdate,
+			id,
+			bname,
+			visitcount,
+			likecount,
+			ltrim(to_char(price,'999,999,999')) price,
+			product_state,
+			chatcount,
+			like_check,
+			three_dimens,
+			product_tag,
+			woopay,
+			deal_type,
+			deal_location
+	 	FROM woo_board 
+	 	WHERE idx = #{param1} 
 	 </select>
 	 
-	 <!--  
-	  수정처리하기
-	 -->
-	 <update id="modify" parameterType="model.WooBoardVO" >
-	 	UPDATE woo_board SET contents = #{contents} , name=#{name} WHERE idx= #{idx} AND id=#{id} 
+	 
+	  <!--3-1. 조회수 처리하기 -->
+	 <update id="visitcount">
+	 	UPDATE woo_board SET visitcount = visitcount+1 WHERE idx= #{0}
 	 </update>
 	 
-	 <!--  삭제하기-->
-	 <delete id="delete" parameterType="String">
-	 	DELETE FROM woo_board WHERE idx= #{param1} AND id=#{param2}
+	 <!-- 3-2. 	파일 리스트  -->
+	 <select id="viewFile" parameterType="String"  resultType="model.FileVO">
+	 	SELECT *
+		FROM woo_file 
+	 	WHERE woo_board_idx = #{param1} 
+	 	ORDER BY file_num
+	 </select>
+	 
+	 
+	<!-- 4. 글쓰기  -->	 
+	  <insert id="write" parameterType="model.WooBoardVO" >
+	 	INSERT INTO woo_board (
+					idx, id, title, contents, bname,
+					price, product_state, three_dimens, product_tag, woopay, 
+					deal_type, deal_location) 
+		VALUES (
+				seq_woo_board.nextval, #{id}, #{title}, #{contents}, #{bname},
+				#{price}, #{product_state}, #{three_dimens}, #{product_tag}, #{woopay}, 
+				#{deal_type}, #{deal_location})
+ 					
+ 		<selectKey  keyProperty="seq_woo_board" resultType="int" order="AFTER">
+	       SELECT seq_woo_board.currval FROM dual
+	    </selectKey>			
+	 </insert>
+	 
+	 <!--4-1. 파일 업로드  -->
+	 <insert id="insertFile" parameterType="map">
+   	
+		INSERT INTO woo_file
+		(
+			woo_file_idx,
+			woo_board_idx,
+			file_num,
+			original_name,
+			save_name,
+			user_id
+		)
+		VALUES(
+			seq_woo_file.NEXTVAL,
+			#{woo_board_idx},
+			#{file_num},
+			#{original_name},
+			#{save_name},
+			#{user_id}
+		)
+    </insert> 
+	  
+	  
+    <!--5. 수정처리하기 -->
+	 <update id="modify" parameterType="model.WooBoardVO">
+	 	UPDATE woo_board SET contents = #{contents} , name=#{name} WHERE idx= #{idx} AND id=#{id} 
+	 </update>
+   
+	 
+	 <!--6.  삭제하기-->
+	 <delete id="delete" parameterType="model.ParameterVO" >
+	 	DELETE FROM woo_board WHERE idx=#{idx} AND id=#{id}
 	 </delete>
 	 
 	 

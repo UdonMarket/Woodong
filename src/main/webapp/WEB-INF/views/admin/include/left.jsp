@@ -110,7 +110,7 @@
 						class="ni ni-bullet-list-67 text-red"></i> 게시판 생성
 				</a></li>
 				<li class="nav-item"><a class="nav-link "
-					href="../admin/banwordTable.woo"> <i
+					href="../admin/boardTable.woo"> <i
 						class="ni ni-bullet-list-67 text-red"></i> 게시판
 				</a></li>
 				<li class="nav-item"><a class="nav-link "

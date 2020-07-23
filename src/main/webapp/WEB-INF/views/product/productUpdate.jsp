@@ -11,7 +11,7 @@
 <!-- head.jsp -->
 <jsp:include page="../include/head.jsp" />
 <body>
-<!--우동 파일명 : productWrite.jsp  -->
+<!--우동 파일명 : productUpdate.jsp  -->
 
 	<!--::header part start::-->
 	<!-- header.jsp -->
@@ -29,7 +29,7 @@
 
 	<!-- ================ contact section start ================= -->
 	<section class="contact-section section_padding" style="padding-top: 50px">
-	<form:form name="writeFrm" action="./writeAction.woo" method="post" enctype="multipart/form-data">
+	<form:form name="updateFrm" action="./updateAction.woo" method="post" enctype="multipart/form-data">
 		<div class="container">
 			<div class="regist_box">
 				<div class="description">
@@ -42,8 +42,8 @@
 								<ul>
 									<li>
 										<label>
-											<input type="checkbox" name="woopay_check" value="" /> 우동페이 (이용)
-											<input type="hidden" name="woopay" value="N" /> 
+											<input type="checkbox" name="woopay_check" value="${viewRow.woopay}" /> 우동페이 (이용)
+											<input type="hidden" name="woopay" value="${viewRow.woopay}" /> 
 										</label>
 									</li>
 								</ul>
@@ -136,8 +136,8 @@
 							<ul>
 								<li>
 									<label>
-										<input type="checkbox" name="three_check" value=""/> 3D 이미지 (이용)
-										<input type="hidden" name="three_dimens" value="N"/> 
+										<input type="checkbox" name="three_check" value="${viewRow.three_dimens}"/> 3D 이미지 (이용)
+										<input type="hidden" name="three_dimens" value="${viewRow.three_dimens}"/> 
 									</label>
 								</li>
 							</ul>
@@ -153,7 +153,7 @@
 							<label style="color: rgb(51, 51, 51);">제목</label>
 						</dt>
 						<dd>
-							<input type="text" class="title_input" placeholder="상품 제목을 입력하세요" name="title">
+							<input type="text" class="title_input" placeholder="상품 제목을 입력하세요" name="title" value="${viewRow.title}">
 						</dd>
 					</dl>
 					<dl id="category">
@@ -165,7 +165,7 @@
 								<select name="bname">
 									<option value="" hidden="">카테고리</option>
 									<c:forEach items="${selectlist}" var="row">
-									<option value="${row.bname}">${row.bname}</option>
+									<option value="${viewRow.bname}">${viewRow.bname}</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -184,13 +184,9 @@
 설명되지 않은 하자나 문제 발생시 책임은 판매자에게 있습니다.
 - 구매정보(구매일시, 구매시 가격)
 - 상품 정보(사이즈, 색상, 브랜드 등)
-- 상품 사용감(스크래치, 고장, 수리 여부 등)"></textarea>
+- 상품 사용감(스크래치, 고장, 수리 여부 등)">${viewRow.contents}</textarea>
 						</dd>
 					</dl>
-					<!-- 상품 태그 :) 
-						 1.태그 입력후   태그 저장 클릭시 span 태그와 hidden input에 값  입력됨 
-						 2.태그를 입력하지 않을시 div 박스는 display none 상태 유지
-					 -->
 					<dl id="mainDiv">
 						<dt>
 							<label>태그</label>
@@ -278,8 +274,8 @@
 						<dt style="color: rgb(51, 51, 51);">판매가격</dt>
 						<dd>
 							<div class="box_price box_area">
-								<input type="text" placeholder="판매희망 가격을 입력하세요"class="sell_type_input" name="price">
-									<span class="box_prive_text">원</span>
+								<input type="text" placeholder="판매희망 가격을 입력하세요"class="sell_type_input" name="price" value="${viewRow.price}">
+									<span class="box_prive_text"> 원</span>
 							</div>
 						</dd>
 					</dl>
@@ -289,7 +285,7 @@
 						</dt>
 						<dd class="map_box">
 							<!-- readonly="" -->	
-							<input type="text" class="my_location_input item_location_input" placeholder="위치 선택"  name="deal_location">
+							<input type="text" class="my_location_input item_location_input" placeholder="위치 선택"  name="deal_location" value="${viewRow.deal_location}">
 							<div class="close_button item_close_button"></div>
 							<div class="my_location_map">
 								<span>검색</span>

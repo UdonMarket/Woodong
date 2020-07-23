@@ -116,12 +116,5 @@ public class WooBoardController {
 		return "product/productListMap";
 	}
 	
-	@RequestMapping("/community/community.woo")
-	public String community(Model model, HttpServletRequest req) {
-		String location = ".." + req.getServletPath();
-		List<BoardListVO> blists = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
-				.selectBoard(location);
-		model.addAttribute("blists", blists);
-		return "community/community";
-	}
+	
 }

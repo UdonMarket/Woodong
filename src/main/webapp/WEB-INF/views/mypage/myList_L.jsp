@@ -44,17 +44,14 @@ function restartFunc(){
 	<!-- Header part end-->
 
 	<jsp:include page="../include/mypageLeft.jsp" />
-	<section class="left_main"
-		style="padding-top: 30px; padding-left: 50px;">
-		<div class="cat_box">
-			<div class="my_specialist_name">
-				전체 <span>1</span>
-			</div>
-			<!-- <select class="mobile_filter_icon profile_filter_icon"><option
-					value="current-wish">찜한 상품순</option>
-				<option value="high-wish">찜 많은 상품순</option>
-				<option value="lowprice">저가순</option>
-				<option value="current">최근 등록순</option></select> -->
+		<section class="left_main" style="padding-top: 100px;padding-left: 70px;">
+							<div class="col-12" style="text-align: center;">
+					          	<img src="../resources/img/myPage/관심목록1.png" alt="" width="280px;"/>
+					        </div>
+							<div class="cat_box">
+								<div class="my_specialist_name">
+									 <span></span>
+								</div>	
 		</div>
 
 		<div class="tab_content">
@@ -81,9 +78,7 @@ function restartFunc(){
 														class="thumbnail_img" alt="18인치 휠 타이어 판매합니다(배송비,스페이스1조포함)" />
 												</div>
 												<div class="dealer_text_position">
-													<img
-														src="https://ccimage.hellomarket.com/web/2020/item/ico_badge_thumbnail_hellopay_x2.png"
-														alt="헬로페이 아이콘" style="width: 43px; height: 21px" />
+													
 												</div>
 											</div>
 										</div>
@@ -96,15 +91,10 @@ function restartFunc(){
 							</a>
 								<div class="image_wish_box">
 								
-								<%-- <c:if test="${list.idx ne idx}"><!-- 빈하트 -->
-								<img src="../resources/img/2.png" width="30px;" height="30px" name = "${list.idx}" onclick="like_toggle(${list.idx},1);"/>
-
-								</c:if> --%>
-								<%-- <c:if test="${list.idx eq idx}"><!-- 빨간하트 --> --%>
+								
 								<img src="../resources/img/1.png" width="30px;" height="30px" name = "${list.idx}" onclick="like_toggle(${list.idx});"/>
 
-							<%-- 	</c:if> --%>
-								
+							
 								</div>
 							</li>
 						</c:forEach>
@@ -114,15 +104,7 @@ function restartFunc(){
 				<ul class="pagination justify-content-center">
 					${pagingImg }
 				</ul>
-				<!-- <div class="paging">
-					<ul>
-						<li></li>
-						<li class="active"><a href="/s/@16128097?tab=wish&amp;page=1">
-								<div class="paging_box">1</div>
-						</a></li>
-						<li></li>
-					</ul>
-				</div> -->
+				
 			</div>
 		</div>
 	</section>

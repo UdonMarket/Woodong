@@ -57,9 +57,7 @@
 		DELETE FROM woo_member WHERE id=#{param1} AND pass=#{param2} 	
  	</delete>
  	
- 	<select id="myInfo" resultType="model.MemberVO">
- 		select * from woo_member where id=#{0}
- 	</select>
+ 	
  	
  	<!-- 동네인증 -->
   	<select id="view" resultType="model.MemberVO">

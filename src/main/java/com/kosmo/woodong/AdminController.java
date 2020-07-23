@@ -13,9 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import model.BoardListVO;
+import model.Listaaa;
 import model.BoardListImpl;
 import model.MemberVO;
 import model.MybatisMemberImpl;
@@ -159,4 +164,10 @@ public class AdminController {
 		
 		return "redirect:../admin/addBoard.woo";
 	}
+	
+	@RequestMapping("/admin/boardTable.woo")
+	public String boardTable() {
+		return "admin/board/boardTable";
+	}
+
 }

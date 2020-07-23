@@ -15,6 +15,21 @@ public class WooBoardVO {
 	private String good_state;
 	private String chatcount;
 	private int like_check;
+	private String review_score;
+	
+	
+
+	public String getReview_score() {
+		return review_score;
+	}
+
+	public void setReview_score(String review_score) {
+		this.review_score = review_score;
+	}
+
+	public void setBname(String bname) {
+		this.bname = bname;
+	}
 
 	public String getIdx() {
 		return this.idx;

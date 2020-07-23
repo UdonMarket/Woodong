@@ -42,12 +42,15 @@
 													
 												</div>
 												<div class="my_profile_pro_review">
-													
 													<div class="my_profile_pro_review_box">
-														<a href="/s/@16128096?tab=review"><span>거래후기</span><span>${memberVO.avg_score} 점</span>
+														<a href="/s/@16128096?tab=review">
+														
+														
+														<span>거래후기</span><span>${memberVO.avg_score} 개</span>
 														<div class="my_profile_pro_review_rating">
 															${score }
 														</div>
+													<div style="padding-left: 90px"><span>거래횟수 : </span><span>${memberVO.trade_count} 번</span></div>
 														</a>
 													</div>
 												</div>

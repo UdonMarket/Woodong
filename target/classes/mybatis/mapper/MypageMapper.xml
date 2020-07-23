@@ -13,7 +13,7 @@
 	</select>
 	<!-- avg-score update -->
 	<update id="avg_score_update">
-		update woo_member set avg_score = #{0}
+		update woo_member set avg_score = #{0} where id = #{1}
 	</update>
 	
 	

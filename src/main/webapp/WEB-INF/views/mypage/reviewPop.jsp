@@ -88,7 +88,7 @@ function writeValidate(f)
       <h4>어떤 점이 좋았나요?</h4>
       <form:form  name="writeFrm" method="post" onsubmit="return writeValidate(this);" action="write_review_contents.woo">
          	<input type ="hidden" value="" id="cal_reviewPoint" name="cal_reviewPoint"/>
-      <input type="hid den" name ="write_idx" value="${idx}"/>
+      <input type="hidden" name ="write_idx" value="${idx}"/>
       <div class="ystMZ36gvH row" style="padding-top: 10px;">
          <div class="_30-j0z23yB col-12">
             <textarea class="_2mqbEheJIc" id="reviewInput"  name ="contents" cols="30"

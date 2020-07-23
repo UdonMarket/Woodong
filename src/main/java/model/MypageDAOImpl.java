@@ -32,6 +32,6 @@ public interface MypageDAOImpl {
 	
 	public int update_reviewScore(String cal_reviewPoint, String write_idx);
 	
-	public int avg_score_update(double avg_score);
+	public int avg_score_update(double avg_score, String user_id);
 }
 

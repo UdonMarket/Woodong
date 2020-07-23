@@ -49,9 +49,10 @@ public class MypageController {
 		int trade_count = Integer.parseInt(memberVO.getTrade_count());
 		
 		double avg_score1 = review_scoreSum / (double)trade_count;
+		System.out.println("업데이트 할 avg_score1 : " + avg_score1);
 		double avg_score2 = ((double)Math.round(avg_score1*10)/10);
 		System.out.println("업데이트 할 avg_score2 : " + avg_score2);
-		int avg_score_update = sqlSession.getMapper(MypageDAOImpl.class).avg_score_update(avg_score2);	
+		int avg_score_update = sqlSession.getMapper(MypageDAOImpl.class).avg_score_update(avg_score2, user_id);	
 		double avg_score = Double.parseDouble(memberVO.getAvg_score());
 		System.out.println("업데이트 된avg_score : " + avg_score);
 

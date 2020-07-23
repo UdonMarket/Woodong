@@ -18,10 +18,10 @@
 	        		<div class="col-9"></div>
 	        		<div class="col-3" style="padding: 0px;">
 	        		<div style="display: inline;">
-	        			<img src="../resources/img/product/map1.png" alt="" style="width: 120px;"/>
+	        			<img src="../resources/img/product/map1.png" alt="" style="width: 120px;cursor: pointer;"onclick="location.href='../product/productListMap.woo';"/>
         			</div>
         			<div style="display: inline;">
-	        			<img src="../resources/img/product/이미지로보기.png" alt="" style="width: 155px; ,margin-bottom: -10px"/>
+	        			<img src="../resources/img/product/이미지로보기.png" alt="" style="width: 155px; margin-bottom: -10px; cursor: pointer;"onclick="location.href='../product/productList.woo';"/>
         			</div>
 	        		</div>
 	        	</div>
@@ -44,6 +44,7 @@
 	                                <option value="">최신순</option>
 	                                <option value="">저가순</option>
 	                                <option value="">고가순</option>
+	                                <option value="">인기순</option>
 	                            </select>
 	                            <select>
 	                                <option value="">상품상태</option>
@@ -60,8 +61,10 @@
 	                            </select>
 	                            <select>
 	                                <option value="">판매자 온도</option>
-	                                <option value="">튀김우동</option>
-	                                <option value="">일반우동</option>
+	                                <option value="">차가운 일반우동</option>
+	                                <option value="">따뜻한 일반우동</option>
+	                                <option value="">차가운 튀김우동</option>
+	                                <option value="">따뜻한 튀김우동</option>
 	                            </select>
 	                        </div>
 	                        <div class="second-row">
@@ -77,7 +80,7 @@
 	                                </div>
 	                                <div id="price-range" class="slider" style="background: #d9d9d9;"></div>
 	                            </div> 
-	                            <button type="button" class="search-btn">Search</button>
+	                            <button type="button" class="search-btn" style="border: 0;">Search</button>
 	                        </div>
 	                      </form:form>
 	                </div>

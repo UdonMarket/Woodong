@@ -9,6 +9,8 @@
 <jsp:include page="../include/head.jsp" />
 <body>
 
+<!--우동 파일명 : productList.jsp  -->
+
 	<!--::header part start::-->
 	<!-- header.jsp -->
 	<jsp:include page="../include/hearder.jsp" />
@@ -52,15 +54,15 @@ var loadlist = function(){
        	    	nowPage--;
        	    	
        	    	//페이지 끝에 도달시 스크롤 업! 수정 예정
-       	    	$( 'html, body' ).animate( { scrollTop : 100 }, 400 );
-       	    	state=''
+       	    	//$( 'html, body' ).animate( { scrollTop : 0 }, 'slow' );
+       	    	state='';
       	    }
        	    else {
        	   		//console.log(rdata.length);
 				//console.log(rdata);
 				$('#boardHTML').append(rdata);
 				totallist += rdata;
-				history.replaceState({total:totallist, page:nowPage},'Page '+ nowPage,'./productList.woo?##'); 
+				//history.replaceState({total:totallist, page:nowPage},'Page '+ nowPage,'./productList.woo?##'); 
        	    	nowPage++;
        	    }
            	scrollchk = true; //데이터 로딩이 끝나면 스크롤체크를 풀어준다.  
@@ -87,7 +89,7 @@ $(window).scroll(function(){
 });  
 
 //4.
-if(location.hash){  //현재 주소에 ##이라는앵커가 박혀있을경우 true가 발생한다.  
+/* if(location.hash){  //현재 주소에 ##이라는앵커가 박혀있을경우 true가 발생한다.  
     //앵커가 박혔다는것은 새 페이지 진입이아니라 한번이라도 로딩이 있었던 페이지이므로  
     //뒤로가기로 왔다는 뜻이된다.  
 	var data = history.state; //아까 데이터로 보낸부분이 history.state에 저장이되어있다.  
@@ -99,7 +101,7 @@ if(location.hash){  //현재 주소에 ##이라는앵커가 박혀있을경우 t
 		loadlist(); 
 		scrollchk = true;  //데이터 세팅 종료 후 스크롤 체크  
 	}   
-}
+} */
 
 </script>
 

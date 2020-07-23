@@ -54,4 +54,9 @@
 	<update id="updateOrder3" parameterType="model.BoardListVO">
 		UPDATE boardlist SET boardorder = #{boardorder} WHERE idx=#{idx}
 	</update>
+	
+	<!--bname 검색  -->
+	<select id="selectBname" resultType="model.BoardListVO">
+		SELECT * FROM boardlist
+	</select>
 </mapper> 

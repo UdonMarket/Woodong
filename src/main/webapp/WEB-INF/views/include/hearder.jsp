@@ -58,7 +58,7 @@
 								</a>
 							</li>
 							<li class="nav-item" style="margin-right: 50px;margin-top:5px;">
-								<a class="nav-link" href="../mypage/myPage.woo" style="font-size: 1.5em">
+								<a class="nav-link" href="../mypage/myList_L.woo" style="font-size: 1.5em">
 									<img src="../resources/img/header/myPage.png" alt="나의우동" />
 								</a>
 							</li>

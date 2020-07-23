@@ -6,7 +6,21 @@
 	
 	<!-- head.jsp -->
 	<jsp:include page="../include/head.jsp"/>
-	
+	<script>
+	function write_review(idx,title,id) {
+		$.ajax({
+			url : "./write_review.woo",
+			type:"get",
+		    contentType:"text/html;charset:utf-8",
+		    data:{idx : idx, title:title, id:id},
+		    dataType : "json" ,
+		 	success : function(d){},
+		 	error : function(request,status,error) {
+	          console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		     }
+		});
+	}
+	</script>
 	<body>
 		<!--::header part start::-->
 		<!-- header.jsp --> 
@@ -52,6 +66,14 @@
 														<div class="cont">
 															<div class="item_title related_item_icon">${list.title }</div>
 															<div class="item_price profile_price">${list.price }원</div>
+															
+														<div style="text-align: right;">
+															 <a href="javascript:void(0);" onclick="window.open('../mypage/reviewPop.woo?idx=${list.idx}', '_blank', 'height=430; width=480; top=200; left=700;', true);"> 
+																	
+																<img src="../resources/img/myPage/리뷰작성.png" style="width: 90px; height:40px;" onclick="write_review('${list.idx}','${list.title}','${list.id}');"/>
+															 </a> 
+														</div>
+														
 														</div>
 													</div></a>
 											

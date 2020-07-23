@@ -19,9 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import model.BoardListDTO;
 import model.BoardListImpl;
+import model.BoardListVO;
 import model.FileVO;
+import model.MypageDAOImpl;
 import model.ParameterVO;
 import model.WooBoardDAOImpl;
 import model.WooBoardVO;
@@ -149,7 +150,7 @@ public class WooBoardController {
 	@RequestMapping("/product/productWrite.woo")
 	public String productWrite(Principal principal,Model model) {
 		
-		List<BoardListDTO> selectlist = null;
+		List<BoardListVO> selectlist = null;
 		String user_id="";
 		try {
 			user_id = principal.getName();
@@ -202,7 +203,7 @@ public class WooBoardController {
 		String nowPage = req.getParameter("nowPage");
 		String bname = req.getParameter("bname");
 		String user_id = "";
-		List<BoardListDTO> selectlist = null;
+		List<BoardListVO> selectlist = null;
 		
 		try {
 			user_id = principal.getName();

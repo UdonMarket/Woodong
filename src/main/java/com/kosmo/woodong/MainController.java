@@ -2,6 +2,7 @@ package com.kosmo.woodong;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
+import model.BoardListImpl;
+import model.BoardListVO;
 import model.MemberVO;
 import model.MybatisMemberImpl;
 import naverlogin.NaverLoginBO;

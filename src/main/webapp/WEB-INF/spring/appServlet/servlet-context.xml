@@ -46,4 +46,8 @@
 	<beans:bean id="echoHandler" class="util.EchoHandler"/>
 	
 	<tx:annotation-driven transaction-manager="txManager" />
+	
+	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
+	<beans:bean id="naverLoginBO"
+		class="naverlogin.NaverLoginBO" />
 </beans:beans>

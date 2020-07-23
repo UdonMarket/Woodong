@@ -70,4 +70,10 @@
   		UPDATE woo_member SET addr=#{0} WHERE id=#{1}
   	</update>
  	
+ 	<!-- 네이버 아이디 로그인 처리 -->
+ 	<insert id="naverLoginAction" parameterType="model.MemberVO">
+ 		 insert into woo_member(id,mobile,pass)
+      values(#{id},#{mobile},#{pass})  
+ 	</insert>
+ 	
  </mapper>

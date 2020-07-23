@@ -37,7 +37,7 @@ function frmCheck(frm) {
 	//아이디 6자 이상 12자 이내의 영문/숫자 조합하여 공백 없이 기입 및 이메일 형식 체크
 	function idAssemble(frm) {
 		
-		 var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+)$/;
+		 var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+).{6,12}$/;
 
 			
 		var flag = true;

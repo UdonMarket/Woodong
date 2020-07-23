@@ -2,7 +2,9 @@ package model;
 
 import java.util.List;
 import java.util.Map;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface BoardListImpl {
 	
 	int selectMaxOrder(String location);
@@ -26,4 +28,6 @@ public interface BoardListImpl {
 	void updateOrder1(String idx);
 	void updateOrder2(ParameterVO parameterVO);
 	void updateOrder3(BoardListVO boardListVO);
+	//bname 검색
+	List<BoardListVO> selectBname();
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%> 
 
 <!doctype html>
 <html lang="zxx">
@@ -49,20 +50,31 @@
 									    <li data-target="#demo" data-slide-to="0" class="active"></li>
 									    <li data-target="#demo" data-slide-to="1"></li>
 									    <li data-target="#demo" data-slide-to="2"></li>
+								  		
 									  </ul>
-									  
+								   <form:form name="viewForm" role="form" >
+										<input type="hidden"  name="bname" value="${viewRow.bname}" />
+										<input type="hidden"  name="idx" value="${viewRow.idx}" />
+										<input type="hidden"  name="nowPage" value="${param.nowPage}"> 
+									</form:form>
+										<%-- <input type="hidden"  name="searchType" value="${param.searchType}"> 
+										<input type="hidden"  name="keyword" value="${param.keyword}">  --%>
 									  <!-- The slideshow -->
-									  <div class="carousel-inner">
+								  <div class="carousel-inner">
+									   
+								    <c:forEach var="uploadFile" items="${uploadFileList}" varStatus="status">
+								    	<c:if test="${status.first}">
 									    <div class="carousel-item active">
-									      <img src="../resources/img/product.png" alt="Los Angeles" width="100%" >
+									      <img src="../resources/Upload/${uploadFile.save_name}" style="width: 100%;" />
 									    </div>
+									     </c:if>
+									   <c:if test="${!status.first}">
 									    <div class="carousel-item">
-									      <img src="../resources/img/product.png" alt="Chicago" width="100%">
+									      <img src="../resources/Upload/${uploadFile.save_name}" style="width: 100%;" />
 									    </div>
-									    <div class="carousel-item">
-									      <img src="../resources/img/product.png" alt="New York" width="100%" >
-									    </div>
-									  </div>
+									     </c:if>
+								      </c:forEach>
+								  </div>
 									  
 									  <!-- Left and right controls -->
 									  <a class="carousel-control-prev" href="#demo" data-slide="prev">
@@ -99,18 +111,15 @@
 											<div class="detail_bottom_area">
 												<img src="https://ccimage.hellomarket.com/web/2020/item/ico_detail_info_location_x2.png"
 													alt="지도아이콘" class="item_location_img"><span>${viewRow.deal_location}</span>
-													
 											</div>
 											<div class="detail_bottom_area1 detail_bottom_tag_area" style="margin-left: 10px;">
 													<span class="tag" style="color: #ff4f4f;">
 														<c:forTokens var="item" items="${viewRow.product_tag}" delims="#">
-														<a href="/search?tag=${item}"><button type="button" class="btn_ca">#${item}</button></a>
+														<a href="/search?tag=${item}"><button type="button" class="btn_ca">#${item}${viewRow.idx}</button></a>
 														</c:forTokens>
 													</span>
+												</div>
 											</div>
-											
-										</div>
-
 												<div style="margin-top: 0px;"></div>
 											</div>
 											<div class=" ">
@@ -151,6 +160,8 @@
 												</div>
 											</div>
 										</div>
+									<button type="button" class="btn btn-danger" id="delete_btn" >삭제하기</button>
+									<button type="button" class="btn btn-warning" id="update_btn" >수정하기</button>
 										<div class="col-3" style="border:1px solid #d9d9d9;width: 200px;padding: 20px;margin-left: 10px;margin-top: 50px;">
 											<div class="my_profile_info ">
 												<div class="my_profile_image" style="text-align: center;">
@@ -182,14 +193,36 @@
 							</div>
 						</div>
 					</div>
-					
-					
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
 </div>
+<script>
+$(document).ready(function(){
+	var formObj = $("[name='viewForm']");
+	
+	// 수정 
+	$("#update_btn").on("click", function(){
+		formObj.attr("action", "./productUpdate.woo");
+		formObj.attr("method", "post");
+		formObj.submit();				
+	})
+	
+	// 삭제
+	$("#delete_btn").on("click", function(){
+		
+		var deleteYN = confirm("삭제하시겠습니까?");
+		if(deleteYN){
+		formObj.attr("action", "./productDelete.woo");
+		formObj.attr("method", "post");
+		formObj.submit();
+		}
+	})
+});
+
+</script>
 <!-- subscribe part end -->
 <!-- bottom.jsp -->
 <jsp:include page="../include/bottom.jsp" />

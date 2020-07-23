@@ -10,12 +10,6 @@
 		<property name="username" value="kosmo" />
 		<property name="password" value="1234" />
 	</bean>
-		
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="100000000" />
-    	<property name="maxInMemorySize" value="100000000" /><!--1000byte * 1000 =  1 메가바이트 -->
-	</bean>
-	
 	
 	
 </beans>

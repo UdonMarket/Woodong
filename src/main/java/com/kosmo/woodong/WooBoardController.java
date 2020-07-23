@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
@@ -22,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import model.BoardListDTO;
 import model.BoardListImpl;
+import model.FileVO;
 import model.ParameterVO;
 import model.WooBoardDAOImpl;
 import model.WooBoardVO;
@@ -73,8 +73,8 @@ public class WooBoardController {
 		
 		int total = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).getTotalCount(parameterVO);
 		
-		ArrayList<WooBoardVO> lists = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class))
-				.listPage(parameterVO);
+		ArrayList<WooBoardVO> lists = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).listPage(parameterVO);
+				
 		
 		Iterator itr = lists.iterator();
 
@@ -82,6 +82,15 @@ public class WooBoardController {
 			WooBoardVO dto = (WooBoardVO) itr.next();
 			String temp = dto.getContents().replace("\r\n", "<br/>");
 			dto.setContents(temp);
+			String idx = dto.getIdx();
+			
+			ArrayList<FileVO> uploadFileList = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).viewFile(idx);
+			
+			if(!uploadFileList.isEmpty() && uploadFileList.size()!=0) {
+				//리스트에서 대표이미지 설정
+				String image =  uploadFileList.get(0).getSave_name(); 
+				dto.setImagefile(image);
+			}
 		}
 
 		System.out.println("total : " + total);
@@ -106,13 +115,17 @@ public class WooBoardController {
 		
 		//상세보기
 		WooBoardVO dto = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).view(idx);
+		
 		//조회수 처리
 		int applyRow = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).visitcount(idx);
+
+		//파일 불러오기
+		ArrayList<FileVO> uploadFileList = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).viewFile(idx);
 		
-		System.out.println("상품리스트 상세보기 : "+applyRow);	
 		dto.setContents(dto.getContents().replace("\r\n","<br/>"));
 		
 		model.addAttribute("viewRow", dto);
+		model.addAttribute("uploadFileList", uploadFileList);
 		model.addAttribute("nowPage", nowPage);
 		
 		return "product/productView";
@@ -139,58 +152,111 @@ public class WooBoardController {
 	}
 
 	//4-2.글쓰기 처리
-	@RequestMapping(method = RequestMethod.POST, value="/product/writeAction.woo")
+	@RequestMapping(method = RequestMethod.POST,headers = "content-type=multipart/*", value="/product/writeAction.woo"  )
 	public String productWriteAction(Principal principal, WooBoardVO wooBoardVO ,
-								MultipartHttpServletRequest req) throws Exception {
+								MultipartHttpServletRequest mreq) throws Exception {
 		
+		logger.info("productWriteAction");
+		logger.debug("productWriteAction");
 		
 		String user_id="";
 		user_id = principal.getName();
 		wooBoardVO.setId(user_id);
 		
-		List<Map<String, Object>> lists = new util.FileUtils().parseInsertFileInfo(wooBoardVO, req); 
 		int applyRow = sqlSession.getMapper(WooBoardDAOImpl.class).write(wooBoardVO);
 		
+		List<Map<String, Object>> list = new util.FileUtils().parseInsertFileInfo(wooBoardVO, mreq); 
+		
+		Map<String, Object> map = null;
+		int size = list.size();
+		//파일테이블에 insert
+		for(int i=0; i<size; i++){ 
+			map = list.get(i);
+			sqlSession.getMapper(WooBoardDAOImpl.class).insertFile(map);
+		}
 			
 		return "redirect:productList.woo?nowPage=1";
 	}
 	
 	//5-1.글 수정하기
-	@RequestMapping("/product/modify.woo")
-	public String modify(Model model , MultipartHttpServletRequest req) {
+	@RequestMapping(method = RequestMethod.POST, value="/product/productUpdate.woo")
+	public String update(Model model , HttpServletRequest req,Principal principal) {
 		
+		logger.info("modify");
+		logger.debug("modify");
+		String idx = req.getParameter("idx");
+		String nowPage = req.getParameter("nowPage");
+		String bname = req.getParameter("bname");
+		String user_id = "";
+		List<BoardListDTO> selectlist = null;
 		
-		
-		return "product/modify";
+		try {
+			user_id = principal.getName();
+			//woo_board DB에서  select
+			WooBoardVO dto = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).view(idx);
+			
+			// 로그인한 아이디와 글 작성자의 아이디 비교
+			if(!user_id.equals(dto.getId())) {
+				return "redirect:productList.woo";
+			}
+			
+			//bname 가져오기
+			selectlist = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).selectBname();
+			
+			//파일 불러오기
+			ArrayList<FileVO> uploadFileList = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).viewFile(idx);
+			//엔터 처리
+			dto.setContents(dto.getContents().replace("\r\n","<br/>"));
+			
+			model.addAttribute("viewRow", dto);
+			model.addAttribute("uploadFileList", uploadFileList);
+			model.addAttribute("nowPage", nowPage);
+			model.addAttribute("bname", bname);
+			model.addAttribute("selectlist", selectlist);
+					
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "product/productUpdate";
 	}
+	
+	
 	//5-2.글 수정 처리 하기
-	@RequestMapping("/product/modifyAction.woo")
-	public String modifyAction(){
+	@RequestMapping(method = RequestMethod.POST,headers = "content-type=multipart/*", value="/product/updateAction.woo")
+	public String updateAction(WooBoardVO wooBoardVO , MultipartHttpServletRequest req, Principal principal){
 		
+		logger.info("modifyAction");
+		logger.debug("modifyAction");
+		String user_id = "";
 		
-		
-		return "redirect:./productList.woo";
+		try {
+			user_id = principal.getName();
+			wooBoardVO.setId(user_id);
+			int applyRow = sqlSession.getMapper(WooBoardDAOImpl.class).modify(wooBoardVO);
+					
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:./productView.woo";
 	}
+	
 	//6.글 삭제하기
-	@RequestMapping("/product/delete.woo")
+	@RequestMapping("/product/productDelete.woo")
 	public String delete(HttpServletRequest req , Principal principal) {
 		
 		ParameterVO parameterVO = new ParameterVO();
-		
+		logger.info("delete");
+		logger.debug("delete");
+		String idx = req.getParameter("idx");
 		String user_id = "";
-		String board_idx = "";
+		
 		//로그인 확인
 		try {
 			user_id = principal.getName();
-			parameterVO.setUser_id(user_id);
-			System.out.println("user_id : "+user_id);
-			
-			board_idx = req.getParameter("idx");
-			parameterVO.setBoard_idx(board_idx);
-			
+			parameterVO.setId(user_id);
+			parameterVO.setIdx(idx);
 			int applyRow = sqlSession.getMapper(WooBoardDAOImpl.class).delete(parameterVO);
 					
-			System.out.println("삭제 처리 된 레코드 수 :" + applyRow);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

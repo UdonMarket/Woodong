@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 //우동 게시판 
 public interface WooBoardDAOImpl {
@@ -17,13 +18,20 @@ public interface WooBoardDAOImpl {
 	//3-1. 조회수 처리하기
 	public int visitcount(String idx);
 	
+	//3-2.파일 리스트
+	public ArrayList<FileVO> viewFile(String idx);
 
 	//4.글쓰기
 	public int write (WooBoardVO wooBoardVO);
+	
+	//4-1 . 첨부파일 업로드
+	public int insertFile(Map<String,Object> map);
 	
 	//5.수정처리하기
 	public int modify(WooBoardVO wooBoardVO);
 
 	//6.삭제하기
 	public int delete(ParameterVO parameterVO);   
+	
+	
 }

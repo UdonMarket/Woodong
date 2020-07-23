@@ -24,11 +24,8 @@
 		id,
 		bname,
 		visitcount,
-		image,
 		likecount,
-	  
 		ltrim(to_char(price,'999,999,999')) price,
-	  
 		product_state,
 		chatcount,
 		like_check,
@@ -57,7 +54,6 @@
 			id,
 			bname,
 			visitcount,
-			image,
 			likecount,
 			ltrim(to_char(price,'999,999,999')) price,
 			product_state,
@@ -72,24 +68,59 @@
 	 	WHERE idx = #{param1} 
 	 </select>
 	 
+	 
 	  <!--3-1. 조회수 처리하기 -->
 	 <update id="visitcount">
 	 	UPDATE woo_board SET visitcount = visitcount+1 WHERE idx= #{0}
 	 </update>
 	 
+	 <!-- 3-2. 	파일 리스트  -->
+	 <select id="viewFile" parameterType="String"  resultType="model.FileVO">
+	 	SELECT *
+		FROM woo_file 
+	 	WHERE woo_board_idx = #{param1} 
+	 	ORDER BY file_num
+	 </select>
 	 
 	 
 	<!-- 4. 글쓰기  -->	 
 	  <insert id="write" parameterType="model.WooBoardVO" >
-	 	INSERT INTO woo_board (idx, id, title, contents, bname,
-	 						image, price, product_state, three_dimens, product_tag,
-	 						woopay, deal_type, deal_location) 
-	 			VALUES (seq_woo_board.nextval, #{id}, #{title}, #{contents}, #{bname},
-	 					#{image}, #{price}, #{product_state}, #{three_dimens}, #{product_tag},
-	 					#{woopay}, #{deal_type}, #{deal_location})
+	 	INSERT INTO woo_board (
+					idx, id, title, contents, bname,
+					price, product_state, three_dimens, product_tag, woopay, 
+					deal_type, deal_location) 
+		VALUES (
+				seq_woo_board.nextval, #{id}, #{title}, #{contents}, #{bname},
+				#{price}, #{product_state}, #{three_dimens}, #{product_tag}, #{woopay}, 
+				#{deal_type}, #{deal_location})
+ 					
+ 		<selectKey  keyProperty="seq_woo_board" resultType="int" order="AFTER">
+	       SELECT seq_woo_board.currval FROM dual
+	    </selectKey>			
 	 </insert>
+	 
+	 <!--4-1. 파일 업로드  -->
+	 <insert id="insertFile" parameterType="map">
+   	
+		INSERT INTO woo_file
+		(
+			woo_file_idx,
+			woo_board_idx,
+			file_num,
+			original_name,
+			save_name,
+			user_id
+		)
+		VALUES(
+			seq_woo_file.NEXTVAL,
+			#{woo_board_idx},
+			#{file_num},
+			#{original_name},
+			#{save_name},
+			#{user_id}
+		)
+    </insert> 
 	  
-	  <!--  ltrim(to_char(#{price},'999,999,999'))-->
 	  
     <!--5. 수정처리하기 -->
 	 <update id="modify" parameterType="model.WooBoardVO">
@@ -99,7 +130,7 @@
 	 
 	 <!--6.  삭제하기-->
 	 <delete id="delete" parameterType="model.ParameterVO" >
-	 	DELETE FROM woo_board WHERE idx= #{idx} AND id=#{id}
+	 	DELETE FROM woo_board WHERE idx=#{idx} AND id=#{id}
 	 </delete>
 	 
 	 

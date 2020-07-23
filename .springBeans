@@ -8,6 +8,8 @@
 	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
 		<config>src/main/webapp/WEB-INF/spring/security-context3.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/multipart.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/transaction.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml</config>

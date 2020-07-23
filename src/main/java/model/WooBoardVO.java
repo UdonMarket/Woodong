@@ -25,22 +25,38 @@ public class WooBoardVO {
 	private String woopay;//우동페이 체크
 	private String deal_type;//거래 종류
 	private String deal_location;//거래희망 위치
+	private String imagefile;
+	private List<MultipartFile> file;
 	
-	private List<MultipartFile> imagefile; //파일업로드
+	private int seq_woo_board;
 	
-	private String image;//사진
+	
+	
+	
 	
 	//getter / setter
 	
-	public List<MultipartFile> getImagefile() {
-		return imagefile;
-	}
-	public void setImagefile(List<MultipartFile> imagefile) {
-		this.imagefile = imagefile;
-	}
 	
 	public String getIdx() {
 		return idx;
+	}
+	public int getSeq_woo_board() {
+		return seq_woo_board;
+	}
+	public void setSeq_woo_board(int seq_woo_board) {
+		this.seq_woo_board = seq_woo_board;
+	}
+	public String getImagefile() {
+		return imagefile;
+	}
+	public void setImagefile(String imagefile) {
+		this.imagefile = imagefile;
+	}
+	public List<MultipartFile> getFile() {
+		return file;
+	}
+	public void setFile(List<MultipartFile> file) {
+		this.file = file;
 	}
 	public void setIdx(String idx) {
 		this.idx = idx;
@@ -80,12 +96,6 @@ public class WooBoardVO {
 	}
 	public void setVisitcount(String visitcount) {
 		this.visitcount = visitcount;
-	}
-	public String getImage() {
-		return image;
-	}
-	public void setImage(String image) {
-		this.image = image;
 	}
 	public String getLikecount() {
 		return likecount;

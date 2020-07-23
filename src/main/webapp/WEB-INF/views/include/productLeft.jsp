@@ -18,10 +18,10 @@
 	        		<div class="col-9"></div>
 	        		<div class="col-3" style="padding: 0px;">
 	        		<div style="display: inline;">
-	        			<img src="../resources/img/product/map1.png" alt="" style="width: 120px;"/>
+	        			<img src="../resources/img/product/map1.png" alt="" style="width: 120px;cursor: pointer;"onclick="location.href='../product/productListMap.woo';"/>
         			</div>
         			<div style="display: inline;">
-	        			<img src="../resources/img/product/이미지로보기.png" alt="" style="width: 155px; ,margin-bottom: -10px"/>
+	        			<img src="../resources/img/product/이미지로보기.png" alt="" style="width: 155px; margin-bottom: -10px; cursor: pointer;"onclick="location.href='../product/productList.woo';"/>
         			</div>
 	        		</div>
 	        	</div>
@@ -77,7 +77,7 @@
 	                                </div>
 	                                <div id="price-range" class="slider" style="background: #d9d9d9;"></div>
 	                            </div> 
-	                            <button type="button" class="search-btn">Search</button>
+	                            <button type="button" class="search-btn" style="border: 0;">Search</button>
 	                        </div>
 	                      </form:form>
 	                </div>

@@ -71,4 +71,10 @@
  	<select id="distance" resultType="int">
  		SELECT DISTNACE_WGS84(#{0}, #{1}, #{2}, #{3}) FROM dual
  	</select>
+	 
+ 	<!-- 네이버 아이디 로그인 처리 -->
+ 	<insert id="naverLoginAction" parameterType="model.MemberVO">
+ 		 insert into woo_member(id,mobile,pass)
+      values(#{id},#{mobile},#{pass})  
+ 	</insert>
  </mapper>

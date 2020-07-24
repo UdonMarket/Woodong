@@ -25,6 +25,7 @@
 		bname,
 		visitcount,
 		likecount,
+		imagefile,
 		ltrim(to_char(price,'999,999,999')) price,
 		product_state,
 		chatcount,
@@ -136,8 +137,9 @@
 	 </delete>
 	 
 	 <!-- 7. 내주변 상품 찾아오기  -->
-	 <select id="searchRadius" resultType="model.WooBoardVO">
+	 <select id="searchRadius" resultType="model.WooBoardVO" parameterType="model.ParameterVO">
   		SELECT
+  			idx,
 			title,
 			id,
 			bname,
@@ -147,14 +149,19 @@
 			product_tag,
 			latitude,
 			longitude,
-			trunc(to_number(DISTNACE_WGS84(#{param1}, #{param2},latitude,longitude)),5) AS disKM,
+			trunc(to_number(DISTNACE_WGS84(#{latTxt}, #{lngTxt},latitude,longitude)),5) AS disKM,
 			ROWNUM AS rNum 
 		FROM woo_board
 		WHERE 
-			trunc(to_number(DISTNACE_WGS84(#{param1}, #{param2},latitude,longitude)),5)<![CDATA[<=]]> 5
-			AND ROWNUM BETWEEN 1 and 20
-		ORDER BY trunc(to_number(DISTNACE_WGS84(#{param1}, #{param2},latitude,longitude)),5) ASC
+				trunc(to_number(DISTNACE_WGS84(#{latTxt}, #{lngTxt},latitude,longitude)),5)<![CDATA[<=]]> 5
+				AND ROWNUM BETWEEN 1 and 20
+				<if test="bname!=null and !bname.equals('')">
+					AND bname like #{bname}
+				</if>
+		ORDER BY trunc(to_number(DISTNACE_WGS84(#{latTxt}, #{lngTxt},latitude,longitude)),5) ASC
   	</select>
+	 
+	
 	 
 	 
 	 

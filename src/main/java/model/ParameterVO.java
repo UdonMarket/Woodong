@@ -17,7 +17,29 @@ public class ParameterVO {
 	private String mode;
 	private String dealMode;
 	private String title;
-
+	private Double latTxt;
+	private Double lngTxt;
+	private String bname;
+	
+	
+	public Double getLatTxt() {
+		return latTxt;
+	}
+	public void setLatTxt(Double latTxt) {
+		this.latTxt = latTxt;
+	}
+	public Double getLngTxt() {
+		return lngTxt;
+	}
+	public void setLngTxt(Double lngTxt) {
+		this.lngTxt = lngTxt;
+	}
+	public String getBname() {
+		return bname;
+	}
+	public void setBname(String bname) {
+		this.bname = bname;
+	}
 	public String getUser_id() {
 		return user_id;
 	}

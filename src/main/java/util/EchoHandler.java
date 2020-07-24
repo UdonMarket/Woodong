@@ -2,6 +2,7 @@ package util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,8 @@ public class EchoHandler extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception{
 		sessionList.add(session);
-		logger.info("{}연결됨",session.getId());
+		Map<String, Object> map = session.getAttributes();
+		logger.info("{}연결됨", map.get("id"));
 	}
 	
 	//클라이언트 서버로 메세지 전송 처리

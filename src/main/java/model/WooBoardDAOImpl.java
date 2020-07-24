@@ -34,5 +34,5 @@ public interface WooBoardDAOImpl {
 	public int delete(ParameterVO parameterVO);   
 	
 	//7.내주변 상품 찾아오기
-	public ArrayList<WooBoardVO> searchRadius(double latTxt, double lngTxt);
+	public ArrayList<WooBoardVO> searchRadius(ParameterVO parameterVO);
 }

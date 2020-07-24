@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,5 +30,7 @@ public interface MybatisMemberImpl {
 	int distance(double var1, double var2, double var3, double var4);
 	
 	void naverLoginAction(MemberVO var1);
+	
+	void deleteMember(ParameterVO parameterVO);
 	 
 }

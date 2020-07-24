@@ -13,19 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import model.BoardListVO;
-import model.Listaaa;
 import model.BoardListImpl;
 import model.MemberVO;
 import model.MybatisMemberImpl;
 import model.ParameterVO;
-import oracle.net.aso.p;
 import util.EnvFileReader;
 import util.PagingUtil;
 
@@ -168,6 +162,22 @@ public class AdminController {
 	@RequestMapping("/admin/boardTable.woo")
 	public String boardTable() {
 		return "admin/board/boardTable";
+	}
+
+	@RequestMapping("/admin/memberDelete.woo")
+	public String memberDelete(HttpServletRequest req) {
+		String checkIdList = req.getParameter("checkId");
+		ArrayList<String> idList = new ArrayList<String>();
+		String[] checkIdArr = checkIdList.split("//");
+		for(int i=0 ; i<checkIdArr.length-1 ; i++) {
+			System.out.println(checkIdArr[i]);
+			idList.add(checkIdArr[i]);
+		}
+		ParameterVO parameterVO = new ParameterVO();
+		parameterVO.setList(idList);
+		sqlSession.getMapper(MybatisMemberImpl.class).deleteMember(parameterVO);
+		
+		return "admin/board/memberTable";
 	}
 
 }

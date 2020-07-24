@@ -26,8 +26,22 @@
 				})
 			}
 		});
+		
+		$('#allDelete').click(function() {
+			var checkStr = '';
+			$('[name=choiceCheck]').each(function() {
+				if($(this).is(':checked')==true){
+					checkStr += $(this).val() + '//';
+				}
+			})
+			$('#checkId').val(checkStr);
+			if(confirm('삭제하시겠습니까?') && $('#checkId').val()!=''){
+				$('[name=editOrDelete]').attr('action', '../admin/memberDelete.woo');
+				$('[name=editOrDelete]').submit();
+			}
+		});
 	});
-
+	
 	function isDelete(frm) {
 		var c = confirm("삭제할까요?");
 		if (c) {
@@ -84,11 +98,10 @@
 		</div>
 
 		<!-- 게시판리스트부분 -->
-		<table class="table table-bordered table-hover table-striped"
-			style="width: 100%;">
+		<table class="table table-bordered table-hover table-striped" style="width: 100%;">
 			<colgroup>
 				<col width="50px" />
-				<col width="200px" />
+				<col width="150px" />
 				<col width="150px" />
 				<col width="*" />
 				<col width="120px" />
@@ -107,9 +120,11 @@
 					<th class="text-center">휴대폰번호</th>
 					<th class="text-center">주소</th>
 					<th class="text-center">가입일</th>
-					<th class="text-center">평점</th>
-					<th class="text-center">등급</th>
-					<th class="text-center">거래횟수</th>
+					<c:if test="${param.grade eq 'normal' }">
+						<th class="text-center">평점</th>
+						<th class="text-center">등급</th>
+						<th class="text-center">거래횟수</th>
+					</c:if>
 					<th class="text-center">수정버튼</th>
 					<th class="text-center">삭제버튼</th>
 
@@ -124,25 +139,41 @@
 						<td class="text-center">${row.mobile }</td>
 						<td class="text-center">${row.addr }</td>
 						<td class="text-center">${row.regidate }</td>
-						<td class="text-center">${row.avg_score }</td>
-						<td class="text-center">${row.grade }</td>
-						<td class="text-center">${row.trade_count }</td>
+						<c:if test="${param.grade eq 'normal' }">
+							<td class="text-center">${row.avg_score }</td>
+							<td class="text-center">${row.grade }</td>
+							<td class="text-center">${row.trade_count }</td>
+						</c:if>
 						<td class="text-center">
-							<input type="button" class="btn btn-primary" style="height: 20px; padding-top: 0px"  value="수정" /></td>
+							<form:form action="">
+								<input type="hidden" name="id" value="${row.id }" />
+								<select name="grade">
+									<option value="admin">관리자</option>
+									<option value="normal">회원</option>
+								</select>
+							</form:form>
+							<input type="button" class="btn btn-primary" style="height: 20px; padding-top: 0px"  value="수정" />
+						</td>
 						<td class="text-center"><form:form name="deleteFrm">
 								<button class="btn btn-danger" style="height: 20px; padding-top: 0px"  onclick="isDelete(this.form);">삭제</button>
-								<input type="hid den" name="delete" value="${row.id }" />
 							</form:form></td>
 					</tr>
 				</c:forEach>
 			</tbody>
-
+			
 		</table>
 </div>
+	
+	<div style="text-align: center">
+		<form:form name="editOrDelete">
+			<input type="hidden" id="checkId" name="checkId"/>
+		</form:form>
+		<input type="button" id="allDelete" class="btn btn-danger" style="height: 20px; padding-top: 0px"  value="삭제" />
 	</div>
-
 	<!-- 방명록 반복 부분 e -->
 	<ul class="pagination justify-content-center">${pagingImg }</ul>
+	
+	</div>
 	</div>
 	<!-- Footer -->
 	<%-- <jsp:include page="../include/bottom.jsp" /> --%>

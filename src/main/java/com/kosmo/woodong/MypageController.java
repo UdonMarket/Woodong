@@ -2,7 +2,6 @@ package com.kosmo.woodong;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.MemberVO;
-import model.MybatisMemberImpl;
 import model.MypageDAOImpl;
 import model.ParameterVO;
-import model.WooBoardDAOImpl;
 import model.WooBoardVO;
 import util.PagingUtil;
 

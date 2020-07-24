@@ -94,7 +94,7 @@ window.onload = function(){
 		messageWindow.value += "연결끊기\n";
 	}
 	function wsError(event){
-		alert(event.data);
+		alert("1");
 	}
 	//웹소켓 서버에 메세지를 보낸다.
 	function sendMessage(){

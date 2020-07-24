@@ -77,4 +77,10 @@
  		 insert into woo_member(id,mobile,pass)
       values(#{id},#{mobile},#{pass})  
  	</insert>
+ 	
+ 	<!-- 카카오 아이디 로그인 처리 -->
+ 	<insert id="kakaoLoginAction" parameterType="model.MemberVO">
+ 		 insert into woo_member(id,mobile,pass)
+      values(#{id},#{mobile},#{pass})  
+ 	</insert>
  </mapper>

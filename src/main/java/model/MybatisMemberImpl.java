@@ -28,5 +28,9 @@ public interface MybatisMemberImpl {
 	int distance(double var1, double var2, double var3, double var4);
 	
 	void naverLoginAction(MemberVO var1);
+	
+	void kakaoLoginAction(MemberVO var1);
+	
+	
 	 
 }

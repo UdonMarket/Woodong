@@ -133,7 +133,10 @@
 	 	DELETE FROM woo_board WHERE idx=#{idx} AND id=#{id}
 	 </delete>
 	 
+	 <select id="selectId" resultType="String">
+	 	select id from woo_board where idx = #{0}
 	 
+	 </select>
 	 
 	 
 	 

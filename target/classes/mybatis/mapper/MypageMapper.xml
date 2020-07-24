@@ -54,13 +54,14 @@
 	 
 	 
 	 <select id="selectBoard" resultType="model.WooBoardVO" parameterType="model.ParameterVO"> 
+  		
   		SELECT * FROM (
   			SELECT Tb.*, rownum rNum FROM(
   				SELECT * FROM WOO_BOARD
   					WHERE 1=1
   			<!-- 거래중 -->	
   			<if test="mode.equals('deal')">
-  				and escrow = 'true'
+  				and woopay  = 'Y'
   					<!-- 거래중 & 판매목록 -->	
   				<if test="dealMode.equals('sell')">
   					and id = #{user_id} 
@@ -86,8 +87,15 @@
 			 			#{item}
 					</foreach>
   			</if>	
-  			<!-- 후기는 테이블 따로 할지 의논해봐야함. -->		
-  		ORDER BY idx DESC) TB) WHERE rNum BETWEEN #{start} AND #{end}
+	  		ORDER BY idx DESC) TB) WHERE rNum BETWEEN #{start} AND #{end}
+  	</select>
+  	
+  	<select id="selectReview" resultType="model.MyreviewVO" parameterType="model.ParameterVO">
+  	SELECT * FROM (
+	  			SELECT Tb.*, rownum rNum FROM(
+	  				SELECT * FROM WOO_REVIEW
+	  				WHERE buyer_id = #{user_id} 
+	  		ORDER BY review_idx DESC) TB) WHERE rNum BETWEEN #{start} AND #{end}
   	</select>
 	 
 	 
@@ -103,15 +111,19 @@
   	
   	<!-- review table 업데이트 -->
   	<insert id="update_reviewTable" parameterType="model.ParameterVO">
-  		insert into woo_review (seller_id, buyer_id, idx, title) values (#{id}, #{user_id}, ${idx},#{title})
+  		insert into woo_review (seller_id, buyer_id, review_idx, title) values (#{id}, #{user_id}, ${idx},#{title})
   	</insert>
   	
 	<update id="update_reviewContents">
-		update woo_review set contents = #{0} where idx = #{1}
+		update woo_review set contents = #{0} where review_idx = #{1}
 	</update>
 	
 	<update id="update_reviewScore">
 		update woo_board set review_score = #{0} where idx = #{1}
 	</update>
 	
+	
+	<delete id ="delete">
+		delete from woo_review where review_idx = #{0}
+	</delete>
 </mapper>

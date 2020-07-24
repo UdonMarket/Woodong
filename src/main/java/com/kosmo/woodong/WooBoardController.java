@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import model.BoardListImpl;
 import model.BoardListVO;
 import model.FileVO;
+import model.MemberVO;
 import model.MypageDAOImpl;
 import model.ParameterVO;
 import model.WooBoardDAOImpl;
@@ -78,17 +79,23 @@ public class WooBoardController {
 				
 		
 		Iterator itr = lists.iterator();
-
+		
+		
 		//소영 추가부분
-		String user_id = principal.getName();
-
-		String str = sqlSession.getMapper(MypageDAOImpl.class).selectLike(user_id);
-		String[] splitStr = str.split("#");
-
-		for (int i = 0; i < lists.size(); i++) {
+		String user_id = "";
+		if(principal!=null) {
+			user_id = principal.getName();
+			System.out.println("user_id" + user_id);
+			mv.addObject("user_id", user_id);
+			System.out.println("user_id" + user_id);
+			String str = sqlSession.getMapper(MypageDAOImpl.class).selectLike(user_id);
+			String[] splitStr = str.split("#");
+			
+			for (int i = 0; i < lists.size(); i++) {
 				for (int j = 0; j < splitStr.length; j++) {
-				if(splitStr[j].equals(lists.get(i).getIdx())) {
-					lists.get(i).setLike_check(1);
+					if(splitStr[j].equals(lists.get(i).getIdx())) {
+						lists.get(i).setLike_check(1);
+					}
 				}
 			}
 		}
@@ -118,6 +125,7 @@ public class WooBoardController {
 
 		mv.setViewName("product/ajaxList");
 		mv.addObject("lists", lists);
+		
 		return mv;
 	}
 
@@ -127,6 +135,78 @@ public class WooBoardController {
 		
 		String idx = req.getParameter("idx");
 		String nowPage = req.getParameter("nowPage");
+		
+		String seller_id = sqlSession.getMapper(WooBoardDAOImpl.class).selectId(idx);
+		System.out.println("seller_id" + seller_id);
+		
+		
+		ArrayList<String> review_score  = sqlSession.getMapper(MypageDAOImpl.class).review_score(seller_id);
+		double review_scoreSum = 0;
+		for(int i=0; i<review_score.size(); i++) {
+			review_scoreSum += Double.parseDouble(review_score.get(i));
+		}
+		System.out.println("review_scoreSum" + review_scoreSum);
+		MemberVO memberVO = sqlSession.getMapper(MypageDAOImpl.class).myInfo(seller_id);
+		
+		int trade_count = Integer.parseInt(memberVO.getTrade_count());
+		double avg_score1 = 0;
+		if(trade_count==0) {
+			avg_score1 = 1;
+		}
+		else {
+			avg_score1 = review_scoreSum / (double)trade_count;
+		}
+		double avg_score2 = ((double)Math.round(avg_score1*10)/10);
+		int avg_score_update = sqlSession.getMapper(MypageDAOImpl.class).avg_score_update(avg_score2, seller_id);	
+		double avg_score = Double.parseDouble(memberVO.getAvg_score());
+
+		String score = "";
+
+		int full = (int) avg_score % 5;
+		int half = (int) ((avg_score - full) * 10);
+		for (int i = 1; i <= full; i++) {
+			score += "<img src='../resources/img/그냥튀김우동.png' alt='' />";
+		}
+		if (half < 5) {
+			for (int j = full + 1; j <= 5; j++) {
+				score += "<img src='../resources/img/회색우동.png' alt='' />";
+			}
+		} else {
+			score += "<img src='../resources/img/반쪽우동.png' alt='' />";
+			for (int j = full + 2; j <= 5; j++) {
+				score += "<img src='../resources/img/회색우동.png' alt='' />";
+			}
+		}
+
+		String udongGrade = "";
+
+		if (trade_count < 5) {
+			udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
+		} else if (trade_count >= 5 && trade_count < 10) {
+			if (avg_score >= 1 && avg_score < 2)
+				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
+			else
+				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
+		} else if (trade_count >= 10 && trade_count < 15) {
+			if (avg_score >= 1 && avg_score < 2)
+				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
+			else if (avg_score >= 2 && avg_score < 4)
+				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
+			else
+				udongGrade += "<img src='../resources/img/파랑온도계.png' alt='' />";
+		} else if (trade_count >= 15) {
+			if (avg_score >= 1 && avg_score < 2)
+				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
+			else if (avg_score >= 2 && avg_score < 4)
+				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
+			else
+				udongGrade += "<img src='../resources/img/빨간온도계.png' alt='' />";
+		}
+
+		model.addAttribute("memberVO", memberVO);
+		model.addAttribute("score", score);
+		model.addAttribute("udongGrade", udongGrade);
+		
 		
 		//상세보기
 		WooBoardVO dto = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).view(idx);

@@ -18,8 +18,10 @@
          login-processing-url="/admin/login" username-parameter="admin_id"
          password-parameter="admin_pw" />
          
+       <security:remember-me key="remember-key" token-validity-seconds="604800" remember-me-parameter="remember-me-param"/>  
+         
       <security:logout logout-url="/admin/logout"
-         logout-success-url="/admin/admin.woo" />
+         logout-success-url="/admin/admin.woo" invalidate-session = "true" delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE"/>
       <security:access-denied-handler
          error-page="/admin/admin.woo" />
    </security:http>
@@ -44,7 +46,7 @@
          login-processing-url="/loginAction" username-parameter="name"
          password-parameter="password" />
       <security:logout logout-url="/logout"
-         logout-success-url="/main/main.woo" />
+         logout-success-url="/main/main.woo" invalidate-session = "true" delete-cookies="JSESSIONID"/>
       <security:access-denied-handler
          error-page="/main/main.woo" />
    </security:http>

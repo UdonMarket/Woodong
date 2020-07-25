@@ -53,7 +53,7 @@
                                 <div class="col-md-12 form-group">
 	                                 <div style="margin-bottom:20px;">
 	                                    <button type="button" class="btn_3" >
-	                                        인증요청
+	                                    	 인증요청
 	                                    </button>
                                     </div>
                                 </div>

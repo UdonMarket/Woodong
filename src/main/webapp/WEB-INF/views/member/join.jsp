@@ -7,65 +7,50 @@
 <!-- head.jsp -->
 <jsp:include page="../include/head.jsp"/>
 <script>
-//폼값체크
-function frmCheck(frm) {
-	
-	if(!frm.email.value){
-		alert("이메일을 입력하세요");
-		frm.email.focus();
-		return false;
-	}
-	if(!idAssemble(frm)){
-		alert("아이디는 6자 이상 12자 이내의 영문/숫자(@포함)를 조합하여 기입해주세요");
-		return false;
-	}
-	if(!frm.pass.value){
-		alert("비밀번호를 입력하세요");
-		frm.pass.focus();
-		return false;
-	}
-	if(!passAssemble()){
-		alert("비밀번호는 6자 이상 12자 이내의 영문/숫자를 조합하여 기입해주세요");
-		return false;
-	}
-	if(!frm.mobile.value){
-		alert("핸드폰번호를 입력하세요");
-		frm.mobile.focus();
-		return false;
-	}
-}	
-	//아이디 6자 이상 12자 이내의 영문/숫자 조합하여 공백 없이 기입 및 이메일 형식 체크
-	function idAssemble(frm) {
-		
-		 var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+).{6,12}$/;
+// 공백 체크 정규식
+var empJ = /\s/g;
+// 아이디 정규식 - '_'특수문자가 가능하며 중앙에 @ 필수 그리고 뒤에 2~3글자가 필요하다.
+var mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+// 비밀번호 정규식 - A~Z, a~z, 0~9로 시작하는 4~12자리 비밀번호를 설정할 수 있다.
+var pwJ = /^[A-Za-z0-9]{4,12}$/; 
+//휴대폰 번호 정규식 - 01?(3글자)방식으로 나머지 적용해서 보면된다.
+var phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
 
-			
-		var flag = true;
-		if(!reg_email.test($('input[id=email]').val())){
-			flag = false;
-			return false;
+$(function(){
+	// 아이디
+	$("#email").blur(function() {
+		if (mailJ.test($(this).val())) {
+				console.log(mailJ.test($(this).val()));
+				$("#id_check").text('');
+		} else {
+			$('#id_check').text('이메일을 확인해주세요');
+			$('#id_check').css('color', 'red');
 		}
-		 else{
-			return true;
-		}  
-	}
-	
-	//비밀번호 4자 이상 12자 이내의 영문/숫자 조합하여 공백 없이 기입
-	function passAssemble() {
-		var frm = document.joinFrm;
-		var regex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,12}$/;
-		/* var regex = /^[A-Za-z0-9]{4,12}$/; */
-			
-		var flag = true;
-		if(!regex.test($('input[id=pass]').val())){
-			flag = false;
-			return false;
-		}
-		 else{
-			return true;
-		}  
-	}
+	});
 
+
+	// 비밀번호
+	$('#pass').blur(function(){
+		if(pwJ.test($(this).val())){
+			console.log(pwJ.test($(this).val()));
+			$("#pw_check").text('');
+		} else {
+			$('#pw_check').text('비밀번호를 확인해주세요 :)');
+			$('#pw_check').css('color', 'red');
+		}
+	});
+	
+	// 휴대전화
+	$('#mobile').blur(function(){
+		if(phoneJ.test($(this).val())){
+			console.log(nameJ.test($(this).val()));
+			$("#phone_check").text('');
+		} else {
+			$('#phone_check').text('휴대폰번호를 확인해주세요 :)');
+			$('#phone_check').css('color', 'red');
+		}
+	});
+});
 </script>
 <body>
     <!--::header part start::-->
@@ -115,13 +100,18 @@ function frmCheck(frm) {
 												<div>아이디</div>
 												<div style="margin-top: 10px;">
 													<input class="form-control" type="email" placeholder="이메일주소입력" name="email" id="email"/>
+													
+													<div id="id_check"></div>
 												</div>
 											</li>
 											<br>
 											<li class="profile_password_area profile_password_area_first">
 												<div style="margin-top: 15px;">비밀번호</div>
 												<div class="profile_userId_value" style="margin-top: 10px;">
-												<input class="form-control" type="password" placeholder="영문, 숫자 4자리 이상" name="pass" id="pass"/></div>
+												<input class="form-control" type="password" placeholder="영문, 숫자 4자리 이상" name="pass" id="pass"/>
+												
+												<div id="pw_check"></div>
+												</div>
 											</li>
 											<br>
 											<li>
@@ -129,6 +119,8 @@ function frmCheck(frm) {
 												<div class="row">
 													<div class="col-8" style="margin-top: 10px;margin-left: 16px;">
 														<input class="form-control" type="tel" placeholder="숫자만 입력가능" name="mobile" id="mobile"/>
+														
+														<div id="phone_check"></div>
 													</div>
 													<div class="form-group mt-3 col-3" style="text-align: right; margin-left: 10px;">
 														<button class="btn_my" type="button">인증</button>

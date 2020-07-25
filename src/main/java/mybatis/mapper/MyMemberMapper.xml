@@ -77,18 +77,18 @@
  		 insert into woo_member(id,mobile,pass)
       values(#{id},#{mobile},#{pass})  
  	</insert>
-
+ 	
 	 <!-- 카카오 아이디 로그인 처리 -->
  	<insert id="kakaoLoginAction" parameterType="model.MemberVO">
  		 insert into woo_member(id,mobile,pass)
       values(#{id},#{mobile},#{pass})  
  	</insert>
-
+	 
 	<delete id="deleteMember" parameterType="model.ParameterVO">
 		DELETE FROM woo_member WHERE id in 
 		<foreach collection="list" item="item" open="(" close=")" separator=",">
  			#{item}
 		</foreach>
 	</delete>
-
+ 	
  </mapper>

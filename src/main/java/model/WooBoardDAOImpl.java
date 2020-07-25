@@ -28,7 +28,7 @@ public interface WooBoardDAOImpl {
 	public int insertFile(Map<String,Object> map);
 	
 	//5.수정처리하기
-	public int modify(WooBoardVO wooBoardVO);
+	public int update(WooBoardVO wooBoardVO);
 
 	//6.삭제하기
 	public int delete(ParameterVO parameterVO);   

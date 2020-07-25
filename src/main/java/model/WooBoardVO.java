@@ -14,7 +14,6 @@ public class WooBoardVO {
 	private String id;//게시물 작성자
 	private String bname;
 	private String visitcount;//게시물 조회수
-	private String manyimage;
 	private String likecount;//좋아요 수
 	private String price;//상품 가격
 	private String product_state;//상품 상태
@@ -32,10 +31,6 @@ public class WooBoardVO {
 	private String good_state;
 	private String review_score;
 	
-	
-	
-	
-	
 	//getter / setter
 	public String getGood_state() {
 		return this.good_state;
@@ -45,12 +40,12 @@ public class WooBoardVO {
 		this.good_state = good_state;
 	}
 	
-	public String getManyimage() {
-		return this.manyimage;
+	public String getImagefile() {
+		return imagefile;
 	}
-
-	public void setManyimage(String manyimage) {
-		this.manyimage = manyimage;
+	
+	public void setImagefile(String imagefile) {
+		this.imagefile = imagefile;
 	}
 	
 	public String getReview_score() {
@@ -60,6 +55,7 @@ public class WooBoardVO {
 	public void setReview_score(String review_score) {
 		this.review_score = review_score;
 	}
+	
 	public String getIdx() {
 		return idx;
 	}
@@ -69,12 +65,7 @@ public class WooBoardVO {
 	public void setSeq_woo_board(int seq_woo_board) {
 		this.seq_woo_board = seq_woo_board;
 	}
-	public String getImagefile() {
-		return imagefile;
-	}
-	public void setImagefile(String imagefile) {
-		this.imagefile = imagefile;
-	}
+	
 	public List<MultipartFile> getFile() {
 		return file;
 	}
@@ -190,10 +181,4 @@ public class WooBoardVO {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
-	
-	
-	
-	
-	
-	
 }

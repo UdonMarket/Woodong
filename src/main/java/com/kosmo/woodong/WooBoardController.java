@@ -22,10 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 import model.BoardListImpl;
 import model.BoardListVO;
 import model.FileVO;
+import model.MemberVO;
 import model.MypageDAOImpl;
 import model.ParameterVO;
 import model.WooBoardDAOImpl;
 import model.WooBoardVO;
+import oracle.net.aso.p;
 
 @Controller
 public class WooBoardController {
@@ -48,7 +50,30 @@ public class WooBoardController {
 				.selectBoard(location);
 		model.addAttribute("blists", blists);
 		
-		return "product/productList";
+		String mode = req.getParameter("mode")==null ? "common" : req.getParameter("mode");
+		ParameterVO parameterVO = new ParameterVO();
+		parameterVO.setLatTxt((req.getParameter("lat")==null)? 0 : Double.parseDouble(req.getParameter("lat")));
+		parameterVO.setLngTxt((req.getParameter("lon")==null)? 0 : Double.parseDouble(req.getParameter("lon")));
+		parameterVO.setBname(req.getParameter("bname"));
+		model.addAttribute("mode", mode);
+		model.addAttribute("parameterVO", parameterVO);
+		if(mode.equals("map")) {
+			//폼값받기
+			ArrayList<WooBoardVO> searchLists  = sqlSession.getMapper(WooBoardDAOImpl.class).searchRadius(parameterVO);
+			for(WooBoardVO vo : searchLists) {
+				String idx = vo.getIdx();
+				ArrayList<FileVO> uploadFileList = ((WooBoardDAOImpl)sqlSession.getMapper(WooBoardDAOImpl.class)).viewFile(idx);
+		
+			 	String image = uploadFileList.get(0).getSave_name();
+				vo.setImagefile(image);
+				
+			}
+			model.addAttribute("searchLists",searchLists);
+			return "product/productListMap";
+		}
+		else {
+			return "product/productList";
+		}
 	}
 
 	//2. 상품게시판 (리스트) ajax 처리
@@ -84,13 +109,15 @@ public class WooBoardController {
 		Iterator itr = lists.iterator();
 
 		//소영 추가부분
-		String user_id ="";
-		try {
+		String user_id = "";
+		if(principal!=null) {
 			user_id = principal.getName();
-	
+			System.out.println("user_id" + user_id);
+			mv.addObject("user_id", user_id);
+			System.out.println("user_id" + user_id);
 			String str = sqlSession.getMapper(MypageDAOImpl.class).selectLike(user_id);
 			String[] splitStr = str.split("#");
-
+			
 			for (int i = 0; i < lists.size(); i++) {
 				for (int j = 0; j < splitStr.length; j++) {
 					if(splitStr[j].equals(lists.get(i).getIdx())) {
@@ -99,9 +126,6 @@ public class WooBoardController {
 				}
 			}
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-		} 
 		String idx = "";
 		while (itr.hasNext()) {
 			WooBoardVO dto = (WooBoardVO) itr.next();
@@ -110,6 +134,7 @@ public class WooBoardController {
 			idx = dto.getIdx();
 			
 			ArrayList<FileVO> uploadFileList = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).viewFile(idx);
+			
 			if(!uploadFileList.isEmpty() && uploadFileList.size()!=0) {
 				//리스트에서 대표이미지 설정
 				String image =  uploadFileList.get(0).getSave_name(); 
@@ -130,6 +155,7 @@ public class WooBoardController {
 
 		mv.setViewName("product/ajaxList");
 		mv.addObject("lists", lists);
+		
 		return mv;
 	}
 
@@ -139,7 +165,79 @@ public class WooBoardController {
 		
 		String idx = req.getParameter("idx");
 		String nowPage = req.getParameter("nowPage");
-		System.out.println(idx);
+		
+		String seller_id = sqlSession.getMapper(WooBoardDAOImpl.class).selectId(idx);
+		System.out.println("seller_id" + seller_id);
+		
+		
+		ArrayList<String> review_score  = sqlSession.getMapper(MypageDAOImpl.class).review_score(seller_id);
+		double review_scoreSum = 0;
+		for(int i=0; i<review_score.size(); i++) {
+			review_scoreSum += Double.parseDouble(review_score.get(i));
+		}
+		System.out.println("review_scoreSum" + review_scoreSum);
+		MemberVO memberVO = sqlSession.getMapper(MypageDAOImpl.class).myInfo(seller_id);
+		
+		int trade_count = Integer.parseInt(memberVO.getTrade_count());
+		double avg_score1 = 0;
+		if(trade_count==0) {
+			avg_score1 = 1;
+		}
+		else {
+			avg_score1 = review_scoreSum / (double)trade_count;
+		}
+		double avg_score2 = ((double)Math.round(avg_score1*10)/10);
+		int avg_score_update = sqlSession.getMapper(MypageDAOImpl.class).avg_score_update(avg_score2, seller_id);	
+		double avg_score = Double.parseDouble(memberVO.getAvg_score());
+
+		String score = "";
+
+		int full = (int) avg_score % 5;
+		int half = (int) ((avg_score - full) * 10);
+		for (int i = 1; i <= full; i++) {
+			score += "<img src='../resources/img/그냥튀김우동.png' alt='' />";
+		}
+		if (half < 5) {
+			for (int j = full + 1; j <= 5; j++) {
+				score += "<img src='../resources/img/회색우동.png' alt='' />";
+			}
+		} else {
+			score += "<img src='../resources/img/반쪽우동.png' alt='' />";
+			for (int j = full + 2; j <= 5; j++) {
+				score += "<img src='../resources/img/회색우동.png' alt='' />";
+			}
+		}
+
+		String udongGrade = "";
+
+		if (trade_count < 5) {
+			udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
+		} else if (trade_count >= 5 && trade_count < 10) {
+			if (avg_score >= 1 && avg_score < 2)
+				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
+			else
+				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
+		} else if (trade_count >= 10 && trade_count < 15) {
+			if (avg_score >= 1 && avg_score < 2)
+				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
+			else if (avg_score >= 2 && avg_score < 4)
+				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
+			else
+				udongGrade += "<img src='../resources/img/파랑온도계.png' alt='' />";
+		} else if (trade_count >= 15) {
+			if (avg_score >= 1 && avg_score < 2)
+				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
+			else if (avg_score >= 2 && avg_score < 4)
+				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
+			else
+				udongGrade += "<img src='../resources/img/빨간온도계.png' alt='' />";
+		}
+
+		model.addAttribute("memberVO", memberVO);
+		model.addAttribute("score", score);
+		model.addAttribute("udongGrade", udongGrade);
+		
+		
 		//상세보기
 		WooBoardVO dto = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).view(idx);
 		
@@ -151,10 +249,9 @@ public class WooBoardController {
 		
 		dto.setContents(dto.getContents().replace("\r\n","<br/>"));
 		
-		
-		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("viewRow", dto);
 		model.addAttribute("uploadFileList", uploadFileList);
+		model.addAttribute("nowPage", nowPage);
 		
 		return "product/productView";
 	}
@@ -168,8 +265,7 @@ public class WooBoardController {
 		try {
 			user_id = principal.getName();
 			System.out.println("글쓰기 진입 user_id : "+user_id);
-			selectlist = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class))
-					.selectBname();
+			selectlist = ((BoardListImpl) this.sqlSession.getMapper(BoardListImpl.class)).selectBname();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -216,6 +312,7 @@ public class WooBoardController {
 		logger.info("update");
 		logger.debug("update");
 		String idx = req.getParameter("idx");
+		String nowPage = req.getParameter("nowPage");
 		String bname = req.getParameter("bname");
 		String user_id = "";
 		List<BoardListVO> selectlist = null;
@@ -240,6 +337,8 @@ public class WooBoardController {
 			
 			model.addAttribute("viewRow", dto);
 			model.addAttribute("uploadFileList", uploadFileList);
+			model.addAttribute("nowPage", nowPage);
+			model.addAttribute("bname", bname);
 			model.addAttribute("selectlist", selectlist);
 					
 		} catch (Exception e) {
@@ -256,7 +355,9 @@ public class WooBoardController {
 		logger.info("updateAction");
 		logger.debug("updateAction");
 		String user_id = "";
+		
 		String idx = wooBoardVO.getIdx();
+		
 		try {
 			user_id = principal.getName();
 			wooBoardVO.setId(user_id);
@@ -305,7 +406,4 @@ public class WooBoardController {
 	public String productListMap() {
 		return "product/productListMap";
 	}
-	
-	
-	
 }

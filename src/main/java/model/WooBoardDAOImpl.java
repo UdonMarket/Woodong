@@ -33,6 +33,9 @@ public interface WooBoardDAOImpl {
 	//6.삭제하기
 	public int delete(ParameterVO parameterVO);   
 	
+	//판매자 id 가져오기
+	public String selectId(String idx);
+	
 	//7.내주변 상품 찾아오기
 	public ArrayList<WooBoardVO> searchRadius(ParameterVO parameterVO);
 }

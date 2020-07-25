@@ -53,7 +53,7 @@ public class MainController {
 		model.addAttribute("blists", blists);
 		return "community/community";
 	}
-	
+
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
 	@Autowired

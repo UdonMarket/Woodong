@@ -43,10 +43,10 @@ public class MypageController {
 		for(int i=0; i<review_score.size(); i++) {
 			review_scoreSum += Double.parseDouble(review_score.get(i));
 		}
-		System.out.println("review_scoreSum" + review_scoreSum);
 		MemberVO memberVO = sqlSession.getMapper(MypageDAOImpl.class).myInfo(user_id);
 		
 		int trade_count = Integer.parseInt(memberVO.getTrade_count());
+		
 		double avg_score1 = 0;
 		if(trade_count==0) {
 			avg_score1 = 1;
@@ -62,6 +62,7 @@ public class MypageController {
 
 		int full = (int) avg_score % 5;
 		int half = (int) ((avg_score - full) * 10);
+		
 		for (int i = 1; i <= full; i++) {
 			score += "<img src='../resources/img/그냥튀김우동.png' alt='' />";
 		}
@@ -105,8 +106,6 @@ public class MypageController {
 		model.addAttribute("score", score);
 		model.addAttribute("udongGrade", udongGrade);
 		
-		
-		
 		String mode = req.getParameter("mode");
 		if(mode ==  null) mode = "";
 		String dealMode = req.getParameter("dealMode");
@@ -114,8 +113,6 @@ public class MypageController {
 		ParameterVO parameterVO = new ParameterVO();
 		parameterVO.setMode(mode);
 		parameterVO.setDealMode(dealMode);
-		System.out.println(mode);
-		System.out.println(dealMode);
 		
 		int pageSize = 6;
 		int blockPage = 5;
@@ -130,9 +127,7 @@ public class MypageController {
 
 		parameterVO.setUser_id(user_id);
 		String str = sqlSession.getMapper(MypageDAOImpl.class).selectLike(user_id);
-		System.out.println(str);
 		String[] splitStr = str.split("#");
-		System.out.println(splitStr[0]);
 		List<String> list = new ArrayList<String>();
 
 		for (int i = 0; i < splitStr.length; i++) {
@@ -140,7 +135,6 @@ public class MypageController {
 		}
 
 		parameterVO.setList(list);
-		System.out.println("gettotal");
 		int totalRecordCount = sqlSession.getMapper(MypageDAOImpl.class).getTotalCount(parameterVO);
 		ArrayList<WooBoardVO> likeList = sqlSession.getMapper(MypageDAOImpl.class).selectBoard(parameterVO);
 		ArrayList<MyreviewVO> riviewList = sqlSession.getMapper(MypageDAOImpl.class).selectReview(parameterVO);

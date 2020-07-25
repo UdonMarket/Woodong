@@ -161,8 +161,12 @@
 		ORDER BY trunc(to_number(DISTNACE_WGS84(#{latTxt}, #{lngTxt},latitude,longitude)),5) ASC
   	</select>
 	 
+	<select id="selectId" resultType="String">
+	 	select id from woo_board where idx = #{0}
+	 
+	 </select>
+	 
+	 
+
 	
-	 
-	 
-	 
 </mapper>

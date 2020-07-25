@@ -85,16 +85,12 @@ public class MainController {
 	
 	// 채팅
 	@RequestMapping("/main/chatting.woo")
-	public String chatting(Principal principal, HttpSession session) {
-		session.setAttribute("id", principal.getName());
+	public String chatting(Principal principal, HttpSession session, Model model) {
+		String user_id = principal.getName();
+		session.setAttribute("id", user_id);
+		model.addAttribute("id", user_id);
 		return "main/chatting";
 	}
-	@RequestMapping("/main/chat_main.woo")
-	public String chat_main() {
-		return "main/chat_main";
-	}
-	
-	
 	@RequestMapping("/member/accessDenied.woo")
 	public String securityIndex2AccessDenied() {
 		return "member/accessDenied";
@@ -105,5 +101,12 @@ public class MainController {
 		return "board/write";
 	}
 	
-	
+	/* NaverLoginBO */
+	private NaverLoginBO naverLoginBO;
+	private String apiResult = null;
+
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+		this.naverLoginBO = naverLoginBO;
+	}
 } 

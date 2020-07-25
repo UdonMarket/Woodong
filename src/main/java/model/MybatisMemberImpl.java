@@ -31,6 +31,8 @@ public interface MybatisMemberImpl {
 	
 	void naverLoginAction(MemberVO var1);
 	
+	void kakaoLoginAction(MemberVO var1);
+	
 	void deleteMember(ParameterVO parameterVO);
 	 
 }

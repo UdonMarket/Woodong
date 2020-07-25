@@ -83,4 +83,12 @@
  		 insert into woo_member(id,mobile,pass)
       values(#{id},#{mobile},#{pass})  
  	</insert>
+	 
+	 <delete id="deleteMember" parameterType="model.ParameterVO">
+		DELETE FROM woo_member WHERE id in 
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+ 			#{item}
+		</foreach>
+	</delete>
+	 
  </mapper>

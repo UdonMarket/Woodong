@@ -20,40 +20,30 @@
 
 	<jsp:include page="../include/productLeft.jsp" />
 	<script>	
- function like(idx) {
+function like_toggle(idx) {
+	var like_flag;
+	if($("img[name=" + idx + "]").attr('src')=="../resources/img/2.png"){
+		like_flag = 1;
+	}
+	else{
+		like_flag = -1;
+	}
 	var str = "";
 	str += idx + "#";
-	$.ajax({
-		url : "./ajaxLike.woo",
-		type:"get",
-	    contentType:"text/html;charset:utf-8",
-	    data:{str : str, idx : idx},
-
-		success : function (d) {
-		},
-		error : errFunc
-	    });
-}
-function errFunc(resData) {
-	alert("DB update에러");
-}
-function like_toggle(idx) {
 	$.ajax({
 		url : "../mypage/like_toggle.woo",
 		type:"get",
 	    contentType:"text/html;charset:utf-8",
-	    data:{idx : idx},
+	    data:{idx : idx, like_flag : like_flag, str : str},
  	  	success : function(d) {
- 		  if(d.like_check == 1){
-				//이미지 바꾸기 (빈하트)
-				$("img[name=" + idx + "]").attr('src', "../resources/img/2.png");
-			}
-			else{
-				$("img[name=" + idx + "]").attr('src', "../resources/img/1.png");
-			} 
+ 	  		if($("img[name=" + idx + "]").attr('src')=="../resources/img/2.png"){
+ 	  			$("img[name=" + idx + "]").attr('src', "../resources/img/1.png");
+ 			}
+ 			else{
+ 				$("img[name=" + idx + "]").attr('src', "../resources/img/2.png");
+ 			}
 		},
 		error : function(request,status,error) {
-			//alert("이미지 토글 실패" + error.status);
 	          console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 	      }
 	});

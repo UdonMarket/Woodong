@@ -55,7 +55,7 @@
 								   <form:form name="viewForm" role="form" >
 										<input type="hidden"  name="bname" value="${viewRow.bname}" />
 										<input type="hidden"  name="idx" value="${viewRow.idx}" />
-										<input type="hidden"  name="nowPage" value="${param.nowPage}"> 
+									   	<input type="hidden"  name="nowPage" value="${param.nowPage}"> 
 									</form:form>
 										<%-- <input type="hidden"  name="searchType" value="${param.searchType}"> 
 										<input type="hidden"  name="keyword" value="${param.keyword}">  --%>
@@ -127,7 +127,7 @@
 													<div class=" row">
 														<c:if test="${viewRow.three_dimens eq 'Y'}">
 														<div class="col-3" style="padding: 0; width: 300px;">
-															<button type="button" class="btn_ca1">3D이미지</button>
+															<button type="button" class="btn_ca1" onclick="popupOpen();">3D이미지</button>
 														</div>
 														</c:if>
 														<div class="col-3" style="padding: 0; width: 300px;">
@@ -160,8 +160,8 @@
 												</div>
 											</div>
 										</div>
-									<button type="button" class="btn btn-danger" id="delete_btn" style >삭제하기</button>
-									<button type="button" class="btn btn-warning" id="update_btn" >수정하기</button>
+										<button type="button" class="btn btn-danger" id="delete_btn" >삭제하기</button>
+										<button type="button" class="btn btn-warning" id="update_btn" >수정하기</button>
 										<div class="col-4" style="border:1px solid #d9d9d9;width: 200px; height:250px;;margin-left: 400px;margin-top: 50px; ">
 											<div class="my_profile_info ">
 											<div class="row">
@@ -197,6 +197,30 @@
 			</div>
 		</div>
 	</div>
+<!-- 팝업 레이어 -->
+<div id="popup" style="position:absolute;visibility:hidden;">
+    <h4>팝업레이어<a href="void(0);" class="close" onclick="javascript:popupOpen();">X</a> </h4>
+        <ul class="popCont">
+            <li>
+            <strong>이름</strong>
+            <span id='name'>홍길sdssssssssssssssssssss동</span>
+            </li>
+            <li>
+            <strong>이름</strong>
+            <span id='name'>홍길ssssssssssssssssssssss동</span>
+            </li>
+            <li>
+            <strong>이름</strong>
+            <span id='name'>홍길ssssssssssssssss동</span>
+            </li>
+            <li>
+            <strong>이름</strong>
+            <span id='name'>홍길동</span>
+            </li>
+        </ul>
+</div>
+<!-- //팝업 레이어 -->
+
 </section>
 </div>
 <script>
@@ -221,12 +245,37 @@ $(document).ready(function(){
 		}
 	})
 });
+//<!-- 레이어 팝업 오픈 이벤트 -->
+function popupOpen(){
+
+    if(document.all.popup.style.visibility=="hidden") {
+        document.all.popup.style.visibility="visible";
+        return false;
+    }else{
+        document.all.popup.style.visibility="hidden";
+        return false;   
+    }
+    //추가부분
+//<!-- 팝업 화면 중앙에 위치 시키기 -->
+    var $layerPopupObj = $('#popup');
+    var left = ( $(window).scrollLeft() + ($(window).width() - $layerPopupObj.width()) / 2 );
+    var top = ( $(window).scrollTop() + ($(window).height() - $layerPopupObj.height()) / 2 );
+    $layerPopupObj.css({'left':left,'top':top, 'position':'absolute'});
+    $('body').css('position','relative').append($layerPopupObj);
+}
+//<!-- //레이어 팝업 오픈 이벤트 --> 
 
 </script>
 <!-- subscribe part end -->
 <!-- bottom.jsp -->
 <jsp:include page="../include/bottom.jsp" />
 <jsp:include page="../include/sidebar.jsp" />
+
+        
+      </div>
+    </div>
+  </div>
+ 
 </body>
 
 </html>

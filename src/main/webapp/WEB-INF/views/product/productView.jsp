@@ -55,6 +55,7 @@
 								   <form:form name="viewForm" role="form" >
 										<input type="hidden"  name="bname" value="${viewRow.bname}" />
 										<input type="hidden"  name="idx" value="${viewRow.idx}" />
+									   	<input type="hidden"  name="nowPage" value="${param.nowPage}"> 
 									</form:form>
 										<%-- <input type="hidden"  name="searchType" value="${param.searchType}"> 
 										<input type="hidden"  name="keyword" value="${param.keyword}">  --%>
@@ -126,7 +127,7 @@
 													<div class=" row">
 														<c:if test="${viewRow.three_dimens eq 'Y'}">
 														<div class="col-3" style="padding: 0; width: 300px;">
-								<button type="button" class="btn_ca1" onclick="popupOpen();">3D이미지</button>
+															<button type="button" class="btn_ca1" onclick="popupOpen();">3D이미지</button>
 														</div>
 														</c:if>
 														<div class="col-3" style="padding: 0; width: 300px;">
@@ -154,33 +155,33 @@
 												<img src="../resources/img/product/상세설명.png" alt="" width="250px;"/>
 											</div>
 											<div class="detail_item_description">
-												<div class="description_text" style="font-size: 1.2em;">
+												<div class="description_text" style="font-size: 1.2em; width:50px; height: 25px;">
 														${viewRow.contents}
 												</div>
 											</div>
 										</div>
-	<button type="button" class="btn btn-danger" id="delete_btn" style="width: 300px;">삭제하기</button>
-	<button type="button" class="btn btn-warning" id="update_btn" style="width: 300px;">수정하기</button>
-										<div class="col-3" style="border:1px solid #d9d9d9;width: 200px;padding: 20px;margin-left: 10px;margin-top: 50px;">
+										<button type="button" class="btn btn-danger" id="delete_btn" >삭제하기</button>
+										<button type="button" class="btn btn-warning" id="update_btn" >수정하기</button>
+										<div class="col-4" style="border:1px solid #d9d9d9;width: 200px; height:250px;;margin-left: 400px;margin-top: 50px; ">
 											<div class="my_profile_info ">
-												<div class="my_profile_image" style="text-align: center;">
-													<img src="../resources/img/myPage/nor-blue.png" alt="우동등급" style="width: 100px;"/>
+											<div class="row">
+											<div class="col-3"></div>
+												<div class="my_profile_image col-6" style="text-align: center; width: 150px; height: 150px; padding-top: 20px; padding-bottom:20px;  padding-left: 20px;">
+													<a href="../mypage/myList_L.woo?mode=review&dealPosition=seller&seller_id=${viewRow.id}">${udongGrade }</a>
 												</div>
-												<div class="my_profile_nick" style="text-align: center;">우동이</div>
+											<div class="col-3"></div>
+											</div>
+												<div class="my_profile_nick" style="text-align: center; font-size:18px; font-weight: bold; padding-bottom: 5px; padding-top: 5px;">판매자 : ${viewRow.id} </div>
 												<div class="my_profile_pro_review">
 													<div class="my_profile_pro_review_box">
-														<a href="../main/write.woo"><span>거래후기</span><span>(0)</span>
-															<div class="my_profile_pro_review_rating" style="text-align: center;">
-																<img src="https://ccimage.hellomarket.com/web/2019/member/img_review_star_blank_16x16_x2.png"
-																	alt="프로필 별점 없는 이미지 1" />
-																<img src="https://ccimage.hellomarket.com/web/2019/member/img_review_star_blank_16x16_x2.png"
-																	alt="프로필 별점 없는 이미지 2" />
-																<img src="https://ccimage.hellomarket.com/web/2019/member/img_review_star_blank_16x16_x2.png"
-																	alt="프로필 별점 없는 이미지 3" />
-																<img src="https://ccimage.hellomarket.com/web/2019/member/img_review_star_blank_16x16_x2.png"
-																	alt="프로필 별점 없는 이미지 4" />
-																<img src="https://ccimage.hellomarket.com/web/2019/member/img_review_star_blank_16x16_x2.png"
-																	alt="프로필 별점 없는 이미지 5" />
+														<a href="../main/write.woo">
+															<div class="my_profile_pro_review">
+															<div class="my_profile_pro_review_rating" style="white-space: nowrap; width: 40px; height: 20px; padding-left: 20px;">
+																<span style="padding-left: 10px; font-size: 15px;">거래후기 : <span style="font-weight: bold;">${memberVO.avg_score}개</span> &nbsp;</span>${score}
+															<br />
+															<span style="font-size: 15px; padding-left: 10px;">거래횟수 : <span style="font-weight: bold; font-size: 15px;">${memberVO.trade_count} 번</span></span>
+															</div>
+															<div style="padding-left: 90px" style="font-size: 15px;"></div>
 															</div>
 														</a>
 													</div>
@@ -263,11 +264,6 @@ function popupOpen(){
     $('body').css('position','relative').append($layerPopupObj);
 }
 //<!-- //레이어 팝업 오픈 이벤트 --> 
-
-
-
-
-
 
 </script>
 <!-- subscribe part end -->

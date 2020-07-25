@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +33,6 @@ public interface MybatisMemberImpl {
 	
 	void kakaoLoginAction(MemberVO var1);
 	
-	
+	void deleteMember(ParameterVO parameterVO);
 	 
 }

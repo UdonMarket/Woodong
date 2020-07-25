@@ -1,8 +1,10 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public interface BoardListImpl {
@@ -30,4 +32,5 @@ public interface BoardListImpl {
 	void updateOrder3(BoardListVO boardListVO);
 	//bname 검색
 	List<BoardListVO> selectBname();
+	
 }

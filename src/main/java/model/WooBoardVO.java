@@ -23,16 +23,13 @@ public class WooBoardVO {
 	private String product_tag;//상품 태그
 	private String woopay;//우동페이 체크
 	private String deal_type;//거래 종류
-	private String deal_location;//거래희망 위치
+	private String latitude;//거래희망 위치 좌표
+	private String longitude;//거래희망 위치 좌표
+	private String imagefile;
 	private List<MultipartFile> file;
-	private String Imagefile;
 	private int seq_woo_board;
 	private String good_state;
 	private String review_score;
-	
-	
-	
-	
 	
 	//getter / setter
 	public String getGood_state() {
@@ -43,15 +40,14 @@ public class WooBoardVO {
 		this.good_state = good_state;
 	}
 	
-	
 	public String getImagefile() {
-		return Imagefile;
+		return imagefile;
 	}
-
+	
 	public void setImagefile(String imagefile) {
-		Imagefile = imagefile;
+		this.imagefile = imagefile;
 	}
-
+	
 	public String getReview_score() {
 		return review_score;
 	}
@@ -59,6 +55,7 @@ public class WooBoardVO {
 	public void setReview_score(String review_score) {
 		this.review_score = review_score;
 	}
+	
 	public String getIdx() {
 		return idx;
 	}
@@ -68,6 +65,7 @@ public class WooBoardVO {
 	public void setSeq_woo_board(int seq_woo_board) {
 		this.seq_woo_board = seq_woo_board;
 	}
+	
 	public List<MultipartFile> getFile() {
 		return file;
 	}
@@ -167,15 +165,20 @@ public class WooBoardVO {
 	public void setDeal_type(String deal_type) {
 		this.deal_type = deal_type;
 	}
-	public String getDeal_location() {
-		return deal_location;
+
+	public String getLatitude() {
+		return latitude;
 	}
-	public void setDeal_location(String deal_location) {
-		this.deal_location = deal_location;
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
 	}
-	
-	
-	
-	
-	
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
 }

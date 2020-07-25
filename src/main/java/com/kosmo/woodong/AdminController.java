@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import model.BoardListVO;
-import model.Listaaa;
 import model.BoardListImpl;
 import model.MemberVO;
 import model.MybatisMemberImpl;

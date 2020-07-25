@@ -30,6 +30,7 @@
 	<!-- ================ contact section start ================= -->
 	<section class="contact-section section_padding" style="padding-top: 50px">
 	<form:form name="updateFrm" action="./updateAction.woo" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="idx" value="${viewRow.idx}" />
 		<div class="container">
 			<div class="regist_box">
 				<div class="description">
@@ -41,8 +42,10 @@
 							<div class="hellopay_box_area">
 								<ul>
 									<li>
+										<c:set var="payval" value="${viewRow.woopay}"/>
 										<label>
-											<input type="checkbox" name="woopay_check" value="${viewRow.woopay}" /> 우동페이 (이용)
+											<input type="checkbox" name="woopay_check" value="${viewRow.woopay}"
+											<c:if test="${payval eq 'Y'}">checked </c:if>/> 우동페이 (이용)
 											<input type="hidden" name="woopay" value="${viewRow.woopay}" /> 
 										</label>
 									</li>
@@ -53,6 +56,28 @@
 							</div>
 						</dd>
 					</dl>
+					<c:set var="threeval" value="${viewRow.three_dimens}"/>
+					<dl id="mainDiv">
+					<dt>
+						<label style="color: rgb(51, 51, 51);">3D 이미지 <span>(선택 사항)</span></label>
+					</dt>
+					<dd>
+						<div class="hellopay_box_area">
+							<ul>
+								<li>
+									<label>
+										<input type="checkbox" name="three_check" value="${viewRow.three_dimens}"
+										<c:if test="${threeval eq 'Y'}"> checked </c:if>/> 3D 이미지 (이용)
+										<input type="hidden" name="three_dimens" value="${viewRow.three_dimens}"/> 
+									</label>
+								</li>
+							</ul>
+						</div>
+						<div class="hellopay_direct_notice">
+							<span class="normal_notice">3D 이미지 선택시 8장의 이미지를 모두 첨부해주세요.</span>
+						</div>
+					</dd>
+				</dl>
 					<dl class="regist_image_dl" id="registImage">
 						<dt>
 							<label style="color: rgb(51, 51, 51);">상품사진</label><span class="photo_max">* 최대 8장</span>
@@ -126,28 +151,6 @@
 
 						</dd>
 					</dl>
-					
-					<dl id="mainDiv">
-					<dt>
-						<label style="color: rgb(51, 51, 51);">3D 이미지 <span>(선택 사항)</span></label>
-					</dt>
-					<dd>
-						<div class="hellopay_box_area">
-							<ul>
-								<li>
-									<label>
-										<input type="checkbox" name="three_check" value="${viewRow.three_dimens}"/> 3D 이미지 (이용)
-										<input type="hidden" name="three_dimens" value="${viewRow.three_dimens}"/> 
-									</label>
-								</li>
-							</ul>
-						</div>
-						<div class="hellopay_direct_notice">
-							<span class="normal_notice">3D 이미지 선택시 8장의 이미지를 모두 첨부해주세요.</span>
-						</div>
-					</dd>
-				</dl>
-					
 					<dl id="title">
 						<dt>
 							<label style="color: rgb(51, 51, 51);">제목</label>
@@ -163,9 +166,11 @@
 						<dd>
 							<div>
 								<select name="bname">
-									<option value="" hidden="">카테고리</option>
 									<c:forEach items="${selectlist}" var="row">
-									<option value="${viewRow.bname}">${viewRow.bname}</option>
+									<option value="<c:out value="${row.bname}" />"
+									 <c:if test="${viewRow.bname == row.bname}"> selected</c:if> >
+									 <c:out value="${row.bname}" />
+									 </option>
 									</c:forEach>
 								</select>
 							</div>
@@ -211,8 +216,8 @@
 								<span class="normal_notice">태그는 최대 3개까지 입력가능합니다.
 								&nbsp;&nbsp;각 태그는 최대 10자까지 입력할 수 있습니다.</span>
 							</div>
-							<div class="hellopay_direct_notice" id="div_tag" style="display: none;">
-								<span class="normal_notice" id="sapn_tag"></span>
+							<div class="hellopay_direct_notice" id="div_tag">
+								<span class="normal_notice" id="sapn_tag">${viewRow.product_tag}</span>
 							</div>
 						</dd>
 					</dl>
@@ -222,22 +227,23 @@
 						</dt>
 						<dd>
 							<ul class="item_status_list">
+								<c:set var="stateval" value="${viewRow.product_state}" />
 								<li class="item_status">
 									<label>
-										<input type="radio" name="product_state" value="새상품" checked="checked"/>새상품
+										<input type="radio" name="product_state" value="새상품" <c:if test="${stateval eq '새상품'}">checked</c:if> />새상품
 									</label>
 								</li>
 								<li class="item_status">
 									<label>
-										<input type="radio" name="product_state" value="거의새것"/>거의새것
+										<input type="radio" name="product_state" value="거의새것" <c:if test="${stateval eq '거의새것'}">checked</c:if> />거의새것
 									</label>
 								</li><li class="item_status">
 									<label>
-										<input type="radio" name="product_state" value="중고"/>중고
+										<input type="radio" name="product_state" value="중고" <c:if test="${stateval eq '중고'}">checked</c:if> />중고
 									</label>
 								</li><li class="item_status">
 									<label>
-										<input type="radio" name="product_state" value="하자있음"/>하자있음
+										<input type="radio" name="product_state" value="하자있음" <c:if test="${stateval eq '하자있음'}">checked</c:if> />하자있음
 									</label>
 								</li>
 							</ul>
@@ -251,19 +257,20 @@
 						<dd>
 							<div class="box_sell_method box_area">
 								<ul class="item_status_list">
+								<c:set var="dealval" value="${viewRow.deal_type}" />
 									<li class="item_status">
 										<label>
-											<input type="radio" name="deal_type" value="판매" checked="checked"/>판매
+											<input type="radio" name="deal_type" value="판매" <c:if test="${dealval eq '판매'}">checked</c:if>/>판매
 										</label>
 									</li>
 									<li class="item_status">
 										<label>
-											<input type="radio" name="deal_type"  value="무료나눔"/>무료나눔
+											<input type="radio" name="deal_type"  value="무료나눔" <c:if test="${dealval eq '무료나눔'}">checked</c:if>/>무료나눔
 										</label>
 									</li>
 									<li class="item_status">
 										<label>
-											<input type="radio" name="deal_type"  value="삽니다"/>삽니다
+											<input type="radio" name="deal_type"  value="삽니다" <c:if test="${dealval eq '삽니다'}">checked</c:if>>삽니다
 										</label>
 									</li>
 								</ul>
@@ -296,7 +303,7 @@
 						</dd>
 					</dl>
 				</div>
-		<button type="submit" class="btn btn-danger" id="subtn">글쓰기</button>
+		<button type="submit" class="btn btn-danger" id="subtn">수정하기</button>
 			</div>
 		</div>
 				
@@ -405,8 +412,6 @@ $(function() {
 		var msg = $("[name=product_tag]").val();
 		if(count<4 && $("input[name=input_tag]").val()!=""){
 			$("input[name=product_tag]").val(msg+'#'+$("input[name=input_tag]").val());
-			console.log($("[name=product_tag]").val());
-			$("#div_tag").removeAttr('style');
 			$("#sapn_tag").append('#'+$("input[name=input_tag]").val()+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
 			count++;
 		}

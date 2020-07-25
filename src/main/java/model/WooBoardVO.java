@@ -14,8 +14,6 @@ public class WooBoardVO {
 	private String id;//게시물 작성자
 	private String bname;
 	private String visitcount;//게시물 조회수
-	private String image;
-	private String manyimage;
 	private String likecount;//좋아요 수
 	private String price;//상품 가격
 	private String product_state;//상품 상태
@@ -26,8 +24,8 @@ public class WooBoardVO {
 	private String woopay;//우동페이 체크
 	private String deal_type;//거래 종류
 	private String deal_location;//거래희망 위치
-	private String imagefile;
 	private List<MultipartFile> file;
+	private String Imagefile;
 	private int seq_woo_board;
 	private String good_state;
 	private String review_score;
@@ -45,21 +43,15 @@ public class WooBoardVO {
 		this.good_state = good_state;
 	}
 	
-	public String getManyimage() {
-		return this.manyimage;
-	}
-
-	public void setManyimage(String manyimage) {
-		this.manyimage = manyimage;
-	}
 	
-	public String getImage() {
-		return this.image;
+	public String getImagefile() {
+		return Imagefile;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setImagefile(String imagefile) {
+		Imagefile = imagefile;
 	}
+
 	public String getReview_score() {
 		return review_score;
 	}
@@ -75,12 +67,6 @@ public class WooBoardVO {
 	}
 	public void setSeq_woo_board(int seq_woo_board) {
 		this.seq_woo_board = seq_woo_board;
-	}
-	public String getImagefile() {
-		return imagefile;
-	}
-	public void setImagefile(String imagefile) {
-		this.imagefile = imagefile;
 	}
 	public List<MultipartFile> getFile() {
 		return file;

@@ -263,7 +263,7 @@ public class MypageController {
 		int update = sqlSession.getMapper(MypageDAOImpl.class).updateLike(str, user_id);
 		model.addAttribute("update", update);
 
-		return "product/ajaxList";
+		return "product/productList";
 	}
 	
 	//리뷰작성글 팝업열기

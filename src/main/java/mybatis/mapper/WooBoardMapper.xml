@@ -121,12 +121,21 @@
 		)
     </insert> 
 	  
-	  
     <!--5. 수정처리하기 -->
-	 <update id="modify" parameterType="model.WooBoardVO">
-	 	UPDATE woo_board SET contents = #{contents} , name=#{name} WHERE idx= #{idx} AND id=#{id} 
+	 <update id="update" parameterType="model.WooBoardVO">
+	 	UPDATE woo_board SET 
+		 	 title = #{title},
+		 	 contents=#{contents},
+		 	 bname=#{bname},
+		 	 price=#{price},
+		 	 product_state=#{product_state},
+		 	 three_dimens=#{three_dimens},
+		 	 product_tag=#{product_tag},
+		 	 woopay=#{woopay},
+		 	 deal_type=#{deal_type},
+		 	 deal_location=#{deal_location}
+	 	 WHERE idx= #{idx} AND id=#{id} 
 	 </update>
-   
 	 
 	 <!--6.  삭제하기-->
 	 <delete id="delete" parameterType="model.ParameterVO" >

@@ -53,18 +53,23 @@ public class WooBoardController {
 
 	//2. 상품게시판 (리스트) ajax 처리
 	@RequestMapping("/product/ajaxList.woo")
-	public ModelAndView list(Model model, HttpServletRequest req, Principal principal) {
+	public ModelAndView list(Model model, HttpServletRequest req, Principal principal){
 		
 		ModelAndView mv = new ModelAndView();
 		ParameterVO parameterVO = new ParameterVO();
 		
 		int pageSize = 15;
-		int nowPage = req.getParameter("nowPage") == null ? 1 : Integer.parseInt(req.getParameter("nowPage"));
+		int nowPage = req.getParameter("nowPage") == null? 1 : Integer.parseInt(req.getParameter("nowPage"));
 		
 		System.out.println("nowPage : " + nowPage);
 		
 		int start = (nowPage - 1) * pageSize + 1;
 		int end = nowPage * pageSize;
+		
+		if(nowPage==1) {
+			start = 1;
+			end = 15;
+		}
 		
 		parameterVO.setStart(start);
 		parameterVO.setEnd(end);
@@ -75,32 +80,36 @@ public class WooBoardController {
 		int total = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).getTotalCount(parameterVO);
 		
 		ArrayList<WooBoardVO> lists = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).listPage(parameterVO);
-				
 		
 		Iterator itr = lists.iterator();
 
 		//소영 추가부분
-		String user_id = principal.getName();
+		String user_id ="";
+		try {
+			user_id = principal.getName();
+	
+			String str = sqlSession.getMapper(MypageDAOImpl.class).selectLike(user_id);
+			String[] splitStr = str.split("#");
 
-		String str = sqlSession.getMapper(MypageDAOImpl.class).selectLike(user_id);
-		String[] splitStr = str.split("#");
-
-		for (int i = 0; i < lists.size(); i++) {
+			for (int i = 0; i < lists.size(); i++) {
 				for (int j = 0; j < splitStr.length; j++) {
-				if(splitStr[j].equals(lists.get(i).getIdx())) {
-					lists.get(i).setLike_check(1);
+					if(splitStr[j].equals(lists.get(i).getIdx())) {
+						lists.get(i).setLike_check(1);
+					}
 				}
 			}
 		}
-
+		catch (Exception e) {
+			e.printStackTrace();
+		} 
+		String idx = "";
 		while (itr.hasNext()) {
 			WooBoardVO dto = (WooBoardVO) itr.next();
 			String temp = dto.getContents().replace("\r\n", "<br/>");
 			dto.setContents(temp);
-			String idx = dto.getIdx();
+			idx = dto.getIdx();
 			
 			ArrayList<FileVO> uploadFileList = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).viewFile(idx);
-			
 			if(!uploadFileList.isEmpty() && uploadFileList.size()!=0) {
 				//리스트에서 대표이미지 설정
 				String image =  uploadFileList.get(0).getSave_name(); 
@@ -110,10 +119,13 @@ public class WooBoardController {
 
 		System.out.println("total : " + total);
 		
+		//DB에 있는 게시물의 total 과 start를 비교하여 state 설정
 		if (start > total) {
 			mv.addObject("state", "false");
+			System.out.println("state : false");
 		} else {
 			mv.addObject("state", "true");
+			System.out.println("state : true");
 		}
 
 		mv.setViewName("product/ajaxList");
@@ -122,12 +134,12 @@ public class WooBoardController {
 	}
 
 	//3.상품리스트 상세보기 
-	@RequestMapping("/product/productView.woo")
+	@RequestMapping(method = RequestMethod.GET,value="/product/productView.woo")
 	public String productView(Model model, HttpServletRequest req) {
 		
 		String idx = req.getParameter("idx");
 		String nowPage = req.getParameter("nowPage");
-		
+		System.out.println(idx);
 		//상세보기
 		WooBoardVO dto = ((WooBoardDAOImpl) this.sqlSession.getMapper(WooBoardDAOImpl.class)).view(idx);
 		
@@ -139,9 +151,10 @@ public class WooBoardController {
 		
 		dto.setContents(dto.getContents().replace("\r\n","<br/>"));
 		
+		
+		model.addAttribute("nowPage", nowPage);
 		model.addAttribute("viewRow", dto);
 		model.addAttribute("uploadFileList", uploadFileList);
-		model.addAttribute("nowPage", nowPage);
 		
 		return "product/productView";
 	}
@@ -169,27 +182,30 @@ public class WooBoardController {
 	//4-2.글쓰기 처리
 	@RequestMapping(method = RequestMethod.POST,headers = "content-type=multipart/*", value="/product/writeAction.woo"  )
 	public String productWriteAction(Principal principal, WooBoardVO wooBoardVO ,
-								MultipartHttpServletRequest mreq) throws Exception {
+								MultipartHttpServletRequest mreq) {
 		
 		logger.info("productWriteAction");
 		logger.debug("productWriteAction");
 		
 		String user_id="";
-		user_id = principal.getName();
-		wooBoardVO.setId(user_id);
-		
-		int applyRow = sqlSession.getMapper(WooBoardDAOImpl.class).write(wooBoardVO);
-		
-		List<Map<String, Object>> list = new util.FileUtils().parseInsertFileInfo(wooBoardVO, mreq); 
-		
-		Map<String, Object> map = null;
-		int size = list.size();
-		//파일테이블에 insert
-		for(int i=0; i<size; i++){ 
-			map = list.get(i);
-			sqlSession.getMapper(WooBoardDAOImpl.class).insertFile(map);
-		}
+		try {
+			user_id = principal.getName();
+			wooBoardVO.setId(user_id);
 			
+			int applyRow = sqlSession.getMapper(WooBoardDAOImpl.class).write(wooBoardVO);
+			
+			List<Map<String, Object>> list = new util.FileUtils().parseInsertFileInfo(wooBoardVO, mreq); 
+			
+			Map<String, Object> map = null;
+			int size = list.size();
+			//파일테이블에 insert
+			for(int i=0; i<size; i++){ 
+				map = list.get(i);
+				sqlSession.getMapper(WooBoardDAOImpl.class).insertFile(map);
+			}
+		}
+		catch (Exception e) {
+		}
 		return "redirect:productList.woo?nowPage=1";
 	}
 	
@@ -197,10 +213,9 @@ public class WooBoardController {
 	@RequestMapping(method = RequestMethod.POST, value="/product/productUpdate.woo")
 	public String update(Model model , HttpServletRequest req,Principal principal) {
 		
-		logger.info("modify");
-		logger.debug("modify");
+		logger.info("update");
+		logger.debug("update");
 		String idx = req.getParameter("idx");
-		String nowPage = req.getParameter("nowPage");
 		String bname = req.getParameter("bname");
 		String user_id = "";
 		List<BoardListVO> selectlist = null;
@@ -225,8 +240,6 @@ public class WooBoardController {
 			
 			model.addAttribute("viewRow", dto);
 			model.addAttribute("uploadFileList", uploadFileList);
-			model.addAttribute("nowPage", nowPage);
-			model.addAttribute("bname", bname);
 			model.addAttribute("selectlist", selectlist);
 					
 		} catch (Exception e) {
@@ -238,21 +251,31 @@ public class WooBoardController {
 	
 	//5-2.글 수정 처리 하기
 	@RequestMapping(method = RequestMethod.POST,headers = "content-type=multipart/*", value="/product/updateAction.woo")
-	public String updateAction(WooBoardVO wooBoardVO , MultipartHttpServletRequest req, Principal principal){
+	public String updateAction(WooBoardVO wooBoardVO , MultipartHttpServletRequest mreq, Principal principal){
 		
-		logger.info("modifyAction");
-		logger.debug("modifyAction");
+		logger.info("updateAction");
+		logger.debug("updateAction");
 		String user_id = "";
-		
+		String idx = wooBoardVO.getIdx();
 		try {
 			user_id = principal.getName();
 			wooBoardVO.setId(user_id);
-			int applyRow = sqlSession.getMapper(WooBoardDAOImpl.class).modify(wooBoardVO);
+			wooBoardVO.setPrice(wooBoardVO.getPrice().replace(",",""));
+			int applyRow = sqlSession.getMapper(WooBoardDAOImpl.class).update(wooBoardVO);
+			List<Map<String, Object>> list = new util.FileUtils().parseInsertFileInfo(wooBoardVO, mreq); 
+			
+			Map<String, Object> map = null;
+			int size = list.size();
+			//파일테이블에 insert
+			for(int i=0; i<size; i++){ 
+				map = list.get(i);
+				sqlSession.getMapper(WooBoardDAOImpl.class).insertFile(map);
+			}
 					
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:./productView.woo";
+		return "redirect:./productView.woo?idx="+idx;
 	}
 	
 	//6.글 삭제하기

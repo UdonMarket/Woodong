@@ -3,7 +3,7 @@
 <div id="floatMenu">
 	<div style="text-align: center;margin-left: 5px;margin-bottom: -20px;">
 		<img src="../resources/img/sidebar/판매하기로고.png" alt="판매하기" 
-		style="width: 200px;cursor:pointer;" onclick="location.href='../board/write.woo'">
+		style="width: 200px;cursor:pointer;" onclick="location.href='../product/productWrite.woo'">
 	</div>
 	<div id="floatMenuBox1" style="background:none;border:1px solid black;padding-top:10px;">
 		<div>
@@ -18,7 +18,7 @@
 	<div id="floatMenuBox1"  style="background:none;border:1px solid black;padding-top:10px;">
 		<div>
 			<div>
-				<a href="../member/myList_L.woo">
+				<a href="../member/myPage.woo">
 					<img src="../resources/img/sidebar/heart.png" alt="찜상품" width="20" height="20" />
 					찜상품
 				</a>

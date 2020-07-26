@@ -11885,6 +11885,15 @@ input.password_input:-moz-placeholder {
 		text-align: center;
 		line-height: 36px
 	}
+	.my_location_map{
+		color: #545353;
+		font-size: 13px;
+		height: 100%;
+		display: block;
+		text-align: center;
+		line-height: 36px;
+		border: 1px solid;
+	}
 	.tag_open_btn {
 		display: inline-block;
 		width: 85px;

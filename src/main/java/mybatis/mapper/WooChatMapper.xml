@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="model.WooChatImpl">
+	<select id="selectRoom" resultType="model.WooChatRoomVO">
+		SELECT * FROM woo_chatroom WHERE myid=#{0} or otherid=#{0} ORDER BY lastchatdate desc
+	</select>
+	<select id="selectLastChat" resultType="model.WooChattingVO">
+		SELECT * FROM woo_chatting WHERE chatroomidx=#{0} ORDER BY chatDate 
+	</select>
+</mapper> 

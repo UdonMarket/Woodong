@@ -20,24 +20,24 @@
 												<div class="level_title1" style="padding-left: 50px;padding-top: 50px;">
 													<div class="row">
 														<div class="col-4">
-															<a href="../mypage/myList_W.woo">
+															<a href="../mypage/myPage.woo?mode=deal&dealMode=sell">
 																<img src="../resources/img/myPage/거래중.png" alt="거래중" style="width: 230px;height: 130px;"/>
 															</a>
 														</div>
 														<div class="col-4">
-															 <a href="../mypage/myList_S.woo">
+															 <a href="../mypage/myPage.woo?mode=sell">
 																<img src="../resources/img/myPage/판매목록.png" alt="판매목록" style="width: 230px;height: 130px;" />
 															</a>
 														</div>
 														<div class="col-4">
-															<a href="../mypage/myList_B.woo">
+															<a href="../mypage/myPage.woo?mode=buy">
 																<img src="../resources/img/myPage/구매목록.png" alt="구매목록" style="width: 230px;height: 130px;" />
 															</a>
 														</div>
 													</div>
 													<div class="row" style="padding-top: 50px;">
 														<div class="col-4">
-															<a href="../mypage/likelist.woo">
+															<a href="../mypage/myPage.woo?mode=like">
 																<img src="../resources/img/myPage/관심목록.png" alt="관심목록"  style="width: 230px;height: 130px;"/>
 															</a>
 														</div>
@@ -47,7 +47,7 @@
 															</a>
 														</div>
 														<div class="col-4">
-															<a href="../mypage/myReview.woo">
+															<a href="../mypage/myPage.woo?mode=review">
 																<img src="../resources/img/myPage/후기.png" alt="후기"  style="width: 230px;height: 130px;"/>
 															</a>
 														</div>

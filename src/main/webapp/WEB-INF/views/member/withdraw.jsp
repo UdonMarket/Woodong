@@ -1,16 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!doctype html>
 <html lang="zxx">
 
 <script>
 function deleteMember(){
-	if(confirm("정말로 탈퇴하시겠습니까?")){
-		location.href="deleteMemberAction";
+	if(!confirm("정말로 탈퇴하시겠습니까?")){
+		return false;
 	}
-}
 </script>
 
 <!-- head.jsp -->
@@ -57,18 +56,19 @@ function deleteMember(){
 								style="color: #ff4f4f; font-weight: bold; text-align: center; font-size: 3.0em; margin-bottom: 60px;">회원탈퇴</div>
 
 							<div style="margin-bottom: 10px;">
-								<form:form class="row contact_form" action="../member/deleteMemberAction" method="post"
-									novalidate="novalidate">
+								<form:form class="row contact_form"
+									action="../member/memberWithdrawAction.woo" method="post"
+									novalidate="novalidate" name="deleteFrm" id="deleteFrm"
+									onsubmit="return frmCheck(this);">
 									<div class="col-md-12 form-group p_star">
-										<input type="password" class="single-input-primary"
-											id="pass" name="pass" value="" placeholder="비밀번호"
+										<input type="password" class="single-input-primary" id="pass"
+											name="pass" value="" placeholder="비밀번호"
 											style="border-bottom: 1px solid gray;" required="required">
 									</div>
 									<div class="col-md-12 form-group">
 										<div style="margin-bottom: 20px;">
 											<button type="submit" value="submit" class="btn_3"
-											onclick="javascript:deleteMember();">
-												탈퇴하기</button>
+												onclick="javascript:deleteMember();">탈퇴하기</button>
 										</div>
 									</div>
 								</form:form>

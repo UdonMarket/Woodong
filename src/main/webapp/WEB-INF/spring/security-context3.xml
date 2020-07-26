@@ -4,12 +4,11 @@
    xmlns:security="http://www.springframework.org/schema/security"
    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
-
    <security:http pattern="/admin/**">
       <security:intercept-url
          pattern="/admin/login.woo" access="permitAll" />
       <security:intercept-url
-         pattern="/admin/**" access="hasRole('ADMIN')" />
+         pattern="/admin/**" access="permitAll" />
       <security:intercept-url 
       	pattern="/**" access="permitAll" />
 
@@ -19,8 +18,10 @@
          login-processing-url="/admin/login" username-parameter="admin_id"
          password-parameter="admin_pw" />
          
+       <security:remember-me key="remember-key" token-validity-seconds="604800" remember-me-parameter="remember-me-param"/>  
+         
       <security:logout logout-url="/admin/logout"
-         logout-success-url="/admin/admin.woo" />
+         logout-success-url="/admin/admin.woo" invalidate-session = "true" delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE"/>
       <security:access-denied-handler
          error-page="/admin/admin.woo" />
    </security:http>
@@ -32,7 +33,7 @@
       <security:intercept-url
          pattern="/member/join.woo" access="isAnonymous()" />
       <security:intercept-url
-         pattern="/mypage/myPage.woo" access="hasRole('USER')" />
+         pattern="/mypage/myList_L.woo" access="hasRole('USER')" />
       <security:intercept-url 
       	pattern="/main/chatting.woo" access="hasRole('USER')"/>
       <security:intercept-url 
@@ -45,7 +46,7 @@
          login-processing-url="/loginAction" username-parameter="name"
          password-parameter="password" />
       <security:logout logout-url="/logout"
-         logout-success-url="/main/main.woo" />
+         logout-success-url="/main/main.woo" invalidate-session = "true" delete-cookies="JSESSIONID"/>
       <security:access-denied-handler
          error-page="/main/main.woo" />
    </security:http>

@@ -50,41 +50,35 @@
 		<!-- Header -->
 		<div class="header bg-gradient-primary pb-8 pt-5 pt-md-5">
 			<div class="container-fluid">
-				<div class="header-body"></div>
+				<div class="header-body">
+					<img src="../resources/admin/img/관리자.png" alt="" />
+				</div>
 			</div>
 		</div>
 		<div class="container">
-			<div style="margin-top:20px;margin-left:20px; padding: 20px; width:400px; border: 1px gray solid;" >
-				<form:form action="../admin/addBoardAction.woo" method="post">
-					<input type="hidden" name="idx" />
-					<input type="hidden" name="requestname" />
-					<input type="hidden" id="locationname" name="locationname"/>
-					<input type="hidden" name="type" />
-					<input type="hidden" name="boardorder" value="0"/>
-					<table>
-						<tr>
-							<td>게시판 이름 : </td>
-							<td>
-								<input type="text" name="bname" style="width: 150px" required/>
-							</td>
-						</tr>
-						<tr>
-							<td>게시판 위치 : </td>
-							<td>
-								<select id="location" name="location">
-									<option value="../product/productList.woo">카테고리</option>
-									<option value="../community/community.woo">커뮤니티</option>
-								</select>
-							</td>
-						</tr>
-						<tr align="right">
-							<td colspan="2">
-								<input type="submit" value="게시판생성" />
-							</td>
-						</tr>
-					</table>
-				</form:form>
-			</div>
+			<form:form action="../admin/addBoardAction.woo" method="post">
+				<input type="hidden" name="boardlistidx" />
+				<input type="hidden" name="requestname" />
+				<input type="hidden" id="locationname" name="locationname"/>
+				<input type="hidden" name="type" />
+				<input type="hidden" name="boardorder" value="0"/>
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col-8"style="border: 1px gray solid; text-align: center;padding: 20px; margin-top: 20px;">
+						<div style="display: inline-block;">게시판 이름 : </div>
+						<div style="display: inline-block;"><input type="text" name="bname" style="width: 150px" required/></div>
+						<div style="display: inline-block; margin-left: 20px">게시판 위치 : </div>
+						<div style="display: inline-block;">
+							<select id="location" name="location">
+								<option value="../product/productList.woo">카테고리</option>
+								<option value="../community/community.woo">커뮤니티</option>
+							</select>
+						</div>
+						<div style="display: inline-block; margin-left: 20px; margin-right: 30px"><input type="submit" value="게시판생성" /></div>
+					</div>
+					<div class="col-2"></div>
+				</div>
+			</form:form>
 		
 		
 		<div style="margin-top : 20px">
@@ -114,7 +108,7 @@
 						<input type="hidden" name="ty" value="${row.type }"/>
 						<input type="hidden" name="bo" value="${row.boardorder }"/>
 						<form:form action="../admin/editBoard.woo" method="post">
-							<input type="hidden" name="idx" value="${row.idx }"/>
+							<input type="hidden" name="idx" value="${row.boardlistidx }"/>
 							<input type="hidden" name="requestname" value="${row.requestname }"/>
 							<input type="hidden" name="locationname" value="${row.locationname }"/>
 							<tr>

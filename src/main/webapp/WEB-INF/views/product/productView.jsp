@@ -110,7 +110,7 @@
 											</div>
 											<div class="detail_bottom_area">
 												<img src="https://ccimage.hellomarket.com/web/2020/item/ico_detail_info_location_x2.png"
-													alt="지도아이콘" class="item_location_img"><span>${viewRow.deal_location}</span>
+													alt="지도아이콘" class="item_location_img"><span>${viewRow.latitude}</span><span>${viewRow.longitude}</span>
 											</div>
 											<div class="detail_bottom_area1 detail_bottom_tag_area" style="margin-left: 10px;">
 													<span class="tag" style="color: #ff4f4f;">
@@ -139,7 +139,7 @@
 														</div>
 														</c:if>
 														<div class="col-3" style="padding: 0">
-															<button type="button" class="btn_ca1" onclick="window.open('../main/chatting.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);">우동톡톡</button>
+															<button type="button" class="btn_ca1" onclick="window.open('../chatting/chatting.woo', '_blank', 'height=640; width=480; top=200; left=150;', true);">우동톡톡</button>
 														</div>
 													</div>
 												</div>
@@ -160,8 +160,8 @@
 												</div>
 											</div>
 										</div>
-										<button type="button" class="btn btn-danger" id="delete_btn" >삭제하기</button>
-										<button type="button" class="btn btn-warning" id="update_btn" >수정하기</button>
+										<button type="button" class="btn_my" id="delete_btn" >삭제하기</button>
+										<button type="button" class="btn_my" id="update_btn" >수정하기</button>
 										<div class="col-4" style="border:1px solid #d9d9d9;width: 200px; height:250px;;margin-left: 400px;margin-top: 50px; ">
 											<div class="my_profile_info ">
 											<div class="row">

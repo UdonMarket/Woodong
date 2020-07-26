@@ -34,7 +34,7 @@ public class EchoHandler extends TextWebSocketHandler{
 		String[] msg = message.getPayload().split("//");
 		logger.info("{}로 부터 {}받음",(String)map.get("id"),message.getPayload());
 		for(WebSocketSession sess : sessionList) {
-			if(msg[0].equals((String)map.get("id"))) {
+			if(!msg[0].equals((String)map.get("id"))) {
 				sess.sendMessage(new TextMessage(message.getPayload())); // 상대방 꾸미는 부분
 			}
 		}

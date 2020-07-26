@@ -48,4 +48,13 @@ public class WooChattingController {
 		return "chatting/chatting";
 	}
 	
+	// 우동이
+	@RequestMapping("/chatting/woodongtalk.woo")
+	public String woodongtalk(Principal principal, HttpSession session, Model model) {
+		String user_id = principal.getName();
+		session.setAttribute("id", user_id);
+		model.addAttribute("id", user_id);
+		return "chatting/woodongtalk";
+	}
+	
 }

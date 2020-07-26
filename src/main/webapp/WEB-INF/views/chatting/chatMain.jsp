@@ -20,9 +20,22 @@
 	<input type="hidden" id="chat_id" value="${param.chat_id }" style="border:1px dotted red;" />
 	<input type="hidden" id="chat_room" value="${param.chat_room }" style="border:1px dotted red;" />
 	<ul id="channel-list" class="">
+			<li>
+				<a href="javascript:void(0);" onclick="window.open('../chatting/woodongtalk.woo', '_blank', 'height=640; width=480; top=200; left=700;', true);">
+					<div class="catting_room row">
+						<div class="col-3" style="text-align: left;">
+							<img src="../resources/img/myPage/nor-blue.png" alt="" width="50px;"/>
+						</div>
+						<div class="col-6">
+							<div style="text-align: left;font-size: 1.4em;font-weight: bold;">우동이</div>
+							<div style="text-align: left;font-size: 1em;padding-top: 5px;">무엇이든 물어보세요.</div>
+						</div>
+					</div>
+				</a>
+			</li>
 		<c:forEach items="${roomList }" var="row">
 			<li>
-				<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', '_blank', 'height=600; width=480; top=200; left=700;', true);">
+				<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', '_blank', 'height=640; width=480; top=200; left=700;', true);">
 					<div class="catting_room row">
 						<div class="col-3" style="text-align: left;">
 							<img src="../resources/img/myPage/nor-blue.png" alt="" width="50px;"/>

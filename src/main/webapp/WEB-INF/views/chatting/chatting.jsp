@@ -108,7 +108,7 @@
 		
 		<footer id="chat-footer">
 		<div style="text-align: right;">
-		    <label for="radio-1">판매전</label>
+		    <label for="radio-1" >판매전</label>
 		    <input type="radio" name="radio-1" id="radio-1"style="padding-right:10px;">
 		    <label for="radio-2">판매중</label>
 		    <input type="radio" name="radio-1" id="radio-2"style="padding-right:10px;">

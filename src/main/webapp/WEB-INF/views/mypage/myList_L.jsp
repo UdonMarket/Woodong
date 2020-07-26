@@ -73,7 +73,7 @@ function restartFunc(){
 											<div class="image_outside">
 												<div class="image_centerbox">
 												
-													<img src="../resources/Upload/${list.image }"
+													<img src="../resources/Upload/"
 														data-src="https://ccimg.hellomarket.com/images/2020/item/04/28/15/1709868_4830039_1.jpg?size=s4"
 														class="thumbnail_img" alt="18인치 휠 타이어 판매합니다(배송비,스페이스1조포함)" />
 												</div>

@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
-import model.MemberVO;
-import model.MybatisMemberImpl;
+import model.WooMemberVO;
+import model.WooMemberImpl;
 import naverlogin.NaverLoginBO;
 
 @Controller
-public class NaverLoginController {
+public class NaverController {
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -59,14 +59,14 @@ public class NaverLoginController {
 		// response의 nickname값 파싱
 		String id = (String) response_obj.get("id");
 		String email = (String) response_obj.get("email");
-		MemberVO memberVO = new MemberVO();
+		WooMemberVO memberVO = new WooMemberVO();
 		String pw = "1";
 		String phoneNum = "010-1234-5678";
 		memberVO.setId(email);
 		memberVO.setPass(pw);
 		memberVO.setMobile(phoneNum);
 		try {
-		((MybatisMemberImpl)this.sqlSession.getMapper(MybatisMemberImpl.class))
+		((WooMemberImpl)this.sqlSession.getMapper(WooMemberImpl.class))
 		.naverLoginAction(memberVO);
 		model.addAttribute("name", email);
 		return "member/naverloginAction";

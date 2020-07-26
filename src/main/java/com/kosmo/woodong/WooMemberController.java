@@ -6,8 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import model.MemberVO;
-import model.MybatisMemberImpl;
+import model.WooMemberVO;
+import model.WooMemberImpl;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,47 +19,62 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class MemberController {
+public class WooMemberController {
 	@Autowired
 	private SqlSession sqlSession;
-
+	
+	// 회원가입
 	@RequestMapping("/member/join.woo")
 	public String join() {
 		return "member/join";
 	}
-
-	@RequestMapping("/member/addMember.woo")
-	public String addMember(HttpServletRequest req) {
+	
+	// 회원가입 처리
+	@RequestMapping("/member/joinAction.woo")
+	public String joinAction(HttpServletRequest req) {
 		System.out.println("test");
-		MemberVO memberVO = new MemberVO();
+		WooMemberVO memberVO = new WooMemberVO();
 		memberVO.setId(req.getParameter("email"));
 		memberVO.setPass(req.getParameter("pass"));
 		memberVO.setMobile(req.getParameter("mobile"));
-		((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class)).regist(memberVO);
+		((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class)).regist(memberVO);
 		return "main/main";
 	}
-
-	@RequestMapping("/member/myProfile_modify.woo")
-	public String myProfile_modify(Authentication authentication) {
-		return authentication.getName() == null ? "redirect:login.do" : "member/myProfile_modify";
+	
+	// 회원 정보 수정
+	@RequestMapping("/member/memberModify.woo")
+	public String memberModify(Authentication authentication) {
+		return authentication.getName() == null ? "redirect:login.do" : "member/memberModify";
 	}
-
+	
+	@RequestMapping("/member/memberModifyAction.woo")
+	public String memberModifyAction(HttpServletRequest req, Authentication authentication) {
+		if (authentication.getName() == null) {
+			return "redirect:login.do";
+		} else {
+			((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class))
+					.changeInfomation(req.getParameter("tel"), req.getParameter("pw"), authentication.getName());
+			return "member/memberModify";
+		}
+	}
+		
+	// 비밀번호 확인
 	@RequestMapping("/member/passwordform.woo")
 	public String passwordform(Authentication authentication) {
 		return authentication.getName() == null ? "redirect:login.do" : "member/passwordform";
 	}
-
+	
 	@RequestMapping("/member/passwordAction.woo")
 	public String passwordAction(HttpServletRequest req, Authentication authentication, Model model) {
 		if (authentication.getName() == null) {
 			return "redirect:login.do";
 		} else {
-			MemberVO memberVO = ((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class))
+			WooMemberVO memberVO = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class))
 					.passwordAction(authentication.getName(), req.getParameter("password"));
 			model.addAttribute("memberVO", memberVO);
 			String page = null;
 			if (memberVO != null) {
-				page = "member/myProfile_modify";
+				page = "member/memberModify";
 			} else {
 				page = "member/passwordform";
 			}
@@ -68,24 +83,29 @@ public class MemberController {
 		}
 	}
 
-	//회원정보수정
-	@RequestMapping("/member/changeInfomation.woo")
-	public String changeInfomation(HttpServletRequest req, Authentication authentication) {
-		if (authentication.getName() == null) {
-			return "redirect:login.do";
-		} else {
-			((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class))
-					.changeInfomation(req.getParameter("tel"), req.getParameter("pw"), authentication.getName());
-			return "member/myProfile_modify";
-		}
-	}
-
-	@RequestMapping("/member/deleteMember.woo")
-	public String deleteMember(Authentication authentication) {
+	// 회원 탈퇴
+	@RequestMapping("/member/memberWithdraw.woo")
+	public String memberWithdraw(Authentication authentication) {
 		if(authentication.getName() == null) {
 			return "redirect:login.do";
 		}
 		return "member/withdraw";
+	}
+	
+	@RequestMapping("/member/memberWithdrawAction.woo")
+	public String memberWithdrawAction(HttpServletRequest req, Authentication authentication) {
+		if (authentication.getName() == null) {
+			return "redirect:login.do";
+		} 
+		else {
+			((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class))
+					.deleteMemberAction(authentication.getName(), req.getParameter("pass"));
+			
+			ModelAndView mv = new ModelAndView();
+				mv.addObject("LoginNG", "삭제되었습니다.");
+			
+			return "main/main";
+		}
 	}
 	
 	//동네인증 
@@ -96,7 +116,7 @@ public class MemberController {
 			return "redirect:login.woo";
 		} else {
 			String id = authentication.getName();
-			MemberVO dto = ((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class)).view(id);
+			WooMemberVO dto = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class)).view(id);
 			model.addAttribute("dto", dto);
 			
 			return "member/myPlace";
@@ -110,7 +130,7 @@ public class MemberController {
 		if (authentication.getName() == null) {
 			return "redirect:login.woo";
 		} else {
-			((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class))
+			((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class))
 			.modify(req.getParameter("selectJuso"), authentication.getName());
 			
 			return "redirect:myPlace.woo";
@@ -126,25 +146,10 @@ public class MemberController {
 		double lng = Double.parseDouble(req.getParameter("lng"));
 		double clat = Double.parseDouble(req.getParameter("clat"));
 		double clng = Double.parseDouble(req.getParameter("clng"));
-		int distance = sqlSession.getMapper(MybatisMemberImpl.class).distance(lat, lng, clat, clng);
+		int distance = sqlSession.getMapper(WooMemberImpl.class).distance(lat, lng, clat, clng);
 		
 		map.put("distance", distance);
 		return map;
 	}
-	//회원삭제
-	@RequestMapping("/member/deleteMemberAction")
-	public String deleteMemberAction(HttpServletRequest req, Authentication authentication) {
-		if (authentication.getName() == null) {
-			return "redirect:login.do";
-		} 
-		else {
-			((MybatisMemberImpl) this.sqlSession.getMapper(MybatisMemberImpl.class))
-					.deleteMemberAction(authentication.getName(), req.getParameter("pass"));
-			
-			ModelAndView mv = new ModelAndView();
-				mv.addObject("LoginNG", "삭제되었습니다.");
-			
-			return "main/main";
-		}
-	}
+	
 }

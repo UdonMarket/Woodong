@@ -6,8 +6,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class WooBoardVO {
 	
-	//멤버변수
-	private String idx;//게시물 일련번호
+	// 테이블 컬럼
+	private String boardidx;//게시물 일련번호
 	private String title;//게시물 제목
 	private String contents;//내용 (상품설명)
 	private String postdate;//게시물 작성일
@@ -25,55 +25,19 @@ public class WooBoardVO {
 	private String deal_type;//거래 종류
 	private String latitude;//거래희망 위치 좌표
 	private String longitude;//거래희망 위치 좌표
+	private String buyer_id;
+	private String review_score;
+	
+	// 기타
 	private String imagefile;
 	private List<MultipartFile> file;
 	private int seq_woo_board;
 	private String good_state;
-	private String review_score;
-	
-	//getter / setter
-	public String getGood_state() {
-		return this.good_state;
+	public String getBoardidx() {
+		return boardidx;
 	}
-
-	public void setGood_state(String good_state) {
-		this.good_state = good_state;
-	}
-	
-	public String getImagefile() {
-		return imagefile;
-	}
-	
-	public void setImagefile(String imagefile) {
-		this.imagefile = imagefile;
-	}
-	
-	public String getReview_score() {
-		return review_score;
-	}
-
-	public void setReview_score(String review_score) {
-		this.review_score = review_score;
-	}
-	
-	public String getIdx() {
-		return idx;
-	}
-	public int getSeq_woo_board() {
-		return seq_woo_board;
-	}
-	public void setSeq_woo_board(int seq_woo_board) {
-		this.seq_woo_board = seq_woo_board;
-	}
-	
-	public List<MultipartFile> getFile() {
-		return file;
-	}
-	public void setFile(List<MultipartFile> file) {
-		this.file = file;
-	}
-	public void setIdx(String idx) {
-		this.idx = idx;
+	public void setBoardidx(String boardidx) {
+		this.boardidx = boardidx;
 	}
 	public String getTitle() {
 		return title;
@@ -165,20 +129,55 @@ public class WooBoardVO {
 	public void setDeal_type(String deal_type) {
 		this.deal_type = deal_type;
 	}
-
 	public String getLatitude() {
 		return latitude;
 	}
-
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
-
 	public String getLongitude() {
 		return longitude;
 	}
-
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
+	public String getBuyer_id() {
+		return buyer_id;
+	}
+	public void setBuyer_id(String buyer_id) {
+		this.buyer_id = buyer_id;
+	}
+	public String getReview_score() {
+		return review_score;
+	}
+	public void setReview_score(String review_score) {
+		this.review_score = review_score;
+	}
+	public String getImagefile() {
+		return imagefile;
+	}
+	public void setImagefile(String imagefile) {
+		this.imagefile = imagefile;
+	}
+	public List<MultipartFile> getFile() {
+		return file;
+	}
+	public void setFile(List<MultipartFile> file) {
+		this.file = file;
+	}
+	public int getSeq_woo_board() {
+		return seq_woo_board;
+	}
+	public void setSeq_woo_board(int seq_woo_board) {
+		this.seq_woo_board = seq_woo_board;
+	}
+	public String getGood_state() {
+		return good_state;
+	}
+	public void setGood_state(String good_state) {
+		this.good_state = good_state;
+	}
+	
+	
+	
 }

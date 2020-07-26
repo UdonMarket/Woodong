@@ -58,7 +58,7 @@
 								</a>
 							</li>
 							<li class="nav-item" style="margin-right: 50px;margin-top:5px;">
-								<a class="nav-link" href="../mypage/myList_L.woo" style="font-size: 1.5em">
+								<a class="nav-link" href="../mypage/myPage.woo" style="font-size: 1.5em">
 									<img src="../resources/img/header/myPage.png" alt="나의우동" />
 								</a>
 							</li>
@@ -80,7 +80,7 @@
 	                       	</div>
 	                  	</div>
 	                 	<button style="cursor:pointer; border: 0;background: none;color: #ff4f4f;" 
-	                 	onclick="window.open('../main/chat_main.woo', 'name(우동톡톡)', 'height=600; width=480; top=200; left=150;', true);">
+	                 	onclick="window.open('../chatting/chatMain.woo', 'name(우동톡톡)', 'height=600; width=480; top=200; left=150;', true);">
 	                     	<i style="font-size:26px;margin: 5px;margin-top: 2px;" class="fa">&#xf0e6;</i>
                   		</button>
                		</div>
@@ -109,6 +109,6 @@ function checkchat(){
       alert("로그인 후 이용해 주세요.");
       location.href='../member/login.woo';
    }
-   window.open('../main/catting_main.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);
+   window.open('../main/chatMain.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);
 }
 </script>

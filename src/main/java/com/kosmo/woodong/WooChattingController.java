@@ -3,29 +3,32 @@ package com.kosmo.woodong;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import model.WooChatDAOImpl;
+import model.WooChatImpl;
 import model.WooChatRoomVO;
 import model.WooChattingVO;
 
 @Controller
-public class ChattingController {
+public class WooChattingController {
 	
-	@Autowired
+	@Autowired 
 	private SqlSession sqlSession;
 	
-	@RequestMapping("/main/chat_main.woo")
+	// 채팅방 메인화면
+	@RequestMapping("/chatting/chatMain.woo")
 	public String chatMain(Principal principal, Model model) {
 		String sellerid = principal.getName();
-		List<WooChatRoomVO> roomList = sqlSession.getMapper(WooChatDAOImpl.class).selectRoom(sellerid);
+		List<WooChatRoomVO> roomList = sqlSession.getMapper(WooChatImpl.class).selectRoom(sellerid);
 		
 		for(WooChatRoomVO room : roomList) {
-			List<WooChattingVO> chatList = sqlSession.getMapper(WooChatDAOImpl.class).selectLastChat(room.getRoomidx());
+			List<WooChattingVO> chatList = sqlSession.getMapper(WooChatImpl.class).selectLastChat(room.getChatroomidx());
 			if(chatList.size()>0) {
 				room.setLastChat(chatList.get(chatList.size()-1).getChatting());
 			}
@@ -33,8 +36,16 @@ public class ChattingController {
 		
 		model.addAttribute("roomList", roomList);
 		
-		return "main/chat_main";
+		return "chatting/chatMain";
 	}
 	
+	// 채팅
+	@RequestMapping("/chatting/chatting.woo")
+	public String chatting(Principal principal, HttpSession session, Model model) {
+		String user_id = principal.getName();
+		session.setAttribute("id", user_id);
+		model.addAttribute("id", user_id);
+		return "chatting/chatting";
+	}
 	
 }

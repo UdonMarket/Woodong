@@ -21,10 +21,10 @@
 					        <div class="container" style="padding-top: 50px;">
 							  <ul class="nav nav-tabs" style="border-bottom: 1px solid #d9d9d9;">
 							    <li class="nav-item" style="border-color: #d9d9d9#d9d9d9#fff;">
-							      <a class="nav-link active" href="../mypage/myList_L.woo?mode=deal&dealMode=sell"><img src="../resources/img/myPage/판매중.png" alt="" width="100px;"/></a>
+							      <a class="nav-link active" href="../mypage/myPage.woo?mode=deal&dealMode=sell"><img src="../resources/img/myPage/판매중.png" alt="" width="100px;"/></a>
 							    </li>
 							    <li class="nav-item" style="border-color: #d9d9d9#d9d9d9#fff;">
-							      <a class="nav-link" href="../mypage/myList_L.woo?mode=deal&dealMode=buy"><img src="../resources/img/myPage/구매중.png" alt="" width="100px;"/></a>
+							      <a class="nav-link" href="../mypage/myPage.woo?mode=deal&dealMode=buy"><img src="../resources/img/myPage/구매중.png" alt="" width="100px;"/></a>
 							  </ul>
 							</div>
 							<div class="cat_box">

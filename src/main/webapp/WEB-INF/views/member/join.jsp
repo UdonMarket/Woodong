@@ -91,7 +91,7 @@ $(function(){
                         <div style="color:#ff4f4f; font-weight:bold; text-align:center; font-size:2.5em;margin-bottom: 20px;">회원가입</div>
                         
                             <div style="margin-bottom:10px;">
-                            <form:form class="row contact_form" action="../member/addMember.woo" method="post"
+                            <form:form class="row contact_form" action="../member/joinAction.woo" method="post"
 									novalidate="novalidate" name="joinFrm" id="joinFrm" onsubmit="return frmCheck(this);">
                                 <div class="col-md-12 form-group p_star">
                                     <div class="profile_edit_main">

@@ -22,7 +22,7 @@
 	<ul id="channel-list" class="">
 		<c:forEach items="${roomList }" var="row">
 			<li>
-				<a href="javascript:void(0);" onclick="window.open('../main/chatting.woo?roomidx=${row.roomidx}', '_blank', 'height=600; width=480; top=200; left=700;', true);">
+				<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', '_blank', 'height=600; width=480; top=200; left=700;', true);">
 					<div class="catting_room row">
 						<div class="col-3" style="text-align: left;">
 							<img src="../resources/img/myPage/nor-blue.png" alt="" width="50px;"/>

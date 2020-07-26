@@ -2,11 +2,11 @@ package model;
 
 import java.util.ArrayList;
 
-public interface MypageDAOImpl {
+public interface WooMypageImpl {
 	
 	ArrayList<String> review_score(String user_id);
 	
-	MemberVO myInfo(String var1);
+	WooMemberVO myInfo(String var1);
 	
 	String selectLike(String var1);
 
@@ -34,7 +34,7 @@ public interface MypageDAOImpl {
 	
 	public int avg_score_update(double avg_score, String user_id);
 	
-	ArrayList<MyreviewVO> selectReview(ParameterVO parameterVO);
+	ArrayList<WooMyreviewVO> selectReview(ParameterVO parameterVO);
 	
 	public int delete(String idx);
 	

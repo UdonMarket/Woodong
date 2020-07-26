@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public interface BoardListImpl {
+public interface WooBoardListImpl {
 	
 	int selectMaxOrder(String location);
 	
@@ -17,11 +17,11 @@ public interface BoardListImpl {
 	
 	List<Map<String, Object>> selectLocationOrder();
 	
-	void createboard(BoardListVO boardListVO);
+	void createboard(WooBoardListVO boardListVO);
 
-	List<BoardListVO> selectBoard(String location);
+	List<WooBoardListVO> selectBoard(String location);
 	
-	void editboard(BoardListVO boardListVO);
+	void editboard(WooBoardListVO boardListVO);
 	
 	void deleteboard(String idx);
 	
@@ -29,8 +29,8 @@ public interface BoardListImpl {
 	
 	void updateOrder1(String idx);
 	void updateOrder2(ParameterVO parameterVO);
-	void updateOrder3(BoardListVO boardListVO);
+	void updateOrder3(WooBoardListVO boardListVO);
 	//bname 검색
-	List<BoardListVO> selectBname();
+	List<WooBoardListVO> selectBname();
 	
 }

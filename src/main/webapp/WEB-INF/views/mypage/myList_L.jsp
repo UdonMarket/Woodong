@@ -9,7 +9,7 @@
 <script>
 function like_toggle(idx) {
 	$.ajax({
-		url : "./like_toggle.woo",
+		url : "./likeToggle.woo",
 		type:"get",
 	    contentType:"text/html;charset:utf-8",
 	    data:{idx : idx},
@@ -92,7 +92,7 @@ function restartFunc(){
 								<div class="image_wish_box">
 								
 								
-								<img src="../resources/img/1.png" width="30px;" height="30px" name = "${list.idx}" onclick="like_toggle(${list.idx});"/>
+								<img src="../resources/img/1.png" width="30px;" height="30px" name = "${list.boardidx}" onclick="like_toggle(${list.boardidx});"/>
 
 							
 								</div>

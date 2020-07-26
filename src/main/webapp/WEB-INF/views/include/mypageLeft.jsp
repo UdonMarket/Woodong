@@ -86,31 +86,31 @@
 														<a class="active" id="scrollMain"href="/m/level.hm"><span style="font-size:1.4em;color:#ff4f4f;">쇼핑 활동</span></a>
 													</li>
 													<li>
-														<a href="../mypage/myList_L.woo?mode=deal&dealMode=sell"><span>거래중</span></a>
+														<a href="../mypage/myPage.woo?mode=deal&dealMode=sell"><span>거래중</span></a>
 													</li>
 													<li>
-														<a href="../mypage/myList_L.woo?mode=sell"><span>판매목록</span></a>
+														<a href="../mypage/myPage.woo?mode=sell"><span>판매목록</span></a>
 													</li>
 													<li>
-														<a href="../mypage/myList_L.woo?mode=like"><span>관심목록</span></a>
+														<a href="../mypage/myPage.woo?mode=like"><span>관심목록</span></a>
 													</li>
 													<li>
-														<a href="../mypage/myList_L.woo?mode=buy"><span>구매목록</span></a>
+														<a href="../mypage/myPage.woo?mode=buy"><span>구매목록</span></a>
 													</li>
 													<li>
-														<a href="../mypage/myList_L.woo?mode=review"><span>후기</span></a>
+														<a href="../mypage/myPage.woo?mode=review"><span>후기</span></a>
 													</li>
 													<li>
 														<a class="active" id="scrollMain"href="../mypage/myProfile.woo"><span style="font-size:1.4em;color:#ff4f4f;">회원설정</span></a>
 													</li>
 													<li>
-														<a href="../member/myProfile_modify.woo"><span>회원정보 수정</span></a>
+														<a href="../member/memberModify.woo"><span>회원정보 수정</span></a>
 													</li>
 													<li>
 														<a href="../member/myPlace.woo"><span>동네인증</span></a>
 													</li>
 													<li>
-														<a href="../member/deleteMember.woo"><span>회원탈퇴</span></a>
+														<a href="../member/memberWithdraw.woo"><span>회원탈퇴</span></a>
 													</li>
 													
 												</ul>

@@ -15,21 +15,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import model.BoardListVO;
-import model.BoardListImpl;
-import model.MemberVO;
-import model.MybatisMemberImpl;
+import model.WooBoardListVO;
+import model.WooBoardListImpl;
+import model.WooMemberVO;
+import model.WooMemberImpl;
 import model.ParameterVO;
 import util.EnvFileReader;
 import util.PagingUtil;
 
 @Controller
 @Transactional(rollbackFor = {Exception.class})
-public class AdminController {
+public class WooAdminController {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	// main
+	// 메인화면
 	@RequestMapping("/admin.woo")
 	public String admin1() {
 		return "admin/main/adminHome";
@@ -40,19 +40,20 @@ public class AdminController {
 		return "admin/main/admin";
 	}
 
-	// member
+	// 로그인
 	@RequestMapping("/admin/login.woo")
 	public String login() {
 		return "admin/member/login";
 	}
 	
+	// 멤버 관리
 	@RequestMapping("/admin/memberTable.woo")
-	public String member_list(Model model, HttpServletRequest req) {
-		MemberVO memberVO = new MemberVO();
+	public String memberTable(Model model, HttpServletRequest req) {
+		WooMemberVO memberVO = new WooMemberVO();
 		memberVO.setSearchField(req.getParameter("searchField"));
 		memberVO.setSearchTxt(req.getParameter("searchTxt"));
 		memberVO.setGrade(req.getParameter("grade"));
-		int totalRecordCount = sqlSession.getMapper(MybatisMemberImpl.class).getTotalCount(memberVO);
+		int totalRecordCount = sqlSession.getMapper(WooMemberImpl.class).getTotalCount(memberVO);
 		int pageSize = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.pageSize"));
 		int blockPage = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.blockPage"));
 		int totalPage = (int) Math.ceil((double) totalRecordCount / (double) pageSize);
@@ -61,17 +62,18 @@ public class AdminController {
 		int end = nowPage * pageSize;
 		memberVO.setStart(start);
 		memberVO.setEnd(end);
-		ArrayList<MemberVO> lists = sqlSession.getMapper(MybatisMemberImpl.class).listPage(memberVO);
+		ArrayList<WooMemberVO> lists = sqlSession.getMapper(WooMemberImpl.class).listPage(memberVO);
 		String pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
 				req.getContextPath() + "/admin/memberTable.woo?");
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
 		return "admin/member/memberTable";
 	}
-
+	
+	// 멤버 삭제
 	@RequestMapping("/admin/delete.woo")
 	public String delete(HttpServletRequest req) {
-		sqlSession.getMapper(MybatisMemberImpl.class).delete(req.getParameter("delete"));
+		sqlSession.getMapper(WooMemberImpl.class).delete(req.getParameter("delete"));
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("LoginNG", "삭제되었습니다.");
@@ -79,35 +81,53 @@ public class AdminController {
 		return "redirect:../admin/memberTable.woo";
 	}
 	
-	// board
+	// 다수의 멤버삭제
+	@RequestMapping("/admin/memberDelete.woo")
+	public String memberDelete(HttpServletRequest req) {
+		String checkIdList = req.getParameter("checkId");
+		ArrayList<String> idList = new ArrayList<String>();
+		String[] checkIdArr = checkIdList.split("//");
+		for(int i=0 ; i<checkIdArr.length-1 ; i++) {
+			System.out.println(checkIdArr[i]);
+			idList.add(checkIdArr[i]);
+		}
+		ParameterVO parameterVO = new ParameterVO();
+		parameterVO.setList(idList);
+		sqlSession.getMapper(WooMemberImpl.class).deleteMember(parameterVO);
+		
+		return "admin/board/memberTable";
+	}
+	
+	// 게시판 생성
 	@RequestMapping("/admin/addBoard.woo")
 	public String addBoard(Model model, HttpServletRequest req) {
 		
 		String location = ".." + req.getServletPath();
 		
-		List<BoardListVO> blists = sqlSession.getMapper(BoardListImpl.class).selectBoard(location);
-		List<Map<String, Object>> locationOrder = sqlSession.getMapper(BoardListImpl.class).selectLocationOrder();
+		List<WooBoardListVO> blists = sqlSession.getMapper(WooBoardListImpl.class).selectBoard(location);
+		List<Map<String, Object>> locationOrder = sqlSession.getMapper(WooBoardListImpl.class).selectLocationOrder();
 		model.addAttribute("blists", blists);
 		model.addAttribute("locationOrder", locationOrder);
 		
 		return "admin/board/addBoard";
 	}
+	
 	@RequestMapping("/admin/addBoardAction.woo")
-	public String addBoardAction(BoardListVO boardListVO) {
+	public String addBoardAction(WooBoardListVO boardListVO) {
 		boardListVO.setRequestname(boardListVO.getLocation() + "?bname=" + boardListVO.getBname() + "&");
-		int boardorder = sqlSession.getMapper(BoardListImpl.class).selectMaxOrder(boardListVO.getLocation());
+		int boardorder = sqlSession.getMapper(WooBoardListImpl.class).selectMaxOrder(boardListVO.getLocation());
 		boardListVO.setBoardorder(boardorder+1);
-		sqlSession.getMapper(BoardListImpl.class).createboard(boardListVO);
+		sqlSession.getMapper(WooBoardListImpl.class).createboard(boardListVO);
 		
 		return "redirect:../admin/addBoard.woo";
 	}
 	
-
+	// 게시판 수정
 	@RequestMapping("/admin/editBoard.woo")
-	public String editBoard(BoardListVO boardListVO){
+	public String editBoard(WooBoardListVO boardListVO){
 		try {
-			if(boardListVO.getLocation().equals(sqlSession.getMapper(BoardListImpl.class).selectLocation(boardListVO.getIdx()))) {
-				int boardorder = sqlSession.getMapper(BoardListImpl.class).selectorder(boardListVO.getIdx());
+			if(boardListVO.getLocation().equals(sqlSession.getMapper(WooBoardListImpl.class).selectLocation(boardListVO.getBoardlistidx()))) {
+				int boardorder = sqlSession.getMapper(WooBoardListImpl.class).selectorder(boardListVO.getBoardlistidx());
 				if(boardorder!=boardListVO.getBoardorder()) {
 					ParameterVO parameterVO = new ParameterVO();
 					parameterVO.setLocationname(boardListVO.getLocationname());
@@ -121,26 +141,26 @@ public class AdminController {
 						parameterVO.setEnd(boardListVO.getBoardorder());
 						parameterVO.setNum(-1);
 					}
-					sqlSession.getMapper(BoardListImpl.class).updateOrder1(boardListVO.getIdx());
-					sqlSession.getMapper(BoardListImpl.class).updateOrder2(parameterVO);
-					sqlSession.getMapper(BoardListImpl.class).updateOrder3(boardListVO);
+					sqlSession.getMapper(WooBoardListImpl.class).updateOrder1(boardListVO.getBoardlistidx());
+					sqlSession.getMapper(WooBoardListImpl.class).updateOrder2(parameterVO);
+					sqlSession.getMapper(WooBoardListImpl.class).updateOrder3(boardListVO);
 				}
 				boardListVO.setRequestname(boardListVO.getLocation() + "?bname=" + boardListVO.getBname() + "&");
-				sqlSession.getMapper(BoardListImpl.class).editboard(boardListVO);
+				sqlSession.getMapper(WooBoardListImpl.class).editboard(boardListVO);
 			}
 			else {
 				// 원래 location
-				String location = sqlSession.getMapper(BoardListImpl.class).selectLocation(boardListVO.getIdx());
+				String location = sqlSession.getMapper(WooBoardListImpl.class).selectLocation(boardListVO.getBoardlistidx());
 				// 원래 order
-				int order = sqlSession.getMapper(BoardListImpl.class).selectorder(boardListVO.getIdx());
-				sqlSession.getMapper(BoardListImpl.class).selectMaxOrder(location);
+				int order = sqlSession.getMapper(WooBoardListImpl.class).selectorder(boardListVO.getBoardlistidx());
+				sqlSession.getMapper(WooBoardListImpl.class).selectMaxOrder(location);
 				// 새로운 카테고리의 boardorder 최댓값
-				int boardorder = sqlSession.getMapper(BoardListImpl.class).selectMaxOrder(boardListVO.getLocation());
+				int boardorder = sqlSession.getMapper(WooBoardListImpl.class).selectMaxOrder(boardListVO.getLocation());
 				boardListVO.setBoardorder(boardorder+1);
 				boardListVO.setRequestname(boardListVO.getLocation() + "?bname=" + boardListVO.getBname() + "&");
-				sqlSession.getMapper(BoardListImpl.class).editboard(boardListVO);
+				sqlSession.getMapper(WooBoardListImpl.class).editboard(boardListVO);
 				// 뺴는거(제일 마지막)
-				sqlSession.getMapper(BoardListImpl.class).updateOrder(location, order);
+				sqlSession.getMapper(WooBoardListImpl.class).updateOrder(location, order);
 			}
 		}
 		catch (Exception e) {
@@ -149,35 +169,21 @@ public class AdminController {
 		return "redirect:../admin/addBoard.woo";
 	}
 	
+	// 게시판 삭제
 	@RequestMapping("/admin/deleteBoard.woo")
-	public String deleteBoard(BoardListVO boardListVO) {
+	public String deleteBoard(WooBoardListVO boardListVO) {
 		
-		sqlSession.getMapper(BoardListImpl.class).deleteboard(boardListVO.getIdx());
+		sqlSession.getMapper(WooBoardListImpl.class).deleteboard(boardListVO.getBoardlistidx());
 		
-		sqlSession.getMapper(BoardListImpl.class).updateOrder(boardListVO.getLocation(), boardListVO.getBoardorder());
+		sqlSession.getMapper(WooBoardListImpl.class).updateOrder(boardListVO.getLocation(), boardListVO.getBoardorder());
 		
 		return "redirect:../admin/addBoard.woo";
 	}
 	
+	// 게시판 관리
 	@RequestMapping("/admin/boardTable.woo")
 	public String boardTable() {
 		return "admin/board/boardTable";
-	}
-
-	@RequestMapping("/admin/memberDelete.woo")
-	public String memberDelete(HttpServletRequest req) {
-		String checkIdList = req.getParameter("checkId");
-		ArrayList<String> idList = new ArrayList<String>();
-		String[] checkIdArr = checkIdList.split("//");
-		for(int i=0 ; i<checkIdArr.length-1 ; i++) {
-			System.out.println(checkIdArr[i]);
-			idList.add(checkIdArr[i]);
-		}
-		ParameterVO parameterVO = new ParameterVO();
-		parameterVO.setList(idList);
-		sqlSession.getMapper(MybatisMemberImpl.class).deleteMember(parameterVO);
-		
-		return "admin/board/memberTable";
 	}
 
 }

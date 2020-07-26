@@ -128,7 +128,7 @@ function pwChange(){
 				</div>
 			</div>
 			<form:form class="row contact_form"
-				action="../member/changeInfomation.woo" method="post"
+				action="../member/memberModifyAction.woo" method="post"
 				novalidate="novalidate" name="modifyFrm" id="modifyFrm">
 				<div class="profile_edit_main">
 					<ul>

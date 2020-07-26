@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper  namespace="model.WooBoardDAOImpl" >
+<mapper  namespace="model.WooBoardImpl" >
 
 	 
 	 <!--1. 게시물 갯수 카운트 -->
@@ -17,7 +17,7 @@
 	 <!--2. start 와 end 에 해당하는 게시물 가져오기 (페이지 처리 & 검색 처리 )  -->
 	 <select id="listPage" resultType="model.WooBoardVO"  parameterType="model.ParameterVO">
 	 SELECT  
-	 	idx,
+	 	boardidx,
 		title,
 		contents,
 		postdate,
@@ -25,7 +25,6 @@
 		bname,
 		visitcount,
 		likecount,
-		imagefile,
 		ltrim(to_char(price,'999,999,999')) price,
 		product_state,
 		chatcount,
@@ -42,14 +41,14 @@
 	<if test="searchTxt != null and !searchTxt.equals('')">
         WHERE ${searchField} LIKE '%'||#{searchTxt}||'%' 
     </if>
-	 		order by idx DESC ) Tb) 
+	 		order by boardidx DESC ) Tb) 
 	 			WHERE rNum BETWEEN #{start} AND #{end}
 	 </select> 
 	 
 	 <!--3. 상세보기 -->
 	 <select resultType="model.WooBoardVO" id="view" parameterType="String">
 	 	SELECT  
-		 	idx,
+		 	boardidx,
 			title,
 			contents,
 			postdate,
@@ -68,20 +67,20 @@
 			latitude,
 			longitude
 	 	FROM woo_board 
-	 	WHERE idx = #{param1} 
+	 	WHERE boardidx = #{param1} 
 	 </select>
 	 
 	 
 	  <!--3-1. 조회수 처리하기 -->
 	 <update id="visitcount">
-	 	UPDATE woo_board SET visitcount = visitcount+1 WHERE idx= #{0}
+	 	UPDATE woo_board SET visitcount = visitcount+1 WHERE boardidx= #{0}
 	 </update>
 	 
 	 <!-- 3-2. 	파일 리스트  -->
 	 <select id="viewFile" parameterType="String"  resultType="model.FileVO">
 	 	SELECT *
 		FROM woo_file 
-	 	WHERE woo_board_idx = #{param1} 
+	 	WHERE boardidx = #{param1} 
 	 	ORDER BY file_num
 	 </select>
 	 
@@ -89,7 +88,7 @@
 	<!-- 4. 글쓰기  -->	 
 	  <insert id="write" parameterType="model.WooBoardVO" >
 	 	INSERT INTO woo_board (
-					idx, id, title, contents, bname,
+					boardidx, id, title, contents, bname,
 					price, product_state, three_dimens, product_tag, woopay, 
 					deal_type, latitude, longitude) 
 		VALUES (
@@ -107,8 +106,8 @@
    	
 		INSERT INTO woo_file
 		(
-			woo_file_idx,
-			woo_board_idx,
+			fileidx,
+			boardidx,
 			file_num,
 			original_name,
 			save_name,
@@ -116,7 +115,7 @@
 		)
 		VALUES(
 			seq_woo_file.NEXTVAL,
-			#{woo_board_idx},
+			#{boardidx},
 			#{file_num},
 			#{original_name},
 			#{save_name},
@@ -137,18 +136,18 @@
 		 	 woopay=#{woopay},
 		 	 deal_type=#{deal_type},
 		 	 deal_location=#{deal_location}
-	 	 WHERE idx= #{idx} AND id=#{id} 
+	 	 WHERE boardidx= #{boardidx} AND id=#{id} 
 	 </update>
 	 
 	 <!--6.  삭제하기-->
 	 <delete id="delete" parameterType="model.ParameterVO" >
-	 	DELETE FROM woo_board WHERE idx=#{idx} AND id=#{id}
+	 	DELETE FROM woo_board WHERE boardidx=#{boardidx} AND id=#{id}
 	 </delete>
 	 
 	 <!-- 7. 내주변 상품 찾아오기  -->
 	 <select id="searchRadius" resultType="model.WooBoardVO" parameterType="model.ParameterVO">
   		SELECT
-  			idx,
+  			boardidx,
 			title,
 			id,
 			bname,
@@ -171,7 +170,7 @@
   	</select>
 	 
 	<select id="selectId" resultType="String">
-	 	select id from woo_board where idx = #{0}
+	 	select id from woo_board where boardidx = #{0}
 	 
 	 </select>
 	 

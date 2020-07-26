@@ -54,7 +54,7 @@
 									  </ul>
 								   <form:form name="viewForm" role="form" >
 										<input type="hidden"  name="bname" value="${viewRow.bname}" />
-										<input type="hidden"  name="idx" value="${viewRow.idx}" />
+										<input type="hidden"  name="boardidx" value="${viewRow.boardidx}" />
 									   	<input type="hidden"  name="nowPage" value="${param.nowPage}"> 
 									</form:form>
 										<%-- <input type="hidden"  name="searchType" value="${param.searchType}"> 
@@ -115,7 +115,7 @@
 											<div class="detail_bottom_area1 detail_bottom_tag_area" style="margin-left: 10px;">
 													<span class="tag" style="color: #ff4f4f;">
 														<c:forTokens var="item" items="${viewRow.product_tag}" delims="#">
-														<a href="/search?tag=${item}"><button type="button" class="btn_ca">#${item}${viewRow.idx}</button></a>
+														<a href="/search?tag=${item}"><button type="button" class="btn_ca">#${item}${viewRow.boardidx}</button></a>
 														</c:forTokens>
 													</span>
 												</div>
@@ -167,7 +167,7 @@
 											<div class="row">
 											<div class="col-3"></div>
 												<div class="my_profile_image col-6" style="text-align: center; width: 150px; height: 150px; padding-top: 20px; padding-bottom:20px;  padding-left: 20px;">
-													<a href="../mypage/myList_L.woo?mode=review&dealPosition=seller&seller_id=${viewRow.id}">${udongGrade }</a>
+													<a href="../mypage/myPage.woo?mode=review&dealPosition=seller&seller_id=${viewRow.id}">${udongGrade }</a>
 												</div>
 											<div class="col-3"></div>
 											</div>

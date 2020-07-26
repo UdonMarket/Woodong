@@ -4,7 +4,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper  namespace="model.MypageDAOImpl" > 
+<mapper  namespace="model.WooMypageImpl" > 
 	
 	<!-- 우동좌측이미지 -->
 	<!-- id마다 평점불러오기 -->
@@ -15,9 +15,9 @@
 	<update id="avg_score_update">
 		update woo_member set avg_score = #{0} where id = #{1}
 	</update>
+	 
 	
-	
-	<select id="myInfo" resultType="model.MemberVO">
+	<select id="myInfo" resultType="model.WooMemberVO">
  		select * from woo_member where id=#{0}
  	</select>
 
@@ -25,30 +25,30 @@
 	<!-- 카테고리에서 좋아요 누를 때 -->
 	<!--ㅡmypage goods에 연결된 String 가져오기 -->	
 	 <select id="selectLike" resultType="String">
-	 	select goods from mypage where id = #{0}
+	 	select goods from woo_mypage where id = #{0}
 	 </select>
 	 
 	 <!--ㅡmypage goods에 새로운 idx update -->	
 	<update id="updateLike" >
- 		update mypage set goods = #{0} where id = #{1}
+ 		update woo_mypage set goods = #{0} where id = #{1}
  	</update>
 
 
 	<!-- 좋아요 토글 -->
   	<update id="likeCheck">
-  		update WOO_BOARD set like_check = -like_check where idx = #{0}
+  		update WOO_BOARD set like_check = -like_check where boardidx = #{0}
   	</update>
   	
   	<!-- likeCheck select -->
   	<select id="selectLikeCheck" resultType="int">
-  		select like_check from WOO_BOARD where idx = #{0}
+  		select like_check from WOO_BOARD where boardidx = #{0}
   	</select>
   	
   	<update id="likeCount_minus">
-  		update woo_board set likecount = likecount -1 where idx = #{1}
+  		update woo_board set likecount = likecount -1 where boardidx = #{1}
   	</update>
   	<update id="likeCount_puls">
-  		update woo_board set likecount = likecount +1 where idx = #{1}
+  		update woo_board set likecount = likecount +1 where boardidx = #{1}
   	</update>
 
 	 
@@ -82,27 +82,27 @@
   			</if>
   			<!-- 관심목록 -->
   			<if test="mode.equals('like')">	
-  				and idx in
+  				and boardidx in
 				 	<foreach collection="list" item="item" open="(" close=")" separator=",">
 			 			#{item}
 					</foreach>
   			</if>	
-	  		ORDER BY idx DESC) TB) WHERE rNum BETWEEN #{start} AND #{end}
+	  		ORDER BY boardidx DESC) TB) WHERE rNum BETWEEN #{start} AND #{end}
   	</select>
   	
-  	<select id="selectReview" resultType="model.MyreviewVO" parameterType="model.ParameterVO">
+  	<select id="selectReview" resultType="model.WooMyreviewVO" parameterType="model.ParameterVO">
   	SELECT * FROM (
 	  			SELECT Tb.*, rownum rNum FROM(
 	  				SELECT * FROM WOO_REVIEW
 	  				WHERE buyer_id = #{user_id} 
-	  		ORDER BY review_idx DESC) TB) WHERE rNum BETWEEN #{start} AND #{end}
+	  		ORDER BY reviewidx DESC) TB) WHERE rNum BETWEEN #{start} AND #{end}
   	</select>
 	 
 	 
 	 
 	 <select id="getTotalCount" resultType="int" parameterType="model.ParameterVO">
   		SELECT COUNT(*) from WOO_BOARD 	
-  		WHERE idx in
+  		WHERE boardidx in
   		 	<foreach collection="list" item="item" open="(" close=")" separator=",">
  			#{item}
 		</foreach>	
@@ -111,19 +111,19 @@
   	
   	<!-- review table 업데이트 -->
   	<insert id="update_reviewTable" parameterType="model.ParameterVO">
-  		insert into woo_review (seller_id, buyer_id, review_idx, title) values (#{id}, #{user_id}, ${idx},#{title})
+  		insert into woo_review (seller_id, buyer_id, reviewidx, title) values (#{id}, #{user_id}, ${idx},#{title})
   	</insert>
   	
 	<update id="update_reviewContents">
-		update woo_review set contents = #{0} where review_idx = #{1}
+		update woo_review set contents = #{0} where reviewidx = #{1}
 	</update>
 	
 	<update id="update_reviewScore">
-		update woo_board set review_score = #{0} where idx = #{1}
+		update woo_board set review_score = #{0} where boardidx = #{1}
 	</update>
 	
 	
 	<delete id ="delete">
-		delete from woo_review where review_idx = #{0}
+		delete from woo_review where reviewidx = #{0}
 	</delete>
 </mapper>

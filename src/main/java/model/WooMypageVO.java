@@ -1,6 +1,6 @@
 package model;
 
-public class MypageVO {
+public class WooMypageVO {
 	private String goods;
 	private String id;
 

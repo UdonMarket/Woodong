@@ -7,14 +7,9 @@
 
 <script>
 function deleteMember(){
-	var x = confirm("정말로 탈퇴하시겠습니까?");
-	if(x){
-		location.href="deleteMemberAction";
+	if(!confirm("정말로 탈퇴하시겠습니까?")){
+		return false;
 	}
-	else
-	 	return false;
-}
-}	
 </script>
 
 <!-- head.jsp -->
@@ -62,7 +57,7 @@ function deleteMember(){
 
 							<div style="margin-bottom: 10px;">
 								<form:form class="row contact_form"
-									action="../member/deleteMemberAction" method="post"
+									action="../member/memberWithdrawAction.woo" method="post"
 									novalidate="novalidate" name="deleteFrm" id="deleteFrm"
 									onsubmit="return frmCheck(this);">
 									<div class="col-md-12 form-group p_star">

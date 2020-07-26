@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 //우동 게시판 
-public interface WooBoardDAOImpl {
+public interface WooBoardImpl {
 	
 	//1. 게시물 갯수 카운트
 	public int getTotalCount(ParameterVO parameterVO);

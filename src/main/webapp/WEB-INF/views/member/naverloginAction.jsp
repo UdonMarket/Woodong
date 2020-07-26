@@ -33,8 +33,8 @@
 		action="${loginUrl }" method="post" novalidate="novalidate"
 		id="loginFrm">
 
-	<input type="text" name="name" value="${name }"/>
-	<input type="text" name="password" value="1"/>
+	<input type="hidden" name="name" value="${name }"/>
+	<input type="hidden" name="password" value="1"/>
 	</form:form>
 </body>
 </html>

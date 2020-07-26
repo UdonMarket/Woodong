@@ -75,7 +75,7 @@
 			</div>
 		
 			<form class="form-inline" name="searchFrm"
-				action="<c:url value="/admin/memberTable.woo"/>"
+				action="<c:url value="../admin/memberTable.woo"/>"
 				style="margin-bottom: 10px;">
 
 				<div class="form-group">

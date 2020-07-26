@@ -1,19 +1,24 @@
 package model;
 
-public class BoardListVO {
+public class WooBoardListVO {
+	
+	// 테이블 컬럼
+	private String boardlistidx;
 	private String bname;
 	private String location;
 	private String locationname;
 	private String requestname;
-	private String idx;
 	private String type;
 	private int boardorder;
 	
-	public int getBoardorder() {
-		return boardorder;
+	// 기타
+	
+	
+	public String getBoardlistidx() {
+		return boardlistidx;
 	}
-	public void setBoardorder(int boardorder) {
-		this.boardorder = boardorder;
+	public void setBoardlistidx(String boardlistidx) {
+		this.boardlistidx = boardlistidx;
 	}
 	public String getBname() {
 		return bname;
@@ -39,17 +44,18 @@ public class BoardListVO {
 	public void setRequestname(String requestname) {
 		this.requestname = requestname;
 	}
-	public String getIdx() {
-		return idx;
-	}
-	public void setIdx(String idx) {
-		this.idx = idx;
-	}
 	public String getType() {
 		return type;
 	}
 	public void setType(String type) {
 		this.type = type;
 	}
+	public int getBoardorder() {
+		return boardorder;
+	}
+	public void setBoardorder(int boardorder) {
+		this.boardorder = boardorder;
+	}
+	
 		
 }

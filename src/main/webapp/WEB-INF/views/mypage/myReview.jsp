@@ -87,7 +87,7 @@ function deleteRow(idx) {
 												</div>
 												<img src="../resources/img/myPage/삭제.png"
 													style="width: 50px; height: 40px; margin-left: 500px;"
-													onclick="javascript:deleteRow(${list.review_idx});" />
+													onclick="javascript:deleteRow(${list.reviewidx});" />
 											</div>
 										</c:forEach>
 								</c:otherwise>
@@ -122,6 +122,7 @@ function deleteRow(idx) {
 					</div>
 				</div>
 			</div>
+		</div>
 		</div>
 	</section>
 

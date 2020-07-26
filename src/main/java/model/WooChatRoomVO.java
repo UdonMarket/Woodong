@@ -1,27 +1,23 @@
 package model;
 
 public class WooChatRoomVO {
-	private String roomidx;
+	
+	// 테이블 컬럼
+	private String chatroomidx;
 	private String boardidx;
 	private String myid;
 	private String otherid;
 	private String lastchatdate;
-	private String lastChat;
 	
-	public String getLastchatdate() {
-		return lastchatdate;
+	// 기타
+	private String lastChat;
+
+	public String getChatroomidx() {
+		return chatroomidx;
 	}
 
-	public void setLastchatdate(String lastchatdate) {
-		this.lastchatdate = lastchatdate;
-	}
-
-	public String getRoomidx() {
-		return roomidx;
-	}
-
-	public void setRoomidx(String roomidx) {
-		this.roomidx = roomidx;
+	public void setChatroomidx(String chatroomidx) {
+		this.chatroomidx = chatroomidx;
 	}
 
 	public String getBoardidx() {
@@ -46,6 +42,14 @@ public class WooChatRoomVO {
 
 	public void setOtherid(String otherid) {
 		this.otherid = otherid;
+	}
+
+	public String getLastchatdate() {
+		return lastchatdate;
+	}
+
+	public void setLastchatdate(String lastchatdate) {
+		this.lastchatdate = lastchatdate;
 	}
 
 	public String getLastChat() {

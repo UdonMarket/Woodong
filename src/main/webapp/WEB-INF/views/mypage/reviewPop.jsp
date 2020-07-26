@@ -86,7 +86,7 @@ function writeValidate(f)
       </div>
    <div class="oViOeBoH3d container" style="padding-top: 20px;">
       <h4>어떤 점이 좋았나요?</h4>
-      <form:form  name="writeFrm" method="post" onsubmit="return writeValidate(this);" action="write_review_contents.woo">
+      <form:form  name="writeFrm" method="post" onsubmit="return writeValidate(this);" action="writeReviewContents.woo">
          	<input type ="hidden" value="" id="cal_reviewPoint" name="cal_reviewPoint"/>
       <input type="hidden" name ="write_idx" value="${idx}"/>
       <div class="ystMZ36gvH row" style="padding-top: 10px;">

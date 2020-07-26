@@ -57,7 +57,7 @@
 		</div>
 		<div class="container">
 			<form:form action="../admin/addBoardAction.woo" method="post">
-				<input type="hidden" name="idx" />
+				<input type="hidden" name="boardlistidx" />
 				<input type="hidden" name="requestname" />
 				<input type="hidden" id="locationname" name="locationname"/>
 				<input type="hidden" name="type" />
@@ -108,7 +108,7 @@
 						<input type="hidden" name="ty" value="${row.type }"/>
 						<input type="hidden" name="bo" value="${row.boardorder }"/>
 						<form:form action="../admin/editBoard.woo" method="post">
-							<input type="hidden" name="idx" value="${row.idx }"/>
+							<input type="hidden" name="idx" value="${row.boardlistidx }"/>
 							<input type="hidden" name="requestname" value="${row.requestname }"/>
 							<input type="hidden" name="locationname" value="${row.locationname }"/>
 							<tr>

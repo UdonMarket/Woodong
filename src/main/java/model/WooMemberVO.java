@@ -2,15 +2,18 @@ package model;
 
 import java.sql.Date;
 
-public class MemberVO {
+public class WooMemberVO {
+	// 테이블 컬럼
 	private String id;
 	private String pass;
 	private Date regidate;
-	private String avg_score;
 	private String mobile;
+	private String avg_score;
 	private String addr;
 	private String grade;
 	private String trade_count;
+	
+	// 기타
 	private String searchField;
 	private String searchTxt;
 	private int start;

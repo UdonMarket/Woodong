@@ -30,7 +30,7 @@
 	<!-- ================ contact section start ================= -->
 	<section class="contact-section section_padding" style="padding-top: 50px">
 	<form:form name="updateFrm" action="./updateAction.woo" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="idx" value="${viewRow.idx}" />
+		<input type="hidden" name="idx" value="${viewRow.boardidx}" />
 		<div class="container">
 			<div class="regist_box">
 				<div class="description">

@@ -2,8 +2,9 @@ package model;
 
 public class FileVO {
 	
-	private String woo_file_idx;//파일 idx
-	private String woo_board_idx;//보드 idx
+	// 테이블 컬럼
+	private String fileidx;//파일 idx
+	private String boardidx;//보드 idx
 	private String file_num;//파일
 	private String original_name;//원본 파일명
 	private String save_name;//저장되는 파일명
@@ -11,18 +12,20 @@ public class FileVO {
 	private String del_yn;//삭제여부
 	private String file_cre;//첨부파일 생성일
 	
+	// 기타
 	
-	public String getWoo_file_idx() {
-		return woo_file_idx;
+	
+	public String getFileidx() {
+		return fileidx;
 	}
-	public void setWoo_file_idx(String woo_file_idx) {
-		this.woo_file_idx = woo_file_idx;
+	public void setFileidx(String fileidx) {
+		this.fileidx = fileidx;
 	}
-	public String getWoo_board_idx() {
-		return woo_board_idx;
+	public String getBoardidx() {
+		return boardidx;
 	}
-	public void setWoo_board_idx(String woo_board_idx) {
-		this.woo_board_idx = woo_board_idx;
+	public void setBoardidx(String boardidx) {
+		this.boardidx = boardidx;
 	}
 	public String getFile_num() {
 		return file_num;

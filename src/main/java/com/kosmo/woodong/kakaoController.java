@@ -1,16 +1,11 @@
 package com.kosmo.woodong;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import kakaologin.kakao_restapi;
-import model.MemberVO;
-import model.MybatisMemberImpl;
+import model.WooMemberVO;
+import model.WooMemberImpl;
 
 @Controller
-public class KakaoLoginController {
+public class kakaoController {
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -67,14 +62,14 @@ public class KakaoLoginController {
 	    session.setAttribute("token", token);
 	    
 	    //////////
-	    MemberVO memberVO = new MemberVO();
+	    WooMemberVO memberVO = new WooMemberVO();
 		String pw = "1";
 		String phoneNum = "010-1234-5678";
 		memberVO.setId(kemail);
 		memberVO.setPass(pw);
 		memberVO.setMobile(phoneNum);
 		try {
-		((MybatisMemberImpl)this.sqlSession.getMapper(MybatisMemberImpl.class))
+		((WooMemberImpl)this.sqlSession.getMapper(WooMemberImpl.class))
 		.kakaoLoginAction(memberVO);
 		model.addAttribute("name", kemail);
 		return "member/kakaologinAction";

@@ -81,8 +81,7 @@ function deleteRow(idx) {
 														<a href="/s/@16078391?tab=item"> <img
 															src="../resources/Upload/${list.imagefile}">
 														</a> <a href="/s/@16078391?tab=item">
-															<div class=""
-																style="font-weight: bold; font-size: 15px; padding-top: 30px; padding-left: 8px;">
+															<div class="" style="font-weight: bold; font-size: 15px; padding-top: 30px; padding-left: 8px;">
 																판매자 : ${list.seller_id}</div>
 														</a>
 													</div>
@@ -103,7 +102,7 @@ function deleteRow(idx) {
 												</div>
 												<img src="../resources/img/myPage/삭제.png"
 													style="width: 50px; height: 40px; margin-left: 500px;"
-													onclick="javascript:deleteRow(${list.review_idx});" />
+													onclick="javascript:deleteRow(${list.reviewidx});" />
 											</div>
 										</c:forEach>
 								</c:otherwise>

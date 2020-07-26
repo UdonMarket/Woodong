@@ -31,7 +31,7 @@ function like_toggle(idx) {
 	var str = "";
 	str += idx + "#";
 	$.ajax({
-		url : "../mypage/like_toggle.woo",
+		url : "../mypage/likeToggle.woo",
 		type:"get",
 	    contentType:"text/html;charset:utf-8",
 	    data:{idx : idx, like_flag : like_flag, str : str},
@@ -101,6 +101,9 @@ $(window).scroll(function(){
         }  
     } 
 });  
+function initMap(latitude, longitude) {
+	
+}
 </script>
 	<div class="col-md-9" style="padding-top: 37px" >
 		<div class="row" id="boardHTML"></div>

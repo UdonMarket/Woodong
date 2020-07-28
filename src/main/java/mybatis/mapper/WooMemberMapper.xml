@@ -42,7 +42,7 @@
  		DELETE FROM woo_member WHERE id=#{param1}
  	</delete>
  	
- 	<!-- 수정폼 넘어가기전 패스워드 검증폼 처리하는 코드 -->
+ 	<!-- 탈퇴하기 넘어가기전 패스워드 검증폼 처리하는 코드 -->
  	<select id="passwordAction" resultType="model.WooMemberVO">
  		 SELECT * FROM woo_member WHERE id=#{param1} AND pass=#{param2}
  	</select>
@@ -57,12 +57,17 @@
 		DELETE FROM woo_member WHERE id=#{param1} AND pass=#{param2} 	
  	</delete>
  	
- 	
- 	
  	<!-- 동네인증 -->
   	<select id="view" resultType="model.WooMemberVO">
   		SELECT * FROM woo_member WHERE id=#{0}
   	</select>
+  	
+  	<!-- 수정폼 진입 -->
+  	<select id="startModify" resultType="model.WooMemberVO">
+ 		 SELECT * FROM woo_member WHERE id=#{param1}
+ 	</select>
+  	
+  	<!-- 수정처리 과정 -->
   	<update id="modify" >
   		UPDATE woo_member SET addr=#{0} WHERE id=#{1}
   	</update>
@@ -72,18 +77,6 @@
  		SELECT DISTNACE_WGS84(#{0}, #{1}, #{2}, #{3}) FROM dual
  	</select>
 	 
- 	<!-- 네이버 아이디 로그인 처리 -->
- 	<insert id="naverLoginAction" parameterType="model.WooMemberVO">
- 		 insert into woo_member(id,mobile,pass)
-      values(#{id},#{mobile},#{pass})  
- 	</insert>
- 	
-	 <!-- 카카오 아이디 로그인 처리 -->
- 	<insert id="kakaoLoginAction" parameterType="model.WooMemberVO">
- 		 insert into woo_member(id,mobile,pass)
-      values(#{id},#{mobile},#{pass})  
- 	</insert>
-	 
 	<delete id="deleteMember" parameterType="model.ParameterVO">
 		DELETE FROM woo_member WHERE id in 
 		<foreach collection="list" item="item" open="(" close=")" separator=",">
@@ -91,4 +84,13 @@
 		</foreach>
 	</delete>
  	
+ 	<!-- 아이디 찾기 -->
+  	<select id="idFind"  resultType="model.WooMemberVO">
+  		SELECT id FROM woo_member WHERE mobile=#{mobile}
+  	</select>
+ 	
+ 	<!-- 비밀번호 찾기 -->
+  	<select id="pwFind"  resultType="model.WooMemberVO">
+  		SELECT pass FROM woo_member WHERE mobile=#{mobile}
+  	</select>
  </mapper>

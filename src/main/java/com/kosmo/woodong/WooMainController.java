@@ -40,6 +40,11 @@ public class WooMainController {
 	public String main() {
 		return "main/main";
 	}
+	// (진슬)메인화면
+	@RequestMapping("/")
+	public String main2() {
+		return "main/home";
+	}
 	// 소개
 	@RequestMapping("/about/about.woo")
 	public String about() {

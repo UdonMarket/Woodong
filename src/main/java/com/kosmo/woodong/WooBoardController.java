@@ -274,7 +274,7 @@ public class WooBoardController {
 		
 		
 		//소영 추가(판매상태) 
-		String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(idx);
+		String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(boardidx);
 		model.addAttribute("sellingStatus", sellingStatus);
 		System.out.println(sellingStatus);
 		

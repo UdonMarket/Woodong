@@ -8,7 +8,25 @@ public class WooMyreviewVO {
 	private String title;
 	private String contents;
 	private String buyer_id;
+	private String boardidx;
+	private String score;
 	
+	public String getScore() {
+		return score;
+	}
+
+	public void setScore(String score) {
+		this.score = score;
+	}
+
+	public String getBoardidx() {
+		return boardidx;
+	}
+
+	public void setBoardidx(String boardidx) {
+		this.boardidx = boardidx;
+	}
+
 	// 기타
 	private String imagefile;
 

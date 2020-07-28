@@ -1,6 +1,7 @@
 package com.kosmo.woodong;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import model.ParameterVO;
 import model.WooBoardListImpl;
 import model.WooBoardListVO;
+import model.WooMemberVO;
+import model.WooMypageImpl;
+import model.WooMyreviewVO;
 import naverlogin.NaverLoginBO;
 
 @Controller
@@ -32,7 +37,37 @@ public class WooMainController {
 	
 	// 메인화면
 	@RequestMapping("/main/main.woo")
-	public String main() {
+	public String main(Model model, HttpServletRequest req, Principal principal) {
+			
+			ArrayList<WooMyreviewVO> riviewList = sqlSession.getMapper(WooMypageImpl.class).selectReview2();
+			
+			for(int e=0; e<riviewList.size(); e++) {
+				String score = "";
+				String idx = riviewList.get(e).getBoardidx();
+			
+				String review_score2  = sqlSession.getMapper(WooMypageImpl.class).review_score2(idx);
+					double review_score = Double.parseDouble(review_score2);
+				
+					int full = (int) review_score % 5;
+					int half = (int) ((review_score - full) * 10);
+					
+					for (int i = 1; i <= full; i++) {
+						score += "<img src='../resources/img/그냥튀김우동.png' alt='' />";
+					}
+					if (half < 5) {
+						for (int j = full + 1; j <= 5; j++) {
+							score += "<img src='../resources/img/회색우동.png' alt='' />";
+						}
+					} else {
+						score += "<img src='../resources/img/반쪽우동.png' alt='' />";
+						for (int j = full + 2; j <= 5; j++) {
+							score += "<img src='../resources/img/회색우동.png' alt='' />";
+						}
+					}
+					riviewList.get(e).setScore(score);
+			} 
+			model.addAttribute("riviewList", riviewList);
+		
 		return "main/main";
 	}
 	// 소개
@@ -79,4 +114,5 @@ public class WooMainController {
 	public String write() {
 		return "board/write";
 	}
+	
 } 

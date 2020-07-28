@@ -175,6 +175,11 @@
 	 </select>
 	 
 	 
+	 <select id="selectSellingStatus" resultType="String">
+	 	select deal_type from woo_board where boardidx = #{0}
+	 
+	 </select>
+	 
 
 	
 </mapper>

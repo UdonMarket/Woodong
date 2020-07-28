@@ -103,7 +103,6 @@ public class WooBoardController {
 		
 		int total = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).getTotalCount(parameterVO);
 		ArrayList<WooBoardVO> lists = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).listPage(parameterVO);
-		System.out.println(lists.get(0).getBoardidx());
 		Iterator itr = lists.iterator();
 		//소영 추가부분
 		String user_id = "";
@@ -246,6 +245,13 @@ public class WooBoardController {
 		model.addAttribute("viewRow", dto);
 		model.addAttribute("uploadFileList", uploadFileList);
 		model.addAttribute("nowPage", nowPage);
+		
+		
+		//소영 추가(판매상태) 
+		String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(idx);
+		model.addAttribute("sellingStatus", sellingStatus);
+		System.out.println(sellingStatus);
+		
 		
 		return "product/productView";
 	}

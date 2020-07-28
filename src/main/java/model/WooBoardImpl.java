@@ -39,4 +39,6 @@ public interface WooBoardImpl {
 	//7.내주변 상품 찾아오기
 	public ArrayList<WooBoardVO> searchRadius(ParameterVO parameterVO);
 
+	//판매상태 가져오기
+	public String selectSellingStatus(String idx);
 }

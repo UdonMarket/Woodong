@@ -6,6 +6,9 @@ public interface WooMypageImpl {
 	
 	ArrayList<String> review_score(String user_id);
 	
+	//메인화면
+	String review_score2(String idx);
+	
 	WooMemberVO myInfo(String var1);
 	
 	String selectLike(String var1);
@@ -36,7 +39,14 @@ public interface WooMypageImpl {
 	
 	ArrayList<WooMyreviewVO> selectReview(ParameterVO parameterVO);
 	
+	//메인화면
+	ArrayList<WooMyreviewVO> selectReview2();
+	
+	ArrayList<WooMyreviewVO> sellerReview(ParameterVO parameterVO);
+	
 	public int delete(String idx);
+	
+	public int default_reviewScore(String idx);
 	
 }
 

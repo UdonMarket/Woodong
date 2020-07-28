@@ -66,7 +66,7 @@ public class FileUtils {
 		 listMap.put("save_name", save_name);
 		 listMap.put("user_id", user_id);
 		 listMap.put("file_num", count);
-		 listMap.put("woo_board_idx", woo_board_idx);
+		 listMap.put("boardidx", woo_board_idx);
 		 
 		 list.add(listMap);
 		 //파일 순서 1 증가 => file_num

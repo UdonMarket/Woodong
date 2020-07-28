@@ -19,10 +19,10 @@
 					<img class="productList_image" src="../resources/Upload/${row.imagefile}" />
 				</div>
 				<div>
-					<h3> <a href="./productView.woo?idx=${row.boardidx}&nowPage=${param.nowPage}">${row.title}</a></h3>
+					<h3> <a href="./productView.woo?boardidx=${row.boardidx}&nowPage=${param.nowPage}">${row.title}</a></h3>
 				</div>
 				<div>
-					<h4>${row.price} 원 ( idx : ${row.boardidx})</h4>
+					<h4>${row.price} 원 ( boardidx : ${row.boardidx})</h4>
 				</div>
 			</div>
 		 </c:forEach>   

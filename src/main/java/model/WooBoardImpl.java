@@ -27,8 +27,12 @@ public interface WooBoardImpl {
 	//4-1 . 첨부파일 업로드
 	public int insertFile(Map<String,Object> map);
 	
-	//5.수정처리하기
+	//5.수정하기
 	public int update(WooBoardVO wooBoardVO);
+	
+	//4-1 . 첨부파일 수정
+	public int updateFile(Map<String,Object> map);
+	
 
 	//6.삭제하기
 	public int delete(ParameterVO parameterVO);   

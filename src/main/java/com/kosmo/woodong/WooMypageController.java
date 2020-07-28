@@ -367,7 +367,7 @@ public class WooMypageController {
 	@RequestMapping("/mypage/reviewDelete.woo")
 	public String deleteReview(HttpServletRequest req) {
 		String page = "";
-		String idx = req.getParameter("idx");
+		String idx = req.getParameter("boardidx");
 		System.out.println("후기삭제 : " + idx);
 		int delete = sqlSession.getMapper(WooMypageImpl.class).delete(idx);
 		String dealPosition = req.getParameter("dealPosition");

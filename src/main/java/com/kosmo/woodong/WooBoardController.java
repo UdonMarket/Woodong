@@ -184,7 +184,7 @@ public class WooBoardController {
 		
 		String boardidx = req.getParameter("boardidx");
 		String nowPage = req.getParameter("nowPage");
-		
+		System.out.println(boardidx);
 		String seller_id = sqlSession.getMapper(WooBoardImpl.class).selectId(boardidx);
 		System.out.println("seller_id" + seller_id);
 		
@@ -268,7 +268,7 @@ public class WooBoardController {
 		
 		dto.setContents(dto.getContents().replace("\r\n","<br/>"));
 		
-		model.addAttribute("viewRow", dto);
+		model.addAttribute("viewRow", dto); 
 		model.addAttribute("uploadFileList", uploadFileList);
 		model.addAttribute("nowPage", nowPage);
 		
@@ -276,7 +276,7 @@ public class WooBoardController {
 		//소영 추가(판매상태) 
 		String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(boardidx);
 		model.addAttribute("sellingStatus", sellingStatus);
-		System.out.println(sellingStatus);
+		System.out.println("!" + sellingStatus);
 		
 		
 		return "product/productView";

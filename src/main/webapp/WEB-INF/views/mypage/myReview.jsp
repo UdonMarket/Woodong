@@ -63,7 +63,7 @@ function deleteRow(boardidx) {
 												style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px; border-bottom: 1px solid #d9d9d9;">
 												<div class="col-3">
 													<div class="member_image_box1">
-														<a href="../product/productView.woo?idx=${list.boardidx}"  > 
+														<a href="../product/productView.woo?boardidx=${list.boardidx}"  > 
 														<img src="../resources/Upload/${list.imagefile}">
 														</a> 
 														<a href="/s/@16078391?tab=item">

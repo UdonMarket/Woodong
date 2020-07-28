@@ -105,17 +105,17 @@
 						<h3>게시판관리</h3>
 					</div>
 				</li>
-				<li class="nav-item"><a class="nav-link "
+				<li class="nav-item"><a class="nav-link"
 					href="../admin/addBoard.woo"> <i
 						class="ni ni-bullet-list-67 text-red"></i> 게시판 생성
 				</a></li>
-				<li class="nav-item"><a class="nav-link "
-					href="../admin/boardTable.woo"> <i
-						class="ni ni-bullet-list-67 text-red"></i> 게시판
+				<li class="nav-item"><a class="nav-link"
+					href="../admin/boardTable.woo?mode=product"> <i
+						class="ni ni-bullet-list-67 text-red"></i> 카테고리
 				</a></li>
-				<li class="nav-item"><a class="nav-link "
-					href="../admin/addTable.woo"> <i
-						class="ni ni-bullet-list-67 text-red"></i> 
+				<li class="nav-item"><a class="nav-link"
+					href="../admin/boardTable.woo?mode=community"> <i
+						class="ni ni-bullet-list-67 text-red"></i> 커뮤니티
 				</a></li>
 			</ul>
 			<!-- Divider -->

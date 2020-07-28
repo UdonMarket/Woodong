@@ -74,19 +74,17 @@
 		        		<div style="display: inline-block;">
 	        			    <form:form action="../product/productList.woo?mode=map&bname=${parameterVO.bname }&" method="post">
 					    <!-- 현재위치 위경도 입력상자 -->
-								<input type="hidden" id="lat" name="lat" />
-								<input type="hidden" id="lon" name="lon" />
+								<input type="hid den" id="lat" name="lat" />
+								<input type="hid den" id="lon" name="lon" />
 								<input type="image" src="../resources/img/product/map1.png" alt=""style="margin-bottom: 0px;width: 120px;cursor: pointer;" />
-			        			<!-- <img src="../resources/img/product/map1.png" alt="" style="width: 120px;cursor: pointer;"onclick="location.href='../product/productListMap.woo';"/> -->
 						    </form:form>
 	        			</div>
 	        			<div style="display: inline-block;">
 	        				 <form:form action="../product/productList.woo?bname=${parameterVO.bname }&" method="post">
 					    <!-- 현재위치 위경도 입력상자 -->
-								<input type="hidden" id="lat1" name="lat" />
-								<input type="hidden" id="lon1" name="lon" />
+								<input type="hid den" id="lat1" name="lat" />
+								<input type="hid den" id="lon1" name="lon" />
 								<input type="image" src="../resources/img/product/이미지로보기.png" alt=""style="margin-bottom: -12px;width: 155px; cursor: pointer;" />
-			        			<!-- <img src="../resources/img/product/map1.png" alt="" style="width: 120px;cursor: pointer;"onclick="location.href='../product/productListMap.woo';"/> -->
 						    </form:form>
 	        			</div>
 	        		</div>
@@ -166,7 +164,13 @@
 				<div class="my_profile_nav">
 					<ul style="background-color:#FFF;border:1px solid #d9d9d9;">
 						<li>
-							<a class="active" id="scrollMain"href="javascript:void(0);"><span style="font-size:1.4em;color:#ff4f4f;">상품 리스트</span></a>
+							<form:form action="../product/productList.woo?mode=map&bname=${parameterVO.bname }&" method="post">
+								<input type="hidden" name="lat"  value="${parameterVO.latTxt }"/>
+								<input type="hidden" name="lon"  value="${parameterVO.lngTxt }"/>
+								<button style="background: none;border: none">
+									<a href="javascript:void(0);"><span style="font-size:1.4em;color:#ff4f4f;">상품 리스트</span></a>
+								</button>
+						    </form:form>
 						</li>
 						<c:forEach items="${blists }" var="row">
 							<li>

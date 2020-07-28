@@ -24,7 +24,7 @@
 			sendMessage();
 			$('#inputMessage').val('');
 		});
-		let sock = new SockJS("http://192.168.219.110:8282/woodong/echo");
+		let sock = new SockJS("http://192.168.219.142:8282/woodong/echo");
 		sock.onmessage = onMessage;
 		sock.onclose = onClose;
 		sock.onerror = onError;
@@ -132,7 +132,7 @@
 						</div>
 					</div>
 				</c:if>
-				<c:if test="">
+				<c:if test="${userid ne row.id}">
 					<div class="chat chat-left">
 						<div class="chat-box">
 							<p style = "font-weight:bold;font-size:1.1em;margin-bottom:5px;">${row.id }</p>

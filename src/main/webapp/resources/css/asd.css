@@ -10788,7 +10788,6 @@ input.password_input:-moz-placeholder {
 		float: right;
 		padding-right: 8px;
 		cursor: pointer;
-		border-right: 1px solid #e0e0e0;
 		margin-top: 3px
 	}
 	.item_tag .wish_box .wish_icon {
@@ -13247,7 +13246,6 @@ input.password_input:-moz-placeholder {
 	.wish_box {
 		float: right;
 		cursor: pointer;
-		border-right: 1px solid #e8ebed
 	}
 	.share_box {
 		float: right;

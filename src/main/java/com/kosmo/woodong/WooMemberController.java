@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,27 +32,59 @@ public class WooMemberController {
 	}
 	
 	// 회원가입 처리
-	@RequestMapping("/member/joinAction.woo")
-	public String joinAction(HttpServletRequest req) {
-		System.out.println("test");
+	@ResponseBody
+	@RequestMapping(value = "/member/joinAction.woo", method = { RequestMethod.POST })
+	public Map<String, Object> joinAction(HttpServletRequest req, Model model) {
+		System.out.println("aaaaaaa");
+		Map<String, Object> map = new HashMap<String, Object>();
+		
 		WooMemberVO memberVO = new WooMemberVO();
+		
 		memberVO.setId(req.getParameter("email"));
 		memberVO.setPass(req.getParameter("pass"));
 		memberVO.setMobile(req.getParameter("mobile"));
-		((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class)).regist(memberVO);
-		return "main/main";
+		
+		System.out.println(req.getParameter("email"));
+		System.out.println(req.getParameter("pass"));
+		System.out.println(req.getParameter("mobile"));
+		int res = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class)).regist(memberVO);
+		
+		if (res == 0) {
+			map.put("JoinResult", 0);
+			map.put("msg", "회원가입 실패");
+			System.out.println("111");
+		} else {
+			map.put("JoinResult", 1);
+			map.put("msg", "회원가입 성공");
+			System.out.println("222");
+		}
+		
+		return map;
 	}
 	
-	// 회원 정보 수정
+	// 회원정보 수정
 	@RequestMapping("/member/memberModify.woo")
-	public String memberModify(Authentication authentication) {
-		return authentication.getName() == null ? "redirect:login.do" : "member/memberModify";
+	public String memberModify(Authentication authentication, Model model) {
+		String msg = "";
+		WooMemberVO memberVO = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class)).startModify(authentication.getName());
+		if(memberVO!=null) {
+			msg = "회원정보 수정이 완료되었습니다";
+		}
+		else {
+			msg = "회원정보 수정에 실패하였습니다";
+		}
+		
+		model.addAttribute("memberVO", memberVO);
+		model.addAttribute("msg", msg);
+		
+		return authentication.getName() == null ? "redirect:login.woo" : "member/memberModify";
 	}
 	
-	@RequestMapping("/member/memberModifyAction.woo")
+	// 회원정보 수정 처리
+	@RequestMapping(value = "/member/memberModifyAction.woo", method = { RequestMethod.POST })
 	public String memberModifyAction(HttpServletRequest req, Authentication authentication) {
 		if (authentication.getName() == null) {
-			return "redirect:login.do";
+			return "redirect:login.woo";
 		} else {
 			((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class))
 					.changeInfomation(req.getParameter("tel"), req.getParameter("pw"), authentication.getName());
@@ -58,27 +92,27 @@ public class WooMemberController {
 		}
 	}
 		
-	// 비밀번호 확인
+	// 비밀번호 확인 - 탈퇴하기 진입전
 	@RequestMapping("/member/passwordform.woo")
 	public String passwordform(Authentication authentication) {
-		return authentication.getName() == null ? "redirect:login.do" : "member/passwordform";
+		return authentication.getName() == null ? "redirect:login.woo" : "member/passwordform";
 	}
 	
+	// 비밀번호 확인처리 과정
 	@RequestMapping("/member/passwordAction.woo")
 	public String passwordAction(HttpServletRequest req, Authentication authentication, Model model) {
 		if (authentication.getName() == null) {
-			return "redirect:login.do";
+			return "redirect:login.woo";
 		} else {
 			WooMemberVO memberVO = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class))
 					.passwordAction(authentication.getName(), req.getParameter("password"));
 			model.addAttribute("memberVO", memberVO);
 			String page = null;
 			if (memberVO != null) {
-				page = "member/memberModify";
+				page = "member/withdraw";
 			} else {
 				page = "member/passwordform";
 			}
-
 			return page;
 		}
 	}
@@ -87,7 +121,7 @@ public class WooMemberController {
 	@RequestMapping("/member/memberWithdraw.woo")
 	public String memberWithdraw(Authentication authentication) {
 		if(authentication.getName() == null) {
-			return "redirect:login.do";
+			return "redirect:login.woo";
 		}
 		return "member/withdraw";
 	}
@@ -95,7 +129,7 @@ public class WooMemberController {
 	@RequestMapping("/member/memberWithdrawAction.woo")
 	public String memberWithdrawAction(HttpServletRequest req, Authentication authentication) {
 		if (authentication.getName() == null) {
-			return "redirect:login.do";
+			return "redirect:login.woo";
 		} 
 		else {
 			((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class))
@@ -104,7 +138,16 @@ public class WooMemberController {
 			ModelAndView mv = new ModelAndView();
 				mv.addObject("LoginNG", "삭제되었습니다.");
 			
-			return "main/main";
+			HttpSession session = req.getSession();
+			if(session==null) {
+				System.out.println("aaa");
+			}
+			else {
+				System.out.println(session);
+			}
+			session.invalidate();
+			
+			return "redirect:main/main";
 		}
 	}
 	
@@ -151,5 +194,7 @@ public class WooMemberController {
 		map.put("distance", distance);
 		return map;
 	}
+	
+	
 	
 }

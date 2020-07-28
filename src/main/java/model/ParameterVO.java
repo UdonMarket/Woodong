@@ -20,11 +20,16 @@ public class ParameterVO {
 	private Double lngTxt;
 	private String bname;
 	private String idx;
+	private String seller_id;
 	
 	
 	
-	
-	
+	public String getSeller_id() {
+		return seller_id;
+	}
+	public void setSeller_id(String seller_id) {
+		this.seller_id = seller_id;
+	}
 	public String getIdx() {
 		return idx;
 	}

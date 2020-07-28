@@ -43,28 +43,28 @@
 						<span class="menu_icon">
 							<i class="fas fa-bars"></i>
 						</span>
-					</button>
+					</button> 
  
 					<div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
 						<ul class="navbar-nav">
 							<li class="nav-item" style="margin-right: 85px;margin-top:5px;" >
-								<a class="nav-link" href="../about/about.woo" style="font-size: 1.5em">
+								<a class="nav-link" href="../about/about.woo">
 									<img src="../resources/img/header/about.png" alt="소개" />
 								</a>
 							</li>
 							<li class="nav-item" style="margin-right: 60px;margin-top:5px;">
-								<a class="nav-link" href="../product/productList.woo" style="font-size: 1.5em">
+								<a class="nav-link" href="../product/productList.woo">
 									<img src="../resources/img/header/ca.png" alt="카테고리" />
 								</a>
 							</li>
 							<li class="nav-item" style="margin-right: 50px;margin-top:5px;">
-								<a class="nav-link" href="../mypage/myPage.woo" style="font-size: 1.5em">
+								<a class="nav-link" href="../mypage/myPage.woo">
 									<img src="../resources/img/header/myPage.png" alt="나의우동" />
 								</a>
 							</li>
 
 							<li class="nav-item" style="margin-right: 100px;margin-top:5px;">
-								<a class="nav-link" href="../community/community.woo" style="font-size: 1.5em">
+								<a class="nav-link" href="../community/community.woo">
 									<img src="../resources/img/header/comm.png" alt="커뮤니티" />
 								</a>
 							</li>
@@ -109,6 +109,6 @@ function checkchat(){
       alert("로그인 후 이용해 주세요.");
       location.href='../member/login.woo';
    }
-   window.open('../main/chatMain.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);
+   window.open('../chatting/chatMain.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);
 }
 </script>

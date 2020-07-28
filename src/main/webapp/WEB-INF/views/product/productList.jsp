@@ -65,7 +65,7 @@ var loadlist = function(){
     $.ajax({  
         url : './ajaxList.woo',  
         type : 'get',  
-        data : {nowPage : nowPage},
+        data : {nowPage : nowPage, bname : '${parameterVO.bname}'},
         async: false,
         success : function(rdata) { 
         	

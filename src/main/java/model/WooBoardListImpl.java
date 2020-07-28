@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public interface WooBoardListImpl {
 	void updateOrder1(String idx);
 	void updateOrder2(ParameterVO parameterVO);
 	void updateOrder3(WooBoardListVO boardListVO);
-	//bname 검색
-	List<WooBoardListVO> selectBname();
+	//bname 검색 
+	List<WooBoardListVO> selectBname(String location);
 	
 }

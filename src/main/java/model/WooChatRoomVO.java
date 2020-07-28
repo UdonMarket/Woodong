@@ -1,13 +1,15 @@
 package model;
 
+import java.sql.Timestamp;
+
 public class WooChatRoomVO {
 	
 	// 테이블 컬럼
 	private String chatroomidx;
 	private String boardidx;
-	private String myid;
-	private String otherid;
-	private String lastchatdate;
+	private String sellerid;
+	private String buyerid;
+	private Timestamp lastchatdate;
 	
 	// 기타
 	private String lastChat;
@@ -28,27 +30,28 @@ public class WooChatRoomVO {
 		this.boardidx = boardidx;
 	}
 
-	public String getMyid() {
-		return myid;
+
+	public String getSellerid() {
+		return sellerid;
 	}
 
-	public void setMyid(String myid) {
-		this.myid = myid;
+	public void setSellerid(String sellerid) {
+		this.sellerid = sellerid;
 	}
 
-	public String getOtherid() {
-		return otherid;
+	public String getBuyerid() {
+		return buyerid;
 	}
 
-	public void setOtherid(String otherid) {
-		this.otherid = otherid;
+	public void setBuyerid(String buyerid) {
+		this.buyerid = buyerid;
 	}
 
-	public String getLastchatdate() {
+	public Timestamp getLastchatdate() {
 		return lastchatdate;
 	}
 
-	public void setLastchatdate(String lastchatdate) {
+	public void setLastchatdate(Timestamp lastchatdate) {
 		this.lastchatdate = lastchatdate;
 	}
 

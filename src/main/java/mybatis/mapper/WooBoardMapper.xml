@@ -244,4 +244,4 @@
 	 ORDER BY boardidx DESC ) Tb) 
 	 			WHERE rNum BETWEEN 1 AND 6
 	 </select> 
-</mapper> 
+</mapper>  

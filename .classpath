@@ -25,8 +25,5 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/MINKYUCHO/Downloads/java-sdk-2.2-http-cv52/java-sdk-2.2-http-cv52/lib/javaSDK-2.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/MINKYUCHO/Downloads/java-sdk-2.2-http-cv52/java-sdk-2.2-http-cv52/lib/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/MINKYUCHO/Downloads/java-sdk-2.2-http-cv52/java-sdk-2.2-http-cv52/source/javaSDK-2.2-sources.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -30,7 +30,7 @@ public class ParameterVO {
 	}
 	public void setPlace(String place) {
 		this.place = place;
-	
+	}
 	
 	
 	public String getSeller_id() {

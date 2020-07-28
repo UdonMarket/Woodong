@@ -73,7 +73,7 @@ public class WooMemberController {
 		else {
 			msg = "회원정보 수정에 실패하였습니다";
 		}
-		
+		System.out.println("1");
 		model.addAttribute("memberVO", memberVO);
 		model.addAttribute("msg", msg);
 		

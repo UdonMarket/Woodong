@@ -5,6 +5,6 @@
 <script src="./resources/js/jquery-1.12.1.min.js"></script>
 <script>
 	$(window).ready(function() {
-		location.href="main/main1.woo";
+		location.href="main/main.woo";
 	})
 </script>

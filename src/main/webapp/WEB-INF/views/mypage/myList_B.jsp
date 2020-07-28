@@ -94,7 +94,7 @@
 															<div class="item_price profile_price">${list.price }원</div>
 															
 														<div style="text-align: right;">
-															 <a href="javascript:void(0);" onclick="window.open('../mypage/reviewPop.woo?idx=${list.boardidx}', '_blank', 'height=430; width=480; top=200; left=700;', true);"> 
+															 <a href="javascript:void(0);" onclick="window.open('../mypage/reviewPop.woo?boardidx=${list.boardidx}', '_blank', 'height=430; width=480; top=200; left=700;', true);"> 
 																	
 																<img src="../resources/img/myPage/리뷰작성.png" style="width: 90px; height:40px;" onclick="write_review('${list.boardidx}','${list.title}','${list.id}');"/>
 															 </a> 

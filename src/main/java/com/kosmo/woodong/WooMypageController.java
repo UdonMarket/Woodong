@@ -1,11 +1,10 @@
 package com.kosmo.woodong;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -212,7 +211,10 @@ public class WooMypageController {
 		}
 		else if(mode.equals("review")) {
 			if("seller".equals(dealPosition)) {
+				String score1 = req.getParameter("score");
 				System.out.println("seller 페이지 이동");
+				System.out.println("전달받는" + score1);
+				model.addAttribute("score", score1);
 				page = "mypage/sellerReview";
 			}
 			else if("buyer".equals(dealPosition)){
@@ -316,10 +318,10 @@ public class WooMypageController {
 	@RequestMapping("/mypage/reviewPop.woo")
 	public String reviewPop(Model model, HttpServletRequest req) {
 		
-		String idx = req.getParameter("idx");
-		System.out.println("팝업" + idx); 
+		String boardidx = req.getParameter("boardidx");
+		System.out.println("팝업" + boardidx); 
 		
-		model.addAttribute("idx", idx);
+		model.addAttribute("boardidx", boardidx);
 		
 		return "mypage/reviewPop";
 	}
@@ -365,30 +367,25 @@ public class WooMypageController {
 	
 	// 후기삭제
 	@RequestMapping("/mypage/reviewDelete.woo")
-	public String deleteReview(HttpServletRequest req) {
+	public String deleteReview(HttpServletRequest req) throws UnsupportedEncodingException {
 		String page = "";
 		String idx = req.getParameter("boardidx");
-		System.out.println("후기삭제 : " + idx);
 		int delete = sqlSession.getMapper(WooMypageImpl.class).delete(idx);
 		String dealPosition = req.getParameter("dealPosition");
 		String seller_id = req.getParameter("seller_id");
 		String seller_avgscore = req.getParameter("seller_avgscore");
 		String score = req.getParameter("score");
 		
-		System.out.println("dealPosition : " + dealPosition);
-		System.out.println("seller_id : " + seller_id);
-		System.out.println("seller_avgscore : " + seller_avgscore);
-		System.out.println("score : " + score);
 		if("seller".equals(dealPosition)) {
-			System.out.println("seller페이지");
-			page = "redirect:myPage.woo?mode=review&dealPosition=seller&seller_id=" + seller_id + "&seller_avgscore=" + seller_avgscore + "&score=" + score;
+			 String encodedParam = URLEncoder.encode(score, "UTF-8");
+			page = "redirect:myPage.woo?mode=review&dealPosition=seller&seller_id=" + seller_id + "&seller_avgscore=" + seller_avgscore + "&score=" + encodedParam;
 		}
 		else if("buyer".equals(dealPosition)){
 			System.out.println("buyer페이지");
 			page = "redirect:myPage.woo?mode=review&dealPosition=buyer";
 		}
-		
 		int update = sqlSession.getMapper(WooMypageImpl.class).default_reviewScore(idx);
+		System.out.println("삭제성공" + update);
 		
 		return page;
 	}

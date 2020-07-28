@@ -3,10 +3,9 @@ package model;
 import java.util.List;
 
 public class ParameterVO {
-	private String user_id;
-	private String board_idx;
+	private String boardidx;
 	private String id;
-	private String idx;
+	private String user_id;
 	private int start;
 	private int end;
 	private String searchField;
@@ -20,13 +19,34 @@ public class ParameterVO {
 	private Double latTxt;
 	private Double lngTxt;
 	private String bname;
+	private String idx;
 	private String seller_id;
+	
+	
 	
 	public String getSeller_id() {
 		return seller_id;
 	}
 	public void setSeller_id(String seller_id) {
 		this.seller_id = seller_id;
+	}
+	public String getIdx() {
+		return idx;
+	}
+	public void setIdx(String idx) {
+		this.idx = idx;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	public String getBoardidx() {
+		return boardidx;
+	}
+	public void setBoardidx(String boardidx) {
+		this.boardidx = boardidx;
 	}
 	public Double getLatTxt() {
 		return latTxt;
@@ -45,19 +65,6 @@ public class ParameterVO {
 	}
 	public void setBname(String bname) {
 		this.bname = bname;
-	}
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
-	public String getBoard_idx() {
-		return this.board_idx;
-	}
-
-	public void setBoard_idx(String board_idx) {
-		this.board_idx = board_idx;
 	}
 	public String getTitle() {
 		return title;
@@ -97,20 +104,12 @@ public class ParameterVO {
 	public void setNum(int num) {
 		this.num = num;
 	}
-
-	
 	
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public String getIdx() {
-		return idx;
-	}
-	public void setIdx(String idx) {
-		this.idx = idx;
 	}
 	public List<String> getList() {
 		return this.list;

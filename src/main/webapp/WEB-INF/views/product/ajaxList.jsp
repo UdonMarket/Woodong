@@ -23,7 +23,7 @@
 				</div>
 				</div>
 				<div style="padding-left: 15px;">
-					<h3> <a href="./productView.woo?idx=${row.boardidx}&nowPage=${param.nowPage}">${row.title}</a></h3>
+					<h3> <a href="./productView.woo?boardidx=${row.boardidx}&nowPage=${param.nowPage}">${row.title}</a></h3>
 				</div>
 				<div style="padding-left: 15px;">
 					<h4>${row.price} 원 ( idx : ${row.boardidx})</h4>

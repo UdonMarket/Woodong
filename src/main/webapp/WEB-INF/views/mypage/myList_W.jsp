@@ -90,7 +90,7 @@
 												<div class="image_wrapper">
 													<div class="image_outside">
 														<div class="image_centerbox">
-														<a href="../product/productView.woo?idx=${list.boardidx}"  > 
+														<a href="../product/productView.woo?boardidx=${list.boardidx}"  > 
 													
 															<img src="../resources/Upload/${list.imagefile}" style="position : absolute; z-index : 2;"
 																data-src="https://ccimg.hellomarket.com/images/2020/item/04/28/15/1709868_4830039_1.jpg?size=s4"

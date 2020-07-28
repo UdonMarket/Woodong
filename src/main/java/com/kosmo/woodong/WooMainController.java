@@ -19,6 +19,8 @@ import model.WooBoardImpl;
 import model.WooBoardListImpl;
 import model.WooBoardListVO;
 import model.WooBoardVO;
+import model.WooMypageImpl;
+import model.WooMyreviewVO;
 import naverlogin.NaverLoginBO;
 
 @Controller

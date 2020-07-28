@@ -177,9 +177,11 @@
 														<c:if test="${viewRow.woopay eq 'Y'}">
 															<img src="../resources/img/product/우동페이.png" />
 														</c:if>
+
 														</div>
 														<div class="col-3" style="padding: 0px;">
-															<img src="../resources/img/product/우동톡톡.png"  onclick="window.open('../main/chatting.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);"/>
+															<img src="../resources/img/product/우동톡톡.png"  onclick="window.open('../chatting/chatting.woo', '_blank', 'height=640; width=480; top=200; left=150;', true);"/>
+
 														</div>
 													</div>
 												</div>
@@ -204,6 +206,7 @@
 												</div>
 											</div>
 										</div>
+
 										<img src="../resources/img/myPage/삭제.png" style="width: 70px; height: 50px; margin-left:185px;" id="delete_btn" />
 										<img src="../resources/img/myPage/수정.png" style="width: 70px; height: 50px;" id="update_btn" />
 										<div class="col-4" style="border:1px solid #d9d9d9;width: 200px; height:250px;;margin-left:420px;margin-top:;   ">

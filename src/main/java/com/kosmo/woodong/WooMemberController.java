@@ -73,7 +73,7 @@ public class WooMemberController {
 		else {
 			msg = "회원정보 수정에 실패하였습니다";
 		}
-		
+		System.out.println("1");
 		model.addAttribute("memberVO", memberVO);
 		model.addAttribute("msg", msg);
 		
@@ -160,6 +160,12 @@ public class WooMemberController {
 		} else {
 			String id = authentication.getName();
 			WooMemberVO dto = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class)).view(id);
+			if(dto.getAddr().equals("x")) {
+				dto.setAddr(null);
+			}
+			if(dto.getAddr()!=null) {
+				dto.setAddr(dto.getAddr().substring(0, dto.getAddr().lastIndexOf(" ")));
+			}
 			model.addAttribute("dto", dto);
 			
 			return "member/myPlace";

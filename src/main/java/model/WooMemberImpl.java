@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+
 @Service
 public interface WooMemberImpl {
 	int regist(WooMemberVO var1);
@@ -32,12 +33,10 @@ public interface WooMemberImpl {
 	int distance(double var1, double var2, double var3, double var4);
 	
 	void deleteMember(ParameterVO parameterVO);
-	 
+	
 	WooMemberVO idFind(String str1);
 
 	WooMemberVO pwFind(String str1);
-	
-	void deleteMember(ParameterVO parameterVO);
 	
 	void editGrade(String id, String grade);
 }

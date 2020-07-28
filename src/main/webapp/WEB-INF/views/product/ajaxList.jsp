@@ -18,16 +18,18 @@
 						<img src="../resources/img/2.png" style="width: 30px; height: 30px; position: absolute; left: 83s%; padding-top: 5px; padding-left: 3px;" name = "${row.boardidx}" id ="whiteHeart" onclick="like_toggle(${row.boardidx})"/>
 					</c:if> 
 				</div>
+        <a href="./productView.woo?boardidx=${row.boardidx}&nowPage=${param.nowPage}">
 				</c:if>
 					<img class="productList_image" src="../resources/Upload/${row.imagefile}" style="width: 100%; height: 100%;" />
 				</div>
 				</div>
 				<div style="padding-left: 15px;">
-					<h3> <a href="./productView.woo?boardidx=${row.boardidx}&nowPage=${param.nowPage}">${row.title}</a></h3>
+					<h3> ${row.title}</h3>
 				</div>
 				<div style="padding-left: 15px;">
 					<h4>${row.price} 원 ( idx : ${row.boardidx})</h4>
 				</div>
+          </a>
 			</div>
 		 </c:forEach>   
    <!-- 상품 리스트 반복 end-->

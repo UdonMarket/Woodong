@@ -18,4 +18,15 @@
 	<select id="selectChatting" resultType="model.WooChattingVO">
 		SELECT * FROM woo_chatting WHERE chatroomidx = #{0} ORDER BY chatDate
 	</select>
+	
+	<select id="jusoList" resultType="model.WooJusoVO">
+  		SELECT * FROM juso1 
+  	</select>
+  	<select id="searchPlace" resultType="model.WooJusoVO" parameterType="model.ParameterVO">
+  		SELECT
+  			*
+		FROM woo_review
+		WHERE 
+			juso like '%${place}%'
+  	</select>
 </mapper> 

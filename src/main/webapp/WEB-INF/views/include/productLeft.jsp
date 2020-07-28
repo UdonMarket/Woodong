@@ -10,6 +10,7 @@
 	</section>
     <!-- breadcrumb part end-->
     <script>
+    
     var span;
 	window.onload = function(){
 		span = document.getElementById("result");
@@ -102,48 +103,51 @@
 	                        </div>
 	                    </div>
 	                     <form:form action="./ajaxList.woo" class="filter-form">
-	                        <div class="first-row">
-	                            <select>
-	                                <option value="">정렬방식</option>
-	                                <option value="">최신순</option>
-	                                <option value="">저가순</option>
-	                                <option value="">고가순</option>
-	                                <option value="">인기순</option>
+	                        <div class="first-row" >
+	                            <select name="order">
+	                                <option value="최신순">최신순</option>
+	                                <option value="인기순">인기순</option>
+	                                <option value="저가순">저가순</option>
+	                                <option value="고가순">고가순</option>
 	                            </select>
-	                            <select>
-	                                <option value="">상품상태</option>
-	                                <option value="">새상품</option>
-	                                <option value="">거의새것</option>
-	                                <option value="">중고</option>
-	                                <option value="">하자있음</option>
+	                            <select name="state">
+	                                <option value="상품상태">상품상태</option>
+	                                <option value="새상품">새상품</option>
+	                                <option value="거의새것">거의새것</option>
+	                                <option value="중고">중고</option>
+	                                <option value="하자있음">하자있음</option>
 	                            </select>
-	                            <select>
-	                                <option value="">거래종류</option>
-	                                <option value="">판매</option>
-	                                <option value="">무료나눔</option>
-	                                <option value="">삽니다</option>
+								 <select name="pay">
+	                                <option value="all">우동페이+전체</option>
+	                                <option value="only">우동페이만 보기</option>
 	                            </select>
-	                            <select>
-	                                <option value="">판매자 온도</option>
-	                                <option value="">차가운 일반우동</option>
-	                                <option value="">따뜻한 일반우동</option>
-	                                <option value="">차가운 튀김우동</option>
-	                                <option value="">따뜻한 튀김우동</option>
-	                            </select>
+	                            <!-- price-range-wrap -->
+	                             <div class="price-range-wrap" style="width: 530px;display: table-cell;">
+	                             	
+	                                <div class="price-text"> 
+	                                	<p>
+	                                	가격&nbsp;&nbsp;
+	                                    <input type="text" id="priceStart"  style="width: 50px;" name="priceStart">~&nbsp;
+	                                    <input type="text" id="priceEnd"  style="width: 50px;"  name="priceEnd">&nbsp;만원
+	                                </p>
+	                                </div>
+	                                <div id="price-range" class="slider" style="background: #d9d9d9; margin-top: 10px;"></div>
+	                            </div>  
+	                            <!-- price-range-wrap -->
+								 
 	                        </div>
 	                        <div class="second-row">
-	                        <div style="width: 530px; display: inline-block; margin-right:20px;">
-								<input type="text" name="first_name" placeholder="검색할 상품명"
-									onfocus="this.placeholder = ''" onblur="this.placeholder = '검색할 상품명'" required
-									class="single-input">
-						  	</div>
-	                            <div class="price-range-wrap">
-	                                <div class="price-text">
-	                                    <label for="priceRange">가격:</label>
-	                                    <input type="text" id="priceRange" readonly>
-	                                </div>
-	                                <div id="price-range" class="slider" style="background: #d9d9d9;"></div>
-	                            </div> 
+		                        <div style="width: 530px; display: inline-block; margin-right:20px;">
+									<input type="text" name="first_name" placeholder="검색어를  입력하세요"
+										onfocus="this.placeholder = ''" onblur="this.placeholder = '검색어를  입력하세요'" required
+										class="single-input">
+							  	</div>
+							  	<select name="type">
+	                                <option value="tc">제목+내용</option>
+	                                <option value="w">작성자</option>
+	                                <option value="t">제목</option>
+	                                <option value="c">내용</option>
+	                            </select>
 	                            <button type="button" class="search-btn" style="border: 0;">Search</button>
 	                        </div>
 	                      </form:form>

@@ -47,7 +47,31 @@ public class WooMainController {
 	public String main() {
 		return "main/main";
 	}
-
+// 메인화면
+	@RequestMapping("/main/main1.woo")
+	public String main1(Model model, HttpServletRequest req, Principal principal) {
+		
+		ParameterVO parameterVO = new ParameterVO();
+		ArrayList<WooBoardVO> searchLists = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).list(parameterVO);
+		
+		
+		for(WooBoardVO vo : searchLists) {
+			String idx = vo.getBoardidx();
+			String temp = vo.getContents().replace("\r\n", "<br/>");
+			vo.setContents(temp);
+			ArrayList<FileVO> uploadFileList = ((WooBoardImpl)sqlSession.getMapper(WooBoardImpl.class)).viewFile(idx);
+	
+		 	String image = uploadFileList.get(0).getSave_name();
+			vo.setImagefile(image);
+			
+		}
+		System.out.println(searchLists.size());
+		model.addAttribute("searchLists",searchLists);
+		model.addAttribute("parameterVO",parameterVO);
+		
+		
+		return "main/main";
+	}
 	// 소개
 	@RequestMapping("/about/about.woo")
 	public String about() {

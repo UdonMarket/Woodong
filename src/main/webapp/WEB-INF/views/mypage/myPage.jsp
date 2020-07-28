@@ -47,7 +47,7 @@
 															</a>
 														</div>
 														<div class="col-4">
-															<a href="../mypage/myPage.woo?mode=review">
+															<a href="../mypage/myPage.woo?mode=review&dealPosition=buyer">
 																<img src="../resources/img/myPage/후기.png" alt="후기"  style="width: 230px;height: 130px;"/>
 															</a>
 														</div>

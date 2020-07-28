@@ -75,9 +75,10 @@ public class WooBoardController {
 			for(WooBoardVO vo : searchLists) {
 				String idx = vo.getBoardidx();
 				ArrayList<FileVO> uploadFileList = ((WooBoardImpl)sqlSession.getMapper(WooBoardImpl.class)).viewFile(idx);
-		
+				if(!uploadFileList.isEmpty() && uploadFileList.size()!=0) {
 			 	String image = uploadFileList.get(0).getSave_name();
 				vo.setImagefile(image);
+				}
 				
 			}
 			model.addAttribute("searchLists",searchLists);
@@ -183,7 +184,7 @@ public class WooBoardController {
 		
 		String boardidx = req.getParameter("boardidx");
 		String nowPage = req.getParameter("nowPage");
-		
+		System.out.println(boardidx);
 		String seller_id = sqlSession.getMapper(WooBoardImpl.class).selectId(boardidx);
 		System.out.println("seller_id" + seller_id);
 		
@@ -267,9 +268,16 @@ public class WooBoardController {
 		
 		dto.setContents(dto.getContents().replace("\r\n","<br/>"));
 		
-		model.addAttribute("viewRow", dto);
+		model.addAttribute("viewRow", dto); 
 		model.addAttribute("uploadFileList", uploadFileList);
 		model.addAttribute("nowPage", nowPage);
+		
+		
+		//소영 추가(판매상태) 
+		String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(boardidx);
+		model.addAttribute("sellingStatus", sellingStatus);
+		System.out.println("!" + sellingStatus);
+		
 		
 		return "product/productView";
 	}

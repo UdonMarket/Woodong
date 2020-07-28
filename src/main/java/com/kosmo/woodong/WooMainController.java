@@ -13,12 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import model.FileVO;
 import model.ParameterVO;
 import model.WooBoardImpl;
 import model.WooBoardListImpl;
 import model.WooBoardListVO;
 import model.WooBoardVO;
+import model.WooMypageImpl;
+import model.WooMyreviewVO;
 import naverlogin.NaverLoginBO;
 
 @Controller
@@ -35,6 +36,11 @@ public class WooMainController {
 		this.naverLoginBO = naverLoginBO;
 	}
 	
+	// (진슬)메인화면
+	@RequestMapping("/")
+	public String Homemain() {
+		return "main/home";
+	}
 	// 메인화면
 	@RequestMapping("/main/main.woo")
 	public String main() {

@@ -7,9 +7,9 @@
 <!-- head.jsp -->
 <jsp:include page="../include/head.jsp" />
 <script>
-function deleteRow(idx) {
+function deleteRow(boardidx) {
 	if(confirm("정말 삭제하시겠습니까?")){
-		location.href="../mypage/reviewDelete.woo?boardidx=" + idx + "&dealPosition=buyer";
+		location.href="../mypage/reviewDelete.woo?idx=" + boardidx + "&dealPosition=buyer";
 	}
 }
 </script>

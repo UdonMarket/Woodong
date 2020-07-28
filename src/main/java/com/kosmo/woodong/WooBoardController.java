@@ -75,9 +75,10 @@ public class WooBoardController {
 			for(WooBoardVO vo : searchLists) {
 				String idx = vo.getBoardidx();
 				ArrayList<FileVO> uploadFileList = ((WooBoardImpl)sqlSession.getMapper(WooBoardImpl.class)).viewFile(idx);
-		
+				if(!uploadFileList.isEmpty() && uploadFileList.size()!=0) {
 			 	String image = uploadFileList.get(0).getSave_name();
 				vo.setImagefile(image);
+				}
 				
 			}
 			model.addAttribute("searchLists",searchLists);
@@ -327,6 +328,7 @@ public class WooBoardController {
 			}
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 		}
 		return "redirect:productList.woo?nowPage=1";
 	}

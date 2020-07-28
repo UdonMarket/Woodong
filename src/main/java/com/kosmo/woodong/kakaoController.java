@@ -70,7 +70,7 @@ public class kakaoController {
 		memberVO.setMobile(phoneNum);
 		try {
 		((WooMemberImpl)this.sqlSession.getMapper(WooMemberImpl.class))
-		.kakaoLoginAction(memberVO);
+		.regist(memberVO);
 		model.addAttribute("name", kemail);
 		return "member/kakaologinAction";
 		}

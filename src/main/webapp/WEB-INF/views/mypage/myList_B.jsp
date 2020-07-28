@@ -9,7 +9,7 @@
 	<script>
 	function write_review(idx,title,id) {
 		$.ajax({
-			url : "./write_review.woo",
+			url : "./writeReview.woo",
 			type:"get",
 		    contentType:"text/html;charset:utf-8",
 		    data:{idx : idx, title:title, id:id},
@@ -44,19 +44,45 @@
 									<div class="infinite-scroll-component "
 										style="height: auto; overflow: auto; -webkit-overflow-scrolling: touch">
 										<ul class="mian_row profile_main_row">
-											<c:forEach var="list" items="${likeList }">
-											<li class="main_col_3" style="padding: 5px">
 										
+									<c:choose>
+									<c:when test="${empty likeList}">
+									<span style="font-size: 20px; padding-left: 250px;">게시물이 없습니다.</span>
+									
+									
+									<div class="row"
+												style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px; border-bottom: 1px solid #d9d9d9;">
+												<div class="col-3">
+													<div class="member_image_box1">
+														
+													</div>
+												</div>
+												<div class="col-1"></div>
+												<div class="member_box col-8">
+
+													
+												</div>
+												
+											</div>
+											
+											
+								</c:when>
+								<c:otherwise>
+										<c:forEach var="list" items="${likeList }">
+											<li class="main_col_3" style="padding: 5px">
+												
 												<a class="card card_list"
 												href="/item/166608634?viewPath=wish_list&amp;clickPath=member"><div
 														class="card_box">
 														<div class="image_wrapper">
 															<div class="image_outside">
 																<div class="image_centerbox">
+																	<a href="../product/productView.woo?boardidx=${list.boardidx}"  > 
 																	<img
-																		src="../resources/Upload/"
+																		src="../resources/Upload/${list.imagefile}"
 																		data-src="https://ccimg.hellomarket.com/images/2020/item/04/28/15/1709868_4830039_1.jpg?size=s4"
 																		class="thumbnail_img" alt="18인치 휠 타이어 판매합니다(배송비,스페이스1조포함)" />
+																	</a> 
 																</div>
 																<div class="dealer_text_position">
 																	
@@ -79,6 +105,8 @@
 											
 												</li>
 												</c:forEach>
+												</c:otherwise>
+												</c:choose>
 										</ul>
 									</div>
 									<ul class="pagination justify-content-center">

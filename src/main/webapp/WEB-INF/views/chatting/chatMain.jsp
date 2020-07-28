@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/default.css">
 
 <body>
-<div class="continer" id="chat-wrapper" style="border: 2px solid #d9d9d9;height: 535px;margin: 30px; overflow: auto">
+<div class="continer" id="chat-wrapper" style="border: 2px solid #d9d9d9;height: 535px;margin: 30px; overflow-x:hidden; overflow-y: auto">
 	<header id="chat-header" style="text-align: center;">
 		<img src="../resources/img/main/favicon.png" alt="우동톡톡" style="width: 50px;" />
 		<span style="font-size: 1.2em;font-weight: bold;padding: 5px;">우동톡톡</span>
@@ -22,14 +22,24 @@
 	<ul id="channel-list" class="">
 		<c:forEach items="${roomList }" var="row">
 			<li>
-				<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', '_blank', 'height=600; width=480; top=200; left=700;', true);">
+				<c:if test="${id eq row.sellerid }">
+				<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', 'name(${row.buyerid })', 'height=640; width=480; top=200; left=700;', true);">
+				</c:if>
+				<c:if test="${id ne row.sellerid }">
+				<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', 'name(${row.sellerid })', 'height=640; width=480; top=200; left=700;', true);">
+				</c:if>
 					<div class="catting_room row">
 						<div class="col-3" style="text-align: left;">
 							<img src="../resources/img/myPage/nor-blue.png" alt="" width="50px;"/>
 						</div>
 						<div class="col-6">
-							<div style="text-align: left;font-size: 1.4em;font-weight: bold;">${row.otherid }</div>
-							<div style="text-align: left;font-size: 1em;padding-top: 5px;">${row.lastChat }</div>
+							<c:if test="${id eq row.sellerid }">
+								<div style="text-align: left;font-size: 1.4em;font-weight: bold;">${row.buyerid }</div>
+							</c:if>
+							<c:if test="${id ne row.sellerid }">
+								<div style="text-align: left;font-size: 1.4em;font-weight: bold;">${row.sellerid }</div>
+							</c:if>
+								<div style="text-align: left;font-size: 1em;padding-top: 5px;">${row.lastChat }</div>
 						</div>
 					</div>
 				</a>

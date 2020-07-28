@@ -27,16 +27,30 @@ public interface WooBoardImpl {
 	//4-1 . 첨부파일 업로드
 	public int insertFile(Map<String,Object> map);
 	
-	//5.수정처리하기
+	//5.수정하기
 	public int update(WooBoardVO wooBoardVO);
+	
+	//4-1 . 첨부파일 수정
+	public int updateFile(Map<String,Object> map);
+	
 
 	//6.삭제하기
 	public int delete(ParameterVO parameterVO);   
 	
-	//판매자 id 가져오기
+	//판매자 id 가져오기 
 	public String selectId(String idx);
 
 	//7.내주변 상품 찾아오기
 	public ArrayList<WooBoardVO> searchRadius(ParameterVO parameterVO);
-
+	
+	public void communityWrite(WooBoardVO wooBoardVO);
+	
+	public ArrayList<WooBoardVO> selectCommunity(ParameterVO parameterVO);
+	
+	public void communityEdit(WooBoardVO wooBoardVO);
+	
+	public void deleteBoard(ParameterVO parameterVO);
+	
+	//판매상태 가져오기
+	public String selectSellingStatus(String idx);	
 }

@@ -7,9 +7,9 @@
 <!-- head.jsp -->
 <jsp:include page="../include/head.jsp" />
 <script>
-function deleteRow(idx) {
+function deleteRow(boardidx) {
 	if(confirm("정말 삭제하시겠습니까?")){
-		location.href="../mypage/delete.woo?idx=" + idx;
+		location.href="../mypage/reviewDelete.woo?idx=" + boardidx + "&dealPosition=buyer";
 	}
 }
 </script>
@@ -34,7 +34,8 @@ function deleteRow(idx) {
 			<div class="profile_review_body">
 				<div class="review_list" style=" margin-top: 100px;">
 					<ul>
-						<li><c:choose>
+						<li>
+						<c:choose>
 								<c:when test="${empty riviewList}">
 									<span style="font-size: 20px; padding-left: 250px;">게시물이 없습니다.</span>
 									
@@ -62,11 +63,11 @@ function deleteRow(idx) {
 												style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px; border-bottom: 1px solid #d9d9d9;">
 												<div class="col-3">
 													<div class="member_image_box1">
-														<a href="/s/@16078391?tab=item"> <img
-															src="../resources/Upload/${list.imagefile}">
-														</a> <a href="/s/@16078391?tab=item">
-															<div class=""
-																style="font-weight: bold; font-size: 15px; padding-top: 30px; padding-left: 8px;">
+														<a href="../product/productView.woo?boardidx=${list.boardidx}"  > 
+														<img src="../resources/Upload/${list.imagefile}">
+														</a> 
+														<a href="/s/@16078391?tab=item">
+															<div class="" style="font-weight: bold; font-size: 15px; padding-top: 30px; padding-left: 8px;">
 																판매자 : ${list.seller_id}</div>
 														</a>
 													</div>
@@ -85,9 +86,10 @@ function deleteRow(idx) {
 													</span>
 													</span>
 												</div>
-												<img src="../resources/img/myPage/삭제.png"
-													style="width: 50px; height: 40px; margin-left: 500px;"
-													onclick="javascript:deleteRow(${list.reviewidx});" />
+												
+												<c:if test="${user_id eq list.buyer_id}">
+												<img src="../resources/img/myPage/삭제.png" style="width: 50px; height:40px; margin-left:500px;" onclick="javascript:deleteRow(${list.boardidx});" />
+												</c:if>
 											</div>
 										</c:forEach>
 								</c:otherwise>

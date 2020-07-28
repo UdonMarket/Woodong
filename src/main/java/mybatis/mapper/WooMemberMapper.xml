@@ -71,7 +71,7 @@
   	<update id="modify" >
   		UPDATE woo_member SET addr=#{0} WHERE id=#{1}
   	</update>
- 	
+ 	 
  	<!-- 동네인증 거리계산 -->
  	<select id="distance" resultType="int">
  		SELECT DISTNACE_WGS84(#{0}, #{1}, #{2}, #{3}) FROM dual
@@ -83,6 +83,10 @@
  			#{item}
 		</foreach>
 	</delete>
+	
+	<update id="editGrade">
+		UPDATE woo_member SET grade=#{1} WHERE id=#{0}
+	</update>
  	
  	<!-- 아이디 찾기 -->
   	<select id="idFind"  resultType="model.WooMemberVO">

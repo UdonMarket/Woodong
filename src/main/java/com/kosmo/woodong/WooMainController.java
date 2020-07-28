@@ -1,7 +1,6 @@
 package com.kosmo.woodong;
 
 import java.security.Principal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import model.ParameterVO;
+import model.WooBoardImpl;
 import model.WooBoardListImpl;
 import model.WooBoardListVO;
-import model.WooMemberImpl;
-import model.WooMemberVO;
 import naverlogin.NaverLoginBO;
 
 @Controller
@@ -38,7 +37,11 @@ public class WooMainController {
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
 		this.naverLoginBO = naverLoginBO;
 	}
-
+	// (진슬)메인화면
+	@RequestMapping("/")
+	public String Homemain() {
+		return "main/home";
+	}
 	// 메인화면
 	@RequestMapping("/main/main.woo")
 	public String main() {
@@ -55,8 +58,24 @@ public class WooMainController {
 	@RequestMapping("/community/community.woo")
 	public String community(Model model, HttpServletRequest req) {
 		String location = ".." + req.getServletPath();
-		List<WooBoardListVO> blists = ((WooBoardListImpl) this.sqlSession.getMapper(WooBoardListImpl.class))
-				.selectBoard(location);
+		List<WooBoardListVO> blists = ((WooBoardListImpl) this.sqlSession.getMapper(WooBoardListImpl.class)).selectBoard(location);
+		
+		ArrayList<String> list = new ArrayList<String>();
+		if(req.getParameter("bname")!=null && !"".equals(req.getParameter("bname"))) {
+			list.add(req.getParameter("bname"));
+		}
+		else {
+			blists = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../community/community.woo");
+			for(WooBoardListVO lists : blists) {
+				list.add(lists.getBname());
+			}
+		}
+		ParameterVO parameterVO = new ParameterVO();
+		parameterVO.setList(list);
+		ArrayList<WooBoardVO> lists = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).selectCommunity(parameterVO);
+		
+		model.addAttribute("lists",lists);
+		
 		model.addAttribute("blists", blists);
 		return "community/community";
 	}

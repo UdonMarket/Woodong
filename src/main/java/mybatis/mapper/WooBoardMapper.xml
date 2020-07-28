@@ -32,7 +32,6 @@
 		three_dimens,
 		product_tag,
 		woopay,
-		deal_type,
 		latitude,
 		longitude
 	 FROM 
@@ -63,7 +62,6 @@
 			three_dimens,
 			product_tag,
 			woopay,
-			deal_type,
 			latitude,
 			longitude
 	 	FROM woo_board 
@@ -80,8 +78,8 @@
 	 <select id="viewFile" parameterType="String"  resultType="model.FileVO">
 	 	SELECT *
 		FROM woo_file 
-	 	WHERE boardidx = #{param1} 
-	 	ORDER BY file_num
+	 	WHERE boardidx = #{param1} and del_yn ='N'
+	 	ORDER BY fileidx
 	 </select>
 	 
 	 
@@ -90,11 +88,11 @@
 	 	INSERT INTO woo_board (
 					boardidx, id, title, contents, bname,
 					price, product_state, three_dimens, product_tag, woopay, 
-					deal_type, latitude, longitude) 
+					latitude, longitude) 
 		VALUES (
 				seq_woo_board.nextval, #{id}, #{title}, #{contents}, #{bname},
 				#{price}, #{product_state}, #{three_dimens}, #{product_tag}, #{woopay}, 
-				#{deal_type}, #{latitude}, #{longitude})
+				#{latitude}, #{longitude})
  					
  		<selectKey  keyProperty="seq_woo_board" resultType="int" order="AFTER">
 	       SELECT seq_woo_board.currval FROM dual
@@ -103,12 +101,10 @@
 	 
 	 <!--4-1. 파일 업로드  -->
 	 <insert id="insertFile" parameterType="map">
-   	
 		INSERT INTO woo_file
 		(
 			fileidx,
 			boardidx,
-			file_num,
 			original_name,
 			save_name,
 			user_id
@@ -116,7 +112,6 @@
 		VALUES(
 			seq_woo_file.NEXTVAL,
 			#{boardidx},
-			#{file_num},
 			#{original_name},
 			#{save_name},
 			#{user_id}
@@ -134,10 +129,19 @@
 		 	 three_dimens=#{three_dimens},
 		 	 product_tag=#{product_tag},
 		 	 woopay=#{woopay},
-		 	 deal_type=#{deal_type},
-		 	 deal_location=#{deal_location}
+		 	 latitude=#{latitude},
+		 	 longitude=#{longitude}
 	 	 WHERE boardidx= #{boardidx} AND id=#{id} 
 	 </update>
+	 
+	  <!--5-1. 파일 수정처리하기 -->
+	   <update id="updateFile" parameterType="map">
+	 	UPDATE woo_file SET 
+		 	 del_yn = 'Y'
+	 	 WHERE fileidx = #{fileidx} 
+	 </update>
+	  
+	 
 	 
 	 <!--6.  삭제하기-->
 	 <delete id="delete" parameterType="model.ParameterVO" >
@@ -171,7 +175,6 @@
 	 
 	<select id="selectId" resultType="String">
 	 	select id from woo_board where boardidx = #{0}
-	 
 	 </select>
 	 
 	 

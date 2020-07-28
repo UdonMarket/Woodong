@@ -22,7 +22,6 @@ public class WooBoardVO {
 	private String three_dimens; //3D이미지 체크
 	private String product_tag;//상품 태그
 	private String woopay;//우동페이 체크
-	private String deal_type;//거래 종류
 	private String latitude;//거래희망 위치 좌표
 	private String longitude;//거래희망 위치 좌표
 	private String buyer_id;
@@ -33,6 +32,8 @@ public class WooBoardVO {
 	private List<MultipartFile> file;
 	private int seq_woo_board;
 	private String good_state;
+	
+	
 	public String getBoardidx() {
 		return boardidx;
 	}
@@ -122,12 +123,6 @@ public class WooBoardVO {
 	}
 	public void setWoopay(String woopay) {
 		this.woopay = woopay;
-	}
-	public String getDeal_type() {
-		return deal_type;
-	}
-	public void setDeal_type(String deal_type) {
-		this.deal_type = deal_type;
 	}
 	public String getLatitude() {
 		return latitude;

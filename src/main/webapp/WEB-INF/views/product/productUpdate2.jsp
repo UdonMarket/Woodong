@@ -11,7 +11,7 @@
 <!-- head.jsp -->
 <jsp:include page="../include/head.jsp" />
 <body>
-<!--우동 파일명 : productWrite.jsp  -->
+<!--우동 파일명 : productUpdate.jsp  -->
 
 	<!--::header part start::-->
 	<!-- header.jsp -->
@@ -29,7 +29,8 @@
 
 	<!-- ================ contact section start ================= -->
 	<section class="contact-section section_padding" style="padding-top: 50px">
-	<form:form name="writeFrm" action="./writeAction.woo" method="post" enctype="multipart/form-data">
+	<form:form name="updateFrm" action="./updateAction.woo" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="boardidx" value="${viewRow.boardidx}" />
 		<div class="container">
 			<div class="regist_box">
 				<div class="description">
@@ -41,9 +42,11 @@
 							<div class="hellopay_box_area">
 								<ul>
 									<li>
+										<c:set var="payval" value="${viewRow.woopay}"/>
 										<label>
-											<input type="checkbox" name="woopay_check" value="" /> 우동페이 (이용)
-											<input type="hidden" name="woopay" value="N" /> 
+											<input type="checkbox" name="woopay_check" value="${viewRow.woopay}"
+											<c:if test="${payval eq 'Y'}">checked </c:if>/> 우동페이 (이용)
+											<input type="hidden" name="woopay" value="${viewRow.woopay}" /> 
 										</label>
 									</li>
 								</ul>
@@ -53,6 +56,28 @@
 							</div>
 						</dd>
 					</dl>
+					<c:set var="threeval" value="${viewRow.three_dimens}"/>
+					<dl id="mainDiv">
+					<dt>
+						<label style="color: rgb(51, 51, 51);">3D 이미지 <span>(선택 사항)</span></label>
+					</dt>
+					<dd>
+						<div class="hellopay_box_area">
+							<ul>
+								<li>
+									<label>
+										<input type="checkbox" name="three_check" value="${viewRow.three_dimens}"
+										<c:if test="${threeval eq 'Y'}"> checked </c:if>/> 3D 이미지 (이용)
+										<input type="hidden" name="three_dimens" value="${viewRow.three_dimens}"/> 
+									</label>
+								</li>
+							</ul>
+						</div>
+						<div class="hellopay_direct_notice">
+							<span class="normal_notice">3D 이미지 선택시 8장의 이미지를 모두 첨부해주세요.</span>
+						</div>
+					</dd>
+				</dl>
 					<dl class="regist_image_dl" id="registImage">
 						<dt>
 							<label style="color: rgb(51, 51, 51);">상품사진</label><span class="photo_max">* 최대 8장</span>
@@ -126,34 +151,12 @@
 
 						</dd>
 					</dl>
-					
-					<dl id="mainDiv">
-					<dt>
-						<label style="color: rgb(51, 51, 51);">3D 이미지 <span>(선택 사항)</span></label>
-					</dt>
-					<dd>
-						<div class="hellopay_box_area">
-							<ul>
-								<li>
-									<label>
-										<input type="checkbox" name="three_check" value=""/> 3D 이미지 (이용)
-										<input type="hidden" name="three_dimens" value="N"/> 
-									</label>
-								</li>
-							</ul>
-						</div>
-						<div class="hellopay_direct_notice">
-							<span class="normal_notice">3D 이미지 선택시 8장의 이미지를 모두 첨부해주세요.</span>
-						</div>
-					</dd>
-				</dl>
-					
 					<dl id="title">
 						<dt>
 							<label style="color: rgb(51, 51, 51);">제목</label>
 						</dt>
 						<dd>
-							<input type="text" class="title_input" placeholder="상품 제목을 입력하세요" name="title">
+							<input type="text" class="title_input" placeholder="상품 제목을 입력하세요" name="title" value="${viewRow.title}">
 						</dd>
 					</dl>
 					<dl id="category">
@@ -163,9 +166,11 @@
 						<dd>
 							<div>
 								<select name="bname">
-									<option value="" hidden="">카테고리</option>
 									<c:forEach items="${selectlist}" var="row">
-									<option value="${row.bname}">${row.bname}</option>
+										<option value="<c:out value="${row.bname}"/>"
+											 <c:if test="${viewRow.bname == row.bname}"> selected</c:if> >
+											 <c:out value="${row.bname}"/>
+										 </option>
 									</c:forEach>
 								</select>
 							</div>
@@ -184,13 +189,9 @@
 설명되지 않은 하자나 문제 발생시 책임은 판매자에게 있습니다.
 - 구매정보(구매일시, 구매시 가격)
 - 상품 정보(사이즈, 색상, 브랜드 등)
-- 상품 사용감(스크래치, 고장, 수리 여부 등)"></textarea>
+- 상품 사용감(스크래치, 고장, 수리 여부 등)"><c:out value="${viewRow.contents}"/></textarea>
 						</dd>
 					</dl>
-					<!-- 상품 태그 :) 
-						 1.태그 입력후   태그 저장 클릭시 span 태그와 hidden input에 값  입력됨 
-						 2.태그를 입력하지 않을시 div 박스는 display none 상태 유지
-					 -->
 					<dl id="mainDiv">
 						<dt>
 							<label>태그</label>
@@ -201,7 +202,7 @@
 							<div class="hellopay_box_area">
 								<ul>
 									<li>
-										<input type="hidden" name="product_tag"/>
+										<input type="hidden" name="product_tag" value="${viewRow.product_tag}"/>
 										<input type="text" class="my_location_input item_location_input" placeholder="최소 1개의 태그를 입력해주세요." name="input_tag" >
 										<div class="my_location_map" >
 											<span id="tagsave">태그 저장</span>
@@ -215,8 +216,12 @@
 								<span class="normal_notice">태그는 최대 3개까지 입력가능합니다.
 								&nbsp;&nbsp;각 태그는 최대 10자까지 입력할 수 있습니다.</span>
 							</div>
-							<div class="hellopay_direct_notice" id="div_tag" style="display: none;">
-								<span class="normal_notice" id="sapn_tag"></span>
+							<div class="hellopay_direct_notice" id="div_tag">
+								<span class="normal_notice" id="sapn_tag">
+								<c:forTokens var="item" items="${viewRow.product_tag}" delims="#">
+									#${item}
+								</c:forTokens>
+								</span>
 							</div>
 						</dd>
 					</dl>
@@ -226,34 +231,34 @@
 						</dt>
 						<dd>
 							<ul class="item_status_list">
+								<c:set var="stateval" value="${viewRow.product_state}" />
 								<li class="item_status">
 									<label>
-										<input type="radio" name="product_state" value="새상품" checked="checked"/>새상품
+										<input type="radio" name="product_state" value="새상품" <c:if test="${stateval eq '새상품'}">checked</c:if> />새상품
 									</label>
 								</li>
 								<li class="item_status">
 									<label>
-										<input type="radio" name="product_state" value="거의새것"/>거의새것
+										<input type="radio" name="product_state" value="거의새것" <c:if test="${stateval eq '거의새것'}">checked</c:if> />거의새것
 									</label>
 								</li><li class="item_status">
 									<label>
-										<input type="radio" name="product_state" value="중고"/>중고
+										<input type="radio" name="product_state" value="중고" <c:if test="${stateval eq '중고'}">checked</c:if> />중고
 									</label>
 								</li><li class="item_status">
 									<label>
-										<input type="radio" name="product_state" value="하자있음"/>하자있음
+										<input type="radio" name="product_state" value="하자있음" <c:if test="${stateval eq '하자있음'}">checked</c:if> />하자있음
 									</label>
 								</li>
 							</ul>
 						</dd>
 					</dl>
-					
 					<dl class="hellopay_options_box direct_options_box" id="price">
 						<dt style="color: rgb(51, 51, 51);">판매가격</dt>
 						<dd>
 							<div class="box_price box_area">
-								<input type="text" placeholder="판매희망 가격을 입력하세요"class="sell_type_input" name="price">
-									<span class="box_prive_text">원</span>
+								<input type="text" placeholder="판매희망 가격을 입력하세요"class="sell_type_input" name="price" value="${viewRow.price}">
+									<span class="box_prive_text"> 원</span>
 							</div>
 						</dd>
 					</dl>
@@ -264,21 +269,21 @@
 						<dd class="map_box">
 						<span class="juso" id="sample4_jibunAddress">
 						</span>
-							<input type="hidden" id="latitude" name="latitude">
-							<input type="hidden" id="longitude" name="longitude">
+						<!-- <input type="text" class="my_location_input item_location_input" id="sample4_jibunAddress" name="deal_location" placeholder="선택한 위치" readonly="readonly"> -->
+							<input type="hidden" id="latitude" name="latitude" value="27.4545">
+							<input type="hidden" id="longitude" name="longitude" value="27.4545">
 							<div class="" style="display:inline-block;"> 
 								<input class="my_location_map" type="button" onclick="sample4_execDaumPostcode()" value="검색" style="background-color: #fff;margin-top: -23.5px;margin-left: 5px;"><br>
 							</div> 
 						</dd>
 					</dl>
 				</div>
-				<button type="submit" class="btn_my" id="subtn" style="margin-bottom: 10px;margin-left: 500px;">글쓰기</button>
+		<button type="submit" class="btn btn-danger" id="subtn">수정하기</button>
 			</div>
 		</div>
 				
 		
 		</form:form>
-		
 		<input type="hidden" id="sample4_postcode" placeholder="우편번호">
 		<input type="hidden" id="sample4_roadAddress" placeholder="도로명주소">
 		<span id="guide" style="color:#999;display:none"></span>
@@ -288,7 +293,7 @@
 	<!-- ================ contact section end ================= -->
 <script>
 var fileCount = 1;
-var maxfile = 9;
+var maxfile = 9; 
 var count = 1;	
 var msg="";
 	
@@ -384,8 +389,6 @@ $(function() {
 		var msg = $("[name=product_tag]").val();
 		if(count<4 && $("input[name=input_tag]").val()!=""){
 			$("input[name=product_tag]").val(msg+'#'+$("input[name=input_tag]").val());
-			console.log($("[name=product_tag]").val());
-			$("#div_tag").removeAttr('style');
 			$("#sapn_tag").append('#'+$("input[name=input_tag]").val()+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
 			count++;
 		}
@@ -395,8 +398,6 @@ $(function() {
 });
 
 </script>
-  <script>
-  </script>
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4416f1cdac23198286eb3f5394e6240d&libraries=services"></script>
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script>
@@ -436,7 +437,7 @@ $(function() {
                 } else {
                     document.getElementById("sample4_extraAddress").value = '';
                 }
-
+ 
                 var guideTextBox = document.getElementById("guide");
              // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
                 if(data.autoRoadAddress) {

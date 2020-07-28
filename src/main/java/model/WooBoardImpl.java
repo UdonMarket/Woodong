@@ -51,7 +51,6 @@ public interface WooBoardImpl {
 	
 	public void deleteBoard(ParameterVO parameterVO);
 	
-	
 	//판매상태 가져오기
 	public String selectSellingStatus(String idx);	
 }

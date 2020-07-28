@@ -29,7 +29,7 @@
       </init-param>
       <load-on-startup>1</load-on-startup>
       <!-- 비동기 작업에 필요(2명이상의 클라이언트가 사용할때 오류없이 사용하기 위한 설정) -->
-		<async-supported>true</async-supported>
+      <async-supported>true</async-supported>
    </servlet>
       
    <servlet-mapping>
@@ -76,12 +76,12 @@
    </filter-mapping>   
    
    <filter>
-	  <filter-name>MultipartFilter</filter-name>
-	  <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
-	</filter>
-	<filter-mapping>
-	  <filter-name>MultipartFilter</filter-name>
-	  <url-pattern>/*</url-pattern>
-	</filter-mapping>
+     <filter-name>MultipartFilter</filter-name>
+     <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+   </filter>
+   <filter-mapping>
+     <filter-name>MultipartFilter</filter-name>
+     <url-pattern>/*</url-pattern>
+   </filter-mapping>
 
 </web-app>

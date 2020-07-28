@@ -7,7 +7,7 @@
 
 <script>
 function deleteMember(){
-	if(!confirm("정말로 탈퇴하시겠습니까?")){
+	if(confirm("정말로 탈퇴하시겠습니까?")){
 		return false;
 	}
 </script>
@@ -58,7 +58,7 @@ function deleteMember(){
 							<div style="margin-bottom: 10px;">
 								<form:form class="row contact_form"
 									action="../member/memberWithdrawAction.woo" method="post"
-									novalidate="novalidate" name="deleteFrm" id="deleteFrm"
+									name="deleteFrm" id="deleteFrm"
 									onsubmit="return frmCheck(this);">
 									<div class="col-md-12 form-group p_star">
 										<input type="password" class="single-input-primary" id="pass"

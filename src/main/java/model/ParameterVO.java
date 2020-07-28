@@ -19,8 +19,17 @@ public class ParameterVO {
 	private Double latTxt;
 	private Double lngTxt;
 	private String bname;
+	private String place;
+	
 	private String idx;
 	private String seller_id;
+	
+	
+	public String getPlace() {
+		return place;
+	}
+	public void setPlace(String place) {
+		this.place = place;
 	
 	
 	

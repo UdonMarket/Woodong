@@ -7,6 +7,7 @@
   <!-- 상품 리스트 반복 start-->
 		<c:forEach items="${lists}" var="row">	
 			<div class="col-4">
+        <a href="./productView.woo?idx=${row.boardidx}&nowPage=${param.nowPage}">
 				<div class="productList_div" style="height: 270px;">
 				<div>
 				<c:if test="${user_id ne null}">
@@ -23,11 +24,12 @@
 				</div>
 				</div>
 				<div style="padding-left: 15px;">
-					<h3> <a href="./productView.woo?boardidx=${row.boardidx}&nowPage=${param.nowPage}">${row.title}</a></h3>
+					<h3> ${row.title}</h3>
 				</div>
 				<div style="padding-left: 15px;">
 					<h4>${row.price} 원 ( idx : ${row.boardidx})</h4>
 				</div>
+          </a>
 			</div>
 		 </c:forEach>   
    <!-- 상품 리스트 반복 end-->

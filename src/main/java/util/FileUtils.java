@@ -64,6 +64,7 @@ public class FileUtils {
 		 listMap.put("original_name", original_name);
 		 listMap.put("save_name", save_name);
 		 listMap.put("user_id", user_id);
+
 		 listMap.put("boardidx", boardidx);
 		 
 		 list.add(listMap);

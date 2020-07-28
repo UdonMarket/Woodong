@@ -78,7 +78,7 @@
 												style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px; border-bottom: 1px solid #d9d9d9;">
 												<div class="col-3">
 													<div class="member_image_box1">
-														<a href="../product/productView.woo?idx=${list.boardidx}"> 
+														<a href="../product/productView.woo?boardidx=${list.boardidx}"> 
 														<img src="../resources/Upload/${list.imagefile}">
 														</a> <a href="/s/@16078391?tab=item">
 															<div class="" style="font-weight: bold; font-size: 15px; padding-top: 30px; padding-left: 8px;">
@@ -102,7 +102,7 @@
 											<c:if test="${user_id eq list.buyer_id}">
 												<form:form name="deleteFrm" onsubmit="return deleteRow();" method="post" action="../mypage/reviewDelete.woo">
 													<input type="image" src="../resources/img/myPage/삭제.png" style="width: 50px; height: 40px; margin-left: 500px;" />
-													 <input type="hidden" name ="idx" value="${list.boardidx}"/>
+													 <input type="hidden" name ="boardidx" value="${list.boardidx}"/>
 													 <input type="hidden" name ="seller_id" value="${list.seller_id}"/>
 													 <input type="hidden" name ="seller_avgscore" value="${seller_avgscore}"/>
 													 <input type="hidden" name ="score" value="${score}"/>

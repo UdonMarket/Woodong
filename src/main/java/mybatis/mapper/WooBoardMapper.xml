@@ -3,14 +3,20 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper  namespace="model.WooBoardImpl" >
-
+ 
 	 
 	 <!--1. 게시물 갯수 카운트 -->
 	 <select id="getTotalCount" resultType="int" parameterType="model.ParameterVO">
-		SELECT  count(*) FROM woo_board
-	<if test="searchTxt != null and !searchTxt.equals('')">
-        WHERE ${searchField} LIKE '%'||#{searchTxt}||'%' 
-    </if>
+		SELECT  count(*) FROM woo_board WHERE 1=1
+		<if test="searchTxt != null and !searchTxt.equals('')">
+	        AND ${searchField} LIKE '%'||#{searchTxt}||'%'  
+	    </if>
+    	<if test="list.size!=0">
+	    	AND bname in
+	    	<foreach collection="list" item="item" open="(" close=")" separator=",">
+	    		#{item}
+			</foreach>
+		</if>	
 	 </select> 
 
 	 
@@ -36,10 +42,16 @@
 		longitude
 	 FROM 
 	 	( SELECT Tb.*, rownum rNum FROM 
-	 		(SELECT * FROM woo_board 
-	<if test="searchTxt != null and !searchTxt.equals('')">
-        WHERE ${searchField} LIKE '%'||#{searchTxt}||'%' 
-    </if>
+	 		(SELECT * FROM woo_board WHERE 1=1 
+		<if test="searchTxt != null and !searchTxt.equals('')">
+	        AND ${searchField} LIKE '%'||#{searchTxt}||'%' 
+	    </if>
+    	<if test="list.size!=0">
+	    	AND bname in
+	    	<foreach collection="list" item="item" open="(" close=")" separator=",">
+	    		#{item}
+			</foreach>
+		</if>	
 	 		order by boardidx DESC ) Tb) 
 	 			WHERE rNum BETWEEN #{start} AND #{end}
 	 </select> 
@@ -167,17 +179,45 @@
 		WHERE 
 				trunc(to_number(DISTNACE_WGS84(#{latTxt}, #{lngTxt},latitude,longitude)),5)<![CDATA[<=]]> 5
 				AND ROWNUM BETWEEN 1 and 20
-				<if test="bname!=null and !bname.equals('')">
-					AND bname like #{bname}
-				</if>
+				<if test="list.size!=0">
+			    	AND bname in
+			    	<foreach collection="list" item="item" open="(" close=")" separator=",">
+			    		#{item}
+					</foreach>
+				</if>	
 		ORDER BY trunc(to_number(DISTNACE_WGS84(#{latTxt}, #{lngTxt},latitude,longitude)),5) ASC
   	</select>
 	 
 	<select id="selectId" resultType="String">
 	 	select id from woo_board where boardidx = #{0}
-	 </select>
-	 
-	 
 
+	 </select> 
+	 
+	 
+	 <insert id="communityWrite" parameterType="model.WooBoardVO">
+	 	INSERT INTO woo_board (boardidx, id, title, contents, bname, price, product_state, product_tag, deal_type, latitude, longitude) VALUES (seq_woo_board.nextval, 'admin', #{title}, #{contents}, #{bname}, '0', 'no', 'no', 'no', '0', '0')
+	 </insert>
+	 
+	<select id="selectCommunity" resultType="model.WooBoardVO" parameterType="model.ParameterVO">
+		SELECT title, contents FROM woo_board WHERE 1=1 
+		<if test="list.size!=0">
+	    	AND bname in
+	    	<foreach collection="list" item="item" open="(" close=")" separator=",">
+	    		#{item}
+			</foreach>
+		</if>
+		ORDER BY postdate desc
+	</select>
+	
+	<update id="communityEdit" parameterType="model.WooBoardVO">
+		UPDATE woo_board SET bname=#{bname}, title=#{title}, contents=#{contents} WHERE boardidx=${boardidx}
+	</update>
+	
+	<delete id="deleteBoard">
+		DELETE FROM woo_board WHERE boardidx in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+ 			#{item}
+		</foreach>
+	</delete>
 	
 </mapper>

@@ -42,5 +42,12 @@ public interface WooBoardImpl {
 
 	//7.내주변 상품 찾아오기
 	public ArrayList<WooBoardVO> searchRadius(ParameterVO parameterVO);
-
+	
+	public void communityWrite(WooBoardVO wooBoardVO);
+	
+	public ArrayList<WooBoardVO> selectCommunity(ParameterVO parameterVO);
+	
+	public void communityEdit(WooBoardVO wooBoardVO);
+	
+	public void deleteBoard(ParameterVO parameterVO);
 }

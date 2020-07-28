@@ -34,5 +34,6 @@ public interface WooMemberImpl {
 	void kakaoLoginAction(WooMemberVO var1);
 	
 	void deleteMember(ParameterVO parameterVO);
-	 
+	
+	void editGrade(String id, String grade);
 }

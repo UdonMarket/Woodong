@@ -13,13 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import model.WooBoardListVO;
+import model.WooBoardVO;
 import model.WooBoardListImpl;
 import model.WooMemberVO;
 import model.WooMemberImpl;
 import model.ParameterVO;
+import model.WooBoardImpl;
 import util.EnvFileReader;
 import util.PagingUtil;
 
@@ -64,21 +65,22 @@ public class WooAdminController {
 		memberVO.setEnd(end);
 		ArrayList<WooMemberVO> lists = sqlSession.getMapper(WooMemberImpl.class).listPage(memberVO);
 		String pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
-				req.getContextPath() + "/admin/memberTable.woo?");
+				req.getContextPath() + "/admin/memberTable.woo?grade=" + req.getParameter("grade") + "&");
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
+		model.addAttribute("grade", req.getParameter("grade"));
 		return "admin/member/memberTable";
 	}
 	
-	// 멤버 삭제
-	@RequestMapping("/admin/delete.woo")
-	public String delete(HttpServletRequest req) {
-		sqlSession.getMapper(WooMemberImpl.class).delete(req.getParameter("delete"));
+	// 멤버 관리자 권한 수정
+	@RequestMapping("/admin/edit.woo")
+	public String edit(HttpServletRequest req) {
+		String id = req.getParameter("id");
+		String grade = req.getParameter("grade");
+		String editgrade = req.getParameter("editgrade");
+		sqlSession.getMapper(WooMemberImpl.class).editGrade(id, editgrade);
 		
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("LoginNG", "삭제되었습니다.");
-		
-		return "redirect:../admin/memberTable.woo";
+		return "redirect:../admin/memberTable.woo?grade=" + req.getParameter("grade");
 	}
 	
 	// 다수의 멤버삭제
@@ -87,15 +89,14 @@ public class WooAdminController {
 		String checkIdList = req.getParameter("checkId");
 		ArrayList<String> idList = new ArrayList<String>();
 		String[] checkIdArr = checkIdList.split("//");
-		for(int i=0 ; i<checkIdArr.length-1 ; i++) {
-			System.out.println(checkIdArr[i]);
+		for(int i=0 ; i<checkIdArr.length ; i++) {
 			idList.add(checkIdArr[i]);
 		}
 		ParameterVO parameterVO = new ParameterVO();
 		parameterVO.setList(idList);
 		sqlSession.getMapper(WooMemberImpl.class).deleteMember(parameterVO);
 		
-		return "admin/board/memberTable";
+		return "redirect:../admin/memberTable.woo?grade=" + req.getParameter("grade");
 	}
 	
 	// 게시판 생성
@@ -182,8 +183,115 @@ public class WooAdminController {
 	
 	// 게시판 관리
 	@RequestMapping("/admin/boardTable.woo")
-	public String boardTable() {
-		return "admin/board/boardTable";
-	}
+	public String boardTable(HttpServletRequest req, Model model) {
+		ParameterVO parameterVO = new ParameterVO();
+		int pageSize = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.pageSize"));
+		int blockPage = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.blockPage"));
+		int nowPage = req.getParameter("nowPage") == null ? 1 : Integer.parseInt(req.getParameter("nowPage"));
+		parameterVO.setSearchField(req.getParameter("searchField"));
+		parameterVO.setSearchTxt(req.getParameter("searchTxt"));
+		int start = (nowPage - 1) * pageSize + 1;
+		int end = nowPage * pageSize;
+		
+		parameterVO.setStart(start);
+		parameterVO.setEnd(end);
+		
+		
+		String mode = req.getParameter("mode");
+		List<WooBoardListVO> bnamelists = null;
+		if("product".equals(mode)) {
+			bnamelists = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../product/productList.woo");
+		}
+		else if("community".equals(mode)) {
+			bnamelists = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../community/community.woo");
+		}
+		List<String> bnamelist = new ArrayList<String>();
+		for(WooBoardListVO list : bnamelists) {
+			bnamelist.add(list.getBname());
+		}
 
+		parameterVO.setList(bnamelist);
+		int total = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).getTotalCount(parameterVO);
+		ArrayList<WooBoardVO> lists = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).listPage(parameterVO);
+		
+		int countNum = 0;
+		
+		for(WooBoardVO vo : lists){
+			vo.setvNum(total - (((nowPage-1)*pageSize)+countNum++));
+		}
+		String pagingImg = PagingUtil.pagingImg(total, pageSize, blockPage, nowPage,
+				req.getContextPath() + "/admin/boardTable.woo?mode=" + mode + "&");
+		model.addAttribute("pagingImg", pagingImg);
+		model.addAttribute("lists", lists);
+		return "admin/board/boardTable";
+		
+		
+	}
+	
+	// 게시물 글쓰기
+	@RequestMapping("/admin/boardWrite.woo")
+	public String boardWrite(Model model) {
+		List<WooBoardListVO> lists = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../community/community.woo");
+		model.addAttribute("lists", lists);
+		return "admin/board/write";
+	}
+	@RequestMapping("/admin/boardWriteAction.woo")
+	public String boardWriteAction(Model model, HttpServletRequest req) {
+		WooBoardVO wooBoardVO = new WooBoardVO();
+		wooBoardVO.setTitle(req.getParameter("title"));
+		wooBoardVO.setContents(req.getParameter("contents"));
+		wooBoardVO.setBname(req.getParameter("bname"));
+		sqlSession.getMapper(WooBoardImpl.class).communityWrite(wooBoardVO);
+		return "redirect:../admin/boardTable.woo?mode=community";
+	}
+	
+	// 게시물 상세보기
+	@RequestMapping("/admin/boardView.woo")
+	public String boardView(Model model, HttpServletRequest req) {
+		String mode = req.getParameter("mode");
+		String boardidx = req.getParameter("boardidx");
+		WooBoardVO wooBoardVO = sqlSession.getMapper(WooBoardImpl.class).view(boardidx);
+		model.addAttribute("mode", mode);
+		model.addAttribute("wooBoardVO", wooBoardVO);
+		return "admin/board/view";
+	}
+	
+	// 게시물 수정
+	@RequestMapping("/admin/boardEdit.woo")
+	public String boardEdit(Model model, HttpServletRequest req) {
+		String boardidx = req.getParameter("checkBoardIdxList");
+		List<WooBoardListVO> lists = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../community/community.woo");
+		model.addAttribute("lists", lists);
+		WooBoardVO wooBoardVO = sqlSession.getMapper(WooBoardImpl.class).view(boardidx);
+		model.addAttribute("mode", req.getParameter("mode"));
+		model.addAttribute("wooBoardVO", wooBoardVO);
+		return "admin/board/edit";
+	}
+	@RequestMapping("/admin/boardEditAction.woo")
+	public String boardEditAction(Model model, HttpServletRequest req) {
+		WooBoardVO wooBoardVO = new WooBoardVO();
+		wooBoardVO.setBoardidx(req.getParameter("boardidx"));
+		wooBoardVO.setTitle(req.getParameter("title"));
+		wooBoardVO.setContents(req.getParameter("contents"));
+		wooBoardVO.setBname(req.getParameter("bname"));
+		sqlSession.getMapper(WooBoardImpl.class).communityEdit(wooBoardVO);
+		return "redirect:../admin/boardView.woo?mode=" + req.getParameter("mode") + "&boardidx=" + req.getParameter("boardidx");
+	}
+	
+	// 게시물 삭제
+	@RequestMapping("/admin/boardDelete.woo")
+	public String boardDelete(Model model, HttpServletRequest req) {
+		
+		String checkBoardIdxList = req.getParameter("checkBoardIdxList");
+		ArrayList<String> idxList = new ArrayList<String>();
+		String[] checkIdxArr = checkBoardIdxList.split("//");
+		for(int i=0 ; i<checkIdxArr.length ; i++) {
+			idxList.add(checkIdxArr[i]);
+		}
+		ParameterVO parameterVO = new ParameterVO();
+		parameterVO.setList(idxList);
+		sqlSession.getMapper(WooBoardImpl.class).deleteBoard(parameterVO);
+		
+		return "redirect:../admin/boardTable.woo?mode=" + req.getParameter("mode") + "&asd";
+	}
 }

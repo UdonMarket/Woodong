@@ -18,7 +18,7 @@
 	<div id="floatMenuBox1"  style="background:none;border:1px solid black;padding-top:10px;">
 		<div>
 			<div>
-				<a href="../member/myPage.woo">
+				<a href="../mypage/myPage.woo?mode=like">
 					<img src="../resources/img/sidebar/heart.png" alt="찜상품" width="20" height="20" />
 					찜상품
 				</a>

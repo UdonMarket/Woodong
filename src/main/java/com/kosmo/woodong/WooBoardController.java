@@ -271,6 +271,13 @@ public class WooBoardController {
 		model.addAttribute("uploadFileList", uploadFileList);
 		model.addAttribute("nowPage", nowPage);
 		
+		
+		//소영 추가(판매상태) 
+		String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(idx);
+		model.addAttribute("sellingStatus", sellingStatus);
+		System.out.println(sellingStatus);
+		
+		
 		return "product/productView";
 	}
 

@@ -50,4 +50,11 @@ public interface WooBoardImpl {
 	public void communityEdit(WooBoardVO wooBoardVO);
 	
 	public void deleteBoard(ParameterVO parameterVO);
+	
+	
+	//판매자 id 가져오기
+	public String selectId(String idx);
+	
+	//판매상태 가져오기
+	public String selectSellingStatus(String idx);	
 }

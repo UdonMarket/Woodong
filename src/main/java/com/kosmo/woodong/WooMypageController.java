@@ -39,7 +39,7 @@ public class WooMypageController {
 		
 		String user_id = principal.getName();
 		
-		ArrayList<String> review_score  = sqlSession.getMapper(WooMypageImpl.class).review_score(user_id);
+		ArrayList<String> review_score = sqlSession.getMapper(WooMypageImpl.class).review_score(user_id);
 		double review_scoreSum = 0;
 		for(int i=0; i<review_score.size(); i++) {
 			review_scoreSum += Double.parseDouble(review_score.get(i));
@@ -102,7 +102,7 @@ public class WooMypageController {
 			else
 				udongGrade += "<img src='../resources/img/빨간온도계.png' alt='' />";
 		}
-
+		
 		model.addAttribute("memberVO", memberVO);
 		model.addAttribute("score", score);
 		model.addAttribute("udongGrade", udongGrade);
@@ -139,10 +139,20 @@ public class WooMypageController {
 		int totalRecordCount = sqlSession.getMapper(WooMypageImpl.class).getTotalCount(parameterVO);
 		ArrayList<WooBoardVO> likeList = sqlSession.getMapper(WooMypageImpl.class).selectBoard(parameterVO);
 		ArrayList<WooMyreviewVO> riviewList = sqlSession.getMapper(WooMypageImpl.class).selectReview(parameterVO);
-		
 		for(WooMyreviewVO rv : riviewList) { 
 			
-			String idx = rv.getReviewidx();
+			String idx = rv.getBoardidx();
+			System.out.println("12131" + idx);
+			ArrayList<FileVO> uploadFileList = sqlSession.getMapper(WooBoardImpl.class).viewFile(idx);
+			//사진 중 첫번째 사진만 저장.
+			String image = uploadFileList.get(0).getSave_name();
+			rv.setImagefile(image);
+			System.out.println("image : " + image);
+		}
+		for(WooBoardVO rv : likeList) { 
+			
+			String idx = rv.getBoardidx();
+			System.out.println("12131" + idx);
 			ArrayList<FileVO> uploadFileList = sqlSession.getMapper(WooBoardImpl.class).viewFile(idx);
 			//사진 중 첫번째 사진만 저장.
 			String image = uploadFileList.get(0).getSave_name();
@@ -158,12 +168,32 @@ public class WooMypageController {
 
 		model.addAttribute("likeList", likeList);
 		model.addAttribute("riviewList", riviewList);
-		
-		String dealPosition = req.getParameter("dealPosition");
-		String seller_id = req.getParameter("seller_id");
+		model.addAttribute("seller_avgscore", req.getParameter("seller_avgscore"));
+		model.addAttribute("score", req.getParameter("score"));
+		System.out.println("1 :./././ " + req.getParameter("seller_avgscore"));
+		System.out.println("2 :./././ " + req.getParameter("score"));
 		String pagingImg = "";
 		String page = "";
 		
+		String dealPosition = req.getParameter("dealPosition");
+		String seller_id = req.getParameter("seller_id");
+		if(seller_id != null) {
+			parameterVO.setSeller_id(seller_id);
+			ArrayList<WooMyreviewVO> sellerRiviewList = sqlSession.getMapper(WooMypageImpl.class).sellerReview(parameterVO);
+		for(WooMyreviewVO rv : sellerRiviewList) { 
+			
+			String idx = rv.getBoardidx();
+			System.out.println("12131" + idx);
+			ArrayList<FileVO> uploadFileList = sqlSession.getMapper(WooBoardImpl.class).viewFile(idx);
+			//사진 중 첫번째 사진만 저장.
+			String image = uploadFileList.get(0).getSave_name();
+			rv.setImagefile(image);
+			System.out.println("image : " + image);
+		}
+		model.addAttribute("sellerRiviewList", sellerRiviewList);
+		}
+		
+		model.addAttribute("score", score);
 		if(mode.equals("deal")) {
 			pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
 					"../mypage/myPage.woo?");
@@ -182,11 +212,17 @@ public class WooMypageController {
 		}
 		else if(mode.equals("review")) {
 			if("seller".equals(dealPosition)) {
+				System.out.println("seller 페이지 이동");
 				page = "mypage/sellerReview";
+			}
+			else if("buyer".equals(dealPosition)){
+				System.out.println("후기페이지 이동");
+				page = "mypage/myReview";
 			}
 			pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
 					"../mypage/myPage.woo?");
-			page = "mypage/myReview";
+			System.out.println("리뷰에 보낼 user_id" + user_id);
+			model.addAttribute("user_id", user_id);
 		}
 		else if(mode.equals("like")){
 			PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
@@ -243,7 +279,15 @@ public class WooMypageController {
 				}
 	
 			}
-			page = "product/productList";
+			if("likemode".equals(req.getParameter("likemode"))) {
+				System.out.println(req.getParameter("likemode"));
+				System.out.println("페이지이동전");
+				page = "mypage/myList_L";
+			}
+			else {
+				System.out.println("에러페이지");
+				page = "product/productList";
+			}
 		}
 		else if(like_flag.equals("1")){
 			
@@ -288,6 +332,10 @@ public class WooMypageController {
 		String id = req.getParameter("id");
 		String idx = req.getParameter("idx");
 		String title = req.getParameter("title");
+		System.out.println("user_id : " + user_id);
+		System.out.println("id"+id);
+		System.out.println("idx" + idx);
+		System.out.println("title" + title);
 		
 		ParameterVO parameterVO = new ParameterVO();
 		parameterVO.setId(id);
@@ -318,10 +366,32 @@ public class WooMypageController {
 	// 후기삭제
 	@RequestMapping("/mypage/reviewDelete.woo")
 	public String deleteReview(HttpServletRequest req) {
+		String page = "";
 		String idx = req.getParameter("idx");
+		System.out.println("후기삭제 : " + idx);
 		int delete = sqlSession.getMapper(WooMypageImpl.class).delete(idx);
+		String dealPosition = req.getParameter("dealPosition");
+		String seller_id = req.getParameter("seller_id");
+		String seller_avgscore = req.getParameter("seller_avgscore");
+		String score = req.getParameter("score");
 		
-		return "redirect:myPage.woo?mode=review";
+		System.out.println("dealPosition : " + dealPosition);
+		System.out.println("seller_id : " + seller_id);
+		System.out.println("seller_avgscore : " + seller_avgscore);
+		System.out.println("score : " + score);
+		if("seller".equals(dealPosition)) {
+			System.out.println("seller페이지");
+			page = "redirect:myPage.woo?mode=review&dealPosition=seller&seller_id=" + seller_id + "&seller_avgscore=" + seller_avgscore + "&score=" + score;
+		}
+		else if("buyer".equals(dealPosition)){
+			System.out.println("buyer페이지");
+			page = "redirect:myPage.woo?mode=review&dealPosition=buyer";
+		}
+		
+		int update = sqlSession.getMapper(WooMypageImpl.class).default_reviewScore(idx);
+		
+		return page;
 	}
+
 	
 }

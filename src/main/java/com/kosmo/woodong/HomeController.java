@@ -22,6 +22,6 @@ public class HomeController {
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(1, 1, locale);
 		String formattedDate = dateFormat.format(date);
 		model.addAttribute("serverTime", formattedDate);
-		return "main/home";
+		return "main/home";  
 	}
 }

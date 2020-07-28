@@ -328,6 +328,7 @@ public class WooBoardController {
 			}
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 		}
 		return "redirect:productList.woo?nowPage=1";
 	}

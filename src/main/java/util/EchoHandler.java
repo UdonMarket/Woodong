@@ -33,6 +33,7 @@ public class EchoHandler extends TextWebSocketHandler{
 		Map<String, Object> map = session.getAttributes();
 		String id = (String)map.get("id");
 		String[] msg = message.getPayload().split("//");
+
 		for(Map<String, Object> sess : sessionList) {
 			WebSocketSession userSession = (WebSocketSession)sess.get("session");
 			if(!sess.get("id").equals(id)) {

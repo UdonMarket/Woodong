@@ -30,7 +30,9 @@
 	<!-- ================ contact section start ================= -->
 	<section class="contact-section section_padding" style="padding-top: 50px">
 	<form:form name="updateFrm" action="./updateAction.woo" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="idx" value="${viewRow.boardidx}" />
+		<input type="hidden" name="boardidx" value="${viewRow.boardidx}" />
+		<input type="hidden" name="fileNoDel[]" value=""  id="fileNoDel"/>
+		<input type="hidden" name="fileNameDel[]" value="" id="fileNameDel"/>
 		<div class="container">
 			<div class="regist_box">
 				<div class="description">
@@ -83,59 +85,35 @@
 							<label style="color: rgb(51, 51, 51);">상품사진</label><span class="photo_max">* 최대 8장</span>
 						</dt>
 						<dd>
-					<!-- 상품 사진 등록 (최대 8개) -->
-					 <ul class="image_list">
-                        <li id="image1">
-                           <div style="width: 146px;height: 146px">
-                              <input type="file" name="file" id="file1" style="display: none;" accept="image/*"/>
-                              <img name="fileimage" id="1" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
-                           </div>
-                        </li>
-                        <li id="image2">
-                           <div style="width: 146px;height: 146px">
-                              <input type="file" name="file" id="file2" style="display: none;" accept="image/*"/>
-                              <img name="fileimage" id="2" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
-                           </div>
-                        </li>
-                        <li id="image3">
-                           <div style="width: 146px;height: 146px">
-                              <input type="file" name="file" id="file3" style="display: none;" accept="image/*"/>
-                              <img name="fileimage" id="3" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
-                           </div>
-                        </li>
-                        <li id="image4">
-                           <div style="width: 146px;height: 146px">
-                              <input type="file" name="file" id="file4" style="display: none;" accept="image/*"/>
-                              <img name="fileimage" id="4" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
-                           </div>
-                        </li>
-                        <li id="image5">
-                           <div style="width: 146px;height: 146px">
-                              <input type="file" name="file" id="file5" style="display: none;" accept="image/*"/>
-                              <img name="fileimage" id="5" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
-                           </div>
-                        </li>
-                        <li id="image6">
-                           <div style="width: 146px;height: 146px">
-                              <input type="file" name="file" id="file6" style="display: none;" accept="image/*"/>
-                              <img name="fileimage" id="6" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
-                           </div>
-                        </li>
-                        <li id="image7">
-                           <div style="width: 146px;height: 146px">
-                              <input type="file" name="file" id="file7" style="display: none;" accept="image/*"/>
-                              <img name="fileimage" id="7" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
-                           </div>
-                        </li>
-                        <li id="image8">
-                           <div style="width: 146px;height: 146px">
-                              <input type="file" name="file" id="file8" style="display: none;" accept="image/*"/>
-                              <img name="fileimage" id="8" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border='0'>
-                           </div>
-                        </li>
-                        
-                     </ul>
-							<div class="up_img_label">대표이미지</div>
+<!-- 상품 사진 등록 (최대 8개) -->
+<ul class="image_list">
+<c:forEach var="file" varStatus="var" items="${uploadFileList}" >
+	<li id="image${var.index}">
+		<div style="width: 146px; height: 146px">
+		 	 <input type="hidden" id="FILE_NO" name="FILE_NO_${var.index}" value="${file.fileidx}">
+			 <input type="hidden" id="FILE_NAME" name="FILE_NAME" value="FILE_NO_${var.index}">
+			 <img name="fileimage" id="fileDel"  src="../resources/Upload/${file.save_name}" 
+			 style="width: 100%; height: 100%;" border="0" onclick="fn_del('${file.fileidx}','${var.index}');">
+		</div>
+	</li>
+	<c:if test="${var.last}">
+	<c:set var="endvar" value="${var.index}" />
+	</c:if>
+</c:forEach>  
+
+<c:forEach var="i" varStatus="var" begin="${endvar}" end="${7-endvar}" >
+<li id="image1">
+   <div style="width: 146px;height: 146px">
+      <input type="file" name="file" id="file${var.index}" style="display: none;" accept="image/*"/>
+      <img name="fileimage" id="${var.index}" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" 
+      style="width: 100%; height: 100%" border='0'>
+   </div>
+</li>
+</c:forEach>  
+</ul>
+
+
+								<div class="up_img_label">대표이미지</div>
 							<div class="up_img_description">
 								<span class="up_img_description_title">* 첫번째 사진은 직접 촬영한
 									상품 사진을 등록해주세요.</span><img
@@ -167,16 +145,13 @@
 							<div>
 								<select name="bname">
 									<c:forEach items="${selectlist}" var="row">
-									<option value="<c:out value="${row.bname}" />"
-									 <c:if test="${viewRow.bname == row.bname}"> selected</c:if> >
-									 <c:out value="${row.bname}" />
-									 </option>
+										<option value="<c:out value="${row.bname}"/>"
+											 <c:if test="${viewRow.bname == row.bname}"> selected</c:if> >
+											 <c:out value="${row.bname}"/>
+										 </option>
 									</c:forEach>
 								</select>
 							</div>
-							<!-- <div class="item_select_box item_select_margin">
-								<select><option value="" hidden="">하위 카테고리</option></select>
-							</div> -->
 						</dd>
 					</dl>
 					<dl id="content">
@@ -189,7 +164,7 @@
 설명되지 않은 하자나 문제 발생시 책임은 판매자에게 있습니다.
 - 구매정보(구매일시, 구매시 가격)
 - 상품 정보(사이즈, 색상, 브랜드 등)
-- 상품 사용감(스크래치, 고장, 수리 여부 등)">${viewRow.contents}</textarea>
+- 상품 사용감(스크래치, 고장, 수리 여부 등)"><c:out value="${viewRow.contents}"/></textarea>
 						</dd>
 					</dl>
 					<dl id="mainDiv">
@@ -202,7 +177,7 @@
 							<div class="hellopay_box_area">
 								<ul>
 									<li>
-										<input type="hidden" name="product_tag"/>
+										<input type="hidden" name="product_tag" value="${viewRow.product_tag}"/>
 										<input type="text" class="my_location_input item_location_input" placeholder="최소 1개의 태그를 입력해주세요." name="input_tag" >
 										<div class="my_location_map" >
 											<span id="tagsave">태그 저장</span>
@@ -217,7 +192,11 @@
 								&nbsp;&nbsp;각 태그는 최대 10자까지 입력할 수 있습니다.</span>
 							</div>
 							<div class="hellopay_direct_notice" id="div_tag">
-								<span class="normal_notice" id="sapn_tag">${viewRow.product_tag}</span>
+								<span class="normal_notice" id="sapn_tag">
+								<c:forTokens var="item" items="${viewRow.product_tag}" delims="#">
+									#${item}
+								</c:forTokens>
+								</span>
 							</div>
 						</dd>
 					</dl>
@@ -250,33 +229,6 @@
 						</dd>
 					</dl>
 					
-					<dl class="sell_method_box">
-						<dt>
-							<label id="price" style="color: rgb(51, 51, 51);">거래종류</label>
-						</dt>
-						<dd>
-							<div class="box_sell_method box_area">
-								<ul class="item_status_list">
-								<c:set var="dealval" value="${viewRow.deal_type}" />
-									<li class="item_status">
-										<label>
-											<input type="radio" name="deal_type" value="판매" <c:if test="${dealval eq '판매'}">checked</c:if>/>판매
-										</label>
-									</li>
-									<li class="item_status">
-										<label>
-											<input type="radio" name="deal_type"  value="무료나눔" <c:if test="${dealval eq '무료나눔'}">checked</c:if>/>무료나눔
-										</label>
-									</li>
-									<li class="item_status">
-										<label>
-											<input type="radio" name="deal_type"  value="삽니다" <c:if test="${dealval eq '삽니다'}">checked</c:if>>삽니다
-										</label>
-									</li>
-								</ul>
-							</div>
-						</dd>
-					</dl>
 					<dl class="hellopay_options_box direct_options_box" id="price">
 						<dt style="color: rgb(51, 51, 51);">판매가격</dt>
 						<dd>
@@ -294,8 +246,9 @@
 						<span class="juso" id="sample4_jibunAddress">
 						</span>
 						<!-- <input type="text" class="my_location_input item_location_input" id="sample4_jibunAddress" name="deal_location" placeholder="선택한 위치" readonly="readonly"> -->
-							<input type="hid den" id="latitude" name="latitude">
-							<input type="hid den" id="longitude" name="longitude">
+
+							<input type="hidden" id="latitude" name="latitude" value="27.4545">
+							<input type="hidden" id="longitude" name="longitude" value="27.4545">
 							<div class="" style="display:inline-block;"> 
 								<input class="my_location_map" type="button" onclick="sample4_execDaumPostcode()" value="검색" style="background-color: #fff;margin-top: -23.5px;margin-left: 5px;"><br>
 							</div> 
@@ -316,71 +269,26 @@
 	</section>
 	<!-- ================ contact section end ================= -->
 <script>
-var fileCount = 1;
-var maxfile = 9;
+var fileCount = 0;
+var maxfile = 8; 
 var count = 1;	
 var msg="";
 	
-//사진 미리보기	  
-function readFile(f) {
-   if(f.files && f.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-             $('img[name=fileimage]:eq(' + (fileCount-2) + ')').prop("src", e.target.result);
-      }
-      reader.readAsDataURL(f.files[0]);
-   }
-}
-$(function() {
-	//input 파일이 바꼈을때 실행되는 함수 (이벤트 / target / 실행될 부분)
-   $('input:file').on("change", function() {
-      readFile(this);
-      fileCount++;
-   });
-	
-	//이미지 클릭했을때 
-   $('img[name=fileimage]').on('click',function() {
-	   
-      var id = this.id;
-      
-     // 클릭한 이미지가 기본이미지라면 파일 선택 이벤트 실행
-     if(this.src=="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png"){
-    	 	//빈 이미지가 아니라면 
-           if(!$('input:file[name]:eq('+ (fileCount-1) +')').val()){
-        	   //파일갯수 8개로 제한
-              if(fileCount>8){
-                 return;
-              }
-        	   //파일첨부 창 로드
-              $('input:file[name]:eq(' + (fileCount-1) + ')').click();
-           }
-     }
-	else{
-		 //클릭한 이미지가 기본이미지가 아니라면 파일 삭제 이벤트 실행
-	   if(confirm("삭제하시겠습니까?")){
-		   //li 태그 삭제
-	      $('#image' + id).remove();
-	      
-		   //ul 태그 안에 append
-	      $('.image_list').append(
-	         '<li id="image'+maxfile+'">'
-	         +   '<div style="width: 146px;height: 146px">'
-	         +      '<input type="file" name="file" id="file'
-	         +maxfile+'" style="display: none;" accept="image/*"/>'
-	         +      '<img name="fileimage" id="'+maxfile
-	         +'" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border="0">'
-	         +   '</div>'
-	         +'</li>'      
-	      );
-	      maxfile++;
-	      fileCount--;
-	   }
+var fileNoArry = new Array();
+var fileNameArry = new Array();
+
+	function fn_del(value, name){
+		
+		fileNoArry.push(value);
+		fileNameArry.push(name);
+		$("#fileNoDel").attr("value", fileNoArry);
+		$("#fileNameDel").attr("value", fileNameArry);
+		$('#image'+name).remove();
 	}
-   });
-});
-	
-//라디오 토글
 $(function() {
+	
+	
+	//라디오 토글
 	$("input:radio[name=product_state]").checkboxradio({
 		icon: false
 	});
@@ -396,6 +304,7 @@ $(function() {
 	    }
 	});
 	
+	//수정 완료 했을시 
 	$('#subtn').click(function(){
 		
 		if($('input:checkbox[name=woopay_check]').is(':checked')==true){
@@ -425,11 +334,10 @@ $(function() {
 });
 
 </script>
+   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4416f1cdac23198286eb3f5394e6240d&libraries=services"></script>
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script>
-  </script>
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4416f1cdac23198286eb3f5394e6240d&libraries=services"></script>
- <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
- <script>
+
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
     function sample4_execDaumPostcode() {
         new daum.Postcode({

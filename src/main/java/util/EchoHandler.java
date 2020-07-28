@@ -15,27 +15,29 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 @RequestMapping("/echo")
 public class EchoHandler extends TextWebSocketHandler{
 	
-	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
+	private List<Map<String, Object>> sessionList = new ArrayList<Map<String, Object>>();
 	
 	private static Logger logger = LoggerFactory.getLogger(EchoHandler.class);
 	
 	//클라이언트 서버로 연결 처리
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception{
-		sessionList.add(session);
-		Map<String, Object> map = session.getAttributes(); 
-		logger.info("{}연결됨", (String)map.get("id"));
+		Map<String, Object> map = session.getAttributes();
+		map.put("session", session);
+		sessionList.add(map);
 	}
 	
 	//클라이언트 서버로 메세지 전송 처리
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception{
-		Map<String, Object> map = session.getAttributes(); 
+		Map<String, Object> map = session.getAttributes();
+		String id = (String)map.get("id");
 		String[] msg = message.getPayload().split("//");
-		logger.info("{}로 부터 {}받음",(String)map.get("id"),message.getPayload());
-		for(WebSocketSession sess : sessionList) {
-			if(!msg[0].equals((String)map.get("id"))) {
-				sess.sendMessage(new TextMessage(message.getPayload())); // 상대방 꾸미는 부분
+
+		for(Map<String, Object> sess : sessionList) {
+			WebSocketSession userSession = (WebSocketSession)sess.get("session");
+			if(!sess.get("id").equals(id)) {
+				userSession.sendMessage(new TextMessage(message.getPayload())); // 상대방 꾸미는 부분
 			}
 		}
 	}
@@ -44,9 +46,16 @@ public class EchoHandler extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status)throws Exception{
 		//퇴장 사용자 세션 리스트 제거
-		sessionList.remove(session);
+		System.out.println("sessionList size1 : " + sessionList.size());
+		for(int i = 0 ;  i<sessionList.size() ; i++) {
+			if(sessionList.get(i).get("session")==session) {
+				sessionList.remove(i);
+				break;
+			}
+		}
+		System.out.println("sessionList size2 : " + sessionList.size());
 		Map<String, Object> map = session.getAttributes(); 
-		logger.info("{}연결끊김"+(String)map.get("id"));
+		System.out.println("{}연결끊김"+(String)map.get("id"));
 		
 	}
 

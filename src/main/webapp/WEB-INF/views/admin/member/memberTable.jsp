@@ -42,12 +42,12 @@
 		});
 	});
 	
-	function isDelete(frm) {
-		var c = confirm("삭제할까요?");
-		if (c) {
-			frm.method = "post";
-			frm.action = "../admin/delete.woo";
-			frm.submit();
+	function isDelete(id) {
+		var checkStr = id;
+		$('#checkId').val(checkStr + "//");
+		if(confirm('삭제하시겠습니까?') && $('#checkId').val()!=''){
+			$('[name=editOrDelete]').attr('action', '../admin/memberDelete.woo');
+			$('[name=editOrDelete]').submit();
 		}
 	}
 </script>
@@ -69,10 +69,7 @@
 
 		<div class="container">
 		<%-- 뷰(View)영역 --%>
-		<div class="text-center" style="float: right">
-			<div>
-				<img src="../resources/admin/img/관리자.png" alt="" style="width: 200px;"/>
-			</div>
+		<div class="text-center" style="float: right; margin-top: 30px" >
 		
 			<form class="form-inline" name="searchFrm"
 				action="<c:url value="../admin/memberTable.woo"/>"
@@ -131,7 +128,6 @@
 				</tr>
 			</thead>
 			<tbody>
-				<%-- 방명록 반복 부분 --%>
 				<c:forEach items="${lists }" var="row">
 					<tr>
 						<td><input type="checkbox" name="choiceCheck" value="${row.id }"/></td>
@@ -145,18 +141,18 @@
 							<td class="text-center">${row.trade_count }</td>
 						</c:if>
 						<td class="text-center">
-							<form:form action="">
+							<form:form action="../admin/edit.woo">
 								<input type="hidden" name="id" value="${row.id }" />
-								<select name="grade">
+								<input type="hidden" name="grade" value="${grade }" />
+								<select name="editgrade">
 									<option value="admin">관리자</option>
 									<option value="normal">회원</option>
 								</select>
+							<input type="submit" class="btn btn-primary" style="height: 20px; padding-top: 0px"  value="수정" />
 							</form:form>
-							<input type="button" class="btn btn-primary" style="height: 20px; padding-top: 0px"  value="수정" />
 						</td>
-						<td class="text-center"><form:form name="deleteFrm">
-								<button class="btn btn-danger" style="height: 20px; padding-top: 0px"  onclick="isDelete(this.form);">삭제</button>
-							</form:form></td>
+						<td class="text-center">
+							<button class="btn btn-danger" style="height: 20px; padding-top: 0px"  onclick="isDelete(${row.id });">삭제</button>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -166,6 +162,7 @@
 	
 	<div style="text-align: center">
 		<form:form name="editOrDelete">
+			<input type="hidden" name="grade" value="${grade }" />
 			<input type="hidden" id="checkId" name="checkId"/>
 		</form:form>
 		<input type="button" id="allDelete" class="btn btn-danger" style="height: 20px; padding-top: 0px"  value="삭제" />

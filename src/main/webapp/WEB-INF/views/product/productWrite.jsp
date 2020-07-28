@@ -248,32 +248,6 @@
 						</dd>
 					</dl>
 					
-					<dl class="sell_method_box">
-						<dt>
-							<label id="price" style="color: rgb(51, 51, 51);">거래종류</label>
-						</dt>
-						<dd>
-							<div class="box_sell_method box_area">
-								<ul class="item_status_list">
-									<li class="item_status">
-										<label>
-											<input type="radio" name="deal_type" value="판매" checked="checked"/>판매
-										</label>
-									</li>
-									<li class="item_status">
-										<label>
-											<input type="radio" name="deal_type"  value="무료나눔"/>무료나눔
-										</label>
-									</li>
-									<li class="item_status">
-										<label>
-											<input type="radio" name="deal_type"  value="삽니다"/>삽니다
-										</label>
-									</li>
-								</ul>
-							</div>
-						</dd>
-					</dl>
 					<dl class="hellopay_options_box direct_options_box" id="price">
 						<dt style="color: rgb(51, 51, 51);">판매가격</dt>
 						<dd>
@@ -290,9 +264,8 @@
 						<dd class="map_box">
 						<span class="juso" id="sample4_jibunAddress">
 						</span>
-						<!-- <input type="text" class="my_location_input item_location_input" id="sample4_jibunAddress" name="deal_location" placeholder="선택한 위치" readonly="readonly"> -->
-							<input type="hid den" id="latitude" name="latitude">
-							<input type="hid den" id="longitude" name="longitude">
+							<input type="hidden" id="latitude" name="latitude">
+							<input type="hidden" id="longitude" name="longitude">
 							<div class="" style="display:inline-block;"> 
 								<input class="my_location_map" type="button" onclick="sample4_execDaumPostcode()" value="검색" style="background-color: #fff;margin-top: -23.5px;margin-left: 5px;"><br>
 							</div> 
@@ -380,9 +353,6 @@ $(function() {
 //라디오 토글
 $(function() {
 	$("input:radio[name=product_state]").checkboxradio({
-		icon: false
-	});
-	$("input:radio[name=deal_type]").checkboxradio({
 		icon: false
 	});
 	$('input[type=checkbox]').click(function(){

@@ -98,7 +98,7 @@
 														<a href="../mypage/myPage.woo?mode=buy"><span>구매목록</span></a>
 													</li>
 													<li>
-														<a href="../mypage/myPage.woo?mode=review"><span>후기</span></a>
+														<a href="../mypage/myPage.woo?mode=review&dealPosition=buyer"><span>후기</span></a>
 													</li>
 													<li>
 														<a class="active" id="scrollMain"href="../mypage/myProfile.woo"><span style="font-size:1.4em;color:#ff4f4f;">회원설정</span></a>
@@ -110,7 +110,7 @@
 														<a href="../member/myPlace.woo"><span>동네인증</span></a>
 													</li>
 													<li>
-														<a href="../member/memberWithdraw.woo"><span>회원탈퇴</span></a>
+														<a href="../member/passwordform.woo"><span>회원탈퇴</span></a>
 													</li>
 													
 												</ul>

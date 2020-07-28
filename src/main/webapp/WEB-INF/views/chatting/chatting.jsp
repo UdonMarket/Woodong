@@ -24,13 +24,15 @@
 			sendMessage();
 			$('#inputMessage').val('');
 		});
-		let sock = new SockJS("http://localhost:8282/woodong/echo");
+		let sock = new SockJS("http://192.168.219.142:8282/woodong/echo");
 		sock.onmessage = onMessage;
 		sock.onclose = onClose;
+		sock.onerror = onError;
 		
 		// 메시지 전송
 		function sendMessage() {
 			sock.send(${id} + "//" + $("#inputMessage").val());
+			saveMessageDB($("#inputMessage").val());
 			var msg ='';
 			msg += '<div class="chat chat-right">';
 			msg += '	<div class="chat-box">';
@@ -66,14 +68,31 @@
 		function onClose(evt) {
 			$("#chat-container").append("연결 끊김");
 			$("#chat-container").scrollTop($('#chat-container')[0].scrollHeight);
-
 		}
+		function onError(evt){
+			alert("error : " + evt);
+		}
+		
 		$("#inputMessage").keyup(function(key){
 			if(key.keyCode==13){
 				sendMessage();
 			}
 		});
 	});
+	
+	function saveMessageDB(msg){
+		$.ajax({
+			url : "../chatting/saveMessageDB.woo",
+			type:"get",
+		    contentType:"text/html;charset:utf-8",
+		    data:{chatting : msg, chatroomidx : ${chatroomidx }, id : ${id }},
+		    dataType : "json" ,
+	 	  	success : function(d) {
+			},
+			error : function(request,status,error) {
+		    }
+		});
+	}
 	
 	
 	/* function enterkey(){
@@ -102,8 +121,28 @@
 		</header>	
 		
 		
-		<div id="chat-container" class="chat-area" style="height:340px;width:350px; overflow:auto;">
-			
+		<div id="chat-container" class="chat-area" style="height:340px;width:350px; overflow-x:hidden; overflow-y:auto;">
+		<c:if test="${not empty chatList }">
+			<c:forEach items="${chatList}" var="row">
+				<c:if test="${userid eq row.id}">
+					<div class="chat chat-right">
+						<div class="chat-box">
+							<p class="bubble-me">${row.chatting }</p>
+							<span class="bubble-tail"></span>
+						</div>
+					</div>
+				</c:if>
+				<c:if test="${userid ne row.id}">
+					<div class="chat chat-left">
+						<div class="chat-box">
+							<p style = "font-weight:bold;font-size:1.1em;margin-bottom:5px;">${row.id }</p>
+							<p class="bubble">${row.chatting }</p>
+							<span class="bubble-tail"></span>
+						</div>
+					</div>
+				</c:if>
+			</c:forEach>
+		</c:if>
 		</div>
 		
 		<footer id="chat-footer">
@@ -121,7 +160,5 @@
 				
 			</p>
 		</footer>
-		<input type="hidden" id="chat_id" value="${param.chat_id }" style="border:1px dotted red;" />
-		<input type="hidden" id="chat_room" value="${param.chat_room }" style="border:1px dotted red;" />
 	</div>
 </body>

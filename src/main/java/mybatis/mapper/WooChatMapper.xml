@@ -3,10 +3,20 @@
 
 <mapper namespace="model.WooChatImpl">
 	<select id="selectRoom" resultType="model.WooChatRoomVO">
-		SELECT * FROM woo_chatroom WHERE myid=#{0} or otherid=#{0} ORDER BY lastchatdate desc
+		SELECT * FROM woo_chatroom WHERE sellerid=#{0} or buyerid=#{0} ORDER BY lastchatdate desc
 	</select>
 	<select id="selectLastChat" resultType="model.WooChattingVO">
-		SELECT * FROM woo_chatting WHERE chatroomidx=#{0} ORDER BY chatDate 
+		SELECT * FROM woo_chatting WHERE chatroomidx=#{0} ORDER BY chatDate
+	</select> 
+	<insert id="saveMessage" parameterType="model.WooChattingVO">
+		INSERT INTO woo_chatting (chattingidx, id, chatting, chatroomidx) values (seq_woo_chat.nextval, #{id}, #{chatting}, #{chatroomidx})
+	</insert>
+	<update id="updateLastChatTime">
+		UPDATE woo_chatroom SET lastchatdate = #{1} WHERE chatroomidx = #{0}
+	</update>
+	
+	<select id="selectChatting" resultType="model.WooChattingVO">
+		SELECT * FROM woo_chatting WHERE chatroomidx = #{0} ORDER BY chatDate
 	</select>
 	
 	<select id="jusoList" resultType="model.WooJusoVO">

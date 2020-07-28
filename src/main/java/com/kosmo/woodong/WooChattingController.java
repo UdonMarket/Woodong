@@ -3,6 +3,8 @@ package com.kosmo.woodong;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -34,8 +36,8 @@ public class WooChattingController {
 	// 채팅방 메인화면
 	@RequestMapping("/chatting/chatMain.woo")
 	public String chatMain(Principal principal, Model model) {
-		String sellerid = principal.getName();
-		List<WooChatRoomVO> roomList = sqlSession.getMapper(WooChatImpl.class).selectRoom(sellerid);
+		String id = principal.getName();
+		List<WooChatRoomVO> roomList = sqlSession.getMapper(WooChatImpl.class).selectRoom(id);
 		
 		for(WooChatRoomVO room : roomList) {
 			List<WooChattingVO> chatList = sqlSession.getMapper(WooChatImpl.class).selectLastChat(room.getChatroomidx());
@@ -45,16 +47,20 @@ public class WooChattingController {
 		}
 		
 		model.addAttribute("roomList", roomList);
-		
+		model.addAttribute("id", id);
 		return "chatting/chatMain";
 	}
 	
 	// 채팅
 	@RequestMapping("/chatting/chatting.woo")
-	public String chatting(Principal principal, HttpSession session, Model model) {
+	public String chatting(Principal principal, HttpServletRequest req, HttpSession session, Model model) {
 		String user_id = principal.getName();
+		String chatroomidx = req.getParameter("chatroomidx");
+		List<WooChattingVO> chatList = sqlSession.getMapper(WooChatImpl.class).selectChatting(chatroomidx);
 		session.setAttribute("id", user_id);
-		model.addAttribute("id", user_id);
+		model.addAttribute("chatList", chatList);
+		model.addAttribute("userid", user_id);
+		model.addAttribute("chatroomidx", req.getParameter("chatroomidx"));
 		return "chatting/chatting";
 	}
 	
@@ -94,4 +100,26 @@ public class WooChattingController {
 		model.addAttribute("searchLists",searchLists);
 		return "chatting/topPlace";
 	}
+	@RequestMapping("/chatting/saveMessageDB.woo")
+	public void saveMessageDB(HttpServletRequest req){
+		String chatting = req.getParameter("chatting");
+		String chatroomidx = req.getParameter("chatroomidx");
+		String id = req.getParameter("id");
+		
+		WooChattingVO wooChattingVO = new WooChattingVO();
+		wooChattingVO.setChatroomidx(chatroomidx);
+		wooChattingVO.setChatting(chatting);
+		wooChattingVO.setId(id);
+		sqlSession.getMapper(WooChatImpl.class).saveMessage(wooChattingVO);
+		
+		List<WooChattingVO> chatList = sqlSession.getMapper(WooChatImpl.class).selectLastChat(chatroomidx);
+		Timestamp lastChat = null;
+		if(chatList.size()>0) {
+			lastChat = chatList.get(chatList.size()-1).getChatDate();
+			System.out.println("1" + chatList.get(chatList.size()-1).getChatDate());
+		}
+		System.out.println("2" + lastChat);
+		sqlSession.getMapper(WooChatImpl.class).updateLastChatTime(chatroomidx, lastChat);
+	}
+	
 }

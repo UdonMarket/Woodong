@@ -36,4 +36,8 @@ public interface WooMemberImpl {
 	WooMemberVO idFind(String str1);
 
 	WooMemberVO pwFind(String str1);
+	
+	void deleteMember(ParameterVO parameterVO);
+	
+	void editGrade(String id, String grade);
 }

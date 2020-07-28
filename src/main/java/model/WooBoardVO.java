@@ -33,6 +33,14 @@ public class WooBoardVO {
 	private List<MultipartFile> file;
 	private int seq_woo_board;
 	private String good_state;
+	private int vNum;
+	
+	public int getvNum() {
+		return vNum;
+	}
+	public void setvNum(int vNum) {
+		this.vNum = vNum;
+	}
 	public String getBoardidx() {
 		return boardidx;
 	}

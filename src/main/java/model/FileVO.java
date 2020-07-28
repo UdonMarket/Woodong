@@ -5,7 +5,6 @@ public class FileVO {
 	// 테이블 컬럼
 	private String fileidx;//파일 idx
 	private String boardidx;//보드 idx
-	private String file_num;//파일
 	private String original_name;//원본 파일명
 	private String save_name;//저장되는 파일명
 	private String user_id;//첨부파일 작성자
@@ -26,12 +25,6 @@ public class FileVO {
 	}
 	public void setBoardidx(String boardidx) {
 		this.boardidx = boardidx;
-	}
-	public String getFile_num() {
-		return file_num;
-	}
-	public void setFile_num(String file_num) {
-		this.file_num = file_num;
 	}
 	public String getOriginal_name() {
 		return original_name;

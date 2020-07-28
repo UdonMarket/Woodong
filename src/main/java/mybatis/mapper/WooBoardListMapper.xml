@@ -20,7 +20,7 @@
 	</select>
 	
 	<insert id="createboard" parameterType="model.WooBoardListVO"> 
-		INSERT INTO woo_boardlist (boardlistidx, bname, location, locationname, requestname, boardorder) VALUES (boardlist_seq.nextval, #{bname}, #{location}, #{locationname}, #{requestname}, ${boardorder})
+		INSERT INTO woo_boardlist (boardlistidx, bname, location, locationname, requestname, boardorder) VALUES (seq_woo_boardlist.nextval, #{bname}, #{location}, #{locationname}, #{requestname}, ${boardorder})
 	</insert>
 	
 	<select id="selectBoard" resultType="model.WooBoardListVO">
@@ -38,7 +38,7 @@
 	<delete id="deleteboard" parameterType="String">
 		DELETE FROM woo_boardlist WHERE boardlistidx=#{0}
 	</delete>
-	
+	 
 	<update id="updateOrder">
 		UPDATE woo_boardlist SET boardorder = boardorder-1 WHERE location=#{0} AND boardorder>#{1}
 	</update>
@@ -57,6 +57,6 @@
 	
 	<!--bname 검색  -->
 	<select id="selectBname" resultType="model.WooBoardListVO">
-		SELECT * FROM woo_boardlist
+		SELECT * FROM woo_boardlist WHERE location=#{0}
 	</select>
 </mapper> 

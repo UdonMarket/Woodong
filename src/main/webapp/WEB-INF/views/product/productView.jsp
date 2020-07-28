@@ -170,7 +170,7 @@
 														</div>
 														<div class="col-4" style="padding:0px;">
 														<c:if test="${viewRow.three_dimens eq 'Y'}">
-															<img src="../resources/img/product/3d 이미지.png" onclick="popupOpen();" style="width: 125px; height: 65px; margin-left: 8px;"/>
+															<img src="../resources/img/product/3d 이미지.png" data-toggle="modal" data-target="#myModal onclick="popupOpen();" style="width: 125px; height: 65px; margin-left: 8px;"/>
 														</c:if>
 														</div>
 														<div class="col-3" style="padding:0px; ">
@@ -198,6 +198,9 @@
 											<div class="detail_item_description">
 												<div class="description_text" style="font-size: 1.2em; width:50px; height: 25px;">
 														${viewRow.contents}
+												</div>
+												<div style="margin-top:100px; margin-right: 20px;">
+												
 												</div>
 											</div>
 										</div>
@@ -238,32 +241,40 @@
 			</div>
 		</div>
 	</div>
-<!-- 팝업 레이어 -->
-<div id="popup" style="position:absolute;visibility:hidden;">
-    <h4>팝업레이어<a href="void(0);" class="close" onclick="javascript:popupOpen();">X</a> </h4>
-        <ul class="popCont">
-            <li>
-            <strong>이름</strong>
-            <span id='name'>홍길sdssssssssssssssssssss동</span>
-            </li>
-            <li>
-            <strong>이름</strong>
-            <span id='name'>홍길ssssssssssssssssssssss동</span>
-            </li>
-            <li>
-            <strong>이름</strong>
-            <span id='name'>홍길ssssssssssssssss동</span>
-            </li>
-            <li>
-            <strong>이름</strong>
-            <span id='name'>홍길동</span>
-            </li>
-        </ul>
-</div>
-<!-- //팝업 레이어 -->
 
 </section>
 </div>
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+     <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">3D이미지</h4>
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+<!--3D .product-viewer   -->
+              <div class="cd-product-viewer-wrapper" data-frame="16" data-friction="0.33">
+				   <div>
+				      <figure class="product-viewer">
+				        <img src="../resources/img/1.png" class="img-rounded mx-auto d-block" style="width:80%;" >
+				         <div class="product-sprite" data-image="../resources/img/1.png"></div>
+				      </figure> <!-- .product-viewer -->
+				
+				      <div class="cd-product-viewer-handle">
+				         <span class="fill"></span>
+				         <span class="handle">Handle</span>
+				      </div>
+				   </div> <!-- .cd-product-viewer-handle -->
+				</div> <!-- .cd-product-viewer-wrapper -->
+<!--3D .product-viewer   -->
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- The Modal -->
 <script>
 $(document).ready(function(){
 	var formObj = $("[name='viewForm']");
@@ -286,25 +297,6 @@ $(document).ready(function(){
 		}
 	})
 });
-//<!-- 레이어 팝업 오픈 이벤트 -->
-function popupOpen(){
-
-    if(document.all.popup.style.visibility=="hidden") {
-        document.all.popup.style.visibility="visible";
-        return false;
-    }else{
-        document.all.popup.style.visibility="hidden";
-        return false;   
-    }
-    //추가부분
-//<!-- 팝업 화면 중앙에 위치 시키기 -->
-    var $layerPopupObj = $('#popup');
-    var left = ( $(window).scrollLeft() + ($(window).width() - $layerPopupObj.width()) / 2 );
-    var top = ( $(window).scrollTop() + ($(window).height() - $layerPopupObj.height()) / 2 );
-    $layerPopupObj.css({'left':left,'top':top, 'position':'absolute'});
-    $('body').css('position','relative').append($layerPopupObj);
-}
-//<!-- //레이어 팝업 오픈 이벤트 --> 
 
 </script>
 <!-- subscribe part end -->

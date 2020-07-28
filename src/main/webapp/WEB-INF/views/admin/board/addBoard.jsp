@@ -48,10 +48,12 @@
 		<jsp:include page="../include/header.jsp" />
 		<!-- End Navbar -->
 		<!-- Header -->
-		<div class="header bg-gradient-primary pb-8 pt-5 pt-md-5">
+		<div class="header bg-gradient-primary pb-8 pt-5 pt-md-5" style="height: 200px">
 			<div class="container-fluid">
 				<div class="header-body">
-					<img src="../resources/admin/img/관리자.png" alt="" />
+					<div style="text-align: center">
+						<img src="../resources/admin/img/게시판 관리.png" alt="" style="width: 200px;"/>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -108,7 +110,7 @@
 						<input type="hidden" name="ty" value="${row.type }"/>
 						<input type="hidden" name="bo" value="${row.boardorder }"/>
 						<form:form action="../admin/editBoard.woo" method="post">
-							<input type="hidden" name="idx" value="${row.boardlistidx }"/>
+							<input type="hidden" name="boardlistidx" value="${row.boardlistidx }"/>
 							<input type="hidden" name="requestname" value="${row.requestname }"/>
 							<input type="hidden" name="locationname" value="${row.locationname }"/>
 							<tr>

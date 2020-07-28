@@ -108,10 +108,10 @@
 		
 		<footer id="chat-footer">
 		<div style="text-align: right;">
-		    <label for="radio-1" >판매전</label>
-		    <input type="radio" name="radio-1" id="radio-1"style="padding-right:10px;">
+		    <label for="radio-1">판매전</label>
+		    <input type="radio" name="radio-1" id="radio-1">
 		    <label for="radio-2">판매중</label>
-		    <input type="radio" name="radio-1" id="radio-2"style="padding-right:10px;">
+		    <input type="radio" name="radio-1" id="radio-2">
 		    <label for="radio-3">판매완료</label>
 		    <input type="radio" name="radio-1" id="radio-3">
 		</div>

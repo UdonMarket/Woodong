@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+
 @Service
 public interface WooMemberImpl {
 	void regist(WooMemberVO var1);
@@ -34,5 +35,7 @@ public interface WooMemberImpl {
 	void kakaoLoginAction(WooMemberVO var1);
 	
 	void deleteMember(ParameterVO parameterVO);
+	
+	
 	 
 }

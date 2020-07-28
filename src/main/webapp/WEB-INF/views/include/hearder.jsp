@@ -111,3 +111,37 @@ function checkchat(){
    window.open('../main/chatMain.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);
 }
 </script>
+<script>
+	function getCookie(name) {
+		var Found = false;
+		var start, end;
+		var i = 0;
+		
+		while (i<=document.cookie.length) {
+			start = i;
+			end = start + name.length;
+			
+			if(document.cookie.substring(start, end)==name){
+				Found = true;
+				break;
+			}
+			i++;
+		}
+		if(Found == true){
+			start = end + 1;
+			end = document.cookie.indexOf(";", start);
+			if(end<start){
+				end = document.cookie.length;
+			}
+			return document.cookie.substring(start, end);
+		}
+		return "";
+	}
+	function openPopup() {
+		var noticeCookie = getCookie("CookieName");
+		if(noticeCookie != "done"){
+			window.open('../main/popUp.woo',"pop","status=no,resize=no,scrollbars=no,width=400,height=480,top=10,left=10");
+		}
+		openPopup();
+	}
+</script>

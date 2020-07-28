@@ -20,8 +20,16 @@ public class ParameterVO {
 	private Double latTxt;
 	private Double lngTxt;
 	private String bname;
+	private String place;
 	
 	
+	
+	public String getPlace() {
+		return place;
+	}
+	public void setPlace(String place) {
+		this.place = place;
+	}
 	public Double getLatTxt() {
 		return latTxt;
 	}

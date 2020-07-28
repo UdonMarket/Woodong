@@ -5,8 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
-
-
 	<security:http pattern="/admin/**">
 		<security:intercept-url
 			pattern="/admin/login.woo" access="permitAll" />
@@ -15,19 +13,16 @@
 		<security:intercept-url pattern="/**"
 			access="permitAll" />
 
-		<security:form-login login-page="/admin/login.woo"
-			default-target-url="/admin/admin.woo"
+		<security:form-login 
+			login-page="/admin/login.woo" default-target-url="/admin/admin.woo"
 			authentication-failure-url="/admin/login.woo?error"
 			login-processing-url="/admin/login" username-parameter="admin_id"
 			password-parameter="admin_pw" />
 
-		<security:remember-me key="remember-key"
-			token-validity-seconds="604800"
-			remember-me-parameter="remember-me-param" />
+		<security:remember-me key="remember-key" token-validity-seconds="604800" remember-me-parameter="remember-me-param" />
 
 		<security:logout logout-url="/admin/logout"
-			logout-success-url="/admin/admin.woo" invalidate-session="true"
-			delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE" />
+			logout-success-url="/admin/admin.woo" invalidate-session="true" delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE" />
 		<security:access-denied-handler
 			error-page="/admin/admin.woo" />
 	</security:http>
@@ -44,8 +39,7 @@
 			pattern="/main/chatting.woo" access="hasRole('USER')" />
 		<security:intercept-url
 			pattern="/main/chat_main.woo" access="hasRole('USER')" />
-		<security:intercept-url pattern="/**"
-			access="permitAll" />
+		<security:intercept-url pattern="/**" access="permitAll" />
 
 		<security:form-login
 			login-page="/member/login.woo" default-target-url="/main/main.woo"

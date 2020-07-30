@@ -8,15 +8,13 @@
 	 <!--1. 게시물 갯수 카운트 -->
 	 <select id="getTotalCount" resultType="int" parameterType="model.ParameterVO">
 		SELECT  count(*) FROM woo_board WHERE 1=1
-		<if test="searchTxt != null and !searchTxt.equals('')">
-	        AND ${searchField} LIKE '%'||#{searchTxt}||'%'  
-	    </if>
     	<if test="list.size!=0">
 	    	AND bname in
 	    	<foreach collection="list" item="item" open="(" close=")" separator=",">
 	    		#{item}
 			</foreach>
 		</if>	
+		<include refid="search"></include>	
 	 </select> 
 
 	 
@@ -31,7 +29,7 @@
 		bname,
 		visitcount,
 		likecount,
-		ltrim(to_char(price,'999,999,999')) price,
+		price,
 		product_state,
 		chatcount,
 		like_check,
@@ -42,17 +40,24 @@
 		longitude
 	 FROM 
 	 	( SELECT Tb.*, rownum rNum FROM 
-	 		(SELECT * FROM woo_board WHERE 1=1 
-		<if test="searchTxt != null and !searchTxt.equals('')">
-	        AND ${searchField} LIKE '%'||#{searchTxt}||'%' 
-	    </if>
+	 		( SELECT * FROM woo_board WHERE 1=1 
     	<if test="list.size!=0">
 	    	AND bname in
 	    	<foreach collection="list" item="item" open="(" close=")" separator=",">
 	    		#{item}
 			</foreach>
 		</if>	
-	 		order by boardidx DESC ) Tb) 
+		<include refid="search"></include>	
+	 		
+	 		<choose>
+	 			<when test="order != null and !order.equals('')">
+	 				ORDER BY ${order} 
+	 			</when>
+	 			<otherwise>
+	 				ORDER BY boardidx DESC 
+	 			</otherwise>
+	 		</choose>
+	 		) Tb) 
 	 			WHERE rNum BETWEEN #{start} AND #{end}
 	 </select> 
 	 
@@ -67,7 +72,7 @@
 			bname,
 			visitcount,
 			likecount,
-			ltrim(to_char(price,'999,999,999')) price,
+			price,
 			product_state,
 			chatcount,
 			like_check,
@@ -111,24 +116,53 @@
 	    </selectKey>			
 	 </insert>
 	 
-	 <!--4-1. 파일 업로드  -->
-	 <insert id="insertFile" parameterType="map">
-		INSERT INTO woo_file
-		(
+	 <!--4-1. 파일 + 3d 업로드  -->
+	 <insert id="insertTDFile" parameterType="map">
+ 		INSERT INTO woo_file(
 			fileidx,
 			boardidx,
 			original_name,
 			save_name,
-			user_id
+			threedimage
+		)VALUES(
+			seq_woo_file.NEXTVAL,
+			#{boardidx},
+			#{original_name},
+			#{save_name},
+			#{threedimage}
+		)
+    </insert> 
+    
+	 <!--4-1. 파일 업로드  -->
+	 <insert id="insertFile" parameterType="map">
+ 		INSERT INTO woo_file(
+			fileidx,
+			boardidx,
+			original_name,
+			save_name
+		)VALUES(
+			seq_woo_file.NEXTVAL,
+			#{boardidx},
+			#{original_name},
+			#{save_name}
+		)
+    </insert> 
+    
+    
+    
+  <!--   INSERT INTO woo_file
+		(
+			fileidx,
+			boardidx,
+			original_name,
+			save_name
 		)
 		VALUES(
 			seq_woo_file.NEXTVAL,
 			#{boardidx},
 			#{original_name},
-			#{save_name},
-			#{user_id}
-		)
-    </insert> 
+			#{save_name}
+		) -->
 	  
     <!--5. 수정처리하기 -->
 	 <update id="update" parameterType="model.WooBoardVO">
@@ -167,7 +201,7 @@
 			title,
 			id,
 			bname,
-			ltrim(to_char(price,'999,999,999')) price,
+			price,
 			product_state,
 			three_dimens,
 			product_tag,
@@ -190,7 +224,6 @@
 	 
 	<select id="selectId" resultType="String">
 	 	select id from woo_board where boardidx = #{0}
-
 	 </select> 
 	 
 	 
@@ -222,6 +255,27 @@
 	
 	  <select id="selectSellingStatus" resultType="String">
 	 	select deal_type from woo_board where boardidx = #{0}
-
 	 </select>
+	 
+	 <!-- search sql -->
+	 <sql id="search">
+		<if test="searchTxt != null and !searchTxt.equals('')">
+			<choose>
+				<when test="searchField == 'tc'.toString()">
+				AND (title LIKE '%'||#{searchTxt}||'%' ) or (contents LIKE '%'||#{searchTxt}||'%' )
+				</when>
+				<otherwise>AND ${searchField} LIKE '%'||#{searchTxt}||'%'</otherwise>
+			</choose>
+		</if>
+		<if test="priceStart != null and !priceStart.equals('')">
+			AND price BETWEEN #{priceStart} AND #{priceEnd}
+		</if>
+		<if test="ispay != null and !ispay.equals('')">
+			AND woopay='Y'
+		</if>
+		<if test="pstate != null and !pstate.equals('')">
+			AND  product_state=#{pstate}
+		</if>
+	</sql>
+	
 </mapper> 

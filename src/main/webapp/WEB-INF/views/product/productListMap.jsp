@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>  
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="zxx">
 
@@ -80,8 +81,11 @@
 			['광화문', 37.575268, 126.976896],
 			['남산', 37.550925, 126.990945],
 			['이태원', 37.540223, 126.994005] */
-			<c:forEach items="${searchLists }" var="row">
-				['${row.title }', ${row.latitude }, ${row.longitude }, '${row.bname}', '${row.product_tag}', '${row.id}', '${row.price}', '${row.imagefile}'], 
+			<c:forEach items="${searchLists}" var="row">
+				['${row.title }', ${row.latitude}, ${row.longitude}, '${row.bname}', '${row.product_tag}',
+					'${row.id}', 
+					'<fmt:formatNumber type="number" maxFractionDigits="3" value="${row.price}"/>'
+					, '${row.imagefile}','${row.boardidx}'], 
 			</c:forEach>
 		];
 	 	var marker, i;
@@ -115,7 +119,7 @@
 	    	// 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 	    	var content = '<div class="wrap">' + 
             '    <div class="info">' + 
-            '	 	<a href="https://www.kakaocorp.com/main" target="_blank" class="link">'+
+            '	 	<a href="./productView.woo?boardidx='+location[8]+'" target="_blank" class="link">'+
             '       	 <div class="title">'+location[0]+'</div>' + 
             '        		<div class="body">' + 
             '            		<div class="img">' +
@@ -147,16 +151,6 @@
 	<jsp:include page="../include/bottom.jsp" />
 	
 	<jsp:include page="../include/sidebar.jsp" />
-	<!-- <table border="1">
-		<tr>
-			<td rowspan="2"></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td colspan="2"></td>
-		</tr>
-	</table> -->
 </body>
 
 </html>

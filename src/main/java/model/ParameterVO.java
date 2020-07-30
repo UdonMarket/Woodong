@@ -22,8 +22,45 @@ public class ParameterVO {
 	private String idx;
 	private String seller_id;
 	
+	//
+	private String pstate;
+	private String ispay;
+	private String priceStart;
+	private String priceEnd;
+	private String order;
 	
 	
+	
+	public String getPstate() {
+		return pstate;
+	}
+	public void setPstate(String pstate) {
+		this.pstate = pstate;
+	}
+	public String getOrder() {
+		return order;
+	}
+	public void setOrder(String order) {
+		this.order = order;
+	}
+	public String getIspay() {
+		return ispay;
+	}
+	public void setIspay(String ispay) {
+		this.ispay = ispay;
+	}
+	public String getPriceStart() {
+		return priceStart;
+	}
+	public void setPriceStart(String priceStart) {
+		this.priceStart = priceStart;
+	}
+	public String getPriceEnd() {
+		return priceEnd;
+	}
+	public void setPriceEnd(String priceEnd) {
+		this.priceEnd = priceEnd;
+	}
 	public String getSeller_id() {
 		return seller_id;
 	}
@@ -150,4 +187,10 @@ public class ParameterVO {
 	public void setSearchTxt(String searchTxt) {
 		this.searchTxt = searchTxt;
 	}
+	@Override
+	public String toString() {
+		return "ParameterVO [searchField=" + searchField + ", searchTxt=" + searchTxt + "]";
+	}
+	
+	
 }

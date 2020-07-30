@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%> 
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!doctype html>
 <html lang="zxx">
@@ -114,9 +113,7 @@
 										<span class="item_title">${viewRow.title}</span>
 										<div class="item_price_box item_price_box_bottom" style="width: none; height: 200px;">
 											<div class="item_price_box_bottom_low">
-												<div class="item_price item_price_bottom">
-												<fmt:formatNumber type="number" maxFractionDigits="3" value="${viewRow.price}"/>원	
-												</div>
+												<div class="item_price item_price_bottom">${viewRow.price} 원</div>
 											</div>
 											<div class="only_description_hellopay common_description_deal">
 												<div class="detail_bottom_box" style="margin-bottom:50px; ">

@@ -29,6 +29,11 @@ public class ParameterVO {
 	private String longitude;
 	private String contents;
 	
+	private String pstate;
+	private String ispay;
+	private String priceStart;
+	private String priceEnd;
+	private String order;
 
 	public String getContents() {
 		return contents;

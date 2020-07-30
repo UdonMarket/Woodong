@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!doctype html>
 <html lang="zxx">
@@ -51,9 +52,9 @@ function like_toggle(idx) {
 </script>
 
  <script>
+// var totallist; //ajax로 받아온 rdata를 이 변수에 계속 누적시킴  
  var scrollchk = true; //스크롤 체크 여부 플래그  
  var nowPage = 1;//현재페이지 
- var totallist; //ajax로 받아온 rdata를 이 변수에 계속 누적시킴  
  var state="true"; 
  
 //1.productList.jsp 로 들어오면 첫 실행되는 함수
@@ -65,7 +66,16 @@ var loadlist = function(){
     $.ajax({  
         url : './ajaxList.woo',  
         type : 'get',  
-        data : {nowPage : nowPage, bname : '${parameterVO.bname}'},
+        data : {nowPage : nowPage,
+        		bname : '${parameterVO.bname}',
+       			order : '${parameterVO.order}',		
+       			pstate : '${parameterVO.pstate}',		
+       			ispay : '${parameterVO.ispay}',		
+       			priceStart : '${parameterVO.priceStart}',		
+       			priceEnd : '${parameterVO.priceEnd}',		
+       			searchField : '${parameterVO.searchField}',		
+       			searchTxt : '${parameterVO.searchTxt}'		
+        },
         async: false,
         success : function(rdata) { 
         	
@@ -101,9 +111,9 @@ $(window).scroll(function(){
         }  
     } 
 });  
-function initMap(latitude, longitude) {
+/* function initMap(latitude, longitude) {
 	
-}
+}  */
 </script>
 	<div class="col-md-9" style="padding-top: 37px" >
 		<div class="row" id="boardHTML"></div>

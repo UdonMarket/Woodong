@@ -91,7 +91,10 @@
 													<div class="image_outside">
 														<div class="image_centerbox">
 														<a href="../product/productView.woo?boardidx=${list.boardidx}"  > 
-													
+																
+															<c:if test="${list.deal_type eq '구매자결제완료'}">
+																<img src="../resources/img/myPage/구매자결제완료.png" style="position: absolute; right: 50%; width:130px; height:40px; margin-top: 60px;"/>
+															</c:if>	
 															<img src="../resources/Upload/${list.imagefile}" style="position : absolute; z-index : 2;"
 																data-src="https://ccimg.hellomarket.com/images/2020/item/04/28/15/1709868_4830039_1.jpg?size=s4"
 																class="thumbnail_img"
@@ -103,7 +106,7 @@
 												</div>
 												<div class="cont">
 													<div class="item_title related_item_icon">${list.title }</div>
-													<div class="item_price profile_price">${list.price }원</div>
+													<div class="item_price profile_price">${list.price }원 ${dealtype}</div>
 												</div>
 											</div>
 									</a></li>
@@ -112,8 +115,10 @@
 						</c:choose>
 					</ul>
 				</div>
-				<ul class="pagination justify-content-center">${pagingImg }
-				</ul>
+				<div class="paging">
+					<ul>${pagingImg }
+					</ul>
+				</div>
 			</div>
 
 		</div>

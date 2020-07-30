@@ -214,7 +214,7 @@
 											<div class="row">
 											<div class="col-3" style="margin-bottom:50px;"></div>
 												<div class="my_profile_image col-6" style="text-align: center; width: 150px; height: 150px; padding-top: 20px; padding-bottom:20px;  padding-left: px;">
-													<a href="../mypage/myPage.woo?mode=review&dealPosition=seller&seller_id=${viewRow.id}&seller_avgscore=${memberVO.avg_score}&score=${score}">${udongGrade }</a>
+													<a href="../mypage/myPage.woo?mode=review&dealPosition=seller&seller_id=${viewRow.id}&">${udongGrade }</a>
 												</div>
 											<div class="col-3" style="padding-bottom: 100px;"></div>
 											</div>

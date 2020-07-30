@@ -174,6 +174,8 @@ public class WooMypageController {
 			String image = uploadFileList.get(0).getSave_name();
 			rv.setImagefile(image);
         }
+	      catch (Exception e) {
+	      }
 			String dealtype = sqlSession.getMapper(WooMypageImpl.class).dealtype(idx);
 			rv.setDeal_type(dealtype);
 		}

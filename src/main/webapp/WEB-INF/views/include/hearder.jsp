@@ -18,10 +18,13 @@
 			                            <li><a href="../member/join.woo"><img src="../resources/img/header/join.png" style="width:80px;height:33px;"/></a></li>
 			                             </sec:authorize>
 			                              <sec:authorize access="isAuthenticated()">
-			                            <li><a href="../member/memberModify.woo"><input type="image" src="../resources/img/header/edit.png" style="width:110px;height:33px;" /></a></li>
+			                              <div style="display: inline-block;">
+		                              		<li><a href="../member/memberModify.woo"><input type="image" src="../resources/img/header/edit.png" style="width:110px;height:33px;" /></a></li>
+			                              <div style="display: inline-block;">
 			                              <form:form method="post" action="${pageContext.request.contextPath }/logout"> 
 			                            <li><input type="image" src="../resources/img/header/logout.png" style="width:80px;height:33px;" /></li>
 			                             </form:form> 
+			                             </div>
 			                             </sec:authorize>
 			                        </ul>
 			                    </div>

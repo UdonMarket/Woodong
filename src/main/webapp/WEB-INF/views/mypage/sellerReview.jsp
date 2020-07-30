@@ -99,7 +99,7 @@
 													</span>
 													</span>
 												</div>
-											<c:if test="${user_id eq list.buyer_id}">
+											<c:if test="${realUser_id eq list.buyer_id}">
 												<form:form name="deleteFrm" onsubmit="return deleteRow();" method="post" action="../mypage/reviewDelete.woo">
 													<input type="image" src="../resources/img/myPage/삭제.png" style="width: 50px; height: 40px; margin-left: 500px;" />
 													 <input type="hidden" name ="boardidx" value="${list.boardidx}"/>
@@ -113,30 +113,12 @@
 											</div>
 										</c:forEach>
 								</c:otherwise>
-							</c:choose></li>
+							</c:choose></li> 
 					</ul>
 
 					<div class="paging">
 						<ul>
-							<li></li>
-							<li class="active"><a
-								href="/s/@16059379?tab=review&amp;page=1">
-									<div class="paging_box" style="padding-top: 2px;">1</div>
-							</a></li>
-							<li class=""><a href="/s/@16059379?tab=review&amp;page=2">
-									<div class="paging_box" style="padding-top: 2px;">2</div>
-							</a></li>
-							<li class=""><a href="/s/@16059379?tab=review&amp;page=3">
-									<div class="paging_box" style="padding-top: 2px;">3</div>
-							</a></li>
-							<li><a href="/s/@16059379?tab=review&amp;page=2">
-									<div class="paging_box" style="padding-top: 2px;">
-										<i style='font-size: 15px' class='fas'>&#xf054;</i>
-										<!-- <svg viewBox="0 0 18 18" role="img" aria-label="이전" focusable="false" class="prev">
-												<path d="m4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z"></path>
-											</svg> -->
-									</div>
-							</a></li>
+							${pagingImg }
 						</ul>
 					</div>
 				</div>

@@ -19,8 +19,9 @@
 						<img src="../resources/img/2.png" style="width: 30px; height: 30px; position: absolute; left: 83s%; padding-top: 5px; padding-left: 3px;" name = "${row.boardidx}" id ="whiteHeart" onclick="like_toggle(${row.boardidx})"/>
 					</c:if> 
 				</div>
-        <a href="./productView.woo?boardidx=${row.boardidx}&nowPage=${param.nowPage}">
 				</c:if>
+        <a href="./productView.woo?boardidx=${row.boardidx}&nowPage=${param.nowPage}">
+
 					<img class="productList_image" src="../resources/Upload/${row.imagefile}" style="width:250px; height: 250px;" />
 				</div>
 				</div>

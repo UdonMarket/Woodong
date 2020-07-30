@@ -28,6 +28,8 @@ import model.WooBoardListVO;
 import model.WooBoardVO;
 import model.WooMemberImpl;
 import model.WooMemberVO;
+import model.WooMypageImpl;
+import model.WooMyreviewVO;
 import naverlogin.NaverLoginBO;
 
 @Controller
@@ -50,12 +52,40 @@ public class WooMainController {
 	}
 	// 메인화면
 	@RequestMapping("/main/main.woo")
-	public String main() {
-		return "main/main";
-	}
-// 메인화면
-	@RequestMapping("/main/main1.woo")
-	public String main1(Model model, HttpServletRequest req, Principal principal) {
+	public String main(Model model, HttpServletRequest req, Principal principal) {
+		
+		ArrayList<WooMyreviewVO> riviewList = sqlSession.getMapper(WooMypageImpl.class).selectReview2();
+		
+		for(int e=0; e<riviewList.size(); e++) {
+			String score = "";
+			String idx = riviewList.get(e).getBoardidx();
+			System.out.println(e + idx);
+		
+			String review_score2  = sqlSession.getMapper(WooMypageImpl.class).review_score2(idx);
+				System.out.println("review_score2" + review_score2);
+				double review_score = Double.parseDouble(review_score2);
+			
+				int full = (int) review_score % 5;
+				int half = (int) ((review_score - full) * 10);
+				
+				for (int i = 1; i <= full; i++) {
+					score += "<img src='../resources/img/그냥튀김우동.png' alt='' />";
+				}
+				if (half < 5) {
+					for (int j = full + 1; j <= 5; j++) {
+						score += "<img src='../resources/img/회색우동.png' alt='' />";
+					}
+				} else {
+					score += "<img src='../resources/img/반쪽우동.png' alt='' />";
+					for (int j = full + 2; j <= 5; j++) {
+						score += "<img src='../resources/img/회색우동.png' alt='' />";
+					}
+				}
+				riviewList.get(e).setScore(score);
+		} 
+		model.addAttribute("riviewList", riviewList);
+		
+		
 		
 		ParameterVO parameterVO = new ParameterVO();
 		ArrayList<WooBoardVO> searchLists = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).list(parameterVO);
@@ -75,9 +105,10 @@ public class WooMainController {
 		model.addAttribute("searchLists",searchLists);
 		model.addAttribute("parameterVO",parameterVO);
 		
-		
-		return "main/main";
+	
+	return "main/main";
 	}
+
 	// 소개
 	@RequestMapping("/about/about.woo")
 	public String about() {
@@ -150,7 +181,7 @@ public class WooMainController {
 	// 아이디 찾기처리
 	@ResponseBody
 	@RequestMapping(value = "/member/idFindProc.woo", method = { RequestMethod.POST })
-	public Map<String, Object> idFind(HttpServletRequest req, Model model) {
+	public Map<String, Object> idFindAction(HttpServletRequest req, Model model) {
 		WooMemberVO vo = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class))
 				.idFind(req.getParameter("mobile"));
 		String id = vo.getId();
@@ -170,7 +201,7 @@ public class WooMainController {
 	// 패스워드 찾기처리
 	@ResponseBody
 	@RequestMapping(value = "/member/pwFindProc.woo", method = { RequestMethod.POST })
-	public Map<String, Object> pwFind(HttpServletRequest req, Model model) {
+	public Map<String, Object> pwFindAction(HttpServletRequest req, Model model) {
 		WooMemberVO vo = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class))
 				.pwFind(req.getParameter("mobile"));
 		String pw = vo.getPass();
@@ -217,13 +248,4 @@ public class WooMainController {
 		return map;
 	}
 
-	@RequestMapping("/member/accessDenied.woo")
-	public String accessDenied() {
-		return "member/accessDenied";
-	}
-
-	@RequestMapping("/board/write.woo")
-	public String write() {
-		return "board/write";
-	}
 }

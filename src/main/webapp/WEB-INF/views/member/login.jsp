@@ -2,14 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <!doctype html>
 <html lang="zxx">
 
 <!-- head.jsp -->
 <jsp:include page="../include/head.jsp" />
+
 <script>
 	// 공백 체크 정규식
 	var empJ = /\s/g;
@@ -69,21 +69,23 @@
 		 error : errFunc => 0
 		 error : errFunc(data) => X
 		 */
-		function errFunc() {
-			alert("쿠키에러");
-		}
-
-		/*
-		 요청 성공시 호출할 콜백메소드.
-		 외부함수로 정의되어 있고 함수명만으로 호출하더라도 콜백데이터는 파라미터로 받을수 있다.
-		 */
-		function sucFunc(resData) {
-			number num = resData.num;
-			alert(num);
-			num = num + 1;
-			$('#num').html(num);
-		}
+		
 	});
+	function errFunc() {
+		alert("쿠키에러");
+	}
+
+	/*
+	 요청 성공시 호출할 콜백메소드.
+	 외부함수로 정의되어 있고 함수명만으로 호출하더라도 콜백데이터는 파라미터로 받을수 있다.
+	 */
+	function sucFunc(resData) {
+		alert(resData)
+		var num = resData.num;
+		alert(num);
+		num = num + 1;
+		$('#num').html(num);
+	}
 </script>
 <body>
 	<!--::header part start::-->
@@ -168,7 +170,7 @@
 												checked="chekced"
 												</c:if>
 												> 
-												<label	for="f-option1">아이디저장</label>
+												<label	for="remember_us">아이디저장</label>
 										 
 											</div>
 										</div>

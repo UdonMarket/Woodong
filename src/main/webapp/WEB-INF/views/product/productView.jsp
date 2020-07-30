@@ -7,7 +7,7 @@
 <!doctype html>
 <html lang="zxx">
 <head>
-  <title>상품상세보기</title>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -188,8 +188,7 @@
 
 														</div>
 														<div class="col-3" style="padding: 0px;">
-															<img src="../resources/img/product/우동톡톡.png"  onclick="window.open('../chatting/chatting.woo', '_blank', 'height=640; width=480; top=200; left=150;', true);"/>
-
+															<img src="../resources/img/product/우동톡톡.png"  onclick="chatting();"/>
 														</div>
 													</div>
 												</div>
@@ -223,7 +222,7 @@
 											<div class="row">
 											<div class="col-3" style="margin-bottom:50px;"></div>
 												<div class="my_profile_image col-6" style="text-align: center; width: 150px; height: 150px; padding-top: 20px; padding-bottom:20px;  padding-left: px;">
-													<a href="../mypage/myPage.woo?mode=review&dealPosition=seller&seller_id=${viewRow.id}&seller_avgscore=${memberVO.avg_score}&score=${score}">${udongGrade }</a>
+													<a href="../mypage/myPage.woo?mode=review&dealPosition=seller&seller_id=${viewRow.id}&">${udongGrade }</a>
 												</div>
 											<div class="col-3" style="padding-bottom: 100px;"></div>
 											</div>
@@ -279,7 +278,21 @@ $(document).ready(function(){
 	})
 });
 
+function chatting() {
+	var chattingFrm = document.chattingFrm;
+	window.open('', '1', 'height=640; width=480; top=200; left=150;', true);
+	chattingFrm.action = "../chatting/chatting.woo";
+	chattingFrm.method = "post";
+	chattingFrm.target = "1";
+	chattingFrm.testVal = 'test';
+	chattingFrm.submit();
+}
 </script>
+
+<form:form name="chattingFrm">
+	<input type="hidden" name="boardidx" value="${viewRow.boardidx }" />
+	<input type="hidden" name="sellerid" value="${viewRow.id }" />
+</form:form>
 <!-- subscribe part end -->
 <!-- bottom.jsp -->
 <jsp:include page="../include/bottom.jsp" />

@@ -20,7 +20,7 @@
 	</select>
 	
 	<select id="jusoList" resultType="model.WooJusoVO">
-  		SELECT * FROM juso1 
+  		SELECT * FROM woo_review 
   	</select>
   	<select id="searchPlace" resultType="model.WooJusoVO" parameterType="model.ParameterVO">
   		SELECT

@@ -37,7 +37,7 @@ public class EchoHandler extends TextWebSocketHandler{
 		for(Map<String, Object> sess : sessionList) {
 			WebSocketSession userSession = (WebSocketSession)sess.get("session");
 			if(!sess.get("id").equals(id)) {
-				userSession.sendMessage(new TextMessage(message.getPayload())); // 상대방 꾸미는 부분
+				userSession.sendMessage(new TextMessage(message.getPayload()));
 			}
 		}
 	}

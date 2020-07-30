@@ -9,7 +9,7 @@
 <script>
 $(window).ready(function() {
 	setTimeout(function() {
-		document.getElementById("aa").submit()
+		document.getElementById("location").submit()
 	}, 1000);
 });
 //주소-좌표 변환 객체를 생성합니다
@@ -35,7 +35,7 @@ geocoder.addressSearch('${place}', function(result, status) {
 <body>
 <jsp:include page="../include/hearder.jsp" />
 
-<form:form id="aa" action="../chatting/topPlace.woo">
+<form:form id="location" action="../chatting/topPlace.woo">
 	<input type="hidden" id="latitude" name="latitude" />
 	<input type="hidden" id="longitude" name="longitude" />
 	<input type="hidden" id="place" name="place" value="${place}" />

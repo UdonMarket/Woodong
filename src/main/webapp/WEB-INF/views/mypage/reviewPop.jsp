@@ -12,21 +12,21 @@
 <jsp:include page="../include/head.jsp" />
 <script>
 $(function() {
-	$('.starRev span').click(function(){
-		  $(this).parent().children('span').removeClass('on');
-		  $(this).addClass('on').prevAll('span').addClass('on');
-		  $('#cal_reviewPoint').val(this.id);
-		  $('#aa').text(this.id);
-		  return false;
-		});
+   $('.starRev span').click(function(){
+        $(this).parent().children('span').removeClass('on');
+        $(this).addClass('on').prevAll('span').addClass('on');
+        $('#cal_reviewPoint').val(this.id);
+        $('#aa').text(this.id);
+        return false;
+      });
 })
-	
+   
 </script>
 
 <style>
    .starR1{
-	background:url("../resources/img/우동수정1.png");/* 왼쪽 빨강 */
-	background-repeat: no-repeat;
+   background:url("../resources/img/우동수정1.png");/* 왼쪽 빨강 */
+   background-repeat: no-repeat;
    
     background-size: auto 100%;
     width: 15px;
@@ -37,7 +37,7 @@ $(function() {
 }
 .starR2{
     background:url("../resources/img/우동수정2.png");
-	background-repeat: no-repeat; 
+   background-repeat: no-repeat; 
     background-size: auto 100%;
     width: 15px;
     height: 30px;
@@ -53,11 +53,11 @@ $(function() {
 <script type="text/javascript">
 function writeValidate(f)
 {
-	if(f.contents.value==""){
-		alert("내용을 입력하세요");
-		f.contents.focus(); 
-		return false;
-	} 
+   if(f.contents.value==""){
+      alert("내용을 입력하세요");
+      f.contents.focus(); 
+      return false;
+   } 
 }
 
 </script>
@@ -68,25 +68,26 @@ function writeValidate(f)
          <h4>상대방의 거래에 만족하셨나요?</h4>
       <div class="row" style=" padding-bottom: 20px; ">
          <div class="col-1"></div>
-        	 <div class="col-3" id="aa" style="font-size: 40px; font-weight: bold;">
-				1
-         	</div>
+            <div class="col-3" id="aa" style="font-size: 40px; font-weight: bold;">
+            1
+            </div>
             <div class="profile_review_image col-7">
                <div class="profile_review_image_box">
-					<div class="starRev" style="margin-top: 18px; ">
-						<span class="starR1 on" id="0.5">별1_왼쪽</span> <span class="starR2 on" id="1">별1_오른쪽</span>
-						<span class="starR1" id="1.5">별2_왼쪽</span> <span class="starR2" id="2">별2_오른쪽</span>
-						<span class="starR1" id="2.5">별3_왼쪽</span> <span class="starR2" id="3">별3_오른쪽</span>
-						<span class="starR1" id="3.5">별4_왼쪽</span> <span class="starR2" id="4">별4_오른쪽</span>
-						<span class="starR1" id="4.5">별5_왼쪽</span> <span class="starR2" id="5">별5_오른쪽</span>
-					</div>
-				</div>
+               <div class="starRev" style="margin-top: 18px; ">
+                  <span class="starR1 on" id="0.5">별1_왼쪽</span> <span class="starR2 on" id="1">별1_오른쪽</span>
+                  <span class="starR1" id="1.5">별2_왼쪽</span> <span class="starR2" id="2">별2_오른쪽</span>
+                  <span class="starR1" id="2.5">별3_왼쪽</span> <span class="starR2" id="3">별3_오른쪽</span>
+                  <span class="starR1" id="3.5">별4_왼쪽</span> <span class="starR2" id="4">별4_오른쪽</span>
+                  <span class="starR1" id="4.5">별5_왼쪽</span> <span class="starR2" id="5">별5_오른쪽</span>
+               </div>
+            </div>
             </div>
          </div>
       </div>
    <div class="oViOeBoH3d container" style="padding-top: 20px;">
       <h4>어떤 점이 좋았나요?</h4>
       <form:form  name="writeFrm" method="post" onsubmit="return writeValidate(this);" action="writeReviewContents.woo">
+
          	<input type ="hidden" value="" id="cal_reviewPoint" name="cal_reviewPoint"/>
       <input type="hidden" name ="write_idx" value="${boardidx}"/>
       <input type="hidden" name ="id" value="${id}"/>
@@ -102,12 +103,14 @@ function writeValidate(f)
          </div>
       </div>
       <div style="padding-top: 10px;">
+
       	<dl>
            <dt>
               <label>거래추천 장소</label>
            </dt>
            <dd class="map_box">
            <div class="row">
+
 	           <div class="col-9" style="display:inline-block;">
 	           	  <input type="text" id="sample4_jibunAddress" name="juso" class="form-control" readonly="readonly">
 	              <input type="hid den" id="latitude" name="latitude">

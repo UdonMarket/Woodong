@@ -29,7 +29,7 @@ public class ParameterVO {
 	private String longitude;
 	private String contents;
 	
-	
+
 	public String getContents() {
 		return contents;
 	}

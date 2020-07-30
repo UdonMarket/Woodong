@@ -181,7 +181,7 @@ public class WooMainController {
 	// 아이디 찾기처리
 	@ResponseBody
 	@RequestMapping(value = "/member/idFindProc.woo", method = { RequestMethod.POST })
-	public Map<String, Object> idFind(HttpServletRequest req, Model model) {
+	public Map<String, Object> idFindAction(HttpServletRequest req, Model model) {
 		WooMemberVO vo = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class))
 				.idFind(req.getParameter("mobile"));
 		String id = vo.getId();
@@ -201,7 +201,7 @@ public class WooMainController {
 	// 패스워드 찾기처리
 	@ResponseBody
 	@RequestMapping(value = "/member/pwFindProc.woo", method = { RequestMethod.POST })
-	public Map<String, Object> pwFind(HttpServletRequest req, Model model) {
+	public Map<String, Object> pwFindAction(HttpServletRequest req, Model model) {
 		WooMemberVO vo = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class))
 				.pwFind(req.getParameter("mobile"));
 		String pw = vo.getPass();
@@ -248,13 +248,4 @@ public class WooMainController {
 		return map;
 	}
 
-	@RequestMapping("/member/accessDenied.woo")
-	public String accessDenied() {
-		return "member/accessDenied";
-	}
-
-	@RequestMapping("/board/write.woo")
-	public String write() {
-		return "board/write";
-	}
 }

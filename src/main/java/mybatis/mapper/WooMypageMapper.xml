@@ -173,14 +173,11 @@
   	
   	
   	
-  	<!-- review table 업데이트 -->
+
   	<insert id="update_reviewContents" parameterType="model.ParameterVO">
   		insert into woo_review (seller_id, buyer_id, boardidx, title, reviewidx, contents, juso, latitude, longitude) values (#{id}, #{user_id}, ${boardidx},#{title}, seq_woo_review.nextval, #{contents}, #{juso}, #{latitude}, #{longitude})
   	</insert>
-  	
-	<!-- <update id="update_reviewContents" parameterType="model.ParameterVO">
-		update woo_review set contents = #{contents}, juso = #{juso}, latitude = #{latitude}, longitude = #{longitude} where boardidx = #{boardidx}
-	</update> -->
+
 	
 	<update id="update_reviewScore">
 		update woo_board set review_score = #{0} where boardidx = #{1}

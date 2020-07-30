@@ -380,7 +380,7 @@ public class WooBoardController {
 	
 	//5-2.글 수정 처리 하기
 	@RequestMapping(method = RequestMethod.POST,headers = "content-type=multipart/*", value="/product/updateAction.woo")
-	public String updateAction(WooBoardVO wooBoardVO ,Principal principal,
+	public String productupdateAction(WooBoardVO wooBoardVO ,Principal principal,
 			 @RequestParam(value="fileNoDel[]") String[] files,
 			 @RequestParam(value="fileNameDel[]") String[] fileNames,MultipartHttpServletRequest mreq){
 			 

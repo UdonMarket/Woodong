@@ -20,6 +20,7 @@ import model.FileVO;
 import model.WooMemberVO;
 import model.WooMypageImpl;
 import model.WooMyreviewVO;
+import oracle.net.aso.p;
 import model.ParameterVO;
 import model.WooBoardImpl;
 import model.WooBoardVO;
@@ -154,29 +155,28 @@ public class WooMypageController {
 			System.out.println("12131" + idx);
 			ArrayList<FileVO> uploadFileList = sqlSession.getMapper(WooBoardImpl.class).viewFile(idx);
 			//사진 중 첫번째 사진만 저장.
-			String image = uploadFileList.get(0).getSave_name();
-			rv.setImagefile(image);
-			System.out.println("image : " + image);
-		}
+			try {
+				String image = uploadFileList.get(0).getSave_name();
+				rv.setImagefile(image);
+				System.out.println("image : " + image);
+			}
+			catch (Exception e) {
+			}
+		} 
 		for(WooBoardVO rv : likeList) { 
 			
 			String idx = rv.getBoardidx();
-			System.out.println("12131" + idx);
+			System.out.println("aa1 : " + idx);
 			ArrayList<FileVO> uploadFileList = sqlSession.getMapper(WooBoardImpl.class).viewFile(idx);
 			//사진 중 첫번째 사진만 저장.
+
+      try {
 			String image = uploadFileList.get(0).getSave_name();
 			rv.setImagefile(image);
-			System.out.println("image : " + image);
+        }
 			String dealtype = sqlSession.getMapper(WooMypageImpl.class).dealtype(idx);
 			rv.setDeal_type(dealtype);
 		}
-		
-		for (WooBoardVO vo : likeList) {
-			// 내용에 대해 줄바꿈 처리
-			String temp = vo.getContents().replace("\r\n", "<br/>");
-			vo.setContents(temp);
-		}
-		
 		model.addAttribute("likeList", likeList);
 		model.addAttribute("riviewList", riviewList);
 		String pagingImg = "";
@@ -193,9 +193,13 @@ public class WooMypageController {
 			System.out.println("12131" + idx);
 			ArrayList<FileVO> uploadFileList = sqlSession.getMapper(WooBoardImpl.class).viewFile(idx);
 			//사진 중 첫번째 사진만 저장.
-			String image = uploadFileList.get(0).getSave_name();
-			rv.setImagefile(image);
-			System.out.println("image : " + image);
+			try {
+				String image = uploadFileList.get(0).getSave_name();
+				rv.setImagefile(image);
+				System.out.println("image : " + image);
+			}
+			catch (Exception e) {
+			}
 		}
 		model.addAttribute("sellerRiviewList", sellerRiviewList);
 		}
@@ -326,41 +330,12 @@ public class WooMypageController {
 		
 	}
 	
-	// 후기페이지
-	@RequestMapping("/mypage/myReview.woo")
-	public String myReview() {
-		return "mypage/myReview";
-	}
-	
-	// 리뷰작성글 팝업열기
-	@RequestMapping("/mypage/reviewPop.woo")
-	public String reviewPop(Model model, HttpServletRequest req) {
-		
-		String boardidx = req.getParameter("boardidx");
-		String title = req.getParameter("title");
-		String id = req.getParameter("id");
-		System.out.println("팝업" + boardidx); 
-		System.out.println("후기전달 title : " + title); 
-		System.out.println("후기전달 id : " + id); 
-		
-		model.addAttribute("boardidx", boardidx);
-		model.addAttribute("title", title);
-		model.addAttribute("id", id);
-		
-		return "mypage/reviewPop";
-	}
-	
-
-	
-	
 	//리뷰팝업에서 contents DB저장
 	@RequestMapping(value="/mypage/writeReviewContents.woo", method = RequestMethod.POST)
 	public String writeReviewContents(Model model, HttpServletRequest req, Principal principal) {
 		
 		String user_id = principal.getName();
 		
-		System.out.println("글내용 : " + req.getParameter("contents"));
-		System.out.println("글idx" + req.getParameter("write_idx"));
 		String id = req.getParameter("id");
 		String title = req.getParameter("title");
 		String juso = req.getParameter("juso");
@@ -368,9 +343,7 @@ public class WooMypageController {
 		String longitude = req.getParameter("longitude");
 		String boardidx = req.getParameter("write_idx");
 		String contents = req.getParameter("contents");
-		System.out.println(juso);
-		System.out.println(latitude);
-		System.out.println(longitude);
+		
 		
 		ParameterVO parameterVO = new ParameterVO();
 		parameterVO.setUser_id(user_id);

@@ -35,6 +35,7 @@
 				<jsp:include page="../include/communityLeft.jsp"/>
 				<div class="col-lg-9" style=" margin-top: 50px;">
 					<div id="accordion" class="accordion_list">
+
 						<c:forEach items="${lists }" var="row">
 						    <h6 style="font-size: 20px">${row.title }</h6>
 							<div>

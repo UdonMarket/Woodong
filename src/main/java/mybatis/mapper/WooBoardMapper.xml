@@ -278,4 +278,24 @@
 		</if>
 	</sql>
 	
-</mapper> 
+	
+	<select id="list" resultType="model.WooBoardVO"  parameterType="model.ParameterVO">
+	 SELECT  
+	 	boardidx,
+		title,
+		contents,
+		postdate,
+		id,
+		bname,
+		price,
+		product_state,
+		three_dimens,
+		latitude,
+		longitude
+	 FROM 
+	 	( SELECT Tb.*, rownum rNum FROM 
+	 		(SELECT * FROM woo_board 
+	 ORDER BY boardidx DESC ) Tb) 
+	 			WHERE rNum BETWEEN 1 AND 6
+	 </select> 
+</mapper>  

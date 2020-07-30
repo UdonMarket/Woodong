@@ -18,10 +18,9 @@
 			                            <li><a href="../member/join.woo"><img src="../resources/img/header/join.png" style="width:80px;height:33px;"/></a></li>
 			                             </sec:authorize>
 			                              <sec:authorize access="isAuthenticated()">
+			                            <li><a href="../member/memberModify.woo"><input type="image" src="../resources/img/header/edit.png" style="width:110px;height:33px;" /></a></li>
 			                              <form:form method="post" action="${pageContext.request.contextPath }/logout"> 
-			                            <li>
-			                              <input type="image" src="../resources/img/header/logout.png" style="width:80px;height:33px;" />
-			                            </li>
+			                            <li><input type="image" src="../resources/img/header/logout.png" style="width:80px;height:33px;" /></li>
 			                             </form:form> 
 			                             </sec:authorize>
 			                        </ul>
@@ -83,7 +82,6 @@
                   				</button>
 	                       	</div>
 	                  	</div>
-	                 	
                		</div>
 				</nav>
 			</div>
@@ -112,4 +110,38 @@ function checkchat(){
    }
    window.open('../chatting/chatMain.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);
 }
+</script>
+<script>
+	function getCookie(name) {
+		var Found = false;
+		var start, end;
+		var i = 0;
+		
+		while (i<=document.cookie.length) {
+			start = i;
+			end = start + name.length;
+			
+			if(document.cookie.substring(start, end)==name){
+				Found = true;
+				break;
+			}
+			i++;
+		}
+		if(Found == true){
+			start = end + 1;
+			end = document.cookie.indexOf(";", start);
+			if(end<start){
+				end = document.cookie.length;
+			}
+			return document.cookie.substring(start, end);
+		}
+		return "";
+	}
+	function openPopup() {
+		var noticeCookie = getCookie("CookieName");
+		if(noticeCookie != "done"){
+			window.open('../main/popUp.woo',"pop","status=no,resize=no,scrollbars=no,width=400,height=480,top=10,left=10");
+		}
+		openPopup();
+	}
 </script>

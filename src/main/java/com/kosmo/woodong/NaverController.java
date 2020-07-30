@@ -67,7 +67,7 @@ public class NaverController {
 		memberVO.setMobile(phoneNum);
 		try {
 		((WooMemberImpl)this.sqlSession.getMapper(WooMemberImpl.class))
-		.naverLoginAction(memberVO);
+		.regist(memberVO);
 		model.addAttribute("name", email);
 		return "member/naverloginAction";
 		}

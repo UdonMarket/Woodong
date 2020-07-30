@@ -89,11 +89,11 @@
 	        position: new kakao.maps.LatLng(locations[i][1], locations[i][2]) 
 	    });
 			
-	    	asas(locations[i]);
+	    	coords(locations[i]);
 	    // 마커에 클릭이벤트를 등록합니다
 	    
 	}
-	 	function asas(locations) {
+	 	function coords(locations) {
 	 		var location = locations;
 	 	kakao.maps.event.addListener(marker, 'click', function() {
 	    	// 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다

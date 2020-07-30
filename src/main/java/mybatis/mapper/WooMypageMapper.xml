@@ -37,12 +37,12 @@
 	<!-- 카테고리에서 좋아요 누를 때 -->
 	<!--ㅡmypage goods에 연결된 String 가져오기 -->	
 	 <select id="selectLike" resultType="String">
-	 	select goods from woo_mypage where id = #{0}
+	 	select goods from woo_member where id = #{0}
 	 </select>
 	 
 	 <!--ㅡmypage goods에 새로운 idx update -->	
 	<update id="updateLike" >
- 		update woo_mypage set goods = #{0} where id = #{1}
+ 		update woo_member set goods = #{0} where id = #{1}
  	</update>
 
 
@@ -76,11 +76,11 @@
   				and woopay  = 'Y'
   					<!-- 거래중 & 판매목록 -->	
   				<if test="dealMode.equals('sell')">
-  					and id = #{user_id} and (deal_type = '판매중' or deal_type = '판매전')
+  					and id = #{user_id} and (deal_type = '판매중' or deal_type = '판매전' or deal_type = '구매자결제완료')
   				</if>
   					<!-- 거래중 & 구매목록 -->	
   				<if test="dealMode.equals('buy')">
-  					and buyer_id = #{user_id}  and (deal_type = '판매중' or deal_type = '판매전')
+  					and buyer_id = #{user_id}  and (deal_type = '판매중' or deal_type = '판매전' or deal_type = '구매자결제완료')
   				</if>
   			</if>
   			<!-- 판매목록 -->
@@ -118,24 +118,66 @@
 	  		ORDER BY reviewidx DESC) TB) WHERE rNum BETWEEN #{start} AND #{end}
   	</select>
   	
-	 
-	 <select id="getTotalCount" resultType="int" parameterType="model.ParameterVO">
-  		SELECT COUNT(*) from WOO_BOARD 	
-  		WHERE boardidx in
-  		 	<foreach collection="list" item="item" open="(" close=")" separator=",">
- 			#{item}
-		</foreach>	
+  	<select id="getTotalCount" resultType="int" parameterType="model.ParameterVO"> 
+  		
+  		SELECT count(*) FROM WOO_BOARD
+  					WHERE 1=1
+  			<!-- 거래중 -->	
+  			<if test="mode.equals('deal')">
+  				and woopay  = 'Y'
+  					<!-- 거래중 & 판매목록 -->	
+  				<if test="dealMode.equals('sell')">
+  					and id = #{user_id} and (deal_type = '판매중' or deal_type = '판매전' or deal_type = '구매자결제완료')
+  				</if>
+  					<!-- 거래중 & 구매목록 -->	
+  				<if test="dealMode.equals('buy')">
+  					and buyer_id = #{user_id}  and (deal_type = '판매중' or deal_type = '판매전' or deal_type = '구매자결제완료')
+  				</if>
+  			</if>
+  			<!-- 판매목록 -->
+  			<if test="mode.equals('sell')">	
+  				and id = #{user_id} and deal_type = '판매완료'
+  			</if>
+  			<!-- 구매목록 -->
+  			<!-- 에스크로 결제 버튼, qr결제 구매버튼 누를시 buyer_id 넘겨주어야함. -->
+  			<if test="mode.equals('buy')">
+  				and buyer_id = #{user_id} and deal_type = '판매완료'
+  			</if>
+  			<!-- 관심목록 -->
+  			<if test="mode.equals('like')">	
+  				and boardidx in
+				 	<foreach collection="list" item="item" open="(" close=")" separator=",">
+			 			#{item}
+					</foreach>
+  			</if>	
   	</select>
   	
   	
-  	<!-- review table 업데이트 -->
-  	<insert id="update_reviewTable" parameterType="model.ParameterVO">
-  		insert into woo_review (seller_id, buyer_id, boardidx, title, reviewidx) values (#{id}, #{user_id}, ${idx},#{title}, seq_woo_review.nextval)
-  	</insert>
+  	<!-- dealType 가져오기 -->
+  	<select id="dealtype" resultType="String">
+  		select DEAL_TYPE from woo_board where boardidx = #{0}
+  	</select>
   	
-	<update id="update_reviewContents">
-		update woo_review set contents = #{0} where boardidx = #{1}
-	</update>
+  	
+  	
+  	<!--후기용 getTotalCount -->
+	 <select id="getTotalCountBuyerReview" resultType="int" parameterType="model.ParameterVO">
+  		SELECT count(*) FROM WOO_REVIEW WHERE buyer_id = #{user_id} 
+  	</select>
+  	<!-- 셀러 후기용 getTotalCount -->
+	 <select id="getTotalCountSellerReview" resultType="int" parameterType="model.ParameterVO">
+  		SELECT count(*) FROM  WOO_REVIEW WHERE seller_id = #{user_id} 
+  	</select>
+  	
+  	
+  	
+  	
+  	
+
+  	<insert id="update_reviewContents" parameterType="model.ParameterVO">
+  		insert into woo_review (seller_id, buyer_id, boardidx, title, reviewidx, contents, juso, latitude, longitude) values (#{id}, #{user_id}, ${boardidx},#{title}, seq_woo_review.nextval, #{contents}, #{juso}, #{latitude}, #{longitude})
+  	</insert>
+
 	
 	<update id="update_reviewScore">
 		update woo_board set review_score = #{0} where boardidx = #{1}

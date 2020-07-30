@@ -9,7 +9,7 @@
 		SELECT * FROM woo_chatting WHERE chatroomidx=#{0} ORDER BY chatDate
 	</select> 
 	<insert id="saveMessage" parameterType="model.WooChattingVO">
-		INSERT INTO woo_chatting (chattingidx, id, chatting, chatroomidx) values (seq_woo_chat.nextval, #{id}, #{chatting}, #{chatroomidx})
+		INSERT INTO woo_chatting (chattingidx, id, chatting, chatroomidx) values (seq_woo_chatting.nextval, #{id}, #{chatting}, #{chatroomidx})
 	</insert>
 	<update id="updateLastChatTime">
 		UPDATE woo_chatroom SET lastchatdate = #{1} WHERE chatroomidx = #{0}
@@ -20,7 +20,7 @@
 	</select>
 	
 	<select id="jusoList" resultType="model.WooJusoVO">
-  		SELECT * FROM juso1 
+  		SELECT * FROM woo_review 
   	</select>
   	<select id="searchPlace" resultType="model.WooJusoVO" parameterType="model.ParameterVO">
   		SELECT
@@ -28,5 +28,17 @@
 		FROM woo_review
 		WHERE 
 			juso like '%${place}%'
+  	</select>
+  	
+  	<insert id="createChatroom" parameterType="model.WooChatRoomVO">
+  		INSERT INTO woo_chatroom (chatroomidx, boardidx, sellerid, buyerid) VALUES (seq_woo_chatroom.nextval, #{boardidx}, #{sellerid}, #{buyerid})
+  		
+  		<selectKey  keyProperty="seq_woo_chatroom" resultType="int" order="AFTER">
+	       SELECT seq_woo_chatroom.currval FROM dual
+	    </selectKey>
+  	</insert>
+  	
+  	<select id="selectChatRoom" parameterType="model.WooChatRoomVO" resultType="String">
+  		SELECT chatroomidx FROM woo_chatroom WHERE boardidx=#{boardidx} AND buyerid=#{buyerid}
   	</select>
 </mapper> 

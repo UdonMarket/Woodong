@@ -1,5 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<script>
+		$asd = $_GET['Code'];
+		$view_arr = explode(",",$_COOKIE['goods_view']);
+		while(list($key,$val)=each($view_arr)){
+		 if($val==$asd){
+		  $az = "yes";
+		 }
+		}
+		if($az != "yes"){
+		setcookie("goods_view", $_COOKIE['goods_view'].",".$_GET['Code'].",".$_GET['CatNo'],time() + 86400,"/");
+		}
+	</script>
 <div id="floatMenu">
 	<div style="text-align: center;margin-left: 5px;margin-bottom: -20px;">
 		<img src="../resources/img/sidebar/판매하기로고.png" alt="판매하기" 
@@ -32,6 +44,15 @@
 		<div id="floatMenuBox2"  style="background:none;border:none;">
 			<img src="../resources/img/sidebar/none.png" alt="최근본상품이미지" width="30" height="30"/>
 			<div id="floatMenuBox2"  style="background:none;border:none;color:#D5D5D5">
+				<script type="text/javascript">
+				$view_arr = explode(",",$_COOKIE['goods_view']);
+				while(list($key,$val)=each($view_arr)){
+				  $img = $val . "_m.jpg";
+				  if($key%2==1){
+				  echo"<IMG SRC='/product/$val/$img' WIDTH=60 HEIGHT=60 ALT=''><br>";
+				  }
+				}
+				</script>
 				최근 본 상품이
 				<br>
 				없습니다.

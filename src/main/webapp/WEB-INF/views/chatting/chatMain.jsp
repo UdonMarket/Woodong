@@ -25,10 +25,10 @@
 		<c:forEach items="${roomList }" var="row">
 			<li>
 				<c:if test="${id eq row.sellerid }">
-				<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', 'name(${row.buyerid })', 'height=640; width=480; top=200; left=700;', true);">
+				<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', 'name(${row.chatroomidx})', 'height=640; width=480; top=200; left=700;', true);">
 				</c:if>
 				<c:if test="${id ne row.sellerid }">
-				<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', 'name(${row.sellerid })', 'height=640; width=480; top=200; left=700;', true);">
+				<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', 'name(${row.chatroomidx})', 'height=640; width=480; top=200; left=700;', true);">
 				</c:if>
 
 					<div class="catting_room row">

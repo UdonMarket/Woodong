@@ -14,4 +14,8 @@ public interface WooChatImpl {
 	public void saveMessage(WooChattingVO chattingVO);
 	public void updateLastChatTime(String chatroomidx, Timestamp lastChat);
 	public List<WooChattingVO> selectChatting(String chatroomidx);
+	
+	public int createChatroom(WooChatRoomVO wooChatRoomVO);
+	
+	public String selectChatRoom(WooChatRoomVO wooChatRoomVO);
 }

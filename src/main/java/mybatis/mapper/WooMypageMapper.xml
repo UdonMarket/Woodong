@@ -37,12 +37,12 @@
 	<!-- 카테고리에서 좋아요 누를 때 -->
 	<!--ㅡmypage goods에 연결된 String 가져오기 -->	
 	 <select id="selectLike" resultType="String">
-	 	select goods from woo_mypage where id = #{0}
+	 	select goods from woo_member where id = #{0}
 	 </select>
 	 
 	 <!--ㅡmypage goods에 새로운 idx update -->	
 	<update id="updateLike" >
- 		update woo_mypage set goods = #{0} where id = #{1}
+ 		update woo_member set goods = #{0} where id = #{1}
  	</update>
 
 
@@ -129,13 +129,9 @@
   	
   	
   	<!-- review table 업데이트 -->
-  	<insert id="update_reviewTable" parameterType="model.ParameterVO">
-  		insert into woo_review (seller_id, buyer_id, boardidx, title, reviewidx) values (#{id}, #{user_id}, ${idx},#{title}, seq_woo_review.nextval)
-  	</insert>
-  	
-	<update id="update_reviewContents">
-		update woo_review set contents = #{0} where boardidx = #{1}
-	</update>
+     <insert id="update_reviewContents" parameterType="model.ParameterVO">
+        insert into woo_review (seller_id, buyer_id, boardidx, title, reviewidx, contents, juso, latitude, longitude) values (#{id}, #{user_id}, ${boardidx},#{title}, seq_woo_review.nextval, #{contents}, #{juso}, #{latitude}, #{longitude})
+     </insert>
 	
 	<update id="update_reviewScore">
 		update woo_board set review_score = #{0} where boardidx = #{1}

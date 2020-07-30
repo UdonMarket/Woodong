@@ -46,7 +46,7 @@ function restartFunc(){
 	<jsp:include page="../include/mypageLeft.jsp" />
 	<section class="left_main"
 		style="padding-top: 100px; padding-left: 70px;">
-		<div class="col-12" style="text-align: center;">
+		<div class="col-12" style="text-align: center; border-bottom: 1px solid #d9d9d9; padding-bottom: 15px;"">
 			<img src="../resources/img/myPage/관심목록1.png" alt="" width="280px;" />
 		</div>
 		<div class="cat_box">
@@ -64,6 +64,7 @@ function restartFunc(){
 
 						<c:choose>
 							<c:when test="${empty likeList}">
+							<li>
 								<span style="font-size: 20px; padding-left: 250px;">게시물이
 									없습니다.</span>
 
@@ -78,7 +79,7 @@ function restartFunc(){
 
 								</div>
 
-
+							</li>
 							</c:when>
 							<c:otherwise>
 								<c:forEach var="list" items="${likeList }">

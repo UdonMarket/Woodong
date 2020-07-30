@@ -6,7 +6,6 @@
 <!doctype html>
 <html lang="zxx">
 <head>
-  <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -180,8 +179,7 @@
 
 														</div>
 														<div class="col-3" style="padding: 0px;">
-															<img src="../resources/img/product/우동톡톡.png"  onclick="window.open('../chatting/chatting.woo', '_blank', 'height=640; width=480; top=200; left=150;', true);"/>
-
+															<img src="../resources/img/product/우동톡톡.png"  onclick="chatting();"/>
 														</div>
 													</div>
 												</div>
@@ -301,7 +299,21 @@ $(document).ready(function(){
 	})
 });
 
+function chatting() {
+	var chattingFrm = document.chattingFrm;
+	window.open('', '1', 'height=640; width=480; top=200; left=150;', true);
+	chattingFrm.action = "../chatting/chatting.woo";
+	chattingFrm.method = "post";
+	chattingFrm.target = "1";
+	chattingFrm.testVal = 'test';
+	chattingFrm.submit();
+}
 </script>
+
+<form:form name="chattingFrm">
+	<input type="hidden" name="boardidx" value="${viewRow.boardidx }" />
+	<input type="hidden" name="sellerid" value="${viewRow.id }" />
+</form:form>
 <!-- subscribe part end -->
 <!-- bottom.jsp -->
 <jsp:include page="../include/bottom.jsp" />

@@ -74,7 +74,7 @@ public class WooAdminController {
 	
 	// 멤버 관리자 권한 수정
 	@RequestMapping("/admin/edit.woo")
-	public String edit(HttpServletRequest req) {
+	public String memberEdit(HttpServletRequest req) {
 		String id = req.getParameter("id");
 		String grade = req.getParameter("grade");
 		String editgrade = req.getParameter("editgrade");
@@ -181,7 +181,7 @@ public class WooAdminController {
 		return "redirect:../admin/addBoard.woo";
 	}
 	
-	// 게시판 관리
+	// 게시물 관리
 	@RequestMapping("/admin/boardTable.woo")
 	public String boardTable(HttpServletRequest req, Model model) {
 		ParameterVO parameterVO = new ParameterVO();

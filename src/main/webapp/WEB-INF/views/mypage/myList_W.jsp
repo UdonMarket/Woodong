@@ -16,7 +16,7 @@
 	<jsp:include page="../include/mypageLeft.jsp" />
 	<section class="left_main"
 		style="padding-top: 100px; padding-left: 70px;">
-		<div class="col-12" style="text-align: center;">
+		<div class="col-12" style="text-align: center;zz">
 			<img src="../resources/img/myPage/거래중1.png" alt="" width="280px;" />
 		</div>
 		<div class="container" style="padding-top: 50px;">

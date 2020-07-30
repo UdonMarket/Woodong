@@ -25,6 +25,37 @@ public class ParameterVO {
 	private String seller_id;
 	
 	
+	   private String juso;
+	   private String latitude;
+	   private String longitude;
+	   private String contents;
+	   
+	   
+	   public String getContents() {
+	      return contents;
+	   }
+	   public void setContents(String contents) {
+	      this.contents = contents;
+	   }
+	   public String getJuso() {
+	      return juso;
+	   }
+	   public void setJuso(String juso) {
+	      this.juso = juso;
+	   }
+	   public String getLatitude() {
+	      return latitude;
+	   }
+	   public void setLatitude(String latitude) {
+	      this.latitude = latitude;
+	   }
+	   public String getLongitude() {
+	      return longitude;
+	   }
+	   public void setLongitude(String longitude) {
+	      this.longitude = longitude;
+	   }
+	
 	public String getPlace() {
 		return place;
 	}

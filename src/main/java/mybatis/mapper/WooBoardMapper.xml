@@ -34,7 +34,6 @@
 		ltrim(to_char(price,'999,999,999')) price,
 		product_state,
 		chatcount,
-		like_check,
 		three_dimens,
 		product_tag,
 		woopay,
@@ -70,7 +69,6 @@
 			ltrim(to_char(price,'999,999,999')) price,
 			product_state,
 			chatcount,
-			like_check,
 			three_dimens,
 			product_tag,
 			woopay,
@@ -114,19 +112,17 @@
 	 <!--4-1. 파일 업로드  -->
 	 <insert id="insertFile" parameterType="map">
 		INSERT INTO woo_file
-		(
+		( 
 			fileidx,
 			boardidx,
 			original_name,
-			save_name,
-			user_id
-		)
+			save_name
+		) 
 		VALUES(
 			seq_woo_file.NEXTVAL,
 			#{boardidx},
 			#{original_name},
-			#{save_name},
-			#{user_id}
+			#{save_name}
 		)
     </insert> 
 	  

@@ -21,6 +21,7 @@ import model.FileVO;
 import model.WooMemberVO;
 import model.WooMypageImpl;
 import model.WooMyreviewVO;
+import oracle.net.aso.p;
 import model.ParameterVO;
 import model.WooBoardImpl;
 import model.WooBoardVO;
@@ -145,26 +146,30 @@ public class WooMypageController {
 			System.out.println("12131" + idx);
 			ArrayList<FileVO> uploadFileList = sqlSession.getMapper(WooBoardImpl.class).viewFile(idx);
 			//사진 중 첫번째 사진만 저장.
-			String image = uploadFileList.get(0).getSave_name();
-			rv.setImagefile(image);
-			System.out.println("image : " + image);
-		}
+			try {
+				String image = uploadFileList.get(0).getSave_name();
+				rv.setImagefile(image);
+				System.out.println("image : " + image);
+			}
+			catch (Exception e) {
+			}
+		} 
 		for(WooBoardVO rv : likeList) { 
 			
 			String idx = rv.getBoardidx();
-			System.out.println("12131" + idx);
+			System.out.println("aa1 : " + idx);
 			ArrayList<FileVO> uploadFileList = sqlSession.getMapper(WooBoardImpl.class).viewFile(idx);
 			//사진 중 첫번째 사진만 저장.
-			String image = uploadFileList.get(0).getSave_name();
-			rv.setImagefile(image);
-			System.out.println("image : " + image);
+			try {
+				String image = uploadFileList.get(0).getSave_name();
+				rv.setImagefile(image);
+				System.out.println("image : " + image);
+			}
+			catch (Exception e) {
+			}
+			rv.setContents(rv.getContents().replace("\r\n", "<br/>"));
 		}
 		
-		for (WooBoardVO vo : likeList) {
-			// 내용에 대해 줄바꿈 처리
-			String temp = vo.getContents().replace("\r\n", "<br/>");
-			vo.setContents(temp);
-		}
 
 		model.addAttribute("likeList", likeList);
 		model.addAttribute("riviewList", riviewList);
@@ -186,9 +191,13 @@ public class WooMypageController {
 			System.out.println("12131" + idx);
 			ArrayList<FileVO> uploadFileList = sqlSession.getMapper(WooBoardImpl.class).viewFile(idx);
 			//사진 중 첫번째 사진만 저장.
-			String image = uploadFileList.get(0).getSave_name();
-			rv.setImagefile(image);
-			System.out.println("image : " + image);
+			try {
+				String image = uploadFileList.get(0).getSave_name();
+				rv.setImagefile(image);
+				System.out.println("image : " + image);
+			}
+			catch (Exception e) {
+			}
 		}
 		model.addAttribute("sellerRiviewList", sellerRiviewList);
 		}
@@ -306,62 +315,56 @@ public class WooMypageController {
 		
 	}
 	
-	// 후기페이지
-	@RequestMapping("/mypage/myReview.woo")
-	public String myReview() {
-		return "mypage/myReview";
-	}
-	
 	// 리뷰작성글 팝업열기
-	@RequestMapping("/mypage/reviewPop.woo")
-	public String reviewPop(Model model, HttpServletRequest req) {
-		
-		String idx = req.getParameter("idx");
-		System.out.println("팝업" + idx); 
-		
-		model.addAttribute("idx", idx);
-		
-		return "mypage/reviewPop";
-	}
-	
-	// 리뷰버튼 클릭시 review테이블에 id, idx, title 저장
-	@RequestMapping("/mypage/writeReview.woo")
-	public String write_review(Model model, HttpServletRequest req, Principal principal) {
-			
-		String user_id = principal.getName();
-		String id = req.getParameter("id");
-		String idx = req.getParameter("idx");
-		String title = req.getParameter("title");
-		System.out.println("user_id : " + user_id);
-		System.out.println("id"+id);
-		System.out.println("idx" + idx);
-		System.out.println("title" + title);
-		
-		ParameterVO parameterVO = new ParameterVO();
-		parameterVO.setId(id);
-		parameterVO.setIdx(idx);
-		parameterVO.setTitle(title);
-		parameterVO.setUser_id(user_id);
-		
-		int update = sqlSession.getMapper(WooMypageImpl.class).update_reviewTable(parameterVO);
-		System.out.println("review update : " + update);
-		
-		return "mypage/myList_B";
-	}
-	
-	
-	//리뷰팝업에서 contents DB저장
-	@RequestMapping(value="/mypage/writeReviewContents.woo", method = RequestMethod.POST)
-	public String writeReviewContents(Model model, HttpServletRequest req) {
-		
-		System.out.println("글내용 : " + req.getParameter("contents"));
-		System.out.println("글idx" + req.getParameter("write_idx"));
-		int update1 = sqlSession.getMapper(WooMypageImpl.class).update_reviewContents(req.getParameter("contents"), req.getParameter("write_idx"));
-		System.out.println("review contents update : " + update1);
-		int update = sqlSession.getMapper(WooMypageImpl.class).update_reviewScore(req.getParameter("cal_reviewPoint"), req.getParameter("write_idx"));
-		
-		return "mypage/myList_B_popclose";
-	}
+	   @RequestMapping("/mypage/reviewPop.woo")
+	   public String reviewPop(Model model, HttpServletRequest req) {
+	      
+	      String boardidx = req.getParameter("boardidx");
+	      String title = req.getParameter("title");
+	      String id = req.getParameter("id");
+	      System.out.println("팝업" + boardidx); 
+	      System.out.println("후기전달 title : " + title); 
+	      System.out.println("후기전달 id : " + id); 
+	      
+	      model.addAttribute("boardidx", boardidx);
+	      model.addAttribute("title", title);
+	      model.addAttribute("id", id);
+	      
+	      return "mypage/reviewPop";
+	   }
+	   
+
+	   
+	   
+	   //리뷰팝업에서 contents DB저장
+	   @RequestMapping(value="/mypage/writeReviewContents.woo", method = RequestMethod.POST)
+	   public String writeReviewContents(Model model, HttpServletRequest req, Principal principal) {
+	      
+	      String id = req.getParameter("id");
+	      String title = req.getParameter("title");
+	      String juso = req.getParameter("juso");
+	      String latitude = req.getParameter("latitude");
+	      String longitude = req.getParameter("longitude");
+	      String boardidx = req.getParameter("write_idx");
+	      String contents = req.getParameter("contents");
+	      
+	      ParameterVO parameterVO = new ParameterVO();
+	      parameterVO.setId(id);
+	      parameterVO.setTitle(title);
+	      parameterVO.setJuso(juso);
+	      parameterVO.setLatitude(latitude);
+	      parameterVO.setLongitude(longitude);
+	      parameterVO.setBoardidx(boardidx);
+	      parameterVO.setContents(contents);
+	      parameterVO.setUser_id(principal.getName());
+	      
+	      
+	      int update1 = sqlSession.getMapper(WooMypageImpl.class).update_reviewContents(parameterVO);
+	      System.out.println("review contents update : " + update1);
+	      int update = sqlSession.getMapper(WooMypageImpl.class).update_reviewScore(req.getParameter("cal_reviewPoint"), req.getParameter("write_idx"));
+	      
+	      return "mypage/myList_B_popclose";
+	   }
 	
 	// 후기삭제
 	@RequestMapping("/mypage/reviewDelete.woo")

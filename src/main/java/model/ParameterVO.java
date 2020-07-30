@@ -19,27 +19,65 @@ public class ParameterVO {
 	private Double latTxt;
 	private Double lngTxt;
 	private String bname;
+	private String place;
+	
 	private String idx;
 	private String seller_id;
-	//
-	private String place;
+	
+	private String juso;
+	private String latitude;
+	private String longitude;
+	private String contents;
+	
 	private String pstate;
 	private String ispay;
 	private String priceStart;
 	private String priceEnd;
 	private String order;
+
+	public String getContents() {
+		return contents;
+	}
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
+	public String getJuso() {
+		return juso;
+	}
+	public void setJuso(String juso) {
+		this.juso = juso;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getPlace() {
+		return place;
+	}
+	public void setPlace(String place) {
+		this.place = place;
+	}
 	
-	public String getBoardidx() {
-		return boardidx;
+	
+	public String getSeller_id() {
+		return seller_id;
 	}
-	public void setBoardidx(String boardidx) {
-		this.boardidx = boardidx;
+	public void setSeller_id(String seller_id) {
+		this.seller_id = seller_id;
 	}
-	public String getId() {
-		return id;
+	public String getIdx() {
+		return idx;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setIdx(String idx) {
+		this.idx = idx;
 	}
 	public String getUser_id() {
 		return user_id;
@@ -47,65 +85,11 @@ public class ParameterVO {
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
-	public int getStart() {
-		return start;
+	public String getBoardidx() {
+		return boardidx;
 	}
-	public void setStart(int start) {
-		this.start = start;
-	}
-	public int getEnd() {
-		return end;
-	}
-	public void setEnd(int end) {
-		this.end = end;
-	}
-	public String getSearchField() {
-		return searchField;
-	}
-	public void setSearchField(String searchField) {
-		this.searchField = searchField;
-	}
-	public String getSearchTxt() {
-		return searchTxt;
-	}
-	public void setSearchTxt(String searchTxt) {
-		this.searchTxt = searchTxt;
-	}
-	public List<String> getList() {
-		return list;
-	}
-	public void setList(List<String> list) {
-		this.list = list;
-	}
-	public int getNum() {
-		return num;
-	}
-	public void setNum(int num) {
-		this.num = num;
-	}
-	public String getLocationname() {
-		return locationname;
-	}
-	public void setLocationname(String locationname) {
-		this.locationname = locationname;
-	}
-	public String getMode() {
-		return mode;
-	}
-	public void setMode(String mode) {
-		this.mode = mode;
-	}
-	public String getDealMode() {
-		return dealMode;
-	}
-	public void setDealMode(String dealMode) {
-		this.dealMode = dealMode;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setBoardidx(String boardidx) {
+		this.boardidx = boardidx;
 	}
 	public Double getLatTxt() {
 		return latTxt;
@@ -125,53 +109,88 @@ public class ParameterVO {
 	public void setBname(String bname) {
 		this.bname = bname;
 	}
-	public String getIdx() {
-		return idx;
+	public String getTitle() {
+		return title;
 	}
-	public void setIdx(String idx) {
-		this.idx = idx;
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	public String getSeller_id() {
-		return seller_id;
+
+	public String getDealMode() {
+		return dealMode;
 	}
-	public void setSeller_id(String seller_id) {
-		this.seller_id = seller_id;
+
+	public void setDealMode(String dealMode) {
+		this.dealMode = dealMode;
 	}
-	public String getPlace() {
-		return place;
+
+	public String getMode() {
+		return mode;
 	}
-	public void setPlace(String place) {
-		this.place = place;
+
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
-	public String getPstate() {
-		return pstate;
+	public String getLocationname() {
+		return locationname;
 	}
-	public void setPstate(String pstate) {
-		this.pstate = pstate;
+
+	public void setLocationname(String locationname) {
+		this.locationname = locationname;
 	}
-	public String getIspay() {
-		return ispay;
+
+	public int getNum() {
+		return num;
 	}
-	public void setIspay(String ispay) {
-		this.ispay = ispay;
-	}
-	public String getPriceStart() {
-		return priceStart;
-	}
-	public void setPriceStart(String priceStart) {
-		this.priceStart = priceStart;
-	}
-	public String getPriceEnd() {
-		return priceEnd;
-	}
-	public void setPriceEnd(String priceEnd) {
-		this.priceEnd = priceEnd;
-	}
-	public String getOrder() {
-		return order;
-	}
-	public void setOrder(String order) {
-		this.order = order;
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public List<String> getList() {
+		return this.list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
+
+	public int getStart() {
+		return this.start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
+	}
+
+	public int getEnd() {
+		return this.end;
+	}
+
+	public void setEnd(int end) {
+		this.end = end;
+	}
+
+	public String getSearchField() {
+		return this.searchField;
+	}
+
+	public void setSearchField(String searchField) {
+		this.searchField = searchField;
+	}
+
+	public String getSearchTxt() {
+		return this.searchTxt;
+	}
+
+	public void setSearchTxt(String searchTxt) {
+		this.searchTxt = searchTxt;
+	}
 }

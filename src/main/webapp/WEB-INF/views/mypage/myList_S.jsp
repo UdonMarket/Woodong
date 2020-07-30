@@ -78,8 +78,10 @@
 						</c:choose>
 					</ul>
 				</div>
-				<ul class="pagination justify-content-center">${pagingImg }
-				</ul>
+				<div class="paging">
+					<ul>${pagingImg }
+					</ul>
+				</div>
 			</div>
 
 		</div>

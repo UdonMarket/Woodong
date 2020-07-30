@@ -93,16 +93,15 @@
 															<div class="item_title related_item_icon">${list.title }</div>
 															<div class="item_price profile_price">${list.price }원</div>
 
-													<div style="text-align: right;">
-														<a href="javascript:void(0);"
-															onclick="window.open('../mypage/reviewPop.woo?boardidx=${list.boardidx}&title=${list.title}&id=${list.id}', '_blank', 'height=500; width=480; top=200; left=700;', true);">
-
-															<img src="../resources/img/myPage/리뷰작성.png"
-															style="width: 90px; height: 40px;" />
-														</a>
-													</div>
-
-												</div>
+															
+														<div style="text-align: right;">
+															 <a href="javascript:void(0);" onclick="window.open('../mypage/reviewPop.woo?boardidx=${list.boardidx}&title=${list.title}&id=${list.id}', '_blank', 'height=500; width=480; top=200; left=700;', true);"> 
+																	
+																<img src="../resources/img/myPage/리뷰작성.png" style="width: 90px; height:40px;" />
+															 </a> 
+														</div>
+														
+														</div>
 													</div></a>
 											
 												</li>
@@ -111,9 +110,11 @@
 												</c:choose>
 										</ul>
 									</div>
-									<ul class="pagination justify-content-center">
+									<div class="paging">
+									<ul>
 										${pagingImg }
 									</ul>
+									</div>
 								</div>
 								
 							</div>

@@ -73,19 +73,19 @@
 	        		<div class="col-9"></div>
 	        		<div class="col-3" style="padding: 0px;">
 		        		<div style="display: inline-block;">
-	        			    <form:form action="../product/productList.woo?mode=map&bname=${parameterVO.bname }&" method="post">
+	        			    <form:form action="../product/productList.woo?mode=map&bname=${parameterVO.bname}&" method="post">
 					    <!-- 현재위치 위경도 입력상자 -->
 								<input type="hidden" id="lat" name="lat" />
 								<input type="hidden" id="lon" name="lon" />
-								<input type="image" src="../resources/img/product/map1.png" alt=""style="margin-bottom: 0px;width: 120px;cursor: pointer;" />
+								<input type="image" src="../resources/img/product/map1.png" style="margin-bottom: 0px;width: 120px;cursor: pointer;" />
 						    </form:form>
 	        			</div>
 	        			<div style="display: inline-block;">
-	        				 <form:form action="../product/productList.woo?bname=${parameterVO.bname }&" method="post">
+	        				 <form:form action="../product/productList.woo?bname=${parameterVO.bname}&" method="post">
 					    <!-- 현재위치 위경도 입력상자 -->
 								<input type="hidden" id="lat1" name="lat" />
 								<input type="hidden" id="lon1" name="lon" />
-								<input type="image" src="../resources/img/product/이미지로보기.png" alt=""style="margin-bottom: -12px;width: 155px; cursor: pointer;" />
+								<input type="image" src="../resources/img/product/이미지로보기.png" style="margin-bottom: -12px;width: 155px; cursor: pointer;" />
 						    </form:form>
 	        			</div>
 	        		</div>
@@ -93,43 +93,38 @@
 	            <div class="row" style="padding-top: 20px">
 	                <div class="col-lg-12">
 	                    <div class="search-form-text">
-	                        <div class="search-text">
-	                            <i class="fa fa-search"></i>
-	                            Find Your Product
-	                        </div>
-	                        <div class="home-text">
-	                            <i class="fa fa-home"></i>
-	                            		우리동네마켓
-	                        </div>
+	                        <div class="search-text"><i class="fa fa-search"></i>Find Your Product</div>
+	                        <div class="home-text"> <i class="fa fa-home"></i>우리동네마켓</div>
 	                    </div>
-	                     <form:form action="./ajaxList.woo" class="filter-form">
+	                     <form:form class="filter-form">
 	                        <div class="first-row" >
 	                            <select name="order">
-	                                <option value="최신순">최신순</option>
-	                                <option value="인기순">인기순</option>
-	                                <option value="저가순">저가순</option>
-	                                <option value="고가순">고가순</option>
+	                                <option value="">최신순 (정렬방식)</option>
+	                                <option value="visitcount" >인기순</option>
+	                                <option value="price">저가순</option>
+	                                <option value="price desc">고가순</option>
 	                            </select>
-	                            <select name="state">
-	                                <option value="상품상태">상품상태</option>
+	                            <select name="pstate">
+	                                <option value="" >상품상태 (전체)</option>
 	                                <option value="새상품">새상품</option>
 	                                <option value="거의새것">거의새것</option>
 	                                <option value="중고">중고</option>
 	                                <option value="하자있음">하자있음</option>
 	                            </select>
-								 <select name="pay">
-	                                <option value="all">우동페이+전체</option>
+								 <select name="ispay">
+	                                <option value="">우동페이 + 전체 (결제방식)</option>
 	                                <option value="only">우동페이만 보기</option>
 	                            </select>
 	                            <!-- price-range-wrap -->
 	                             <div class="price-range-wrap" style="width: 530px;display: table-cell;">
-	                             	
 	                                <div class="price-text"> 
 	                                	<p>
 	                                	가격&nbsp;&nbsp;
-	                                    <input type="text" id="priceStart"  style="width: 50px;" name="priceStart">~&nbsp;
-	                                    <input type="text" id="priceEnd"  style="width: 50px;"  name="priceEnd">&nbsp;만원
-	                                </p>
+	                                    <input type="text" id="priceStart"  style="width: 70px;" name="priceStart" readonly>
+	                                    &nbsp;&nbsp;~&nbsp;&nbsp;
+	                                    <input type="text" id="priceEnd"  style="width: 80px;"  name="priceEnd" readonly>
+	                                    &nbsp;&nbsp;원
+	                                	</p>
 	                                </div>
 	                                <div id="price-range" class="slider" style="background: #d9d9d9; margin-top: 10px;"></div>
 	                            </div>  
@@ -137,20 +132,40 @@
 								 
 	                        </div>
 	                        <div class="second-row">
-		                        <div style="width: 530px; display: inline-block; margin-right:20px;">
-									<input type="text" name="first_name" placeholder="검색어를  입력하세요"
-										onfocus="this.placeholder = ''" onblur="this.placeholder = '검색어를  입력하세요'" required
-										class="single-input">
-							  	</div>
-							  	<select name="type">
-	                                <option value="tc">제목+내용</option>
-	                                <option value="w">작성자</option>
-	                                <option value="t">제목</option>
-	                                <option value="c">내용</option>
+							  	<select name="searchField">
+	                                <option value="" >------검색필드------</option>
+	                                <option value="tc">제목 + 내용</option>
+	                                <option value="product_tag">태그</option>
+	                                <option value="title" >제목</option>
+	                                <option value="contents">내용</option>
+	                                <option value="id" >작성자</option>
 	                            </select>
-	                            <button type="button" class="search-btn" style="border: 0;">Search</button>
+		                        <div style="width: 530px; display:inline-block; margin-right:20px;">
+									<input type="text" name="searchTxt" placeholder="검색어를  입력하세요"
+										onfocus="this.placeholder=''" onblur="this.placeholder='검색어를  입력하세요'" required="required"
+										class="single-input" id="keywordInput" >
+							  	</div>
+	                            <button type="button" class="search-btn" style="border: 0;" id="searchBtn">Search</button>
 	                        </div>
-	                      </form:form>
+                         </form:form>
+<script>
+$(function(){
+	$('#searchBtn').click(function() {
+	 self.location = "productList.woo?" 
+	 + "order=" + $("select[name=order]").val() 
+	 + "&pstate=" + $("select[name=pstate]").val() 
+	 + "&ispay=" + $("select[name=ispay]").val() 
+	 + "&priceStart=" + $("#priceStart").val()  + "&priceEnd=" + $("#priceEnd").val() 
+	 + "&searchField=" + $("select[name=searchField]").val() + "&searchTxt=" + encodeURIComponent($('#keywordInput').val());
+	});
+	
+  $('select[name=order]').val('${parameterVO.order}').attr('selected',true);
+  $('select[name=pstate]').val('${parameterVO.pstate}').attr('selected',true);
+  $('select[name=ispay]').val('${parameterVO.ispay}').attr('selected',true);
+  $('select[name=searchField]').val('${parameterVO.searchField}').attr('selected',true);
+  $('#keywordInput').val('${parameterVO.searchTxt}');
+});   
+</script>
 	                </div>
 	            </div>
 	        </div>

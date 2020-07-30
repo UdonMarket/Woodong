@@ -27,6 +27,9 @@ public interface WooBoardImpl {
 	//4-1 . 첨부파일 업로드
 	public int insertFile(Map<String,Object> map);
 	
+	//4-1 . 첨부파일 업로드(3D 파일 YES)
+	public int insertTDFile(Map<String,Object> map);
+	
 	//5.수정하기
 	public int update(WooBoardVO wooBoardVO);
 	

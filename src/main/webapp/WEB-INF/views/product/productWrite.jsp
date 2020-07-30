@@ -210,7 +210,6 @@
 									</li>
 								</ul>
 							</div>
-							
 							<div class="hellopay_direct_notice" >
 								<span class="normal_notice">태그는 최대 3개까지 입력가능합니다.
 								&nbsp;&nbsp;각 태그는 최대 10자까지 입력할 수 있습니다.</span>
@@ -289,29 +288,27 @@
 <script>
 var fileCount = 1;
 var maxfile = 9;
-var count = 1;	
-var msg="";
+var tagcount = 1;	
+var tagmsg='';
 	
 //사진 미리보기	  
 function readFile(f) {
    if(f.files && f.files[0]) {
       var reader = new FileReader();
       reader.onload = function (e) {
-             $('img[name=fileimage]:eq(' + (fileCount-2) + ')').prop("src", e.target.result);
+         $('img[name=fileimage]:eq(' + (fileCount-2) + ')').prop("src", e.target.result);
       }
       reader.readAsDataURL(f.files[0]);
    }
 }
 $(function() {
 	//input 파일이 바꼈을때 실행되는 함수 (이벤트 / target / 실행될 부분)
-   $('input:file').on("change", function() {
+   $(document).on("change", 'input:file',function() {
       readFile(this);
       fileCount++;
    });
-	
 	//이미지 클릭했을때 
-   $('img[name=fileimage]').on('click',function() {
-	   
+   $(document).on('click','img[name=fileimage]',function() {
       var id = this.id;
       
      // 클릭한 이미지가 기본이미지라면 파일 선택 이벤트 실행
@@ -334,14 +331,14 @@ $(function() {
 	      
 		   //ul 태그 안에 append
 	      $('.image_list').append(
-	         '<li id="image'+maxfile+'">'
-	         +   '<div style="width: 146px;height: 146px">'
-	         +      '<input type="file" name="file" id="file'
-	         +maxfile+'" style="display: none;" accept="image/*"/>'
-	         +      '<img name="fileimage" id="'+maxfile
-	         +'" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border="0">'
-	         +   '</div>'
-	         +'</li>'      
+	    		  '<li id="image'+maxfile+'">'
+	 	         +   '<div style="width: 146px;height: 146px">'
+	 	         +      '<input type="file" name="file" id="file'
+	 	         +maxfile+'" style="display: none;" accept="image/*"/>'
+	 	         +      '<img name="fileimage" id="'+maxfile
+	 	         +'" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border="0">'
+	 	         +   '</div>'
+	 	         +'</li>'       
 	      );
 	      maxfile++;
 	      fileCount--;
@@ -350,20 +347,21 @@ $(function() {
    });
 });
 	
-//라디오 토글
+
 $(function() {
+	//라디오 토글
 	$("input:radio[name=product_state]").checkboxradio({
 		icon: false
 	});
+	//체크박스 value 변경
 	$('input[type=checkbox]').click(function(){
-		
 		if($(this).is(':checked')){
 	        $(this).val('Y');
 	    }else{
 	    	 $(this).val('N');
 	    }
 	});
-	
+	//글작성 버튼 클릭시 
 	$('#subtn').click(function(){
 		
 		if($('input:checkbox[name=woopay_check]').is(':checked')==true){
@@ -377,28 +375,35 @@ $(function() {
 	    }else{
 	    	$('[name=three_dimens]').val('N');
 	    }
+		//태그 저장
+		tagmsg='';
+		$('.chktag').each(function() {
+			tagmsg  += $(this).text();
+		});
+		$("input[name=product_tag]").val(tagmsg);
+		
 	});
-	
 	//태그 추가 함수
 	$('#tagsave').click(function() {
-		var msg = $("[name=product_tag]").val();
-		if(count<4 && $("input[name=input_tag]").val()!=""){
-			$("input[name=product_tag]").val(msg+'#'+$("input[name=input_tag]").val());
-			console.log($("[name=product_tag]").val());
+		if(tagcount<4 && $("input[name=input_tag]").val()!=""){
 			$("#div_tag").removeAttr('style');
-			$("#sapn_tag").append('#'+$("input[name=input_tag]").val()+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
-			count++;
+			$("#sapn_tag").append('<span class="chktag">#'+$("input[name=input_tag]").val()+'</span>');
+			$("#sapn_tag").append('<img src="../resources/img/myPage/삭제.png" style="width: 40px; height: 30px; margin-top: 10px;" onclick="delspan(this);"/>');
+			tagcount++;
 		}
 		$("[name=input_tag]").val('');
 	});
 	
 });
-
+//태그 삭제 	
+function delspan(tag) {
+	$(tag).prev().remove();
+	$(tag).remove();
+	tagcount--;
+}
 </script>
-  <script>
-  </script>
- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4416f1cdac23198286eb3f5394e6240d&libraries=services"></script>
- <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4416f1cdac23198286eb3f5394e6240d&libraries=services"></script>
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
  <script>
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
     function sample4_execDaumPostcode() {

@@ -88,7 +88,9 @@
 	<!-- 상품 사진  (최대 8개) -->
 	<ul class="image_list">
 	<!-- 사용자가 업로드 한 이미지 -->
+	<c:set var="fileLoop" value="false"/>
 	<c:forEach var="file" varStatus="var" items="${uploadFileList}" >
+		<c:if test="${not fileLoop}">
 		<li id="image${var.index}">
 			<div style="width: 146px; height: 146px">
 			 	 <input type="hidden" id="FILE_NO" name="FILE_NO_${var.index}" value="${file.fileidx}">
@@ -97,9 +99,11 @@
 				 style="width: 100%; height: 100%;" border="0" onclick="fn_del('${file.fileidx}','${var.index}');">
 			</div>
 		</li>
-			<c:if test="${var.last}">
+			<c:if test="${var.last or var.count eq 8}">
 			<c:set var="endvar" value="${var.count}" />
+			<c:set var="fileLoop" value="true"/>
 			</c:if>
+		</c:if>		
 	</c:forEach>  
 	
 	<c:set var="doneLoop" value="false"/>
@@ -114,7 +118,7 @@
 			      style="width: 100%; height: 100%" border='0'>
 			   </div>
 			</li>
-			<c:if test="${tvar.begin + tvar.count eq 8}">
+			<c:if test="${tvar.begin + tvar.count eq 9}">
 				<c:set var="doneLoop" value="true"/>
 			</c:if>
 		</c:if>

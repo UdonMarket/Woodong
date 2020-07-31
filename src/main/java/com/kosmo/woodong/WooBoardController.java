@@ -6,7 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -17,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,7 +49,6 @@ public class WooBoardController {
 		String location = ".." + req.getServletPath();
 		List<WooBoardListVO> blists = ((WooBoardListImpl) sqlSession.getMapper(WooBoardListImpl.class))
 				.selectBoard(location);
-		model.addAttribute("blists", blists);
 		
 		String mode = req.getParameter("mode")==null ? "common" : req.getParameter("mode");
 		ParameterVO parameterVO = new ParameterVO();
@@ -62,11 +64,12 @@ public class WooBoardController {
 		parameterVO.setPstate(req.getParameter("pstate"));
 		parameterVO.setOrder(req.getParameter("order"));
 		
-		model.addAttribute("mode", mode);
-		model.addAttribute("parameterVO", parameterVO);
 		
+		model.addAttribute("blists", blists);
+		model.addAttribute("parameterVO", parameterVO);
+		model.addAttribute("mode", mode);
 		// 지도 리스트
-		if(mode.equals("map")) {
+		if("map".equals(mode)) {
 			//폼값받기
 			ArrayList<String> list = new ArrayList<String>();
 			if(req.getParameter("bname")!=null && !"".equals(req.getParameter("bname"))) {
@@ -133,6 +136,7 @@ public class WooBoardController {
 			end = 15;
 		}
 
+		parameterVO.setBname(req.getParameter("bname"));
 		parameterVO.setSearchField(req.getParameter("searchField"));
 		parameterVO.setSearchTxt(req.getParameter("searchTxt")); 
 		parameterVO.setIspay(req.getParameter("ispay"));
@@ -203,7 +207,7 @@ public class WooBoardController {
 
 	//3.상품리스트 상세보기 
 	@RequestMapping("/product/productView.woo")
-	public String productView(Model model, HttpServletRequest req,Principal principal) {
+	public String productView(Model model, HttpServletRequest req,Principal principal, HttpServletResponse response) {
 		
 		String boardidx = req.getParameter("boardidx");
 		String user_id="";
@@ -294,6 +298,31 @@ public class WooBoardController {
 			}
 		} catch (Exception e) {}
 		
+		String preCookie = "";
+		Cookie[] cookies = req.getCookies();
+		if(cookies!=null){
+			for(Cookie ck : cookies){
+				if(ck.getName().contains("product")){
+					System.out.println("쿠키값:"+ ck.getValue());
+					preCookie = ck.getValue();
+				}
+			}
+		}
+
+		String[] aa = preCookie.split("/");
+		for(int i=0; i<aa.length ; i++) {
+			System.out.println(i+"gg"+aa[i]);
+		}
+		
+		preCookie = boardidx + "/" + preCookie;
+
+		//쿠키생성
+		Cookie cookie = new Cookie("product", preCookie);
+		System.out.println("cookie:"+cookie);
+		cookie.setPath("/");
+		response.addCookie(cookie);
+		
+		
 		model.addAttribute("viewRow", dto); 
 		model.addAttribute("uploadFileList", uploadFileList);
 		model.addAttribute("nowPage", nowPage);
@@ -337,7 +366,7 @@ public class WooBoardController {
 			int size = list.size();
 			for(int i=0; i<size; i++){//file table insert 
 				map = list.get(i);
-				if(map.get("threeYN").toString().equals("Y")) {
+				if(map.get("threeYN").equals("Y")) {
 					sqlSession.getMapper(WooBoardImpl.class).insertTDFile(map);//3D 파일 업로드 Y
 				}
 				else{
@@ -428,4 +457,36 @@ public class WooBoardController {
 		} catch (Exception e) {e.printStackTrace();}
 		return "redirect:./productList.woo";
 	}
+	//7.최근본 상품 처리중 쿠키값을 사이드바에 넘겨주기
+	@ResponseBody
+	@RequestMapping(value = "/product/itemSave.woo")
+	public List<WooBoardVO> itemSave(Model model, HttpServletRequest req) {
+		
+		List<WooBoardVO> list = new ArrayList<WooBoardVO>();
+		
+		String preCookie = "";
+		Cookie[] cookies = req.getCookies();// 쿠키를 읽어온다.
+		if (cookies != null) {
+			for (Cookie ck : cookies) {
+				if (ck.getName().contains("product")) {
+					preCookie = ck.getValue();
+				}
+			}
+		}
+		String[] itemInform = preCookie.split("/");
+
+		for (int i = 0; i < itemInform.length; i++) {
+			WooBoardVO wooBoardVO = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(itemInform[i]);
+			// 파일 불러오기
+			ArrayList<FileVO> uploadFileList = ((WooBoardImpl) this.sqlSession.getMapper(WooBoardImpl.class)).viewFile(itemInform[i]);
+					
+			if (!uploadFileList.isEmpty() && uploadFileList.size() != 0) {
+				String image = uploadFileList.get(0).getSave_name();
+				wooBoardVO.setImagefile(image);
+			}
+			list.add(wooBoardVO);
+		}
+		return list;
+	}
+
 }

@@ -96,33 +96,33 @@
 	                        <div class="search-text"><i class="fa fa-search"></i>Find Your Product</div>
 	                        <div class="home-text"> <i class="fa fa-home"></i>우리동네마켓</div>
 	                    </div>
-	                     <form:form class="filter-form">
+	                     <form:form class="filter-form" action="./productList.woo">
 	                        <div class="first-row" >
 	                            <select name="order">
-	                                <option value="">최신순 (정렬방식)</option>
-	                                <option value="visitcount" >인기순</option>
-	                                <option value="price">저가순</option>
-	                                <option value="price desc">고가순</option>
+	                                <option value="" <c:out value="${parameterVO.order == null ? 'selected' : ''}"/>>최신순 (정렬방식)</option>
+	                                <option value="visitcount" <c:out value="${parameterVO.order eq 'visitcount' ? 'selected' : ''}"/>>인기순</option>
+	                                <option value="price" <c:out value="${parameterVO.order eq 'price' ?  'selected': ''}"/>>저가순</option>
+	                                <option value="price desc" <c:out value="${parameterVO.order eq 'price desc' ? 'selected' : ''}"/>>고가순</option>
 	                            </select>
 	                            <select name="pstate">
-	                                <option value="" >상품상태 (전체)</option>
-	                                <option value="새상품">새상품</option>
-	                                <option value="거의새것">거의새것</option>
-	                                <option value="중고">중고</option>
-	                                <option value="하자있음">하자있음</option>
+	                                <option value=""  <c:out value="${parameterVO.pstate == null ? 'selected' : ''}"/>>상품상태 (전체)</option>
+	                                <option value="새상품" <c:out value="${parameterVO.pstate eq '새상품' ? 'selected' : ''}"/>>새상품</option>
+	                                <option value="거의새것" <c:out value="${parameterVO.pstate eq '거의새것' ? 'selected' : ''}"/>>거의새것</option>
+	                                <option value="중고" <c:out value="${parameterVO.pstate eq '중고' ? 'selected' : ''}"/>>중고</option>
+	                                <option value="하자있음" <c:out value="${parameterVO.pstate eq '하자있음' ? 'selected' : ''}"/>>하자있음</option>
 	                            </select>
 								 <select name="ispay">
-	                                <option value="">우동페이 + 전체 (결제방식)</option>
-	                                <option value="only">우동페이만 보기</option>
+	                                <option value="" <c:out value="${parameterVO.ispay == null ? 'selected' : ''}"/>>우동페이 + 전체 (결제방식)</option>
+	                                <option value="only" <c:out value="${parameterVO.ispay eq 'only' ? 'selected' : ''}"/>>우동페이만 보기</option>
 	                            </select>
 	                            <!-- price-range-wrap -->
 	                             <div class="price-range-wrap" style="width: 530px;display: table-cell;">
 	                                <div class="price-text"> 
 	                                	<p>
 	                                	가격&nbsp;&nbsp;
-	                                    <input type="text" id="priceStart"  style="width: 70px;" name="priceStart" readonly>
+	                                    <input type="text" id="priceStart"  style="width: 70px; text-align: center;" name="priceStart" readonly>
 	                                    &nbsp;&nbsp;~&nbsp;&nbsp;
-	                                    <input type="text" id="priceEnd"  style="width: 80px;"  name="priceEnd" readonly>
+	                                    <input type="text" id="priceEnd"  style="width: 80px; text-align: center;"  name="priceEnd" readonly>
 	                                    &nbsp;&nbsp;원
 	                                	</p>
 	                                </div>
@@ -133,12 +133,11 @@
 	                        </div>
 	                        <div class="second-row">
 							  	<select name="searchField">
-	                                <option value="" >------검색필드------</option>
-	                                <option value="tc">제목 + 내용</option>
-	                                <option value="product_tag">태그</option>
-	                                <option value="title" >제목</option>
-	                                <option value="contents">내용</option>
-	                                <option value="id" >작성자</option>
+	                                <option value="tc" <c:out value="${parameterVO.searchField eq 'tc' ? 'selected' : ''}"/>>제목 + 내용</option>
+	                                <option value="product_tag" <c:out value="${parameterVO.searchField eq 'product_tag' ? 'selected' : ''}"/>>태그</option>
+	                                <option value="title" <c:out value="${parameterVO.searchField eq 'title' ? 'selected' : ''}"/>>제목</option>
+	                                <option value="contents" <c:out value="${parameterVO.searchField eq 'contents' ? 'selected' : ''}"/>>내용</option>
+	                                <option value="id" <c:out value="${parameterVO.searchField eq 'id' ? 'selected' : ''}"/>>작성자</option>
 	                            </select>
 		                        <div style="width: 530px; display:inline-block; margin-right:20px;">
 									<input type="text" name="searchTxt" placeholder="검색어를  입력하세요"
@@ -151,19 +150,13 @@
 <script>
 $(function(){
 	$('#searchBtn').click(function() {
-	 self.location = "productList.woo?" 
+	self.location = "./productList.woo?"
 	 + "order=" + $("select[name=order]").val() 
 	 + "&pstate=" + $("select[name=pstate]").val() 
 	 + "&ispay=" + $("select[name=ispay]").val() 
 	 + "&priceStart=" + $("#priceStart").val()  + "&priceEnd=" + $("#priceEnd").val() 
-	 + "&searchField=" + $("select[name=searchField]").val() + "&searchTxt=" + encodeURIComponent($('#keywordInput').val());
+	 + "&searchField=" + $("select[name=searchField]").val() + "&searchTxt=" + encodeURIComponent($('#keywordInput').val())+"&";
 	});
-	
-  $('select[name=order]').val('${parameterVO.order}').attr('selected',true);
-  $('select[name=pstate]').val('${parameterVO.pstate}').attr('selected',true);
-  $('select[name=ispay]').val('${parameterVO.ispay}').attr('selected',true);
-  $('select[name=searchField]').val('${parameterVO.searchField}').attr('selected',true);
-  $('#keywordInput').val('${parameterVO.searchTxt}');
 });   
 </script>
 	                </div>
@@ -194,9 +187,9 @@ $(function(){
 						<c:forEach items="${blists }" var="row">
 							<li>
 								<form:form action="${row.requestname }"> 
-									<input type="hidden" name="mode" value="${mode }" />
-									<input type="hidden" name="lat"  value="${parameterVO.latTxt }"/>
-									<input type="hidden" name="lon"  value="${parameterVO.lngTxt }"/>
+									<input type="hidden" name="mode" value="${mode}" />
+									<input type="hidden" name="lat"  value="${parameterVO.latTxt}"/>
+									<input type="hidden" name="lon"  value="${parameterVO.lngTxt}"/>
 									<button type="submit" style="cursor:pointer; border: none; background: none; font-size: 17px; padding: 18px 0px 18px 22px;">${row.bname}</button>
 						 		</form:form>
 							</li>

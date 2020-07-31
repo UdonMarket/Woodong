@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="zxx">
 
@@ -104,7 +105,9 @@ function restartFunc(){
 												<div class="cont">
 													<div class="item_title related_item_icon">
 														${list.title }</div>
-													<div class="item_price profile_price">${list.price }원</div>
+													<div class="item_price profile_price">
+													<fmt:formatNumber type="number" maxFractionDigits="3" value="${list.price}"/>원 
+													</div>
 												</div>
 											</div>
 									</a>

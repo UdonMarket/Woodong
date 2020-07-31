@@ -52,6 +52,7 @@ function like_toggle(idx) {
 </script>
 
  <script>
+ 
 // var totallist; //ajax로 받아온 rdata를 이 변수에 계속 누적시킴  
  var scrollchk = true; //스크롤 체크 여부 플래그  
  var nowPage = 1;//현재페이지 
@@ -111,9 +112,7 @@ $(window).scroll(function(){
         }  
     } 
 });  
-/* function initMap(latitude, longitude) {
-	
-}  */
+
 </script>
 	<div class="col-md-9" style="padding-top: 37px" >
 		<div class="row" id="boardHTML"></div>

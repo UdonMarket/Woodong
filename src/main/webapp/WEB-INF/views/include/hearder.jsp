@@ -74,9 +74,11 @@
 					</div>
 					<div class="hearer_icon d-flex align-items-center">
 	                  	<div class="input-group mb-3">
-	              			<input type="text" placeholder="검색어를 입력하세요" class="form-control search_input" style="border:none; border-bottom: 2px solid #d9d9d9;width: 320px;border-radius: 0;margin-bottom: -5px;">
+	              			<input type="text" placeholder="#태그로 검색하세요!" class="form-control search_input" id="headkeywordInput"
+	              			style="border:none; border-bottom: 2px solid #d9d9d9;width: 320px;border-radius: 0;margin-bottom: -5px;">
+
 	                       	<div class="input-group-append" style="margin-bottom: -20px;margin-left: 5px;">
-	                    		<button class="btn btn-basic" type="submit">
+	                    		<button class="btn btn-basic" type="button" id="headsearchBtn">
 	                    			<i style="font-size:22px;color: #ff4f4f;" class="ti-search"></i>
 	                    		</button>
 	                    		<button style="cursor:pointer; border: 0;background: none;color: #ff4f4f;" 
@@ -90,17 +92,14 @@
 			</div>
 		</div>
 	</div>
-	<!-- 
-	검색창
-	<div class="search_input" id="search_input_box">
-		<div class="container ">
-			<form class="d-flex justify-content-between search-inner">
-				<input type="text" class="form-control" id="search_input" placeholder="Search Here">
-				<button type="submit" class="btn"></button>
-				<span class="ti-close" id="close_search" title="Close Search"></span>
-			</form>
-		</div>
-	</div> -->
+	<script>
+$(function(){
+	$('#headsearchBtn').click(function() {
+	self.location = "../product/productList.woo?"
+	 + "&searchField=product_tag&searchTxt=" + encodeURIComponent($('#headkeywordInput').val())+"&";
+	});
+});   
+</script>
 </header>
 <script>
 function checkchat(){

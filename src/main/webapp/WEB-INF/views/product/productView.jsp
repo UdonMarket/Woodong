@@ -75,12 +75,12 @@
 								    <c:forEach var="uploadFile" items="${uploadFileList}" varStatus="status">
 								    	<c:if test="${status.first}">
 									    <div class="carousel-item active">
-									      <img src="../resources/Upload/${uploadFile.save_name}" style="width: 100%;" />
+									      <img src="../resources/Upload/${uploadFile.save_name}" style="width:350px; height:300px;" />
 									    </div>
 									     </c:if>
 									   <c:if test="${!status.first}">
 									    <div class="carousel-item">
-									      <img src="../resources/Upload/${uploadFile.save_name}" style="width: 100%;" />
+									      <img src="../resources/Upload/${uploadFile.save_name}" style="width:350px; height:300px;" />
 									    </div>
 									     </c:if>
 								      </c:forEach>

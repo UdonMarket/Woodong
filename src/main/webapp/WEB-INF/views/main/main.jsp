@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -57,9 +58,9 @@
                   <img src="../resources/img/main/우동마켓인기매물1.png" alt="최신매물" style="width: 450px;"/>
                </div>
             </div>
-<c:forEach items="${searchLists}" var="row">	
+	<c:forEach items="${searchLists}" var="row">	
 				<div class="col-4" ">
-					<a href="./productView.woo?idx=${row.boardidx}">
+					<a href="../product/productView.woo?boardidx=${row.boardidx}">
 						<div class="productList_div" style="width: 300px;height: 300px;">
 							<img class="productList_image" src="../resources/Upload/${row.imagefile}" style="padding-top: 20px;;"/>
 						</div>
@@ -67,7 +68,7 @@
 							<h3 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;margin: 0">${row.title }</h3>
 						</div>
 						<div style="text-align: left;width: 300px;padding-bottom: 20px;">
-							<h4 style="margin: 0">${row.price} 원</h4>
+							<h4 style="margin: 0"><fmt:formatNumber type="number" maxFractionDigits="3" value="${row.price}"/>원</h4>
 						</div>
 					</a>
 				</div>

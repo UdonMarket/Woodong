@@ -263,8 +263,8 @@
 						<dd class="map_box">
 						<span class="juso" id="sample4_jibunAddress">
 						</span>
-							<input type="hid den" id="latitude" name="latitude">
-							<input type="hid den" id="longitude" name="longitude">
+							<input type="hidden" id="latitude" name="latitude">
+							<input type="hidden" id="longitude" name="longitude">
 							<div class="" style="display:inline-block;"> 
 								<input class="my_location_map" type="button" onclick="sample4_execDaumPostcode()" value="검색" style="background-color: #fff;margin-top: -23.5px;margin-left: 5px;"><br>
 							</div> 

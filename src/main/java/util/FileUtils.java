@@ -68,30 +68,48 @@ public class FileUtils {
 				if (threeYN.equals("Y")) {//3d 이미지 이용 한다면
 					bufferimage.add(i, ImageIO.read(new File(path + File.separator + save_name)));//이미지 IO 를 아용하여 이미지 업로드
 					imagelist.add(i, bufferimage.get(i).getScaledInstance(550, 550, Image.SCALE_SMOOTH));//이미지 리사이즈 ->가로 550px 세로 550px 
+					listMap.put("threedimage", save_name);
 				}
+				else {
+					listMap.put("threedimage", "N");
+				}
+				list.add(listMap);
 			}
 		}//end of else 문
-		if (threeYN.equals("Y")) {
+		
+		if (threeYN.equals("Y")) {//3d 이미지 이용 한다면
 			try {// 8장의 이미지 파일 병합
 				BufferedImage mergedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 				Graphics2D graphics = (Graphics2D) mergedImage.getGraphics();
-
+	
 				graphics.setBackground(Color.WHITE);
-				for (int i = 0; i < 8; i++) {
-					graphics.drawImage(imagelist.get(i), 550 * i, 0, null);
+				for (int j = 0; j < 8; j++) {
+					graphics.drawImage(imagelist.get(j), 550 * j, 0, null);
 				}
 				graphics.dispose();
 				String threedimage = getUuid() + ".jpg";//파일테이블에 저장될 3D파일 이름
 				ImageIO.write(mergedImage, "jpg", new File(path + File.separator + threedimage));//병합된 이미지의 확장자는 jpg 로 고정,저장될 경로 설정
 				listMap.put("threedimage", threedimage);//map에 3D파일 이름 저장
+				list.add(listMap);
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 			}
 		}
-		else {
-			listMap.put("threedimage", "N");
-		}
-		list.add(listMap);
+		
+		/*
+		 * if (threeYN.equals("Y")) { try {// 8장의 이미지 파일 병합 BufferedImage mergedImage =
+		 * new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); Graphics2D
+		 * graphics = (Graphics2D) mergedImage.getGraphics();
+		 * 
+		 * graphics.setBackground(Color.WHITE); for (int i = 0; i < 8; i++) {
+		 * graphics.drawImage(imagelist.get(i), 550 * i, 0, null); } graphics.dispose();
+		 * String threedimage = getUuid() + ".jpg";//파일테이블에 저장될 3D파일 이름
+		 * ImageIO.write(mergedImage, "jpg", new File(path + File.separator +
+		 * threedimage));//병합된 이미지의 확장자는 jpg 로 고정,저장될 경로 설정 listMap.put("threedimage",
+		 * threedimage);//map에 3D파일 이름 저장 } catch (IOException ioe) {
+		 * ioe.printStackTrace(); } } else { listMap.put("threedimage", "N"); }
+		 */
+		
 		return list;
 	}
 	

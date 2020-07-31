@@ -126,8 +126,8 @@
 							</div>
 							<%-- 추가부분 --%>
 							 <c:url value="/admin/login" var="loginUrl"/>
-							<form:form name="loginFrm" action="${loginUrl }" method="post"
-								novalidate="novalidate">
+							<form:form name="loginFrm" action="${loginUrl }" method="post" >
+								
 								<c:if test="${param.error != null} }">
 									<p>아이디와 패스워드가 잘못되었습니다.</p>
 								</c:if>
@@ -163,8 +163,8 @@
 									</label>
 								</div>
 								<div class="text-center">
-									<button type="submit" value="submit" class="btn btn-primary my-4">Sign
-										in</button>
+									<button type="submit" value="submit" class="btn btn-primary my-4">Sign in</button>
+										
 										
 								</div>
 								</form:form>

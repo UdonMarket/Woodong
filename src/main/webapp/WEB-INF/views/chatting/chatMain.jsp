@@ -32,8 +32,8 @@
 				</c:if>
 
 					<div class="catting_room row">
-						<div class="col-3" style="text-align: left;width: 50px;">
-							${udongGrade }
+						<div class="col-3" style="text-align: left;">
+								${udongGrade }
 						</div>
 						<div class="col-6">
 							<c:if test="${id eq row.sellerid }">

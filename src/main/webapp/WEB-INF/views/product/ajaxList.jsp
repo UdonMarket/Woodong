@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <input type="hidden" value="${state}" name="stateflag"/>
 
@@ -20,16 +21,22 @@
 				</div>
 				</c:if>
         <a href="./productView.woo?boardidx=${row.boardidx}&nowPage=${param.nowPage}">
-					<img class="productList_image" src="../resources/Upload/${row.imagefile}" style="width: 100%; height: 100%;" />
+
+					<img class="productList_image" src="../resources/Upload/${row.imagefile}" style="width:250px; height: 250px;" />
 				</div>
 				</div>
 				<div style="padding-left: 15px;">
 					<h3> ${row.title}</h3>
 				</div>
 				<div style="padding-left: 15px;">
-					<h4>${row.price} 원 ( idx : ${row.boardidx})</h4>
+					<h4>
+					<fmt:formatNumber type="number" maxFractionDigits="3" value="${row.price}"/>원 ( boardidx : ${row.boardidx})
+					</h4>
 				</div>
           </a>
 			</div>
-		 </c:forEach>   
+		 </c:forEach> 
+		 <c:if test="${empty lists}">
+		 	<h2 style="color: #ff4f4f; margin-left: 200px; margin-top: 100px;" >게시물이 없습니다.</h2>
+		 </c:if>  
    <!-- 상품 리스트 반복 end-->

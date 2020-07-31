@@ -21,6 +21,7 @@ public class ParameterVO {
 	private String bname;
 	private String place;
 	
+	
 	private String idx;
 	private String seller_id;
 	
@@ -29,7 +30,45 @@ public class ParameterVO {
 	private String longitude;
 	private String contents;
 	
+	private String pstate;
+	private String ispay;
+	private String priceStart;
+	private String priceEnd;
+	private String order;
 
+	
+	public String getPstate() {
+		return pstate;
+	}
+	public void setPstate(String pstate) {
+		this.pstate = pstate;
+	}
+	public String getIspay() {
+		return ispay;
+	}
+	public void setIspay(String ispay) {
+		this.ispay = ispay;
+	}
+	public String getPriceStart() {
+		return priceStart;
+	}
+	public void setPriceStart(String priceStart) {
+		this.priceStart = priceStart;
+	}
+	public String getPriceEnd() {
+		return priceEnd;
+	}
+	public void setPriceEnd(String priceEnd) {
+		this.priceEnd = priceEnd;
+	}
+	public String getOrder() {
+		return order;
+	}
+	public void setOrder(String order) {
+		this.order = order;
+	}
+
+	
 	public String getContents() {
 		return contents;
 	}

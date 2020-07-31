@@ -159,14 +159,14 @@ public class WooMemberController {
 			return "redirect:login.woo";
 		} else {
 			String id = authentication.getName();
-			WooMemberVO dto = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class)).view(id);
-			if(dto.getAddr().equals("x")) {
-				dto.setAddr(null);
+			WooMemberVO memberVO = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class)).view(id);
+			if(memberVO.getAddr().equals("x")) {
+				memberVO.setAddr(null);
 			}
-			if(dto.getAddr()!=null) {
-				dto.setAddr(dto.getAddr().substring(0, dto.getAddr().lastIndexOf(" ")));
+			if(memberVO.getAddr()!=null) {
+				memberVO.setAddr(memberVO.getAddr().substring(0, memberVO.getAddr().lastIndexOf(" ")));
 			}
-			model.addAttribute("dto", dto);
+			model.addAttribute("memberVO", memberVO);
 			
 			return "member/myPlace";
 		}

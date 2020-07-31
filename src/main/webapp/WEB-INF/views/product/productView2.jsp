@@ -2,12 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%> 
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!doctype html>
 <html lang="zxx">
 <head>
-
+  <title>상품상세보기</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -75,12 +74,12 @@
 								    <c:forEach var="uploadFile" items="${uploadFileList}" varStatus="status">
 								    	<c:if test="${status.first}">
 									    <div class="carousel-item active">
-									      <img src="../resources/Upload/${uploadFile.save_name}" style="width:350px; height:300px;" />
+									      <img src="../resources/Upload/${uploadFile.save_name}" style="width: 100%;" />
 									    </div>
 									     </c:if>
 									   <c:if test="${!status.first}">
 									    <div class="carousel-item">
-									      <img src="../resources/Upload/${uploadFile.save_name}" style="width:350px; height:300px;" />
+									      <img src="../resources/Upload/${uploadFile.save_name}" style="width: 100%;" />
 									    </div>
 									     </c:if>
 								      </c:forEach>
@@ -114,9 +113,7 @@
 										<span class="item_title">${viewRow.title}</span>
 										<div class="item_price_box item_price_box_bottom" style="width: none; height: 200px;">
 											<div class="item_price_box_bottom_low">
-												<div class="item_price item_price_bottom">
-												<fmt:formatNumber type="number" maxFractionDigits="3" value="${viewRow.price}"/>원	
-												</div>
+												<div class="item_price item_price_bottom">${viewRow.price} 원</div>
 											</div>
 											<div class="only_description_hellopay common_description_deal">
 												<div class="detail_bottom_box" style="margin-bottom:50px; ">
@@ -185,10 +182,9 @@
 														<c:if test="${viewRow.woopay eq 'Y'}">
 															<img src="../resources/img/product/우동페이.png" />
 														</c:if>
-
 														</div>
 														<div class="col-3" style="padding: 0px;">
-															<img src="../resources/img/product/우동톡톡.png"  onclick="chatting();"/>
+															<img src="../resources/img/product/우동톡톡.png"  onclick="window.open('../main/chatting.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);"/>
 														</div>
 													</div>
 												</div>
@@ -222,7 +218,7 @@
 											<div class="row">
 											<div class="col-3" style="margin-bottom:50px;"></div>
 												<div class="my_profile_image col-6" style="text-align: center; width: 150px; height: 150px; padding-top: 20px; padding-bottom:20px;  padding-left: px;">
-													<a href="../mypage/myPage.woo?mode=review&dealPosition=seller&seller_id=${viewRow.id}&">${udongGrade }</a>
+													<a href="../mypage/myPage.woo?mode=review&dealPosition=seller&seller_id=${viewRow.id}&seller_avgscore=${memberVO.avg_score}&score=${score}">${udongGrade }</a>
 												</div>
 											<div class="col-3" style="padding-bottom: 100px;"></div>
 											</div>
@@ -278,21 +274,7 @@ $(document).ready(function(){
 	})
 });
 
-function chatting() {
-	var chattingFrm = document.chattingFrm;
-	window.open('', '1', 'height=640; width=480; top=200; left=150;', true);
-	chattingFrm.action = "../chatting/chatting.woo";
-	chattingFrm.method = "post";
-	chattingFrm.target = "1";
-	chattingFrm.testVal = 'test';
-	chattingFrm.submit();
-}
 </script>
-
-<form:form name="chattingFrm">
-	<input type="hidden" name="boardidx" value="${viewRow.boardidx }" />
-	<input type="hidden" name="sellerid" value="${viewRow.id }" />
-</form:form>
 <!-- subscribe part end -->
 <!-- bottom.jsp -->
 <jsp:include page="../include/bottom.jsp" />

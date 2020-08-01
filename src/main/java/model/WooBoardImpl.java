@@ -39,6 +39,8 @@ public interface WooBoardImpl {
 
 	//6.삭제하기
 	public int delete(ParameterVO parameterVO);   
+	//7.끌올하기
+	public int jump(ParameterVO parameterVO);   
 	
 	//판매자 id 가져오기 
 	public String selectId(String idx);

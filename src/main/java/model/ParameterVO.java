@@ -29,12 +29,14 @@ public class ParameterVO {
 	private String latitude;
 	private String longitude;
 	private String contents;
-	
+	//검색 파라미터
 	private String pstate;
 	private String ispay;
 	private String priceStart;
 	private String priceEnd;
 	private String order;
+	private String likecount;
+	
 
 	
 	public String getPstate() {
@@ -227,4 +229,11 @@ public class ParameterVO {
 	public void setSearchTxt(String searchTxt) {
 		this.searchTxt = searchTxt;
 	}
+	public String getLikecount() {
+		return likecount;
+	}
+	public void setLikecount(String likecount) {
+		this.likecount = likecount;
+	}
+	
 }

@@ -76,7 +76,7 @@
 							</ul>
 						</div>
 						<div class="hellopay_direct_notice">
-							<span class="normal_notice">3D 이미지 선택시 8장의 이미지를 모두 첨부해주세요.</span>
+							<span class="normal_notice">우동 :) 3D 이미지 선택시 8장의 이미지를 모두 첨부해주세요!</span>
 						</div>
 					</dd>
 				</dl>
@@ -196,8 +196,8 @@
 								</ul>
 							</div>
 							<div class="hellopay_direct_notice" >
-								<span class="normal_notice">태그는 최대 3개까지 입력가능합니다.
-								&nbsp;&nbsp;각 태그는 최대 10자까지 입력할 수 있습니다.</span>
+								<span class="normal_notice">태그로 판매율을 높여보세요 ! 태그는  3개까지 등록 가능하며, 글자수는 최대 10자까지 입력가능합니다!&nbsp;&nbsp;</span>
+								
 							</div>
 							<div class="hellopay_direct_notice" id="div_tag">
 								<span class="normal_notice" id="sapn_tag">
@@ -254,14 +254,15 @@
 							<label>거래희망 위치 </label>
 						</dt>
 						<dd class="map_box">
-						<span class="juso" id="sample4_jibunAddress">${viewRow.latitude} & ${viewRow.longitude}</span>
-						<!-- <input type="text" class="my_location_input item_location_input" id="sample4_jibunAddress" name="deal_location" placeholder="선택한 위치" readonly="readonly"> -->
+							<input type="text" id="sample4_jibunAddress" name="deal_location" placeholder="거래희망 위치를 입력하시려면 검색 버튼을 눌러주세요 !" 
+							class="my_location_input item_location_input"  readonly="readonly" value="${viewRow.deal_location}">
+							<input class="my_location_map" type="button" onclick="sample4_execDaumPostcode()" value="검색" style="background-color: #fff; ">
 							<input type="hidden" id="latitude" name="latitude" value="${viewRow.latitude}">
 							<input type="hidden" id="longitude" name="longitude" value="${viewRow.longitude}">
 
-							<div class="" style="display:inline-block;"> 
+							<!-- <div class="" style="display:inline-block;"> 
 								<input class="my_location_map" type="button" onclick="sample4_execDaumPostcode()" value="검색" style="background-color: #fff;margin-top: -23.5px;margin-left: 5px;"><br>
-							</div> 
+							</div>  -->
 						</dd>
 					</dl>
 				<div style="margin-left: 500px; margin-bottom: 30px;">
@@ -285,7 +286,6 @@ var maxfile = 9;
 var fileNoArry = new Array();
 var fileNameArry = new Array();
 	
-	
 $(function() {
 	//라디오 토글
 	$("input:radio[name=product_state]").checkboxradio({
@@ -297,6 +297,16 @@ $(function() {
 	    }else{
 	    	 $(this).val('N');
 	    }
+	});
+	
+	//태그 추가 함수
+	$('#tagsave').click(function() {
+		if(count<3 && $("input[name=input_tag]").val()!=""){
+			count++;
+			$("#sapn_tag").append('<span class="chktag">#'+$("input[name=input_tag]").val()+'</span>');
+			$("#sapn_tag").append('<img src="../resources/img/myPage/삭제.png" style="width: 40px; height: 30px; margin-top: 10px;" onclick="delspan(this);"/>');
+		}
+		$("[name=input_tag]").val('');
 	});
 	
 	//수정 완료 했을시 
@@ -320,16 +330,9 @@ $(function() {
 			tagmsg  += $(this).text();
 		});
 		$("input[name=product_tag]").val(tagmsg);
+		
 	});
-	//태그 추가 함수
-	$('#tagsave').click(function() {
-		if(count<3 && $("input[name=input_tag]").val()!=""){
-			count++;
-			$("#sapn_tag").append('<span class="chktag">#'+$("input[name=input_tag]").val()+'</span>');
-			$("#sapn_tag").append('<img src="../resources/img/myPage/삭제.png" style="width: 40px; height: 30px; margin-top: 10px;" onclick="delspan(this);"/>');
-		}
-		$("[name=input_tag]").val('');
-	});
+	
 });
 //태그 삭제 	
 function delspan(tag) {
@@ -341,24 +344,24 @@ function delspan(tag) {
 function fn_del(value, name){
 	
 	if(confirm("삭제하시겠습니까?")){
-	fileNoArry.push(value);
-	fileNameArry.push(name);
-	$("#fileNoDel").attr("value", fileNoArry);
-	$("#fileNameDel").attr("value", fileNameArry);
-	$('#image'+name).remove();
-	 $('.image_list').append(
-	         '<li id="image'+maxfile+'">'
-	         +   '<div style="width: 146px;height: 146px">'
-	         +      '<input type="file" name="file" id="file'
-	         +maxfile+'" style="display: none;" accept="image/*"/>'
-	         +      '<img name="fileimage" id="'+maxfile
-	         +'" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border="0">'
-	         +   '</div>'
-	         +'</li>'      
-	      ); 
-	 maxfile++;
-	 fileCount--;
-	}
+		fileNoArry.push(value);
+		fileNameArry.push(name);
+		$("#fileNoDel").attr("value", fileNoArry);
+		$("#fileNameDel").attr("value", fileNameArry);
+		$('#image'+name).remove();
+		 $('.image_list').append(
+		         '<li id="image'+maxfile+'">'
+		         +   '<div style="width: 146px;height: 146px">'
+		         +      '<input type="file" name="file" id="file'
+		         +maxfile+'" style="display: none;" accept="image/*"/>'
+		         +      '<img name="fileimage" id="'+maxfile
+		         +'" src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png" style="width: 100%; height: 100%" border="0">'
+		         +   '</div>'
+		         +'</li>'      
+		      ); 
+		 maxfile++;
+		 fileCount--;
+		}
 }
 
 //사진 미리보기	  
@@ -371,6 +374,7 @@ function readFile(f) {
       reader.readAsDataURL(f.files[0]);
    }
 }
+
 $(function() {
 	//input 파일이 바꼈을때 실행되는 함수 (이벤트 / target / 실행될 부분)
    $(document).on("change",'input:file', function() {
@@ -418,6 +422,7 @@ $(function() {
 	}
    });
 });
+
 </script>
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4416f1cdac23198286eb3f5394e6240d&libraries=services"></script>
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -496,5 +501,4 @@ $(function() {
 	<jsp:include page="../include/sidebar.jsp" />
 	
 </body>
-
 </html>

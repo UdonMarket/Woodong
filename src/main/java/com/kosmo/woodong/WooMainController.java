@@ -96,9 +96,10 @@ public class WooMainController {
 			String temp = vo.getContents().replace("\r\n", "<br/>");
 			vo.setContents(temp);
 			ArrayList<FileVO> uploadFileList = ((WooBoardImpl)sqlSession.getMapper(WooBoardImpl.class)).viewFile(idx);
-	
-		 	String image = uploadFileList.get(0).getSave_name();
-			vo.setImagefile(image);
+			if(!uploadFileList.isEmpty() && uploadFileList.size()!=0) {
+			 	String image = uploadFileList.get(0).getSave_name();
+				vo.setImagefile(image);
+			}
 			
 		}
 		System.out.println(searchLists.size());

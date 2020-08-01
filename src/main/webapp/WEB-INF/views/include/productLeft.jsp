@@ -93,19 +93,20 @@
 	            <div class="row" style="padding-top: 20px">
 	                <div class="col-lg-12">
 	                    <div class="search-form-text">
-	                        <div class="search-text"><i class="fa fa-search"></i>Find Your Product</div>
-	                        <div class="home-text"> <i class="fa fa-home"></i>우리동네마켓</div>
+	                        <div class="search-text"><i class="fa fa-search"></i> 원하는 조건으로  검색해보세요 ! </div>
+	                        <div class="home-text"> <i class="fa fa-home"></i> Find Your Product in WOODONG </div>
 	                    </div>
 	                     <form:form class="filter-form" action="./productList.woo">
 	                        <div class="first-row" >
 	                            <select name="order">
-	                                <option value="" <c:out value="${parameterVO.order == null ? 'selected' : ''}"/>>최신순 (정렬방식)</option>
-	                                <option value="visitcount" <c:out value="${parameterVO.order eq 'visitcount' ? 'selected' : ''}"/>>인기순</option>
+	                                <option value="" <c:out value="${parameterVO.order == null ? 'selected' : ''}"/>> ---  최신순 ( 정렬방식 ) --- </option>
+	                                <option value="visitcount desc" <c:out value="${parameterVO.order eq 'visitcount' ? 'selected' : ''}"/>>조회순</option>
+	                                <option value="likecount desc" <c:out value="${parameterVO.order eq 'likecount' ? 'selected' : ''}"/>>좋아요 순</option>
 	                                <option value="price" <c:out value="${parameterVO.order eq 'price' ?  'selected': ''}"/>>저가순</option>
 	                                <option value="price desc" <c:out value="${parameterVO.order eq 'price desc' ? 'selected' : ''}"/>>고가순</option>
 	                            </select>
 	                            <select name="pstate">
-	                                <option value=""  <c:out value="${parameterVO.pstate == null ? 'selected' : ''}"/>>상품상태 (전체)</option>
+	                                <option value=""  <c:out value="${parameterVO.pstate == null ? 'selected' : ''}"/>> ---- 상품상태 ( 전체 ) ---- </option>
 	                                <option value="새상품" <c:out value="${parameterVO.pstate eq '새상품' ? 'selected' : ''}"/>>새상품</option>
 	                                <option value="거의새것" <c:out value="${parameterVO.pstate eq '거의새것' ? 'selected' : ''}"/>>거의새것</option>
 	                                <option value="중고" <c:out value="${parameterVO.pstate eq '중고' ? 'selected' : ''}"/>>중고</option>
@@ -120,19 +121,22 @@
 	                                <div class="price-text"> 
 	                                	<p>
 	                                	가격&nbsp;&nbsp;
-	                                    <input type="text" id="priceStart"  style="width: 70px; text-align: center;" name="priceStart" readonly>
+	                                    <input type="text" id="priceviewStart"  style="width: 70px; text-align: center;" readonly>
 	                                    &nbsp;&nbsp;~&nbsp;&nbsp;
-	                                    <input type="text" id="priceEnd"  style="width: 80px; text-align: center;"  name="priceEnd" readonly>
+	                                    <input type="text" id="priceviewEnd"  style="width: 80px; text-align: center;"  readonly>
 	                                    &nbsp;&nbsp;원
 	                                	</p>
 	                                </div>
 	                                <div id="price-range" class="slider" style="background: #d9d9d9; margin-top: 10px;"></div>
 	                            </div>  
 	                            <!-- price-range-wrap -->
+	                            <input type="hidden" id="priceStart" name="priceStart"/>
+	                            <input type="hidden" id="priceEnd" name="priceEnd"/>
 								 
 	                        </div>
 	                        <div class="second-row">
 							  	<select name="searchField">
+	                                <option value="" <c:out value="${parameterVO.searchField  == null ? 'selected' : ''}"/>>--검색필드를 선택하세요--</option>
 	                                <option value="tc" <c:out value="${parameterVO.searchField eq 'tc' ? 'selected' : ''}"/>>제목 + 내용</option>
 	                                <option value="product_tag" <c:out value="${parameterVO.searchField eq 'product_tag' ? 'selected' : ''}"/>>태그</option>
 	                                <option value="title" <c:out value="${parameterVO.searchField eq 'title' ? 'selected' : ''}"/>>제목</option>
@@ -157,7 +161,11 @@ $(function(){
 	 + "&priceStart=" + $("#priceStart").val()  + "&priceEnd=" + $("#priceEnd").val() 
 	 + "&searchField=" + $("select[name=searchField]").val() + "&searchTxt=" + encodeURIComponent($('#keywordInput').val())+"&";
 	});
-});   
+
+});  
+
+
+
 </script>
 	                </div>
 	            </div>

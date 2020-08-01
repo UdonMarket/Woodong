@@ -93,9 +93,9 @@
 														<a href="../product/productView.woo?boardidx=${list.boardidx}"  > 
 																
 															<c:if test="${list.deal_type eq '구매자결제완료'}">
-																<img src="../resources/img/myPage/구매자결제완료.png" style="position: absolute; right: 50%; width:130px; height:40px; margin-top: 60px;"/>
+																<img src="../resources/img/myPage/구매자결제완료.png" style="position: absolute; z-index : 2;  right: 50%; width:130px; height:40px; margin-top: 60px;"/>
 															</c:if>	
-															<img src="../resources/Upload/${list.imagefile}" style="position : absolute; z-index : 2;"
+															<img src="../resources/Upload/${list.imagefile}" style="position : absolute; z-index : 1;"
 																data-src="https://ccimg.hellomarket.com/images/2020/item/04/28/15/1709868_4830039_1.jpg?size=s4"
 																class="thumbnail_img"
 																alt="18인치 휠 타이어 판매합니다(배송비,스페이스1조포함)" />

@@ -1,31 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <head>
-<link rel="stylesheet" href="../resources/css/3d.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<style>
-
-</style>
+<link rel="stylesheet" href="../resources/css/3d.css">   
 </head>
-<jsp:include page="../include/head.jsp" />
-<body>
-   <div class="container" style="padding-left: 200px;">
+<!-- ajaxproductView.jsp (ajax View ) -->
+   <div class="container" style="padding-left: 200px; width: 100%; height: 900px;" >
       <%-- 상품 상세보기 추가부분 --%>
       <section class="content1" style="padding-top: 0px;">
          <div class="item_list_area">
             <div class="item_list_area_box">
-               <div class="breadcrumbs">
-                  <ul style="color: #ff4f4f;">
-                     <li><a href="./productList.woo" style="color: #ff4f4f;">상품 리스트</a></li>
-                     <li><a href="./productList.woo?bname=${viewRow.bname}" style="color: #ff4f4f;">&gt;&nbsp;&nbsp;${viewRow.bname}</a></li>
-                  </ul>
-               </div>
+               <div class="breadcrumbs"> </div>
                <div class="main_area">
                   <div class="main_area_center">
                      <div class="main">
@@ -38,15 +24,14 @@
                                           <li data-target="#demo" data-slide-to="0" class="active"></li>
                                           <li data-target="#demo" data-slide-to="1"></li>
                                           <li data-target="#demo" data-slide-to="2"></li>
-
                                        </ul>
                                        <form:form name="viewForm" role="form">
+                                          <input type="hidden" name="id" value="${viewRow.id}">
                                           <input type="hidden" name="bname" value="${viewRow.bname}" />
                                           <input type="hidden" name="boardidx" value="${viewRow.boardidx}" />
                                           <input type="hidden" name="nowPage" value="${param.nowPage}">
                                        </form:form>
                                        <div class="carousel-inner">
-
                                           <c:forEach var="uploadFile" items="${uploadFileList}" varStatus="status">
                                              <c:if test="${status.first}">
                                                 <div class="carousel-item active">
@@ -56,7 +41,6 @@
                                              <c:if test="${!status.first}">
                                                 <div class="carousel-item">
                                                    <img src="../resources/Upload/${uploadFile.save_name}"   style=" width:350px; height:300px;"/>
-                                                    
                                                 </div>
                                              </c:if>
                                           </c:forEach>
@@ -67,12 +51,9 @@
                                           </c:if>
                                        </c:forEach>
                                        <!-- Left and right controls -->
-                                       <a class="carousel-control-prev" href="#demo"
-                                          data-slide="prev"> <span
-                                          class="carousel-control-prev-icon"></span>
-                                       </a> <a class="carousel-control-next" href="#demo"
-                                          data-slide="next"> <span
-                                          class="carousel-control-next-icon"></span>
+                                       <a class="carousel-control-prev" href="#demo" data-slide="prev"> <span class="carousel-control-prev-icon"></span></a>
+                                        <a class="carousel-control-next" href="#demo"   data-slide="next">
+                                         <span class="carousel-control-next-icon"></span>
                                        </a>
                                     </div>
                                     <div class="item_info col-6" style="height: 100%">
@@ -92,7 +73,7 @@
                                        </div>
                                        <div class="row">
                                           <div class="col-12">
-                                             <span class="item_title">${viewRow.title}</span>
+                                             <span class="item_title" >${viewRow.title}</span>
                                           </div>
                                        </div>
                                        <div class="row">
@@ -157,14 +138,13 @@
                                                 <div class="col-2" style="padding: 0px;"></div>
                                                 <div class="col-4" style="padding: 0px;">
                                                    <c:if test="${viewRow.three_dimens eq 'Y'}">
-                                                      <img src="../resources/img/product/3d 이미지.png" data-toggle="modal" data-target="#myModal" style="width: 125px; height: 75px; margin-left: 8px;" />
+                                                      <img src="../resources/img/product/3d 이미지.png" data-toggle="modal" data-target="#tdModal" style="width: 125px; height: 75px; margin-left: 8px;" />
                                                    </c:if>
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
-                                                  <c:if test="${viewRow.woopay eq 'Y'}">
-													<a href="../product/woopay.woo?boardidx=${viewRow.boardidx}&price=${viewRow.price}&title=${viewRow.title}&sellerID=${viewRow.id}">
-													<img src="../resources/img/product/우동페이.png" /></a>
-												</c:if>
+                                                   <c:if test="${viewRow.woopay eq 'Y'}">
+                                                      <img src="../resources/img/product/우동페이.png" />
+                                                   </c:if>
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
                                                    <img src="../resources/img/product/우동톡톡.png" onclick="chatting();" />
@@ -187,16 +167,15 @@
                                           </div>
                                        </div>
                                        <div class="detail_item_description col-12">
-                                          <div class="description_text1" style="font-size: 1.2em; width:400px; word-break:break-all;word-wrap:break-word;">
-                                             <c:out value="${viewRow.contents}" escapeXml="false" />
-                                          </div>
+                                       <!-- style="font-size: 1.2em; width:400px; word-break:break-all;word-wrap:break-word;" class="description_text1" -->
+                                          <div style="font-size: 1.2em; width:400px; word-break:break-all;word-wrap:break-word; color: black;">${viewRow.contents} </div>
                                        </div>
                                     </div>
                                  </div>
                                  <!--  -->
-                                 <div class="col-4">
+                                   <div class="col-4">
                                     <div class="row">
-                                       <div class="col-12"  style="border: 1px solid #d9d9d9; width: 200px; height: 300px;">
+                                       <div class="col-12" style="border: 1px solid #d9d9d9; width: 200px; height: 300px;">
                                           <div class="my_profile_info">
                                              <div class="row">
                                                 <div class="col-3"></div>
@@ -206,16 +185,15 @@
                                                 </div>
                                                 <div class="col-3"></div>
                                              </div> 
-                                             <div class="my_profile_nick"  style="text-align: center; font-size: 18px; font-weight: bold; padding-bottom: 5px; padding-top: 5px;">
-                                          			     판매자 : ${viewRow.id}</div>
+                                             <div class="my_profile_nick"style="text-align: center; font-size: 18px; font-weight: bold; padding-bottom: 5px; padding-top: 5px; color: black;">판매자 : ${viewRow.id}</div>
                                              <div class="my_profile_pro_review">
                                                 <div class="my_profile_pro_review_box">
-                                                
                                                 <c:choose>
                                                 <c:when test="${viewRow.id eq user_id}">
-	                                                <div style="margin-left:80px; margin-top: 20px;">
+	                                                <div style="margin-left:40px; margin-top: 20px;">
 	                                                 	 <img src="../resources/img/myPage/삭제.png" style="width: 70px; height: 50px;" id="delete_btn" />
 	                                            		 <img src="../resources/img/myPage/수정.png" style="width: 70px; height: 50px;" id="update_btn" />
+	                                            		 <img src="../resources/img/product/jumpboard.png" style="width: 70px; height: 50px;" id="jump_btn" />
 	                                           		 </div>
                                                 </c:when>
                                                 <c:otherwise>
@@ -245,10 +223,10 @@
                </div>
             </div>
          </div>
+
       </section>
    </div>
-
-   <script>
+    <script>
       $(document).ready(function() {
          var formObj = $("[name='viewForm']");
 
@@ -257,7 +235,7 @@
             formObj.attr("action", "./productUpdate.woo");
             formObj.attr("method", "post");
             formObj.submit();
-         })
+         });
          // 삭제
          $("#delete_btn").on("click", function() {
 
@@ -267,12 +245,23 @@
                formObj.attr("method", "post");
                formObj.submit();
             }
-         })
+         });
+         // 끌올
+         $("#jump_btn").on("click", function() {
+
+            var jumpYN = confirm("끌올 하시겠습니까?");
+            if (jumpYN) {
+               formObj.attr("action", "./productJump.woo");
+               formObj.attr("method", "post");
+               formObj.submit();
+            }
+         });
       });
 
       function chatting() {
          var chattingFrm = document.chattingFrm;
-         window.open('', '1', 'height=640; width=480; top=200; left=150;',  true);
+         window.open('', '1', 'height=640; width=480; top=200; left=150;',
+               true);
          chattingFrm.action = "../chatting/chatting.woo";
          chattingFrm.method = "post";
          chattingFrm.target = "1";
@@ -282,45 +271,18 @@
    </script>
 
    <form:form name="chattingFrm">
-      <input type="hidden" name="boardidx" value="${viewRow.boardidx }" />
+      <input type="hidden" name="boardidx" value="${viewRow.boardidx}" />
       <input type="hidden" name="sellerid" value="${viewRow.id }" />
    </form:form>
-   <!-- subscribe part end -->
-   <!-- bottom.jsp -->
-   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<!-- 	<script src="../resources/js/jquery-1.12.1.min.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
-    <script src="../resources/js/popper.min.js"></script>
-    <script src="../resources/js/bootstrap.min.js"></script>
-    <script src="../resources/js/jquery.magnific-popup.js"></script>
-    <script src="../resources/js/owl.carousel.min.js"></script>
-    <script src="../resources/js/jquery.nice-select.min.js"></script>
-    <script src="../resources/js/slick.min.js"></script>
-    <script src="../resources/js/jquery.counterup.min.js"></script>
-    <script src="../resources/js/waypoints.min.js"></script>
-    <script src="../resources/js/contact.js"></script>
-    <script src="../resources/js/jquery.ajaxchimp.min.js"></script>
-    <script src="../resources/js/jquery.form.js"></script>
-    <script src="../resources/js/jquery.validate.min.js"></script>
-    <script src="../resources/js/mail-script.js"></script>
-    <script src="../resources/js/custom.js"></script>
-    <!-- 추가 -->
-	<!-- masonry js -->
-	<script src="../resources/js/masonry.pkgd.js"></script>
-	<script src="../resources/js/custom_review.js"></script>
-	<script src="../resources/js/slider.js"></script>
-	<script src="../resources/js/gijgo.min.js"></script>
    <!-- The Modal start-->
-   <div class="modal fade" id="myModal"
-      style="top: 0; left: 0; margin-top: 100px;">
+   <!-- margin-top: 100px; -->
+   <div class="modal fade" id="tdModal"  style="">
       <div class="modal-dialog modal-dialog-centered modal-lg">
          <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">3D이미지</h4> 
-               <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border: none; background: none;">
-               	 <img src="../resources/img/close.png"  style="width: 100px; height: 50px;"> </button>
+               <h4 class="modal-title">3D이미지</h4>
+               <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
@@ -349,5 +311,3 @@
       </div>
    </div>
    <!-- The Modal end-->
-
-</body>

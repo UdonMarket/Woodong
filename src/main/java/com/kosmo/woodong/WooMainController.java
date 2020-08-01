@@ -88,17 +88,25 @@ public class WooMainController {
 		
 		
 		ParameterVO parameterVO = new ParameterVO();
+		
+		ArrayList<String> list = new ArrayList<String>();
+		
+		List<WooBoardListVO> bnamelists = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../product/productList.woo");
+		for(WooBoardListVO lists : bnamelists) {
+			list.add(lists.getBname());
+		}
+		parameterVO.setList(list);
+		
 		ArrayList<WooBoardVO> searchLists = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).list(parameterVO);
-		
-		
 		for(WooBoardVO vo : searchLists) {
 			String idx = vo.getBoardidx();
 			String temp = vo.getContents().replace("\r\n", "<br/>");
 			vo.setContents(temp);
 			ArrayList<FileVO> uploadFileList = ((WooBoardImpl)sqlSession.getMapper(WooBoardImpl.class)).viewFile(idx);
-	
-		 	String image = uploadFileList.get(0).getSave_name();
-			vo.setImagefile(image);
+			if(!uploadFileList.isEmpty() && uploadFileList.size()!=0) {
+			 	String image = uploadFileList.get(0).getSave_name();
+				vo.setImagefile(image);
+			}
 			
 		}
 		System.out.println(searchLists.size());

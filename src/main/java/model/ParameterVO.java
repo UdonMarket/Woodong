@@ -35,8 +35,18 @@ public class ParameterVO {
 	private String priceStart;
 	private String priceEnd;
 	private String order;
+	
+	private String chatroomidx;
+	
+	
 
 	
+	public String getChatroomidx() {
+		return chatroomidx;
+	}
+	public void setChatroomidx(String chatroomidx) {
+		this.chatroomidx = chatroomidx;
+	}
 	public String getPstate() {
 		return pstate;
 	}

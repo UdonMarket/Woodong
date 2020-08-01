@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 //우동 게시판 
@@ -57,5 +58,7 @@ public interface WooBoardImpl {
 	//판매상태 가져오기
 	public String selectSellingStatus(String idx);	
   
-  public ArrayList<WooBoardVO> list(ParameterVO parameterVO);
+	public ArrayList<WooBoardVO> list(ParameterVO parameterVO);
+	
+	public ArrayList<ParameterVO> bnameProductCount(ParameterVO parameterVO);
 }

@@ -22,7 +22,7 @@ import model.WooBoardVO;
 public class FileUtils {
 	 
 	//파일 insert : parseInsertFileInfo
-	public List<Map<String, Object>> parseInsertFileInfo(WooBoardVO wooBoardVO, MultipartHttpServletRequest req)throws Exception {
+	public static List<Map<String, Object>> parseInsertFileInfo(WooBoardVO wooBoardVO, MultipartHttpServletRequest req)throws Exception {
 			
 		String path = req.getSession().getServletContext().getRealPath("/resources/Upload");//파일이 저장될 경로 
 
@@ -113,7 +113,7 @@ public class FileUtils {
 	}
 	
 	//파일 update : parseUpdateFileInfo
-	public List<Map<String, Object>> parseUpdateFileInfo(WooBoardVO wooBoardVO,String[] files, String[] fileNames,
+	public static List<Map<String, Object>> parseUpdateFileInfo(WooBoardVO wooBoardVO,String[] files, String[] fileNames,
 			MultipartHttpServletRequest req)throws Exception{
 		String path = req.getSession().getServletContext().getRealPath("/resources/Upload");
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();

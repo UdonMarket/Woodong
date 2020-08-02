@@ -25,11 +25,13 @@ public class WooBoardVO {
 	private String deal_type;//거래 종류
 	private String latitude;//거래희망 위치 좌표
 	private String longitude;//거래희망 위치 좌표
-	private String buyer_id;
+	private String buyer_id;//구매자
 	private String review_score;
 	
+	private String deal_location;//거래 희망 위치
+	private int publicSet;//거래 희망 위치
 	
-	private String deal_location;
+	
 	// 기타
 	private String imagefile;
 	private List<MultipartFile> file;
@@ -192,6 +194,12 @@ public class WooBoardVO {
 	}
 	public void setDeal_location(String deal_location) {
 		this.deal_location = deal_location;
+	}
+	public int getPublicSet() {
+		return publicSet;
+	}
+	public void setPublicSet(int publicSet) {
+		this.publicSet = publicSet;
 	}
 	
 	

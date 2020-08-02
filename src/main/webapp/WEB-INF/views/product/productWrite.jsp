@@ -48,7 +48,7 @@
 								</ul>
 							</div>
 							<div class="hellopay_direct_notice">
-								<span class="normal_notice">우동페이 이용시 카드결제 , 모바일결제가 가능하며 더욱 빠른 상품 판매를 도와드립니다 ! </span>
+								<span class="normal_notice">우동페이 이용시 카드결제 , 모바일결제가 가능하며  끌올기능, 등급설정을 지원하여 더욱 빠르고 쾌적한 상품 판매를 도와드립니다 ! </span>
 							</div>
 						</dd>
 					</dl>
@@ -196,7 +196,6 @@
 						</dt>
 						
 						<dd class="map_box">
-						
 							<div class="hellopay_box_area">
 								<ul>
 									<li>
@@ -205,7 +204,6 @@
 										<div class="my_location_map" >
 											<span id="tagsave">태그 저장</span>
 										</div>
-										
 									</li>
 								</ul>
 							</div>
@@ -225,12 +223,12 @@
 							<ul class="item_status_list">
 								<li class="item_status">
 									<label>
-										<input type="radio" name="product_state" value="새상품" checked="checked"/>새상품
+										<input type="radio" name="product_state" value="새상품"/>새상품
 									</label>
 								</li>
 								<li class="item_status">
 									<label>
-										<input type="radio" name="product_state" value="거의새것"/>거의새것
+										<input type="radio" name="product_state" value="거의새것" checked="checked"/>거의새것
 									</label>
 								</li><li class="item_status">
 									<label>
@@ -244,7 +242,33 @@
 							</ul>
 						</dd>
 					</dl>
-					
+					<dl>
+						<dt>
+							<label>공개설정 <span><br>(우동페이 이용시)</span></label>
+						</dt>
+						<dd>
+							<ul class="item_status_list">
+								<li class="item_status">
+									<label>
+										<input type="radio" name="publicSet" value="1" checked="checked" />우동회원<br>전체
+									</label>
+								</li>
+								<li class="item_status">
+									<label>
+										<input type="radio" name="publicSet" value="2" />일반우동<br>전체
+									</label>
+								</li><li class="item_status">
+									<label>
+										<input type="radio" name="publicSet" value="3"/>튀김우동<br>전체
+									</label>
+								</li><li class="item_status">
+									<label>
+										<input type="radio" name="publicSet" value="4"/>따뜻한<br>튀김우동
+									</label>
+								</li>
+							</ul>
+						</dd>
+					</dl>
 					<dl class="hellopay_options_box direct_options_box" id="price">
 						<dt style="color: rgb(51, 51, 51);">판매가격</dt>
 						<dd>
@@ -254,7 +278,7 @@
 							</div>
 						</dd>
 					</dl>
-						<dl>
+						<dl id="title">
 							<dt>
 								<label>거래희망 위치 </label>
 							</dt>
@@ -402,6 +426,11 @@ $(function() {
 	$("input:radio[name=product_state]").checkboxradio({
 		icon: false
 	});
+	
+	$("input:radio[name=publicSet]").checkboxradio({
+		icon: false
+	});
+	
 	//체크박스 value 변경
 	$('input[type=checkbox]').click(function(){
 		if($(this).is(':checked')){
@@ -462,6 +491,12 @@ function delspan(tag) {
 }
 
 function frmCheck(){
+
+	
+	 var paychk = $('input:checkbox[name=woopay_check]').is(':checked');
+	 var price = frm.price.value;
+	 
+
 	$(function() {
 		var check = false;
 		var ban_word_list = "";
@@ -491,6 +526,7 @@ function frmCheck(){
 		}
 
 	});
+
 	  //폼값 유효성 체크  2. 사진 : 1장 이상 첨부 해야함
 	 if(frm.file[0].value==""){
 		 alert("최소 1장의 사진을 첨부해주세요");
@@ -517,8 +553,13 @@ function frmCheck(){
 		 frm.product_tag.focus();
 	     return false;
 	 }
-	 
-	  var price = frm.price.value;
+	 if(frm.publicSet.value>1){
+		 if(!paychk){
+			 alert("공개설정은 우동페이 사용자만 가능합니다.");
+			 $(window).scrollTop(0);
+		     return false;
+		 }
+	 }
 	  if(!price){
 		 alert("가격을 입력해주세요");	
 		 frm.price.focus();
@@ -537,12 +578,8 @@ function frmCheck(){
 		 frm.deal_location.focus();
 	     return false;
 	 }
-	 if (grecaptcha.getResponse() == ""){
-		 alert("리캡챠를 체크해야 합니다.");
-		 return false; 
-	 }
 	 if(captcha != 0) {
-		 alert();
+		 alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
 		return false;
 	 }
 	 return true;

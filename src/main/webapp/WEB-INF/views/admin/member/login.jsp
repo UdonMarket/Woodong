@@ -39,7 +39,7 @@
 						<div class="card-body px-lg-5 py-lg-5">
 							
 							 <c:url value="/admin/login" var="loginUrl"/>
-							<form:form name="loginFrm" action="${loginUrl }" method="post" novalidate="novalidate" >
+							<form:form name="loginFrm" action="${loginUrl}" method="post" novalidate="novalidate">
 								
 								<c:if test="${param.error != null} }">
 									<p>아이디와 패스워드가 잘못되었습니다.</p>

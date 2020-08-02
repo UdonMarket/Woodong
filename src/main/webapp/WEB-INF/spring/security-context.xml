@@ -4,6 +4,19 @@
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+	<security:http pattern="/**/*.jpg" security="none"/>
+	   <security:http pattern="/**/*.png" security="none"/>
+	   <security:http pattern="/android/**">
+	   
+	      <security:csrf disabled="true"/>
+	
+	      <security:form-login 
+	         login-page="/admin/login.woo" default-target-url="/admin/admin.woo"
+	         authentication-failure-url="/admin/login.woo?error"
+	         login-processing-url="/admin/login" username-parameter="admin_id"
+	         password-parameter="admin_pw" />
+	
+	   </security:http>
 
 	<!--admin 설정  -->
 	<security:http pattern="/admin/**">

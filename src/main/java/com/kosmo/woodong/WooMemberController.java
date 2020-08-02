@@ -1,5 +1,7 @@
 package com.kosmo.woodong;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import model.WooMemberVO;
+import model.WooMypageImpl;
+import util.review;
 import model.WooMemberImpl;
 
 import org.apache.ibatis.session.SqlSession;
@@ -64,20 +68,18 @@ public class WooMemberController {
 	
 	// 회원정보 수정
 	@RequestMapping("/member/memberModify.woo")
-	public String memberModify(Authentication authentication, Model model) {
-		String msg = "";
-		WooMemberVO memberVO = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class)).startModify(authentication.getName());
-		if(memberVO!=null) {
-			msg = "회원정보 수정이 완료되었습니다";
-		}
-		else {
-			msg = "회원정보 수정에 실패하였습니다";
-		}
-		System.out.println("1");
-		model.addAttribute("memberVO", memberVO);
-		model.addAttribute("msg", msg);
+	public String memberModify(Principal principal, Model model) {
 		
-		return authentication.getName() == null ? "redirect:login.woo" : "member/memberModify";
+		String user_id = "";
+		
+		user_id = principal.getName();
+		
+		Map<String, Object> map = review.revireScore(sqlSession, user_id);
+		
+		model.addAttribute("memberVO", map.get("memberVO"));
+		model.addAttribute("udongGrade", map.get("udongGrade"));
+		model.addAttribute("score", map.get("score"));
+		return user_id == null ? "redirect:login.woo" : "member/memberModify";
 	}
 	
 	// 회원정보 수정 처리
@@ -153,25 +155,30 @@ public class WooMemberController {
 	
 	//동네인증 
 	@RequestMapping("/member/myPlace.woo")
-	public String myPlace(Model model, HttpServletRequest req, HttpSession sessoin, Authentication authentication) {
+	public String myPlace(Model model, HttpServletRequest req, HttpSession sessoin, Principal principal) {
 		
-		if (authentication.getName() == null) {
-			return "redirect:login.woo";
-		} else {
-			String id = authentication.getName();
-			WooMemberVO memberVO = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class)).view(id);
-			if(memberVO.getAddr().equals("x")) {
-				memberVO.setAddr(null);
-			}
-			if(memberVO.getAddr()!=null) {
-				memberVO.setAddr(memberVO.getAddr().substring(0, memberVO.getAddr().lastIndexOf(" ")));
-			}
-			model.addAttribute("memberVO", memberVO);
-			
-			return "member/myPlace";
+		
+		String user_id = "";
+		
+		user_id = principal.getName();
+		
+		Map<String, Object> map = review.revireScore(sqlSession, user_id);
+		
+		model.addAttribute("memberVO", map.get("memberVO"));
+		model.addAttribute("udongGrade", map.get("udongGrade"));
+		model.addAttribute("score", map.get("score"));
+		
+		WooMemberVO memberVO = (WooMemberVO)map.get("memberVO");
+		
+		if(memberVO.getAddr().equals("x")) {
+			memberVO.setAddr(null);
 		}
-		
+		if(memberVO.getAddr()!=null) {
+			memberVO.setAddr(memberVO.getAddr().substring(0, memberVO.getAddr().lastIndexOf(" ")));
+		}
+		return "member/myPlace";
 	}
+	
 	@RequestMapping("/member/myPlaceAction.woo")
 	public String myPlaceAction(HttpServletRequest req, Authentication authentication) {
 		System.out.println(req.getParameter("addr"));

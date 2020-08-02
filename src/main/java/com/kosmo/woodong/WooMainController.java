@@ -88,9 +88,16 @@ public class WooMainController {
 		
 		
 		ParameterVO parameterVO = new ParameterVO();
+		
+		ArrayList<String> list = new ArrayList<String>();
+		
+		List<WooBoardListVO> bnamelists = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../product/productList.woo");
+		for(WooBoardListVO lists : bnamelists) {
+			list.add(lists.getBname());
+		}
+		parameterVO.setList(list);
+		
 		ArrayList<WooBoardVO> searchLists = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).list(parameterVO);
-		
-		
 		for(WooBoardVO vo : searchLists) {
 			String idx = vo.getBoardidx();
 			String temp = vo.getContents().replace("\r\n", "<br/>");

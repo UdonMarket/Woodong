@@ -184,12 +184,13 @@ $(function(){
 				<div class="my_profile_nav">
 					<ul style="background-color:#FFF;border:1px solid #d9d9d9;">
 						<li>
-							<form:form action="../product/productList.woo?mode=map&bname=${parameterVO.bname }&" method="post">
+							<a href="javascript:void(0);"><span style="font-size:1.4em;color:#ff4f4f;">상품 리스트</span></a>
+						</li>
+						<li>
+							<form:form action="../product/productList.woo?mode=${mode}&" method="post">
 								<input type="hidden" name="lat"  value="${parameterVO.latTxt }"/>
 								<input type="hidden" name="lon"  value="${parameterVO.lngTxt }"/>
-								<button style="background: none;border: none">
-									<a href="javascript:void(0);"><span style="font-size:1.4em;color:#ff4f4f;">상품 리스트</span></a>
-								</button>
+								<button type="submit" style="cursor:pointer; border: none; background: none; font-size: 17px; padding: 18px 0px 18px 22px;">모든상품</button>
 						    </form:form>
 						</li>
 						<c:forEach items="${blists }" var="row">

@@ -156,7 +156,7 @@
 		<div style="display: inline-block;">
 			<form:form name="editOrDelete" method="post">
 				<input type="hidden" name="mode" value="${param.mode }" />
-				<input type="hid-den" id="checkBoardIdxList" name="checkBoardIdxList"/>
+				<input type="hidden" id="checkBoardIdxList" name="checkBoardIdxList"/>
 			</form:form>
 			<input type="button" id="allDelete" class="btn btn-danger" style="height: 20px; width: 80px; padding-top: 0px"  value="삭제" />
 		</div>

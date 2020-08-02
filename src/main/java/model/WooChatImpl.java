@@ -15,7 +15,15 @@ public interface WooChatImpl {
 	public void updateLastChatTime(String chatroomidx, Timestamp lastChat);
 	public List<WooChattingVO> selectChatting(String chatroomidx);
 	
+	public List<WooChattingVO> admminSelectChatting(ParameterVO parameterVO);
+	
 	public int createChatroom(WooChatRoomVO wooChatRoomVO);
 	
 	public String selectChatRoom(WooChatRoomVO wooChatRoomVO);
+	
+	public ArrayList<WooChatRoomVO> selectAllRoom(ParameterVO parameterVO);
+	
+	public int getTotalCount(ParameterVO parameterVO);
+	
+	public int chatTotalCount(String chatroomidx);
 }

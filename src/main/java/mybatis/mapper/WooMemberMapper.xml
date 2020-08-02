@@ -57,16 +57,6 @@
 		DELETE FROM woo_member WHERE id=#{param1} AND pass=#{param2} 	
  	</delete>
  	
- 	<!-- 동네인증 -->
-  	<select id="view" resultType="model.WooMemberVO">
-  		SELECT * FROM woo_member WHERE id=#{0}
-  	</select>
-  	
-  	<!-- 수정폼 진입 -->
-  	<select id="startModify" resultType="model.WooMemberVO">
- 		 SELECT * FROM woo_member WHERE id=#{param1}
- 	</select>
-  	
   	<!-- 수정처리 과정 -->
   	<update id="modify" >
   		UPDATE woo_member SET addr=#{0} WHERE id=#{1}

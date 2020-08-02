@@ -34,6 +34,8 @@ import model.WooBoardVO;
 import model.WooMemberVO;
 import model.WooMypageImpl;
 import util.VerifyRecaptcha;
+import util.EnvFileReader;
+import util.review;
 
 @Controller
 public class WooBoardController {
@@ -128,7 +130,7 @@ public class WooBoardController {
 		
 		parameterVO.setList(list);
 		System.out.println("list크기 : " + list.size());
-		int pageSize = 15;
+		int pageSize = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.pageSize"));
 		int nowPage = req.getParameter("nowPage") == null ? 1 : Integer.parseInt(req.getParameter("nowPage"));
 		
 		int start = (nowPage - 1) * pageSize + 1;
@@ -217,76 +219,20 @@ public class WooBoardController {
 		String nowPage = req.getParameter("nowPage");
 		String seller_id = sqlSession.getMapper(WooBoardImpl.class).selectId(boardidx);
 		
-		//회원 등급 계산 start
-		ArrayList<String> review_score  = sqlSession.getMapper(WooMypageImpl.class).review_score(seller_id);
-		double review_scoreSum = 0;
-		for(int i=0; i<review_score.size(); i++) {
-			review_scoreSum += Double.parseDouble(review_score.get(i));
-		}
-		WooMemberVO memberVO = sqlSession.getMapper(WooMypageImpl.class).myInfo(seller_id);
+		try {
+			if(principal!=null) {
+			user_id=principal.getName();
+			model.addAttribute("user_id", user_id); 
+			}
+		} catch (Exception e) {}
 		
-		int trade_count = Integer.parseInt(memberVO.getTrade_count());
-		double avg_score1 = 0;
-		if(trade_count==0) {
-			avg_score1 = 1;
-		}
-		else {
-			avg_score1 = review_scoreSum / (double)trade_count;
-		}
-		double avg_score2 = ((double)Math.round(avg_score1*10)/10);
-		int avg_score_update = sqlSession.getMapper(WooMypageImpl.class).avg_score_update(avg_score2, seller_id);	
-		double avg_score = Double.parseDouble(memberVO.getAvg_score());
+		//회원 등급 계산 start
+		Map<String, Object> map = review.revireScore(sqlSession, seller_id);
+		
 
-		String score = "";
-
-		int full = (int) avg_score % 5;
-		int half = (int) ((avg_score - full) * 10);
-		for (int i = 1; i <= full; i++) {
-			score += "<img src='../resources/img/그냥튀김우동.png' alt='' />";
-		}
-		if (half < 5) {
-			for (int j = full + 1; j <= 5; j++) {
-				score += "<img src='../resources/img/회색우동.png' alt='' />";
-			}
-		} else {
-			score += "<img src='../resources/img/반쪽우동.png' alt='' />";
-			for (int j = full + 2; j <= 5; j++) {
-				score += "<img src='../resources/img/회색우동.png' alt='' />";
-			}
-		}
-
-		String udongGrade = "";
-
-		// 1 파랑일반  / 2 빨간일반/ 3 파랑온도계 / 4 빨간온도계
-		if (trade_count < 5) {
-			udongGrade += "<img src='../resources/img/파랑일반.png' alt='1' />"; //1
-		} 
-		else if (trade_count >= 5 && trade_count < 10) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='1' />"; //1
-			else
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='2' />"; //2
-		} 
-		else if (trade_count >= 10 && trade_count < 15) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='1' />"; //1
-			else if (avg_score >= 2 && avg_score < 4)
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='2' />"; //2
-			else
-				udongGrade += "<img src='../resources/img/파랑온도계.png' alt='3' />"; //3
-		} 
-		else if (trade_count >= 15) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='1' />"; //1
-			else if (avg_score >= 2 && avg_score < 4)
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='2' />"; //2
-			else
-				udongGrade += "<img src='../resources/img/빨간온도계.png' alt='4' />"; //4
-		}
-		//회원 등급 계산 end
-		model.addAttribute("memberVO", memberVO);
-		model.addAttribute("score", score);
-		model.addAttribute("udongGrade", udongGrade);
+		model.addAttribute("memberVO", map.get("memberVO"));
+		model.addAttribute("udongGrade", map.get("udongGrade"));
+		model.addAttribute("score", map.get("score"));
 		
 		//상세보기
 		WooBoardVO dto = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(boardidx);
@@ -304,7 +250,7 @@ public class WooBoardController {
 			model.addAttribute("user_id", user_id); 
 			}
 		} catch (Exception e) {}
-		////////////////////////////////////////////쿠키
+
 		String preCookie = "";
 		// 쿠키를 읽어온다.
 		Cookie[] cookies = req.getCookies();

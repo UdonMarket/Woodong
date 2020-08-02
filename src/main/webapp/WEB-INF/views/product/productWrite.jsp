@@ -270,6 +270,8 @@
 					</div>	
 				<button type="button" class="btn_my" id="subtn" style="margin-left: 500px;">글쓰기</button>
 		</form:form>
+
+		
 <!--캡챠 start-->
 <div class="row" style="margin-bottom: 30px;">
 <div class="col-6"></div>
@@ -337,6 +339,7 @@ var tagmsg='';
 //폼값 유효성 체크
 var frm = document.writeFrm;
 
+var prohidition = '<c:forEach items="${prohidition }" var="row">${row},</c:forEach>';
 //사진 미리보기	  
 function readFile(f) {
    if(f.files && f.files[0]) {
@@ -450,7 +453,6 @@ $(function() {
 		}
 		$("[name=input_tag]").val('');
 	});
-	
 });
 //태그 삭제 	
 function delspan(tag) {
@@ -460,7 +462,35 @@ function delspan(tag) {
 }
 
 function frmCheck(){
-	 
+	$(function() {
+		var check = false;
+		var ban_word_list = "";
+		var prohiditionList = prohidition.split(',');
+		
+		for (var i = 0; i < prohiditionList.length; i++) {
+			if(frm.title.value.indexOf(prohiditionList[i].trim()) > -1) {
+				if(ban_word_list.indexOf('"' + word_list + '"') < 0){
+					ban_word_list += prohiditionList[i] + ", ";
+				}
+			}
+			if(frm.contents.value.indexOf(prohiditionList[i].trim()) > -1) {
+				if(ban_word_list.indexOf('"' + word_list + '"') < 0){
+					ban_word_list += prohiditionList[i] + ", ";
+				}
+			}
+			if(frm.product_tag.value.indexOf(prohiditionList[i].trim()) > -1) {
+				if(ban_word_list.indexOf('"' + word_list + '"') < 0){
+					ban_word_list += prohiditionList[i] + ", ";
+				}
+			}
+		}
+		
+		if(ban_word_list.length > 0){
+			alert(ban_word_list + "은 사용할 수 없습니다.");
+			return false;
+		}
+
+	});
 	  //폼값 유효성 체크  2. 사진 : 1장 이상 첨부 해야함
 	 if(frm.file[0].value==""){
 		 alert("최소 1장의 사진을 첨부해주세요");

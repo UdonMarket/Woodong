@@ -39,4 +39,12 @@ public interface WooMemberImpl {
 	WooMemberVO pwFind(String str1);
 	
 	void editGrade(String id, String grade);
+	
+	public void prohidition(String id, String prohidition);
+	
+	public int prohiditionCount(String id);
+	
+	public void memberblack(String id);
+	
+	public void memberWhite(String id);
 }

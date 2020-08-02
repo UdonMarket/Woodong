@@ -92,13 +92,18 @@
 						<h3>멤버관리</h3>
 					</div>
 				</li>
-				<li class="nav-item"><a class="nav-link "
-					href="../admin/memberTable.woo?grade=admin"> <i
-						class="ni ni-bullet-list-67 text-red"></i> 관리자
-				</a></li>
+				<li class="nav-item">
+					<a class="nav-link " href="../admin/memberTable.woo?grade=admin">
+						<i class="ni ni-bullet-list-67 text-red"></i> 관리자
+					</a>
+				</li>
 				<li class="nav-item"><a class="nav-link "
 					href="../admin/memberTable.woo?grade=normal"> <i
 						class="ni ni-bullet-list-67 text-red"></i> 회원
+				</a></li>
+				<li class="nav-item"><a class="nav-link "
+					href="../admin/memberTable.woo?grade=black"> <i
+						class="ni ni-bullet-list-67 text-red"></i> 상한우동
 				</a></li>
 				
 				<li class="nav-item active ">

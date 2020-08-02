@@ -52,7 +52,7 @@ public class review {
 		}
 
 		String udongGrade = "";
-
+		int publicSet = 1;
 		if (trade_count < 5) {
 			udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
 		} else if (trade_count >= 5 && trade_count < 10) {
@@ -60,25 +60,35 @@ public class review {
 				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
 			else
 				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
+				publicSet = 2;
 		} else if (trade_count >= 10 && trade_count < 15) {
 			if (avg_score >= 1 && avg_score < 2)
 				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else if (avg_score >= 2 && avg_score < 4)
+			else if (avg_score >= 2 && avg_score < 4) {
 				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-			else
+				publicSet = 2;
+			}
+			else {
 				udongGrade += "<img src='../resources/img/파랑온도계.png' alt='' />";
+				publicSet = 3;
+			}
 		} else if (trade_count >= 15) {
 			if (avg_score >= 1 && avg_score < 2)
 				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else if (avg_score >= 2 && avg_score < 4)
+			else if (avg_score >= 2 && avg_score < 4) {
 				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-			else
+				publicSet = 2;
+			}
+			else {
 				udongGrade += "<img src='../resources/img/빨간온도계.png' alt='' />";
+				publicSet = 4;
+			}
 		}
 		
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("udongGrade", udongGrade);
+		map.put("publicSet", publicSet);
 		map.put("score", score);
 		map.put("memberVO", memberVO);
 		map.put("avg_score", avg_score);

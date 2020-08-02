@@ -33,6 +33,7 @@ import model.WooBoardListVO;
 import model.WooBoardVO;
 import model.WooMemberVO;
 import model.WooMypageImpl;
+import model.WooProhiditionImpl;
 import util.VerifyRecaptcha;
 import util.EnvFileReader;
 import util.review;
@@ -228,8 +229,9 @@ public class WooBoardController {
 		
 		//회원 등급 계산 start
 		Map<String, Object> map = review.revireScore(sqlSession, seller_id);
+		Map<String, Object> publicSet = review.revireScore(sqlSession, user_id);
 		
-
+		
 		model.addAttribute("memberVO", map.get("memberVO"));
 		model.addAttribute("udongGrade", map.get("udongGrade"));
 		model.addAttribute("score", map.get("score"));
@@ -306,6 +308,9 @@ public class WooBoardController {
 	@RequestMapping("/product/productWrite.woo")
 	public String productWrite(Principal principal,Model model) {
 		
+		List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		
+		
 		List<WooBoardListVO> selectlist = null;
 		String user_id="";
 		try {
@@ -314,6 +319,8 @@ public class WooBoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		model.addAttribute("prohidition", prohiditionlists);
 		model.addAttribute("selectlist", selectlist);
 		model.addAttribute("user_id",user_id);
 		return "product/productWrite";

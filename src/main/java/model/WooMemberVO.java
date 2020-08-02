@@ -18,6 +18,17 @@ public class WooMemberVO {
 	private String searchTxt;
 	private int start;
 	private int end;
+	private int prohiditionCount;
+	
+	
+
+	public int getProhiditionCount() {
+		return prohiditionCount;
+	}
+
+	public void setProhiditionCount(int prohiditionCount) {
+		this.prohiditionCount = prohiditionCount;
+	}
 
 	public String getId() {
 		return this.id;

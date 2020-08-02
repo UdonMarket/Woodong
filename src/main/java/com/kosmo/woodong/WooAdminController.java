@@ -22,6 +22,7 @@ import model.WooChattingVO;
 import model.WooBoardListImpl;
 import model.WooMemberVO;
 import model.WooProhiditionImpl;
+import model.WooProhiditionVO;
 import model.WooMemberImpl;
 import model.ParameterVO;
 import model.WooBoardImpl;
@@ -49,8 +50,11 @@ public class WooAdminController {
 			bnamelist.add(list.getBname());
 		}
 		parameterVO.setList(bnamelist);
-		ArrayList<ParameterVO>  bnamelists = sqlSession.getMapper(WooBoardImpl.class).bnameProductCount(parameterVO);
+		ArrayList<ParameterVO> bnamelists = sqlSession.getMapper(WooBoardImpl.class).bnameProductCount(parameterVO);
 		
+		List<String> lists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		
+		model.addAttribute("prohidition", lists);
 		model.addAttribute("bnameLists", bnamelists);
 		
 		return "admin/main/admin";
@@ -380,16 +384,22 @@ public class WooAdminController {
 	
 	@RequestMapping("/admin/prohidition.woo")
 	public String prohidition(Model model, HttpServletRequest req) {
+		
 		String prohiditionList = req.getParameter("prohiditionList");
 		
-		/* sqlSession.getMapper(WooProhiditionImpl.class) */
+		String[] prohidition = null;
 		
-		String[] prohiditions = prohiditionList.split("//");
-		
-		for(String prohidition : prohiditions) {
-			
+		if(prohiditionList.contains(",")) {
+			sqlSession.getMapper(WooProhiditionImpl.class).deleteProhidition();
+			prohidition = prohiditionList.split(",");
+			for(String hidi : prohidition) {
+				sqlSession.getMapper(WooProhiditionImpl.class).addProhidition(hidi);
+			}
+		}
+		else {
+			sqlSession.getMapper(WooProhiditionImpl.class).addProhidition(prohiditionList);
 		}
 		
-		return "admin/main/admin";
+		return "redirect:../admin/admin.woo";
 	}
 }

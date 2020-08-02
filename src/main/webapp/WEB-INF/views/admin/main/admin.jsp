@@ -87,28 +87,30 @@
 			<div class="col-2"></div>
 				<div class="col-xl-8">
 					<form:form action="../admin/prohidition.woo" method="post">
-					<div class="card shadow">
-						<div class="card-header border-0">
-							<div class="row align-items-center">
-								<div class="col">
-									<h3 class="mb-0">금칙어</h3>
-								</div>
-								<div class="col text-right">
-									<a href="#!" class="btn btn-sm btn-primary">저장</a>
+						<div class="card shadow">
+							<div class="card-header border-0">
+								<div class="row align-items-center">
+									<div class="col">
+										<h3 class="mb-0">금칙어</h3>
+									</div>
+									<div class="col text-right">
+										<button class="btn btn-sm btn-primary">
+											저장
+										</button>
+									</div>
 								</div>
 							</div>
+							<div class="table-responsive">
+								<!-- Projects table -->
+								<table class="table align-items-center table-flush">
+									<tr>
+										<td>
+											<textarea class="form-control" rows="15" name="prohiditionList" id="content" placeholder="내용을 입력해 주세요" required="required"><c:forEach items="${prohidition }" var="row">${row },</c:forEach></textarea>
+										</td>
+									</tr>
+								</table>
+							</div>
 						</div>
-						<div class="table-responsive">
-							<!-- Projects table -->
-							<table class="table align-items-center table-flush">
-								<tr>
-									<td>
-										<textarea class="form-control" rows="15" name="prohiditionList" id="content" placeholder="내용을 입력해 주세요" required="required">${prohidition }</textarea>
-									</td>
-								</tr>
-							</table>
-						</div>
-					</div>
 					</form:form>
 				</div>
 			<div class="col-2"></div>

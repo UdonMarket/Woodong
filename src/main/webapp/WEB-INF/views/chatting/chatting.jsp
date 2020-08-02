@@ -1,3 +1,36 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@jangchaehoon 
+UdonMarket
+/
+Woodong
+Private
+0
+00
+Code
+Issues
+Pull requests
+2
+Actions
+Projects
+Security
+Insights
+Settings
+Woodong/src/main/webapp/WEB-INF/views/chatting/chatting.jsp
+@jangchaehoon
+jangchaehoon Merge branch 'aa' into lee
+Latest commit 9bb247d 5 days ago
+ History
+ 2 contributors
+@jangchaehoon@leejungsu1
+164 lines (144 sloc)  4.96 KB
+  
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -24,8 +57,7 @@
 			sendMessage();
 			$('#inputMessage').val('');
 		});
-		//let sock = new SockJS("http://192.168.219.142:8282/woodong/echo");//채훈 고정 IP
-		let sock = new SockJS("http://192.168.219.109:8282/woodong/echo");//진슬 임시  IP
+		let sock = new SockJS("http://192.168.219.142:8282/woodong/echo");
 		sock.onmessage = onMessage;
 		sock.onclose = onClose;
 		sock.onerror = onError;
@@ -103,7 +135,6 @@
 			sendMessage();
 		}
 	} */
-
 </script>
 
 <script>
@@ -163,3 +194,15 @@
 		</footer>
 	</div>
 </body>
+© 2020 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

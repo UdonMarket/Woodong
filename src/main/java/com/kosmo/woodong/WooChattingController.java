@@ -28,6 +28,7 @@ import model.WooJusoVO;
 import model.WooMemberImpl;
 import model.WooMemberVO;
 import model.WooMypageImpl;
+import model.WooProhiditionImpl;
 import util.review;
 
 @Controller
@@ -128,6 +129,13 @@ public class WooChattingController {
 		String chatting = req.getParameter("chatting");
 		String chatroomidx = req.getParameter("chatroomidx");
 		String id = req.getParameter("id");
+		List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		
+		for(String prohidition : prohiditionlists) {
+			if(chatting.contains(prohidition)) {
+				sqlSession.getMapper(WooMemberImpl.class).prohidition(id, prohidition);
+			}
+		}
 		
 		WooChattingVO wooChattingVO = new WooChattingVO();
 		wooChattingVO.setChatroomidx(chatroomidx);

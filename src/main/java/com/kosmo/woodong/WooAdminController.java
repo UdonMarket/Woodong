@@ -89,6 +89,12 @@ public class WooAdminController {
 		ArrayList<WooMemberVO> lists = sqlSession.getMapper(WooMemberImpl.class).listPage(memberVO);
 		String pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
 				req.getContextPath() + "/admin/memberTable.woo?grade=" + req.getParameter("grade") + "&" + search);
+		
+		for(WooMemberVO member : lists) {
+			member.setProhiditionCount(sqlSession.getMapper(WooMemberImpl.class).prohiditionCount(member.getId()));
+		}
+		
+		
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
 		model.addAttribute("grade", req.getParameter("grade"));
@@ -319,7 +325,7 @@ public class WooAdminController {
 		parameterVO.setList(idxList);
 		sqlSession.getMapper(WooBoardImpl.class).deleteBoard(parameterVO);
 		
-		return "redirect:../admin/boardTable.woo?mode=" + req.getParameter("mode") + "&asd";
+		return "redirect:../admin/boardTable.woo?mode=" + req.getParameter("mode") + "&";
 	}
 	
 	// 채팅관리
@@ -401,5 +407,19 @@ public class WooAdminController {
 		}
 		
 		return "redirect:../admin/admin.woo";
+	}
+	
+	@RequestMapping("/admin/memberBlack.woo")
+	public String blackMember(HttpServletRequest req) {
+		String id = req.getParameter("blackid");
+		sqlSession.getMapper(WooMemberImpl.class).memberblack(id);
+		return "redirect:../admin/memberTable.woo?grade=normal&"; 
+	}
+	
+	@RequestMapping("/admin/memberWhite.woo")
+	public String WhiteMember(HttpServletRequest req) {
+		String id = req.getParameter("blackid");
+		sqlSession.getMapper(WooMemberImpl.class).memberWhite(id);
+		return "redirect:../admin/memberTable.woo?grade=black&"; 
 	}
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="model.WooPayImpl" > 
+	<insert id="woopay" parameterType="model.WooPayVO">
+		INSERT INTO woo_pay (
+			PAY_IDX,
+			MERCHANT_UID,
+			PRODUCT_NAME,
+			PRODUCT_PRICE,
+			BOARD_IDX,
+			BUYER_ID,
+			SELLER_ID,
+			STATUS,
+			PAY_METHOD
+		) VALUES (
+			seq_woo_pay.NEXTVAL,
+			#{merchant_uid},
+			#{product_name},
+			#{product_price},
+			#{board_idx},
+			#{buyer_id},
+			#{seller_id},
+			#{status},
+			#{pay_method}
+		)
+	</insert>
+	
+	<update id="woopaySave" parameterType="String">
+ 		UPDATE woo_board set 
+ 			deal_type = '구매자결제완료',
+ 			buyer_id = #{param2}
+ 		where boardidx = #{param1} 
+ 	</update>
+</mapper>

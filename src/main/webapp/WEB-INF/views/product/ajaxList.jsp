@@ -20,22 +20,32 @@
 					</c:if> 
 				</div>
 				</c:if>
-        <a href="./productView.woo?boardidx=${row.boardidx}&nowPage=${param.nowPage}">
-
+       				<%--  <a href="./productView.woo?boardidx=${row.boardidx}&nowPage=${param.nowPage}"> </a> --%>
+       				<button type="button" style="border: none; background: none;" onclick="ajaxView(${row.boardidx});">
 					<img class="productList_image" src="../resources/Upload/${row.imagefile}" style="width:250px; height: 250px;" />
+					</button>
 				</div>
 				</div>
 				<div style="padding-left: 15px;">
-					<h3> ${row.title}</h3>
+				 	<h3 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;margin: 0">${row.title }</h3>
+				 		<%-- <div style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${row.title}</div> --%>
+				 		
 				</div>
 				<div style="padding-left: 15px;">
-					<h4>
-					<fmt:formatNumber type="number" maxFractionDigits="3" value="${row.price}"/>원 ( boardidx : ${row.boardidx})
-					</h4>
+					<h4><fmt:formatNumber type="number" maxFractionDigits="3" value="${row.price}"/>원<%--(임시${row.boardidx})--%></h4>
+					<div>
+					<c:if test="${row.woopay eq 'Y'}">
+                       <img src="../resources/img/product/우동페이.png" style="width: 50px; height: 30px;"/>
+                   	</c:if>
+                      <c:if test="${row.three_dimens eq 'Y'}">
+                        <img src="../resources/img/product/3d 이미지.png" style="width: 50px; height: 40px;" />
+                     </c:if> 
+                     </div>
+				 		
 				</div>
-          </a>
 			</div>
 		 </c:forEach> 
+				 	<button type="button" style="display: none;" id="modalview" data-toggle="modal" data-target="#viewModal" ></button>
 		 <c:if test="${empty lists}">
 		 	<h2 style="color: #ff4f4f; margin-left: 200px; margin-top: 100px;" >게시물이 없습니다.</h2>
 		 </c:if>  

@@ -28,6 +28,8 @@ public class WooBoardVO {
 	private String buyer_id;
 	private String review_score;
 	
+	
+	private String deal_location;
 	// 기타
 	private String imagefile;
 	private List<MultipartFile> file;
@@ -184,6 +186,12 @@ public class WooBoardVO {
 	}
 	public void setGood_state(String good_state) {
 		this.good_state = good_state;
+	}
+	public String getDeal_location() {
+		return deal_location;
+	}
+	public void setDeal_location(String deal_location) {
+		this.deal_location = deal_location;
 	}
 	
 	

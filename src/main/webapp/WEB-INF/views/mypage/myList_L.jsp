@@ -95,9 +95,9 @@ function restartFunc(){
 															<a href="../product/productView.woo?boardidx=${list.boardidx}"  > 
 															<img src="../resources/Upload/${list.imagefile}"
 																data-src="https://ccimg.hellomarket.com/images/2020/item/04/28/15/1709868_4830039_1.jpg?size=s4"
-																class="thumbnail_img"
-																alt="18인치 휠 타이어 판매합니다(배송비,스페이스1조포함)" />
-															</a> 
+																class="thumbnail_img" 	/>
+															
+															
 														</div>
 														<div class="dealer_text_position"></div>
 													</div>
@@ -105,6 +105,7 @@ function restartFunc(){
 												<div class="cont">
 													<div class="item_title related_item_icon">
 														${list.title }</div>
+														</a> 
 													<div class="item_price profile_price">
 													<fmt:formatNumber type="number" maxFractionDigits="3" value="${list.price}"/>원 
 													</div>

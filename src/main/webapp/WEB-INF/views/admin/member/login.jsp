@@ -126,7 +126,7 @@
 							</div>
 							<%-- 추가부분 --%>
 							 <c:url value="/admin/login" var="loginUrl"/>
-							<form:form name="loginFrm" action="${loginUrl }" method="post" >
+							<form:form name="loginFrm" action="${loginUrl}" method="post" novalidate="novalidate">
 								
 								<c:if test="${param.error != null} }">
 									<p>아이디와 패스워드가 잘못되었습니다.</p>

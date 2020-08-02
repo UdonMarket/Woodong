@@ -22,7 +22,7 @@ public interface WooBoardImpl {
 	public ArrayList<FileVO> viewFile(String idx);
 
 	//4.글쓰기
-	public int write (WooBoardVO wooBoardVO);
+	public void write (WooBoardVO wooBoardVO);
 	
 	//4-1 . 첨부파일 업로드
 	public int insertFile(Map<String,Object> map);
@@ -38,7 +38,7 @@ public interface WooBoardImpl {
 	
 
 	//6.삭제하기
-	public int delete(ParameterVO parameterVO);   
+	public void delete(ParameterVO parameterVO);   
 	//7.끌올하기
 	public int jump(ParameterVO parameterVO);   
 	
@@ -59,5 +59,5 @@ public interface WooBoardImpl {
 	//판매상태 가져오기
 	public String selectSellingStatus(String idx);	
   
-  public ArrayList<WooBoardVO> list(ParameterVO parameterVO);
+	public ArrayList<WooBoardVO> list(ParameterVO parameterVO);
 }

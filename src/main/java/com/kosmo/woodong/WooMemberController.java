@@ -140,7 +140,6 @@ public class WooMemberController {
 			
 			HttpSession session = req.getSession();
 			if(session==null) {
-				System.out.println("aaa");
 			}
 			else {
 				System.out.println(session);

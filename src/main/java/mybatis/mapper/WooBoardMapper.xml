@@ -20,25 +20,7 @@
 	 
 	 <!--2. start 와 end 에 해당하는 게시물 가져오기 (페이지 처리 & 검색 처리 )  -->
 	 <select id="listPage" resultType="model.WooBoardVO"  parameterType="model.ParameterVO">
-	 SELECT  
-	 	boardidx,
-		title,
-		contents,
-		postdate,
-		id,
-		bname,
-		visitcount,
-		likecount,
-		price,
-		product_state,
-		chatcount,
-		three_dimens,
-		product_tag,
-		woopay,
-		deal_location,
-		latitude,
-		longitude
-	 FROM 
+	 SELECT *  FROM
 	 	( SELECT Tb.*, rownum rNum FROM 
 	 		( SELECT * FROM woo_board WHERE 1=1 
     	<if test="list.size!=0">
@@ -54,7 +36,7 @@
 	 				ORDER BY ${order} 
 	 			</when>
 	 			<otherwise>
-	 				ORDER BY boardidx DESC 
+	 				ORDER BY postdate DESC 
 	 			</otherwise>
 	 		</choose>
 	 		) Tb) 
@@ -63,29 +45,8 @@
 	 
 	 <!--3. 상세보기 -->
 	 <select resultType="model.WooBoardVO" id="view" parameterType="String">
-	 	SELECT  
-		 	boardidx,
-			title,
-			contents,
-			postdate,
-			id,
-			bname,
-			visitcount,
-			likecount,
-			price,
-			product_state,
-			chatcount,
-			three_dimens,
-			product_tag,
-			woopay,
-			deal_location,
-			latitude,
-			longitude
-	 	FROM woo_board 
-	 	WHERE boardidx = #{param1} 
+	 	SELECT *  FROM woo_board WHERE boardidx = #{param1} 
 	 </select>
-	 
-	 
 	 
 	  <!--3-1. 조회수 처리하기 -->
 	 <update id="visitcount">
@@ -100,17 +61,16 @@
 	 	ORDER BY fileidx
 	 </select>
 	 
-	 
 	<!-- 4. 글쓰기  -->	 
 	  <insert id="write" parameterType="model.WooBoardVO" >
 	 	INSERT INTO woo_board (
 					boardidx, id, title, contents, bname,
 					price, product_state, three_dimens, product_tag, woopay, 
-					deal_location,latitude, longitude) 
+					deal_location,latitude, longitude, publicSet) 
 		VALUES (
 				seq_woo_board.nextval, #{id}, #{title}, #{contents}, #{bname},
 				#{price}, #{product_state}, #{three_dimens}, #{product_tag}, #{woopay}, 
-				#{deal_location}, #{latitude}, #{longitude})
+				#{deal_location}, #{latitude}, #{longitude} , #{publicSet})
  					
  		<selectKey  keyProperty="seq_woo_board" resultType="int" order="AFTER">
 	       SELECT seq_woo_board.currval FROM dual
@@ -149,8 +109,6 @@
 		)
     </insert> 
     
-    
-    
 	  
     <!--5. 수정처리하기 -->
 	 <update id="update" parameterType="model.WooBoardVO">
@@ -165,7 +123,9 @@
 		 	 woopay=#{woopay},
 		 	 deal_location=#{deal_location},
 		 	 latitude=#{latitude},
-		 	 longitude=#{longitude}
+		 	 longitude=#{longitude},
+		 	 publicset=#{publicset}
+		 	 
 	 	 WHERE boardidx= #{boardidx} AND id=#{id} 
 	 </update>
 	 
@@ -179,9 +139,9 @@
 	 
 	 
 	 <!--끌올기능 -->
-	 <delete id="jump" parameterType="model.ParameterVO" >
-	 	UPDATE woo_board SET boardidx = seq_woo_board.nextval WHERE boardidx=#{boardidx} AND id=#{id}
-	 </delete>
+	 <update id="jump" parameterType="model.ParameterVO" >
+	 	UPDATE woo_board SET postdate = sysdate WHERE boardidx=#{boardidx} AND id=#{id}
+	 </update>
 	 
 	 <!--6.  삭제하기-->
 	 <delete id="delete" parameterType="model.ParameterVO" >

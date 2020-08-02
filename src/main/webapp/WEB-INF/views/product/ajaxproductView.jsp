@@ -185,7 +185,8 @@
                                                 </div>
                                                 <div class="col-3"></div>
                                              </div> 
-                                             <div class="my_profile_nick"style="text-align: center; font-size: 18px; font-weight: bold; padding-bottom: 5px; padding-top: 5px; color: black;">판매자 : ${viewRow.id}</div>
+                                             <div class="my_profile_nick"style="text-align: center; font-size: 18px; font-weight: bold; padding-bottom: 5px; padding-top: 5px; color: black;">
+                                          										   판매자 : ${viewRow.id}</div>
                                              <div class="my_profile_pro_review">
                                                 <div class="my_profile_pro_review_box">
                                                 <c:choose>
@@ -249,7 +250,7 @@
          // 끌올
          $("#jump_btn").on("click", function() {
 
-            var jumpYN = confirm("끌올 하시겠습니까?");
+            var jumpYN = confirm("끌올 하시겠습니까? 끌올시 우동페이 수수료가 3.0% 에서 3.4% 로 증가합니다!");
             if (jumpYN) {
                formObj.attr("action", "./productJump.woo");
                formObj.attr("method", "post");

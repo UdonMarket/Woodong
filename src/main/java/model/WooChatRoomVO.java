@@ -12,6 +12,17 @@ public class WooChatRoomVO {
 	private Timestamp lastchatdate;
 	
 	private int seq_woo_chatroom;
+	private String title;
+	
+	
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	public int getSeq_woo_chatroom() {
 		return seq_woo_chatroom;

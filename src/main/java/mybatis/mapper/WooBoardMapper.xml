@@ -248,9 +248,26 @@
 		latitude,
 		longitude
 	 FROM 
-	 	( SELECT Tb.*, rownum rNum FROM 
+	 	( SELECT Tb.*, rownum rNum FROM  
 	 		(SELECT * FROM woo_board 
+	 		<if test="list.size!=0">
+		    	WHERE bname in
+		    	<foreach collection="list" item="item" open="(" close=")" separator=",">
+		    		#{item}
+				</foreach> 
+			</if>
 	 ORDER BY boardidx DESC ) Tb) 
 	 			WHERE rNum BETWEEN 1 AND 6
 	 </select> 
+	 
+	 <select id="bnameProductCount" resultType="model.ParameterVO" parameterType="model.ParameterVO">
+	 	select count(*) num, bname FROM woo_board
+	 	
+	 		WHERE bname in
+	    	<foreach collection="list" item="item" open="(" close=")" separator=",">
+	    		#{item}
+			</foreach> 
+	 	
+	 	 Group by bname order by num
+	 </select>
 </mapper>  

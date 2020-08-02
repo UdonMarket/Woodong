@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,7 +25,9 @@ import oracle.net.aso.p;
 import model.ParameterVO;
 import model.WooBoardImpl;
 import model.WooBoardVO;
+import util.EnvFileReader;
 import util.PagingUtil;
+import util.review;
 
 @Controller
 public class WooMypageController {
@@ -47,72 +50,11 @@ public class WooMypageController {
 			model.addAttribute("realUser_id", principal.getName());
 		}
 		
-		ArrayList<String> review_score = sqlSession.getMapper(WooMypageImpl.class).review_score(user_id);
-		double review_scoreSum = 0;
-		for(int i=0; i<review_score.size(); i++) {
-			review_scoreSum += Double.parseDouble(review_score.get(i));
-		}
-		WooMemberVO memberVO = sqlSession.getMapper(WooMypageImpl.class).myInfo(user_id);
+		Map<String, Object> map = review.revireScore(sqlSession, user_id);
 		
-		int trade_count = Integer.parseInt(memberVO.getTrade_count());
-		
-		double avg_score1 = 0;
-		if(trade_count==0) {
-			avg_score1 = 1;
-		}
-		else {
-			avg_score1 = review_scoreSum / (double)trade_count;
-		}
-		double avg_score2 = ((double)Math.round(avg_score1*10)/10);
-		int avg_score_update = sqlSession.getMapper(WooMypageImpl.class).avg_score_update(avg_score2, user_id);	
-		double avg_score = Double.parseDouble(memberVO.getAvg_score());
-
-		String score = "";
-
-		int full = (int) avg_score % 5;
-		int half = (int) ((avg_score - full) * 10);
-		
-		for (int i = 1; i <= full; i++) {
-			score += "<img src='../resources/img/그냥튀김우동.png' alt='' />";
-		}
-		if (half < 5) {
-			for (int j = full + 1; j <= 5; j++) {
-				score += "<img src='../resources/img/회색우동.png' alt='' />";
-			}
-		} else {
-			score += "<img src='../resources/img/반쪽우동.png' alt='' />";
-			for (int j = full + 2; j <= 5; j++) {
-				score += "<img src='../resources/img/회색우동.png' alt='' />";
-			}
-		}
-
-		String udongGrade = "";
-
-		if (trade_count < 5) {
-			udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-		} else if (trade_count >= 5 && trade_count < 10) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-		} else if (trade_count >= 10 && trade_count < 15) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else if (avg_score >= 2 && avg_score < 4)
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-			else
-				udongGrade += "<img src='../resources/img/파랑온도계.png' alt='' />";
-		} else if (trade_count >= 15) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else if (avg_score >= 2 && avg_score < 4)
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-			else
-				udongGrade += "<img src='../resources/img/빨간온도계.png' alt='' />";
-		}
-		
-		model.addAttribute("memberVO", memberVO);
-		model.addAttribute("udongGrade", udongGrade);
+		model.addAttribute("memberVO", map.get("memberVO"));
+		model.addAttribute("udongGrade", map.get("udongGrade"));
+		model.addAttribute("score", map.get("score"));
 		
 		String mode = req.getParameter("mode");
 		if(mode ==  null) mode = "";
@@ -122,8 +64,8 @@ public class WooMypageController {
 		parameterVO.setMode(mode);
 		parameterVO.setDealMode(dealMode);
 		
-		int pageSize = 2;
-		int blockPage = 5;
+		int pageSize = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.pageSize"));
+		int blockPage = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.blockPage"));
 
 		// 현재페이지에 대한 파라미터 처리 및 시작/끝의 rownum 구하기
 		int nowPage = req.getParameter("nowPage") == null ? 1 : Integer.parseInt(req.getParameter("nowPage"));
@@ -206,8 +148,7 @@ public class WooMypageController {
 		model.addAttribute("sellerRiviewList", sellerRiviewList);
 		}
 		
-		model.addAttribute("score", score);
-		model.addAttribute("seller_avgscore", avg_score);
+		model.addAttribute("seller_avgscore", map.get("avg_score"));
 		if(mode.equals("deal")) {
 			if(dealMode.equals("sell")) {
 				pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,

@@ -100,6 +100,7 @@
 					href="../admin/memberTable.woo?grade=normal"> <i
 						class="ni ni-bullet-list-67 text-red"></i> 회원
 				</a></li>
+				
 				<li class="nav-item active ">
 					<div style="text-align: left; margin-left: 40px; margin-top: 30px">
 						<h3>게시판관리</h3>
@@ -116,6 +117,20 @@
 				<li class="nav-item"><a class="nav-link"
 					href="../admin/boardTable.woo?mode=community"> <i
 						class="ni ni-bullet-list-67 text-red"></i> 커뮤니티
+				</a></li>
+				
+				<li class="nav-item active ">
+					<div style="text-align: left; margin-left: 40px; margin-top: 30px">
+						<h3>홈페이지관리</h3>
+					</div>
+				</li>
+				<li class="nav-item"><a class="nav-link"
+					href="../admin/chatting.woo"> <i
+						class="ni ni-bullet-list-67 text-red"></i> 채팅
+				</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="../admin/boardTable.woo?mode=product"> <i
+						class="ni ni-bullet-list-67 text-red"></i> 거래내역
 				</a></li>
 			</ul>
 			<!-- Divider -->

@@ -31,9 +31,10 @@ import model.WooBoardImpl;
 import model.WooBoardListImpl;
 import model.WooBoardListVO;
 import model.WooBoardVO;
-import model.WooMemberVO;
 import model.WooMypageImpl;
+import util.FileUtils;
 import util.VerifyRecaptcha;
+import util.review;
 
 @Controller
 public class WooBoardController {
@@ -221,8 +222,8 @@ public class WooBoardController {
 		try {
 			String seller_id = sqlSession.getMapper(WooBoardImpl.class).selectId(boardidx);
 			user_id=principal.getName();
-			map = util.review.revireScore(sqlSession, seller_id);
-			getGrade = util.review.revireScore(sqlSession, user_id);
+			map = review.revireScore(sqlSession, seller_id);
+			getGrade = review.revireScore(sqlSession, user_id);
 			//상세보기
 			WooBoardVO dto = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(boardidx);
 			dto.setContents(dto.getContents().replace("\r\n","<br/>"));//엔터 처리
@@ -336,7 +337,7 @@ public class WooBoardController {
 			user_id = principal.getName();
 			wooBoardVO.setId(user_id);
 			sqlSession.getMapper(WooBoardImpl.class).write(wooBoardVO);
-			List<Map<String, Object>> list = new util.FileUtils().parseInsertFileInfo(wooBoardVO, mreq); 
+			List<Map<String, Object>> list = FileUtils.parseInsertFileInfo(wooBoardVO, mreq); 
 			Map<String, Object> map = new HashMap<String, Object>();
 			int size = list.size();
 			for(int i=0; i<size; i++){//file table insert 
@@ -401,7 +402,7 @@ public class WooBoardController {
 			user_id = principal.getName();
 			wooBoardVO.setId(user_id);
 			int applyRow = sqlSession.getMapper(WooBoardImpl.class).update(wooBoardVO);
-			List<Map<String, Object>> list = new util.FileUtils().parseUpdateFileInfo(wooBoardVO,files,fileNames, mreq); 
+			List<Map<String, Object>> list = FileUtils.parseUpdateFileInfo(wooBoardVO,files,fileNames, mreq); 
 			Map<String, Object> map = new HashMap<String, Object>();
 			int size = list.size();
 			for(int i=0; i<size; i++){ 
@@ -513,8 +514,8 @@ public class WooBoardController {
 			try {
 				String seller_id = sqlSession.getMapper(WooBoardImpl.class).selectId(boardidx);
 				user_id=principal.getName();
-				map = util.review.revireScore(sqlSession, seller_id);
-				getGrade = util.review.revireScore(sqlSession, user_id);
+				map = review.revireScore(sqlSession, seller_id);
+				getGrade = review.revireScore(sqlSession, user_id);
 				//상세보기
 				WooBoardVO dto = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(boardidx);
 				dto.setContents(dto.getContents().replace("\r\n","<br/>"));//엔터 처리

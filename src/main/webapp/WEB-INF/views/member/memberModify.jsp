@@ -167,70 +167,55 @@ $(function() {
 						alt="n16128097의 프로필 이미지">
 				</div>
 			</div>
-			<form:form class="row contact_form"
-				action="../member/memberModifyAction.woo" method="post"
-				 name="modifyFrm" id="modifyFrm">
+			<form:form class="contact_form" action="../member/memberModifyAction.woo" method="post" name="modifyFrm" id="modifyFrm">
 				<div class="profile_edit_main">
-					<ul>
-						<li>
-							<div>아이디</div>
-							<div>
-								<div class="profile_userId_value">${memberVO.id }</div>
-							</div>
-						</li>
-						<li>
-							<div style="margin-top: 15px;">휴대폰</div>
-							<div style="margin-top: 10px;">
-								<input class="form-control" type="text" id="to" name="tel"
-									value="${memberVO.mobile }" />
-							</div>
-							<button hidden="hidden" type="button" class="btn btn-primary" data-toggle="modal"
-								data-target="#myModal" id="mo1" alt="휴대폰입력창"></button>
-							
-							
-							<div class="form-group mt-3" style="margin-left: 5px;">
-							<button class="btn_my" type="button" id="butt" >인증</button>
-							</div>
-
-						</li>
-						<li>
-							
-							
-							<div style="margin-top: 15px;">인증번호 </div>
-							<div style="margin-top: 10px;">
-								 <input class="form-control" type="text" id="userNum">   <!-- 인증번호 입력창 -->
-							</div>
-								   
-							<div class="form-group mt-3" style="margin-left: 5px;">	   
-  							<button class="btn_my" type="button" id="enterBtn">확인 </button><!--  인증번호와 내가 입력창에 입력한 인증번호 비교하는 창 -->
-  							</div>
-  
-  							<button hidden="hidden" type="button"
-															class="btn btn-primary" data-toggle="modal"
-															data-target="#myModal2" id="mo2" alt="인증번호확인"></button>
- 							 <input type="hidden" name="text" id="text">   <!-- 인증번호를 히든으로 저장해서 보낸다 -->
-						</li>
-						<li>
-							
-						</li>
-						<li class="profile_password_area profile_password_area_first">
-							<div style="margin-top: 15px;">비밀번호</div>
-							<div class="profile_userId_value" style="margin-top: 10px;">
-								<input class="form-control" type="password"
-									value="${memberVO.pass }" id="pw" name="pw" />
-							</div>
-							<div class="form-group mt-3"
-								style=" margin-left: 5px;">
-								<button class="btn_my" type="button" onclick="pwChange();">변경</button>
-							</div>
-						</li>
-						<li></li>
-					</ul>
-
-					<div class="form-group mt-3" style="text-align: right;">
-						<button type="submit" class="btn_my" id="btn">수정하기</button>
+					<div class="row" style="margin-bottom: 15px;">
+						<div class="col-3" style="padding-top: 12px; text-align: center">아이디</div>
+						<div class="col-6">
+							<input class="form-control" type="text" name="id" style="background-color: #ffffff" readonly="readonly" value="${memberVO.id }" />
+						</div>
 					</div>
-					
+					<div class="row" style="margin-bottom: 15px;">
+						<div class="col-3" style="padding-top: 12px; text-align: center">휴대폰</div>
+						<div class="col-6">
+							<input class="form-control" type="text" id="to" name="tel"
+								value="${memberVO.mobile }" />
+						</div>
+						
+						
+						<div class="col-3">
+							<div>
+								<button hidden="hidden" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="mo1" alt="휴대폰입력창"></button>
+								<button class="btn_my" type="button" id="butt" >인증</button>
+							</div>
+						</div>
+					</div>
+					<div class="row" style="margin-bottom: 15px;">
+						<div class="col-3" style="padding-top: 12px; text-align: center">인증번호 </div>
+						<div class="col-6">
+							 <input class="form-control" type="text" id="userNum">   <!-- 인증번호 입력창 -->
+						</div>
+							   
+						<div class="col-3">	   
+							<input type="hidden" name="text" id="text">   <!-- 인증번호를 히든으로 저장해서 보낸다 -->
+							<button hidden="hidden" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2" id="mo2" alt="인증번호확인"></button>
+							<button class="btn_my" type="button" id="enterBtn">확인 </button><!--  인증번호와 내가 입력창에 입력한 인증번호 비교하는 창 -->
+						</div>
+					</div>
+					<div class="row" style="margin-bottom: 15px;">
+						<div class="col-3" style="padding-top: 12px; text-align: center">비밀번호</div>
+						<div class="col-6">
+							<input class="form-control" type="password" value="${memberVO.pass }" id="pw" name="pw" />
+						</div>
+						<div class="col-3">
+							<button class="btn_my" type="button" onclick="pwChange();">변경</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12" style="text-align: center;">
+							<button type="submit" class="btn_my" id="btn">수정하기</button>
+						</div>
+					</div>	
 				</div>
 
 			</form:form>

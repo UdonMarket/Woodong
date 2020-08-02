@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>
-    Argon Dashboard - Free Dashboard for Bootstrap 4 by Creative Tim
+    우동 관리자
   </title>
   <!-- Favicon -->
   <link href="../resources/admin/img/brand/favicon.png" rel="icon" type="image/png">

@@ -240,6 +240,34 @@
 						</dd>
 					</dl>
 					
+						<dl>
+						<dt>
+							<label>공개설정 <span><br>(우동페이 이용시)</span></label>
+						</dt>
+						<dd>
+							<ul class="item_status_list">
+								<li class="item_status">
+									<label>
+										<input type="radio" name="publicSet" value="1" checked="checked" />우동회원<br>전체
+									</label>
+								</li>
+								<li class="item_status">
+									<label>
+										<input type="radio" name="publicSet" value="2" />일반우동<br>전체
+									</label>
+								</li><li class="item_status">
+									<label>
+										<input type="radio" name="publicSet" value="3"/>튀김우동<br>전체
+									</label>
+								</li><li class="item_status">
+									<label>
+										<input type="radio" name="publicSet" value="4"/>따뜻한<br>튀김우동
+									</label>
+								</li>
+							</ul>
+						</dd>
+					</dl>
+					
 					<dl class="hellopay_options_box direct_options_box" id="price">
 						<dt style="color: rgb(51, 51, 51);">판매가격</dt>
 						<dd>
@@ -285,12 +313,22 @@ var fileCount = <c:out value="${endvar}"/>+1;
 var maxfile = 9; 
 var fileNoArry = new Array();
 var fileNameArry = new Array();
+//폼값 유효성 체크
+var frm = document.updateFrm;	
+	
+	
 	
 $(function() {
 	//라디오 토글
 	$("input:radio[name=product_state]").checkboxradio({
 		icon: false
 	});
+	
+	$("input:radio[name=publicSet]").checkboxradio({
+		icon: false
+	});
+	
+	//체크박스 value 확인
 	$('input[type=checkbox]').click(function(){
 		if($(this).is(':checked')){
 	        $(this).val('Y');
@@ -309,7 +347,7 @@ $(function() {
 		$("[name=input_tag]").val('');
 	});
 	
-	//수정 완료 했을시 
+	//수정버튼 클릭시
 	$('#subtn').click(function(){
 		
 		if($('input:checkbox[name=woopay_check]').is(':checked')==true){
@@ -423,6 +461,57 @@ $(function() {
    });
 });
 
+
+function frmCheck(){
+	
+	 var price = frm.price.value;
+	 
+	 if(frm.bname.value==""){
+		 alert("카테고리를 선택해주세요");
+		 frm.bname.focus();
+	     return false;
+	 }      
+	 if(frm.title.value==""){
+		 alert("제목을 입력해주세요");
+		 frm.title.focus();
+	     return false;
+	 }      
+	 if(frm.contents.value==""){
+		 alert("내용을 입력해주세요");
+		 frm.contents.focus();
+	     return false;
+	 }      
+	 if(frm.product_tag.value==""){
+		 alert("최소 1개의 태그를  입력해주세요");
+		 frm.product_tag.focus();
+	     return false;
+	 }
+	 if(frm.publicSet.value>1){
+		 if(!paychk){
+			 alert("공개설정은 우동페이 사용자만 가능합니다.");
+			 $(window).scrollTop(0);
+		     return false;
+		 }
+	 }
+	  if(!price){
+		 alert("가격을 입력해주세요");	
+		 frm.price.focus();
+		 return false;
+	  }
+	  //판매 가격 : 숫자만 입력 가능
+	  for(var idx=0;idx < price.length;idx++){
+	    if(price.charAt(idx) < '0' || price.charAt(idx) > '9'){
+	      alert("가격은 숫자만 입력가능합니다.");
+	      frm.price.focus();
+	      return false;
+	    }
+	  }
+	 if(frm.deal_location.value==""){
+		 alert("거래희망 위치를  입력해주세요");
+		 frm.deal_location.focus();
+	     return false;
+	 }
+}
 </script>
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4416f1cdac23198286eb3f5394e6240d&libraries=services"></script>
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

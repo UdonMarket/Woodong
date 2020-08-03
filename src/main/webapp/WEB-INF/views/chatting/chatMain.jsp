@@ -45,6 +45,7 @@ img {
 							<div style="text-align: left;font-size: 1.4em;font-weight: bold;">${row.sellerid }</div>
 						</c:if>
 							<div style="text-align: left;font-size: 1em;padding-top: 5px;">${row.lastChat }</div>
+
 					</div>
 				</div>
 			</a>

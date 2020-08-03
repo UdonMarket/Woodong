@@ -40,6 +40,7 @@ public class review {
       
       for (int i = 1; i <= full; i++) {
          score += "<img src='../resources/img/그냥튀김우동.png' />";
+
       }
       if (half < 5) {
          for (int j = full + 1; j <= 5; j++) {

@@ -17,6 +17,7 @@
 </script>	
 <header class="main_menu home_menu">
 	<div class="container-fluid" style="padding-left: 90px;padding-right: 90px;">
+		<!-- 로그인 로그아웃 아이콘  start -->
 		<div class="main-top">
 	        <div class="container-fluid">
 	            <div class="row">
@@ -45,7 +46,7 @@
 	            </div>
 	        </div>
 	    </div>
-
+	<!-- 로그인 로그아웃 아이콘  end -->
 		<div class="row align-items-center justify-content-center">
 			<div class="col-lg-12">
 				<nav class="navbar navbar-expand-lg navbar-light">

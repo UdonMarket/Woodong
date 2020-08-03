@@ -25,7 +25,7 @@
 			$('#inputMessage').val('');
 		});
 		//let sock = new SockJS("http://192.168.219.142:8282/woodong/echo");//채훈 고정 IP
-		let sock = new SockJS("http://192.168.219.142:8282/woodong/echo");
+		let sock = new SockJS("http://192.168.219.139:8282/woodong/echo");
 		sock.onmessage = onMessage;
 		sock.onclose = onClose;
 		sock.onerror = onError;

@@ -78,35 +78,37 @@
 	 </insert>
 	 
 	 <!--4-1. 파일 + 3d 업로드  -->
-	 <insert id="insertTDFile" parameterType="map">
- 		INSERT INTO woo_file(
-			fileidx,
-			boardidx,
-			original_name,
-			save_name,
-			threedimage
-		)VALUES(
-			seq_woo_file.NEXTVAL,
-			#{boardidx},
-			#{original_name},
-			#{save_name},
-			#{threedimage}
-		)
-    </insert> 
-    
-	 <!--4-1. 파일 업로드  -->
 	 <insert id="insertFile" parameterType="map">
- 		INSERT INTO woo_file(
-			fileidx,
-			boardidx,
-			original_name,
-			save_name
-		)VALUES(
-			seq_woo_file.NEXTVAL,
-			#{boardidx},
-			#{original_name},
-			#{save_name}
-		)
+	 	<choose>
+	 		<when test="threedimage!=null">
+ 			INSERT INTO woo_file(
+				fileidx,
+				boardidx,
+				original_name,
+				save_name,
+				threedimage
+			)VALUES(
+				seq_woo_file.NEXTVAL,
+				#{boardidx},
+				#{original_name},
+				#{save_name},
+				#{threedimage}
+			)
+	 		</when>
+	 		<otherwise>
+			INSERT INTO woo_file(
+				fileidx,
+				boardidx,
+				original_name,
+				save_name
+			)VALUES(
+				seq_woo_file.NEXTVAL,
+				#{boardidx},
+				#{original_name},
+				#{save_name}
+			)
+	 		</otherwise>
+	 	</choose>
     </insert> 
     
 	  
@@ -124,7 +126,7 @@
 		 	 deal_location=#{deal_location},
 		 	 latitude=#{latitude},
 		 	 longitude=#{longitude},
-		 	 publicset=#{publicset}
+		 	 publicSet=#{publicSet}
 		 	 
 	 	 WHERE boardidx= #{boardidx} AND id=#{id} 
 	 </update>

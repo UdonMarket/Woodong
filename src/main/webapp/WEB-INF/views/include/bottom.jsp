@@ -1,17 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<footer class="footer_part">
+<footer class="footer_part" style="margin-top: 200px;">
         <div class="copyright_part">
             <div class="container">
                 <div class="row ">
                     <div class="col-lg-12">
                         <div class="copyright_text">
                             <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | 우리동네는&nbsp;우동마켓&nbsp;중&nbsp;<i class="ti-heart" aria-hidden="true"></i>&nbsp;by 우동마켓</a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
                             <div class="copyright_link">
-                                <a href="#">Turms & Conditions</a>
-                                <a href="#">FAQ</a>
+                                <a href="">TOP</a>
                             </div>
                         </div>
                     </div>

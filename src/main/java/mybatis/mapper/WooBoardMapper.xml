@@ -8,78 +8,45 @@
 	 <!--1. 게시물 갯수 카운트 -->
 	 <select id="getTotalCount" resultType="int" parameterType="model.ParameterVO">
 		SELECT  count(*) FROM woo_board WHERE 1=1
-		<if test="searchTxt != null and !searchTxt.equals('')">
-	        AND ${searchField} LIKE '%'||#{searchTxt}||'%'  
-	    </if>
     	<if test="list.size!=0">
 	    	AND bname in
 	    	<foreach collection="list" item="item" open="(" close=")" separator=",">
 	    		#{item}
 			</foreach>
 		</if>	
+		<include refid="search"></include>	
 	 </select> 
 
 	 
 	 <!--2. start 와 end 에 해당하는 게시물 가져오기 (페이지 처리 & 검색 처리 )  -->
 	 <select id="listPage" resultType="model.WooBoardVO"  parameterType="model.ParameterVO">
-	 SELECT  
-	 	boardidx,
-		title,
-		contents,
-		postdate,
-		id,
-		bname,
-		visitcount,
-		likecount,
-		ltrim(to_char(price,'999,999,999')) price,
-		product_state,
-		chatcount,
-		like_check,
-		three_dimens,
-		product_tag,
-		woopay,
-		latitude,
-		longitude
-	 FROM 
+	 SELECT *  FROM
 	 	( SELECT Tb.*, rownum rNum FROM 
-	 		(SELECT * FROM woo_board WHERE 1=1 
-		<if test="searchTxt != null and !searchTxt.equals('')">
-	        AND ${searchField} LIKE '%'||#{searchTxt}||'%' 
-	    </if>
+	 		( SELECT * FROM woo_board WHERE 1=1 
     	<if test="list.size!=0">
 	    	AND bname in
 	    	<foreach collection="list" item="item" open="(" close=")" separator=",">
 	    		#{item}
 			</foreach>
 		</if>	
-	 		order by boardidx DESC ) Tb) 
+		<include refid="search"></include>	
+	 		
+	 		<choose>
+	 			<when test="order != null and !order.equals('')">
+	 				ORDER BY ${order} 
+	 			</when>
+	 			<otherwise>
+	 				ORDER BY postdate DESC 
+	 			</otherwise>
+	 		</choose>
+	 		) Tb) 
 	 			WHERE rNum BETWEEN #{start} AND #{end}
 	 </select> 
 	 
 	 <!--3. 상세보기 -->
 	 <select resultType="model.WooBoardVO" id="view" parameterType="String">
-	 	SELECT  
-		 	boardidx,
-			title,
-			contents,
-			postdate,
-			id,
-			bname,
-			visitcount,
-			likecount,
-			ltrim(to_char(price,'999,999,999')) price,
-			product_state,
-			chatcount,
-			like_check,
-			three_dimens,
-			product_tag,
-			woopay,
-			latitude,
-			longitude
-	 	FROM woo_board 
-	 	WHERE boardidx = #{param1} 
+	 	SELECT *  FROM woo_board WHERE boardidx = #{param1} 
 	 </select>
-	 
 	 
 	  <!--3-1. 조회수 처리하기 -->
 	 <update id="visitcount">
@@ -94,41 +61,56 @@
 	 	ORDER BY fileidx
 	 </select>
 	 
-	 
 	<!-- 4. 글쓰기  -->	 
 	  <insert id="write" parameterType="model.WooBoardVO" >
 	 	INSERT INTO woo_board (
 					boardidx, id, title, contents, bname,
 					price, product_state, three_dimens, product_tag, woopay, 
-					latitude, longitude) 
+					deal_location,latitude, longitude, publicSet) 
 		VALUES (
 				seq_woo_board.nextval, #{id}, #{title}, #{contents}, #{bname},
 				#{price}, #{product_state}, #{three_dimens}, #{product_tag}, #{woopay}, 
-				#{latitude}, #{longitude})
+				#{deal_location}, #{latitude}, #{longitude} , #{publicSet})
  					
  		<selectKey  keyProperty="seq_woo_board" resultType="int" order="AFTER">
 	       SELECT seq_woo_board.currval FROM dual
 	    </selectKey>			
 	 </insert>
 	 
-	 <!--4-1. 파일 업로드  -->
+	 <!--4-1. 파일 + 3d 업로드  -->
 	 <insert id="insertFile" parameterType="map">
-		INSERT INTO woo_file
-		(
-			fileidx,
-			boardidx,
-			original_name,
-			save_name,
-			user_id
-		)
-		VALUES(
-			seq_woo_file.NEXTVAL,
-			#{boardidx},
-			#{original_name},
-			#{save_name},
-			#{user_id}
-		)
+	 	<choose>
+	 		<when test="threedimage!=null">
+ 			INSERT INTO woo_file(
+				fileidx,
+				boardidx,
+				original_name,
+				save_name,
+				threedimage
+			)VALUES(
+				seq_woo_file.NEXTVAL,
+				#{boardidx},
+				#{original_name},
+				#{save_name},
+				#{threedimage}
+			)
+	 		</when>
+	 		<otherwise>
+			INSERT INTO woo_file(
+				fileidx,
+				boardidx,
+				original_name,
+				save_name
+			)VALUES(
+				seq_woo_file.NEXTVAL,
+				#{boardidx},
+				#{original_name},
+				#{save_name}
+			)
+	 		</otherwise>
+	 	</choose>
     </insert> 
+    
 	  
     <!--5. 수정처리하기 -->
 	 <update id="update" parameterType="model.WooBoardVO">
@@ -141,8 +123,11 @@
 		 	 three_dimens=#{three_dimens},
 		 	 product_tag=#{product_tag},
 		 	 woopay=#{woopay},
+		 	 deal_location=#{deal_location},
 		 	 latitude=#{latitude},
-		 	 longitude=#{longitude}
+		 	 longitude=#{longitude},
+		 	 publicSet=#{publicSet}
+		 	 
 	 	 WHERE boardidx= #{boardidx} AND id=#{id} 
 	 </update>
 	 
@@ -154,6 +139,11 @@
 	 </update>
 	  
 	 
+	 
+	 <!--끌올기능 -->
+	 <update id="jump" parameterType="model.ParameterVO" >
+	 	UPDATE woo_board SET postdate = sysdate WHERE boardidx=#{boardidx} AND id=#{id}
+	 </update>
 	 
 	 <!--6.  삭제하기-->
 	 <delete id="delete" parameterType="model.ParameterVO" >
@@ -167,12 +157,13 @@
 			title,
 			id,
 			bname,
-			ltrim(to_char(price,'999,999,999')) price,
+			price,
 			product_state,
 			three_dimens,
 			product_tag,
 			latitude,
 			longitude,
+			deal_location,
 			trunc(to_number(DISTNACE_WGS84(#{latTxt}, #{lngTxt},latitude,longitude)),5) AS disKM,
 			ROWNUM AS rNum 
 		FROM woo_board
@@ -190,7 +181,6 @@
 	 
 	<select id="selectId" resultType="String">
 	 	select id from woo_board where boardidx = #{0}
-
 	 </select> 
 	 
 	 
@@ -222,8 +212,29 @@
 	
 	  <select id="selectSellingStatus" resultType="String">
 	 	select deal_type from woo_board where boardidx = #{0}
-
 	 </select>
+	 
+	 <!-- search sql -->
+	 <sql id="search">
+		<if test="searchTxt != null and !searchTxt.equals('') and !searchField.equals('')">
+			<choose>
+				<when test="searchField == 'tc'.toString()">
+				AND (title LIKE '%'||#{searchTxt}||'%' ) or (contents LIKE '%'||#{searchTxt}||'%' )
+				</when>
+				<otherwise>AND ${searchField} LIKE '%'||#{searchTxt}||'%'</otherwise>
+			</choose>
+		</if>
+		<if test="priceStart != null and !priceStart.equals('')">
+			AND price BETWEEN #{priceStart} AND #{priceEnd}
+		</if>
+		<if test="ispay != null and !ispay.equals('')">
+			AND woopay='Y'
+		</if>
+		<if test="pstate != null and !pstate.equals('')">
+			AND  product_state=#{pstate}
+		</if>
+	</sql>
+	
 	
 	<select id="list" resultType="model.WooBoardVO"  parameterType="model.ParameterVO">
 	 SELECT  
@@ -233,15 +244,32 @@
 		postdate,
 		id,
 		bname,
-		ltrim(to_char(price,'999,999,999')) price,
+		price,
 		product_state,
 		three_dimens,
 		latitude,
 		longitude
 	 FROM 
-	 	( SELECT Tb.*, rownum rNum FROM 
+	 	( SELECT Tb.*, rownum rNum FROM  
 	 		(SELECT * FROM woo_board 
+	 		<if test="list.size!=0">
+		    	WHERE bname in
+		    	<foreach collection="list" item="item" open="(" close=")" separator=",">
+		    		#{item}
+				</foreach> 
+			</if>
 	 ORDER BY boardidx DESC ) Tb) 
 	 			WHERE rNum BETWEEN 1 AND 6
 	 </select> 
+	 
+	 <select id="bnameProductCount" resultType="model.ParameterVO" parameterType="model.ParameterVO">
+	 	select count(*) num, bname FROM woo_board
+	 	
+	 		WHERE bname in
+	    	<foreach collection="list" item="item" open="(" close=")" separator=",">
+	    		#{item}
+			</foreach> 
+	 	
+	 	 Group by bname order by num
+	 </select>
 </mapper>  

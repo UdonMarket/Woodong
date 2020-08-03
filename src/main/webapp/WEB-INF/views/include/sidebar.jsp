@@ -1,17 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<script>
-		$asd = $_GET['Code'];
-		$view_arr = explode(",",$_COOKIE['goods_view']);
-		while(list($key,$val)=each($view_arr)){
-		 if($val==$asd){
-		  $az = "yes";
-		 }
-		}
-		if($az != "yes"){
-		setcookie("goods_view", $_COOKIE['goods_view'].",".$_GET['Code'].",".$_GET['CatNo'],time() + 86400,"/");
-		}
-	</script>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script>
+ $(document).ready(function(){
+	 $.ajax({
+		url : "../product/itemSave.woo",
+		dataType : "json",
+		type : "get",
+		contentType : "text/html;charset:utf-8",
+		success : sucFunc, 
+    	error : errFunc
+	 });
+ 	});
+  	function sucFunc(d) {
+	  for(var i=1 ; i<=d.length ; i++){
+  		 $("#img"+i).attr("src","../resources/Upload/"+d[i-1].imagefile);
+  		 $("#title"+i).html(d[i-1].title);
+  		 $("#title"+i).attr("href","../product/productView.woo?boardidx="+d[i-1].boardidx);
+	   }
+ 	}
+	function errFunc() {} 
+ </script>
+	
 <div id="floatMenu">
 	<div style="text-align: center;margin-left: 5px;margin-bottom: -20px;">
 		<img src="../resources/img/sidebar/판매하기로고.png" alt="판매하기" 
@@ -21,8 +31,7 @@
 		<div>
 			<div>
 				<a href="../member/myPlace.woo" style="link:black;">
-					<img src="../resources/img/sidebar/location.png" alt="동네인증" width="20" height="20" />
-					동네인증
+					<img src="../resources/img/sidebar/location.png" alt="동네인증" width="20" height="20" /> 동네인증
 				</a>
 			</div>
 		</div>
@@ -30,69 +39,48 @@
 	<div id="floatMenuBox1"  style="background:none;border:1px solid black;padding-top:10px;">
 		<div>
 			<div>
-				<a href="../mypage/myPage.woo?mode=like">
-					<img src="../resources/img/sidebar/heart.png" alt="찜상품" width="20" height="20" />
-					찜상품
-				</a>
+				<a href="../mypage/myPage.woo?mode=like"><img src="../resources/img/sidebar/heart.png" alt="찜상품" width="20" height="20" /> 내가 찜한 상품</a>
 			</div>
 		</div>
 	</div>
-	
-	<div id="floatMenuBox3"  style="background:none; height:300px;border:1px solid black;">
-		<div style="padding-left:50px;font-weight:bold;">최근 본 상품 <br><br><br></div>
-		
-		<div id="floatMenuBox2"  style="background:none;border:none;">
-			<img src="../resources/img/sidebar/none.png" alt="최근본상품이미지" width="30" height="30"/>
-			<div id="floatMenuBox2"  style="background:none;border:none;color:#D5D5D5">
-				<script type="text/javascript">
-				$view_arr = explode(",",$_COOKIE['goods_view']);
-				while(list($key,$val)=each($view_arr)){
-				  $img = $val . "_m.jpg";
-				  if($key%2==1){
-				  echo"<IMG SRC='/product/$val/$img' WIDTH=60 HEIGHT=60 ALT=''><br>";
-				  }
-				}
-				</script>
-				최근 본 상품이
-				<br>
-				없습니다.
-				<br>
+	<div id="floatMenuBox1"  style="background:none; height:300px;border:1px solid black;">
+		<div style="font-weight:bold;"><h5><small><b>최근 본 상품</b></small></h5></div>
+			<div id="floatMenuBox1"  style="background:none;border:none;margin-bottom: 50px; margin-top: -15px;" >
+				<img id="img1" src="../resources/img/sidebar/none.png"  style="width: 150px; height: 70px;"/>
+				<div style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin-left:20px; width: 150px;"><a href="../product/productView.woo?boardidx=" id="title1" ></a></div>
+			</div>		
+			<div id="floatMenuBox1"  style="background:none;border:none;margin-bottom: 50px; ">
+				<img id="img2" src="../resources/img/sidebar/none.png"  style="width:150px; height: 70px;"/>
+				<div style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin-left:20px; width: 150px;"><a href="../product/productView.woo?boardidx=" id="title2"></a></div>
+			</div>
+			<div id="floatMenuBox1"  style="background:none;border:none;">
+				<img id="img3" src="../resources/img/sidebar/none.png"  style="width: 150px; height: 70px;"/>
+				<div style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin-left:20px; width: 150px;"><a href="../product/productView.woo?boardidx=" id="title3"></a></div>
 			</div>
 		</div>
-	</div>
-	
-	<a href="#">
+	<a href="">
 		<button style="width:205px; height:60px;margin-top:5px;background-color:white;border:1px solid black;" > TOP </button>
 	</a>
-	
-</div>
- 
+	</div>
 <script>
-	$(function() {
-
-		// 기존 css에서 플로팅 배너 위치(top)값을 가져와 저장한다.
-		var floatPosition = parseInt($("#floatMenu").css('top'));
-		// 250px 이런식으로 가져오므로 여기서 숫자만 가져온다. parseInt( 값 );
-
-		$(window).scroll(function() {
-			// 현재 스크롤 위치를 가져온다.
-			var scrollTop = $(window).scrollTop();
-			var newPosition = scrollTop + floatPosition + "px";
-			if(scrollTop<500){
-				newPosition = 500 + floatPosition + "px";
-			}
-
-			/* 애니메이션 없이 바로 따라감
-			 $("#floatMenu").css('top', newPosition);
-			 */
-
-			$("#floatMenu").stop().animate({
-				"top" : newPosition
-			}, 500);
-
-		}).scroll();
-
-	});
+//Side Bar 설정 
+$(function() {
+	// 기존 css에서 플로팅 배너 위치(top)값을 가져와 저장한다.
+	var floatPosition = parseInt($("#floatMenu").css('top'));
+	// 250px 이런식으로 가져오므로 여기서 숫자만 가져온다. parseInt( 값 );
+	$(window).scroll(function() {
+		// 현재 스크롤 위치를 가져온다.
+		var scrollTop = $(window).scrollTop();
+		var newPosition = scrollTop + floatPosition + "px";
+		if(scrollTop<500){
+			newPosition = 500 + floatPosition + "px";
+		}
+		/* 애니메이션 없이 바로 따라감
+		 $("#floatMenu").css('top', newPosition);
+		 */
+		$("#floatMenu").stop().animate({
+			"top" : newPosition
+		}, 500);
+	}).scroll();
+});
 </script>
-
-

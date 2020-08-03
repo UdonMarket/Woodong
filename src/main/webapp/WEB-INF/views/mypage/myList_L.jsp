@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="zxx">
 
@@ -46,7 +47,7 @@ function restartFunc(){
 	<jsp:include page="../include/mypageLeft.jsp" />
 	<section class="left_main"
 		style="padding-top: 100px; padding-left: 70px;">
-		<div class="col-12" style="text-align: center;">
+		<div class="col-12" style="text-align: center; border-bottom: 1px solid #d9d9d9; padding-bottom: 15px;"">
 			<img src="../resources/img/myPage/관심목록1.png" alt="" width="280px;" />
 		</div>
 		<div class="cat_box">
@@ -64,6 +65,7 @@ function restartFunc(){
 
 						<c:choose>
 							<c:when test="${empty likeList}">
+							<li>
 								<span style="font-size: 20px; padding-left: 250px;">게시물이
 									없습니다.</span>
 
@@ -78,7 +80,7 @@ function restartFunc(){
 
 								</div>
 
-
+							</li>
 							</c:when>
 							<c:otherwise>
 								<c:forEach var="list" items="${likeList }">
@@ -93,9 +95,9 @@ function restartFunc(){
 															<a href="../product/productView.woo?boardidx=${list.boardidx}"  > 
 															<img src="../resources/Upload/${list.imagefile}"
 																data-src="https://ccimg.hellomarket.com/images/2020/item/04/28/15/1709868_4830039_1.jpg?size=s4"
-																class="thumbnail_img"
-																alt="18인치 휠 타이어 판매합니다(배송비,스페이스1조포함)" />
-															</a> 
+																class="thumbnail_img" 	/>
+															
+															
 														</div>
 														<div class="dealer_text_position"></div>
 													</div>
@@ -103,7 +105,10 @@ function restartFunc(){
 												<div class="cont">
 													<div class="item_title related_item_icon">
 														${list.title }</div>
-													<div class="item_price profile_price">${list.price }원</div>
+														</a> 
+													<div class="item_price profile_price">
+													<fmt:formatNumber type="number" maxFractionDigits="3" value="${list.price}"/>원 
+													</div>
 												</div>
 											</div>
 									</a>
@@ -122,9 +127,10 @@ function restartFunc(){
 
 					</ul>
 				</div>
-				<ul class="pagination justify-content-center">${pagingImg }
-				</ul>
-
+				<div class="paging">
+					<ul>${pagingImg }
+					</ul>
+				</div>
 			</div>
 		</div>
 	</section>

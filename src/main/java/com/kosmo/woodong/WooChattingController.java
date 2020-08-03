@@ -28,6 +28,8 @@ import model.WooJusoVO;
 import model.WooMemberImpl;
 import model.WooMemberVO;
 import model.WooMypageImpl;
+import model.WooProhiditionImpl;
+import util.review;
 
 @Controller
 public class WooChattingController {
@@ -41,70 +43,7 @@ public class WooChattingController {
 		String id = principal.getName();
 		List<WooChatRoomVO> roomList = sqlSession.getMapper(WooChatImpl.class).selectRoom(id);
 		
-		ArrayList<String> review_score = sqlSession.getMapper(WooMypageImpl.class).review_score(id);
-		double review_scoreSum = 0;
-		for(int i=0; i<review_score.size(); i++) {
-			review_scoreSum += Double.parseDouble(review_score.get(i));
-		}
-		WooMemberVO memberVO = sqlSession.getMapper(WooMypageImpl.class).myInfo(id);
-		
-		int trade_count = Integer.parseInt(memberVO.getTrade_count());
-		
-		double avg_score1 = 0;
-		if(trade_count==0) {
-			avg_score1 = 1;
-		}
-		else {
-			avg_score1 = review_scoreSum / (double)trade_count;
-		}
-		double avg_score2 = ((double)Math.round(avg_score1*10)/10);
-		int avg_score_update = sqlSession.getMapper(WooMypageImpl.class).avg_score_update(avg_score2, id);	
-		double avg_score = Double.parseDouble(memberVO.getAvg_score());
-
-		String score = "";
-
-		int full = (int) avg_score % 5;
-		int half = (int) ((avg_score - full) * 10);
-		
-		for (int i = 1; i <= full; i++) {
-			score += "<img src='../resources/img/그냥튀김우동.png' alt='' />";
-		}
-		if (half < 5) {
-			for (int j = full + 1; j <= 5; j++) {
-				score += "<img src='../resources/img/회색우동.png' alt='' />";
-			}
-		} else {
-			score += "<img src='../resources/img/반쪽우동.png' alt='' />";
-			for (int j = full + 2; j <= 5; j++) {
-				score += "<img src='../resources/img/회색우동.png' alt='' />";
-			}
-		}
-
-		String udongGrade = "";
-
-		if (trade_count < 5) {
-			udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-		} else if (trade_count >= 5 && trade_count < 10) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-		} else if (trade_count >= 10 && trade_count < 15) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else if (avg_score >= 2 && avg_score < 4)
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-			else
-				udongGrade += "<img src='../resources/img/파랑온도계.png' alt='' />";
-		} else if (trade_count >= 15) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else if (avg_score >= 2 && avg_score < 4)
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-			else
-				udongGrade += "<img src='../resources/img/빨간온도계.png' alt='' />";
-		}
-		
+		Map<String, Object> map = review.revireScore(sqlSession, id);
 		
 		for(WooChatRoomVO room : roomList) {
 			List<WooChattingVO> chatList = sqlSession.getMapper(WooChatImpl.class).selectLastChat(room.getChatroomidx());
@@ -112,9 +51,9 @@ public class WooChattingController {
 				room.setLastChat(chatList.get(chatList.size()-1).getChatting());
 			}
 		}
-		model.addAttribute("memberVO", memberVO);
-		model.addAttribute("score", score);
-		model.addAttribute("udongGrade", udongGrade);
+		model.addAttribute("memberVO", map.get("memberVO"));
+		model.addAttribute("udongGrade", map.get("udongGrade"));
+		model.addAttribute("score", map.get("score"));
 		model.addAttribute("roomList", roomList);
 		model.addAttribute("id", id);
 		return "chatting/chatMain";
@@ -125,11 +64,27 @@ public class WooChattingController {
 	public String chatting(Principal principal, HttpServletRequest req, HttpSession session, Model model) {
 		String user_id = principal.getName();
 		String chatroomidx = req.getParameter("chatroomidx");
+		if(chatroomidx==null) {
+			String sellerid = req.getParameter("sellerid");
+			String boardidx = req.getParameter("boardidx");
+			WooChatRoomVO wooChatRoomVO = new WooChatRoomVO();
+			wooChatRoomVO.setBoardidx(boardidx);
+			wooChatRoomVO.setBuyerid(user_id);
+			wooChatRoomVO.setSellerid(sellerid);
+			String roomCheck = sqlSession.getMapper(WooChatImpl.class).selectChatRoom(wooChatRoomVO);
+			if(roomCheck!=null && !"".equals(roomCheck)) {
+				chatroomidx = roomCheck;
+			}
+			else {
+				chatroomidx = String.valueOf(sqlSession.getMapper(WooChatImpl.class).createChatroom(wooChatRoomVO));
+			}
+			
+		}
 		List<WooChattingVO> chatList = sqlSession.getMapper(WooChatImpl.class).selectChatting(chatroomidx);
 		session.setAttribute("id", user_id);
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("userid", user_id);
-		model.addAttribute("chatroomidx", req.getParameter("chatroomidx"));
+		model.addAttribute("chatroomidx", chatroomidx);
 		return "chatting/chatting";
 	}
 	
@@ -174,6 +129,13 @@ public class WooChattingController {
 		String chatting = req.getParameter("chatting");
 		String chatroomidx = req.getParameter("chatroomidx");
 		String id = req.getParameter("id");
+		List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		
+		for(String prohidition : prohiditionlists) {
+			if(chatting.contains(prohidition)) {
+				sqlSession.getMapper(WooMemberImpl.class).prohidition(id, prohidition);
+			}
+		}
 		
 		WooChattingVO wooChattingVO = new WooChattingVO();
 		wooChattingVO.setChatroomidx(chatroomidx);
@@ -185,7 +147,6 @@ public class WooChattingController {
 		Timestamp lastChat = null;
 		if(chatList.size()>0) {
 			lastChat = chatList.get(chatList.size()-1).getChatDate();
-			System.out.println("1" + chatList.get(chatList.size()-1).getChatDate());
 		}
 		sqlSession.getMapper(WooChatImpl.class).updateLastChatTime(chatroomidx, lastChat);
 	}

@@ -92,14 +92,20 @@
 						<h3>멤버관리</h3>
 					</div>
 				</li>
-				<li class="nav-item"><a class="nav-link "
-					href="../admin/memberTable.woo?grade=admin"> <i
-						class="ni ni-bullet-list-67 text-red"></i> 관리자
-				</a></li>
+				<li class="nav-item">
+					<a class="nav-link " href="../admin/memberTable.woo?grade=admin">
+						<i class="ni ni-bullet-list-67 text-red"></i> 관리자
+					</a>
+				</li>
 				<li class="nav-item"><a class="nav-link "
 					href="../admin/memberTable.woo?grade=normal"> <i
 						class="ni ni-bullet-list-67 text-red"></i> 회원
 				</a></li>
+				<li class="nav-item"><a class="nav-link "
+					href="../admin/memberTable.woo?grade=black"> <i
+						class="ni ni-bullet-list-67 text-red"></i> 상한우동
+				</a></li>
+				
 				<li class="nav-item active ">
 					<div style="text-align: left; margin-left: 40px; margin-top: 30px">
 						<h3>게시판관리</h3>
@@ -117,6 +123,21 @@
 					href="../admin/boardTable.woo?mode=community"> <i
 						class="ni ni-bullet-list-67 text-red"></i> 커뮤니티
 				</a></li>
+				
+				<li class="nav-item active ">
+					<div style="text-align: left; margin-left: 40px; margin-top: 30px">
+						<h3>홈페이지관리</h3>
+					</div>
+				</li>
+				<li class="nav-item"><a class="nav-link"
+					href="../admin/chatting.woo"> <i
+						class="ni ni-bullet-list-67 text-red"></i> 채팅
+				</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="../admin/payTable.woo"> <i
+						class="ni ni-bullet-list-67 text-red"></i> 결제관리
+				</a></li>
+
 			</ul>
 			<!-- Divider -->
 			<hr class="my-3">

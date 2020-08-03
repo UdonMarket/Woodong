@@ -16,7 +16,7 @@
 	<jsp:include page="../include/mypageLeft.jsp" />
 	<section class="left_main"
 		style="padding-top: 100px; padding-left: 70px;">
-		<div class="col-12" style="text-align: center;">
+		<div class="col-12" style="text-align: center;zz">
 			<img src="../resources/img/myPage/거래중1.png" alt="" width="280px;" />
 		</div>
 		<div class="container" style="padding-top: 50px;">
@@ -91,8 +91,11 @@
 													<div class="image_outside">
 														<div class="image_centerbox">
 														<a href="../product/productView.woo?boardidx=${list.boardidx}"  > 
-													
-															<img src="../resources/Upload/${list.imagefile}" style="position : absolute; z-index : 2;"
+																
+															<c:if test="${list.deal_type eq '구매자결제완료'}">
+																<img src="../resources/img/myPage/구매자결제완료.png" style="position: absolute; z-index : 2;  right: 50%; width:130px; height:40px; margin-top: 60px;"/>
+															</c:if>	
+															<img src="../resources/Upload/${list.imagefile}" style="position : absolute; z-index : 1;"
 																data-src="https://ccimg.hellomarket.com/images/2020/item/04/28/15/1709868_4830039_1.jpg?size=s4"
 																class="thumbnail_img"
 																alt="18인치 휠 타이어 판매합니다(배송비,스페이스1조포함)" />
@@ -103,7 +106,7 @@
 												</div>
 												<div class="cont">
 													<div class="item_title related_item_icon">${list.title }</div>
-													<div class="item_price profile_price">${list.price }원</div>
+													<div class="item_price profile_price">${list.price }원 ${dealtype}</div>
 												</div>
 											</div>
 									</a></li>
@@ -112,8 +115,10 @@
 						</c:choose>
 					</ul>
 				</div>
-				<ul class="pagination justify-content-center">${pagingImg }
-				</ul>
+				<div class="paging">
+					<ul>${pagingImg }
+					</ul>
+				</div>
 			</div>
 
 		</div>

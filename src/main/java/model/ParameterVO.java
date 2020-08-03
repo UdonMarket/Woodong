@@ -23,8 +23,82 @@ public class ParameterVO {
 	
 	private String idx;
 	private String seller_id;
+	private String juso;
+	private String latitude;
+	private String longitude;
+	private String contents;
+	private String pstate;
+	private String ispay;
+	private String priceStart;
+	private String priceEnd;
+	private String order;
+	private String chatroomidx;
+	private String likecount;
 	
+
 	
+	public String getChatroomidx() {
+		return chatroomidx;
+	}
+	public void setChatroomidx(String chatroomidx) {
+		this.chatroomidx = chatroomidx;
+	}
+	public String getPstate() {
+		return pstate;
+	}
+	public void setPstate(String pstate) {
+		this.pstate = pstate;
+	}
+	public String getIspay() {
+		return ispay;
+	}
+	public void setIspay(String ispay) {
+		this.ispay = ispay;
+	}
+	public String getPriceStart() {
+		return priceStart;
+	}
+	public void setPriceStart(String priceStart) {
+		this.priceStart = priceStart;
+	}
+	public String getPriceEnd() {
+		return priceEnd;
+	}
+	public void setPriceEnd(String priceEnd) {
+		this.priceEnd = priceEnd;
+	}
+	public String getOrder() {
+		return order;
+	}
+	public void setOrder(String order) {
+		this.order = order;
+	}
+
+	
+	public String getContents() {
+		return contents;
+	}
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
+	public String getJuso() {
+		return juso;
+	}
+	public void setJuso(String juso) {
+		this.juso = juso;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
 	public String getPlace() {
 		return place;
 	}
@@ -159,4 +233,11 @@ public class ParameterVO {
 	public void setSearchTxt(String searchTxt) {
 		this.searchTxt = searchTxt;
 	}
+		public String getLikecount() {
+		return likecount;
+	}
+	public void setLikecount(String likecount) {
+		this.likecount = likecount;
+	}
+	
 }

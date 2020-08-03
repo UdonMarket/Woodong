@@ -57,16 +57,6 @@
 		DELETE FROM woo_member WHERE id=#{param1} AND pass=#{param2} 	
  	</delete>
  	
- 	<!-- 동네인증 -->
-  	<select id="view" resultType="model.WooMemberVO">
-  		SELECT * FROM woo_member WHERE id=#{0}
-  	</select>
-  	
-  	<!-- 수정폼 진입 -->
-  	<select id="startModify" resultType="model.WooMemberVO">
- 		 SELECT * FROM woo_member WHERE id=#{param1}
- 	</select>
-  	
   	<!-- 수정처리 과정 -->
   	<update id="modify" >
   		UPDATE woo_member SET addr=#{0} WHERE id=#{1}
@@ -97,4 +87,20 @@
   	<select id="pwFind"  resultType="model.WooMemberVO">
   		SELECT pass FROM woo_member WHERE mobile=#{mobile}
   	</select>
+  	 
+  	<insert id="prohidition">
+  		INSERT INTO woo_memberprohidition (memberprohiditionidx, id, prohidition) values (seq_woo_memberprohidition.nextval, #{0}, #{1})
+  	</insert>
+  	
+  	<select id="prohiditionCount" resultType="int">
+  		SELECT COUNT(*) FROM woo_memberprohidition WHERE id=#{0} 
+  	</select>
+  	
+  	<update id="memberblack">
+  		UPDATE woo_member SET grade='black', enabled=0 WHERE id=#{0}
+  	</update>
+  	
+  	<update id="memberWhite"> 
+  		UPDATE woo_member SET grade='normal', enabled=1 WHERE id=#{0}
+  	</update>
  </mapper>

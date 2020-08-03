@@ -11,6 +11,27 @@ public class WooChatRoomVO {
 	private String buyerid;
 	private Timestamp lastchatdate;
 	
+	private int seq_woo_chatroom;
+	private String title;
+	
+	
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public int getSeq_woo_chatroom() {
+		return seq_woo_chatroom;
+	}
+
+	public void setSeq_woo_chatroom(int seq_woo_chatroom) {
+		this.seq_woo_chatroom = seq_woo_chatroom;
+	}
+
 	// 기타
 	private String lastChat;
 
@@ -29,7 +50,6 @@ public class WooChatRoomVO {
 	public void setBoardidx(String boardidx) {
 		this.boardidx = boardidx;
 	}
-
 
 	public String getSellerid() {
 		return sellerid;

@@ -10,7 +10,11 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
 <link rel="icon" href="../resources/img/main/favicon.png">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/default.css">
-
+<style>
+img { 
+	width : 50px;
+}
+</style>
 <body>
 
 <div class="continer" id="chat-wrapper" style="border: 2px solid #d9d9d9;height: 535px;margin: 30px; overflow-x:hidden; overflow-y: auto">
@@ -20,35 +24,32 @@
 	</header>		
 	<input type="hidden" id="chat_id" value="${param.chat_id }" style="border:1px dotted red;" />
 	<input type="hidden" id="chat_room" value="${param.chat_room }" style="border:1px dotted red;" />
-	<ul id="channel-list" class="">
 			
 		<c:forEach items="${roomList }" var="row">
-			<li>
-				<c:if test="${id eq row.sellerid }">
-				<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', 'name(${row.buyerid })', 'height=640; width=480; top=200; left=700;', true);">
-				</c:if>
-				<c:if test="${id ne row.sellerid }">
-				<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', 'name(${row.sellerid })', 'height=640; width=480; top=200; left=700;', true);">
-				</c:if>
+			<c:if test="${id eq row.sellerid }">
+			<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', 'name(${row.chatroomidx})', 'height=640; width=480; top=200; left=700;', true);">
+			</c:if>
+			<c:if test="${id ne row.sellerid }">
+			<a href="javascript:void(0);" onclick="window.open('../chatting/chatting.woo?chatroomidx=${row.chatroomidx}', 'name(${row.chatroomidx})', 'height=640; width=480; top=200; left=700;', true);">
+			</c:if>
 
-					<div class="catting_room row">
-						<div class="col-3" style="text-align: left;width: 50px;">
-							${udongGrade }
-						</div>
-						<div class="col-6">
-							<c:if test="${id eq row.sellerid }">
-								<div style="text-align: left;font-size: 1.4em;font-weight: bold;">${row.buyerid }</div>
-							</c:if>
-							<c:if test="${id ne row.sellerid }">
-								<div style="text-align: left;font-size: 1.4em;font-weight: bold;">${row.sellerid }</div>
-							</c:if>
-								<div style="text-align: left;font-size: 1em;padding-top: 5px;">${row.lastChat }</div>
-						</div>
+				<div class="catting_room row">
+					<div class="col-3" >
+						${udongGrade }
 					</div>
-				</a>
-			</li>
+					<div class="col-6">
+						<c:if test="${id eq row.sellerid }">
+							<div style="text-align: left;font-size: 1.4em;font-weight: bold;">${row.buyerid }</div>
+						</c:if>
+						<c:if test="${id ne row.sellerid }">
+							<div style="text-align: left;font-size: 1.4em;font-weight: bold;">${row.sellerid }</div>
+						</c:if>
+							<div style="text-align: left;font-size: 1em;padding-top: 5px;">${row.lastChat }</div>
+
+					</div>
+				</div>
+			</a>
 		</c:forEach>
-	</ul>
 	<!-- 우동이 -->
 	<div style="position: absolute;top: 500px;left: 350px;" id="frogue-container" class="position-right-bottom"
       data-chatbot="343db279-fccf-4543-8016-74a5d0808807"

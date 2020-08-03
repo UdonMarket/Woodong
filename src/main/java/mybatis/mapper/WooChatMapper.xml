@@ -2,6 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="model.WooChatImpl">
+
+	<select id="getTotalCount" resultType="int" parameterType="model.ParameterVO">
+		SELECT count(*) FROM woo_chatroom
+		<if test="searchTxt!=null and !searchTxt.equals('')">
+			WHERE ${searchField} like '%'||#{searchTxt}||'%'
+		</if>
+	</select>
+	<select id="selectAllRoom" parameterType="model.ParameterVO" resultType="model.WooChatRoomVO">
+		SELECT * FROM (
+ 			SELECT Tb.*, rownum rNum FROM (
+ 				SELECT * FROM woo_chatroom WHERE 1=1
+ 			 	<if test="searchTxt!=null and !searchTxt.equals('')">
+ 					AND ${searchField} like '%'||#{searchTxt}||'%'
+ 				</if>
+ 				ORDER BY lastchatdate DESC
+ 			) Tb
+ 		)
+ 		WHERE rNum BETWEEN #{start} AND #{end}
+	</select>
 	<select id="selectRoom" resultType="model.WooChatRoomVO">
 		SELECT * FROM woo_chatroom WHERE sellerid=#{0} or buyerid=#{0} ORDER BY lastchatdate desc
 	</select>
@@ -9,7 +28,7 @@
 		SELECT * FROM woo_chatting WHERE chatroomidx=#{0} ORDER BY chatDate
 	</select> 
 	<insert id="saveMessage" parameterType="model.WooChattingVO">
-		INSERT INTO woo_chatting (chattingidx, id, chatting, chatroomidx) values (seq_woo_chat.nextval, #{id}, #{chatting}, #{chatroomidx})
+		INSERT INTO woo_chatting (chattingidx, id, chatting, chatroomidx) values (seq_woo_chatting.nextval, #{id}, #{chatting}, #{chatroomidx})
 	</insert>
 	<update id="updateLastChatTime">
 		UPDATE woo_chatroom SET lastchatdate = #{1} WHERE chatroomidx = #{0}
@@ -17,6 +36,20 @@
 	
 	<select id="selectChatting" resultType="model.WooChattingVO">
 		SELECT * FROM woo_chatting WHERE chatroomidx = #{0} ORDER BY chatDate
+	</select>
+	
+	<select id="chatTotalCount" resultType="int">
+		SELECT count(*) FROM woo_chatting WHERE chatroomidx = #{0}
+	</select>
+	
+	<select id="admminSelectChatting" resultType="model.WooChattingVO" parameterType="model.ParameterVO">
+		SELECT * FROM (
+ 			SELECT Tb.*, rownum rNum FROM (
+ 				SELECT * FROM woo_chatting WHERE chatroomidx = #{chatroomidx}
+ 				ORDER BY chatDate DESC
+ 			) Tb
+ 		)
+ 		WHERE rNum BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="jusoList" resultType="model.WooJusoVO">
@@ -28,5 +61,17 @@
 		FROM woo_review
 		WHERE 
 			juso like '%${place}%'
+  	</select>
+  	
+  	<insert id="createChatroom" parameterType="model.WooChatRoomVO">
+  		INSERT INTO woo_chatroom (chatroomidx, boardidx, sellerid, buyerid) VALUES (seq_woo_chatroom.nextval, #{boardidx}, #{sellerid}, #{buyerid})
+  		
+  		<selectKey  keyProperty="seq_woo_chatroom" resultType="int" order="AFTER">
+	       SELECT seq_woo_chatroom.currval FROM dual
+	    </selectKey>
+  	</insert>
+  	
+  	<select id="selectChatRoom" parameterType="model.WooChatRoomVO" resultType="String">
+  		SELECT chatroomidx FROM woo_chatroom WHERE boardidx=#{boardidx} AND buyerid=#{buyerid}
   	</select>
 </mapper> 

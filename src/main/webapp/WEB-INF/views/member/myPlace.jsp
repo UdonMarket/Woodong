@@ -313,8 +313,7 @@
 							              </div>
 							              <div class="col-6">
 							                <div class="form-group">
-							                  <input class="form-control" name="" id="" type="text" placeholder='동네인증을 해주세요' 
-							                  readonly="readonly"  value="${dto.addr}">
+							                  <input class="form-control" name="" id="" type="text" placeholder='동네인증을 해주세요' readonly="readonly"  value="${memberVO.addr}">
 							                </div>
 							              </div>
 							             

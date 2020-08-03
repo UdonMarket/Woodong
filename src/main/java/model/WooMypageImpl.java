@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface WooMypageImpl {
 	
@@ -11,14 +12,18 @@ public interface WooMypageImpl {
 	
 	WooMemberVO myInfo(String var1);
 	
-	String selectLike(String var1);
+	List<String> selectLike(String var1);
 
 	int updateLike(String var1, String var2);
-
+	void deleteLike(String id, String boardidx);
 	ArrayList<WooBoardVO> selectBoard(ParameterVO var1);
 
 	int getTotalCount(ParameterVO var1);
-
+	
+	//리뷰테이블 totalCount 추가
+	int getTotalCountBuyerReview(ParameterVO var1);
+	int getTotalCountSellerReview(ParameterVO var1);
+	
 	int likeCheck(String var1);
 
 	int selectLikeCheck(String var1);
@@ -31,8 +36,9 @@ public interface WooMypageImpl {
 	
 	public int update_reviewTable(ParameterVO parameterVO);
 	
-	public int update_reviewContents(String contents, String idx);
-	
+
+	public int update_reviewContents(ParameterVO parameterVO);
+
 	public int update_reviewScore(String cal_reviewPoint, String write_idx);
 	
 	public int avg_score_update(double avg_score, String user_id);
@@ -47,6 +53,8 @@ public interface WooMypageImpl {
 	public int delete(String idx);
 	
 	public int default_reviewScore(String idx);
+	
+	public String dealtype(String idx);
 	
 }
 

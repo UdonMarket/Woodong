@@ -316,7 +316,7 @@ var fileNameArry = new Array();
 //폼값 유효성 체크
 var frm = document.updateFrm;	
 	
-	
+var prohidition = '<c:forEach items="${prohidition}" var="row">${row},</c:forEach>';
 	
 $(function() {
 	//라디오 토글
@@ -463,6 +463,43 @@ $(function() {
 
 
 function frmCheck(){
+	
+	 var paychk = $('input:checkbox[name=woopay_check]').is(':checked');
+	 var price = frm.price.value;
+	 
+
+ 	$(function() { 
+		var check = false;
+		var ban_word_list = "";
+		var prohiditionList = prohidition.split(',');
+		
+		for (var i = 0; i < prohiditionList.length-1; i++) {
+			if(frm.title.value.indexOf(prohiditionList[i].trim()) > -1) {
+				if(ban_word_list.indexOf('"' + prohiditionList[i] + '"') < 0){
+					ban_word_list += prohiditionList[i] + " ";
+
+				}
+			}
+			if(frm.contents.value.indexOf(prohiditionList[i].trim()) > -1) {
+				if(ban_word_list.indexOf('"' + prohiditionList[i] + '"') < 0){
+					ban_word_list += prohiditionList[i] + " ";
+
+				}
+			}
+			if(frm.product_tag.value.indexOf(prohiditionList[i].trim()) > -1) {
+				if(ban_word_list.indexOf('"' + prohiditionList[i] + '"') < 0){
+					ban_word_list += prohiditionList[i] + " ";
+
+				}
+			}
+		}
+		
+		if(ban_word_list.length > 0){
+			alert("(" + ban_word_list + ")은(는) 사용할 수 없습니다.");
+			return false;
+		}
+
+	 }); 
 	
 	 var price = frm.price.value;
 	 

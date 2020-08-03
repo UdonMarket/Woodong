@@ -297,55 +297,14 @@
 
 		
 <!--캡챠 start-->
-<div class="row" style="margin-bottom: 30px;">
-<div class="col-6"></div>
-<div class="g-recaptcha col-3" data-sitekey="6LcN9rgZAAAAAAVPcPXtEi5PrlDMtEC7QCX-X-eO" style="margin-left:70px; margin-right: 20px"></div>
-<div class="col-2" style="padding-top: 15px;"><button id="btn_captha" type="button" class="btn_my">캡차 </button></div>
+<div class="row" style="margin-bottom: 30px; margin-top: 20px">
+	<div class="col-4"></div>
+	<div class="g-recaptcha col-3" data-sitekey="6LcN9rgZAAAAAAVPcPXtEi5PrlDMtEC7QCX-X-eO" style="padding-left: 30px;"></div>
 </div>
 <!--캡챠 end -->
 			</div>
 		</div>
 <script src="https://www.google.com/recaptcha/api.js"></script>
- <script>
-/*  var captcha = 1;
-
-//캡차 ajax 요청  
-$(function() {
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-	$('#btn_captha').click(function() {
-		$.ajax({
-            url: './VerifyRecaptcha',
-            type: 'post',
-            beforeSend:function(xhr){
-            	xhr.setRequestHeader(header, token);
-            },
-            data: {
-                recaptcha: $("#g-recaptcha-response").val()
-            },
-            cache :false, // 캐시 여부
-            success: function(data) {
-                switch (data.msg) {
-                    case 0:
-                        console.log("자동 가입 방지 봇 통과");
-                        captcha = 0;
-                		break;
-                    case 1:
-                    	alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
-                        break;
-                    default:
-                    	alert("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다.");
-                   		break;
-                }
-            },
-            error:function(xhr,status,error){
-				console.log('error:'+error);
-			}
-        });
-	});
-	
-});  */
-</script>
 		<input type="hidden" id="sample4_postcode" placeholder="우편번호">
 		<input type="hidden" id="sample4_roadAddress" placeholder="도로명주소">
 		<span id="guide" style="color:#999;display:none"></span>
@@ -376,10 +335,10 @@ $(function() {
                       console.log("자동 가입 방지 봇 통과");
               		break;
                   case 1:
-                  	alert("자동 글 쓰기 방지 봇을 확인 한뒤 진행 해 주세요.");
+                	  console.log("자동 글 쓰기 방지 봇을 확인 한뒤 진행 해 주세요.");
                       break;
                   default:
-                  	alert("자동 글 쓰기  방지 봇을 실행 하던 중 오류가 발생 했습니다.");
+                	  console.log("자동 글 쓰기  방지 봇을 실행 하던 중 오류가 발생 했습니다.");
                  		break;
               }
           },
@@ -498,13 +457,11 @@ $(function() {
 		
 		
 		//폼 값 체크
-		if(confirm("글 작성하시겠습니까?")){
-			if(frmCheck()){
-				frm.action = "./writeAction.woo";
-				frm.method = "post";
-				frm.enctype = "multipart/form-data";
-				frm.submit();
-			}
+		if(frmCheck()){
+			frm.action = "./writeAction.woo";
+			frm.method = "post";
+			frm.enctype = "multipart/form-data";
+			frm.submit();
 		}
 		
 	});

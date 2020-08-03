@@ -34,7 +34,7 @@
 			                              <sec:authorize access="isAuthenticated()">
 		                              		<a href="../member/memberModify.woo"><input type="image" src="../resources/img/header/edit.png" style="width:110px;height:33px;" /></a>
 			                              <div style="display: inline-block;">
-			                              <form:form method="post" action="${pageContext.request.contextPath}/logout"> 
+			                              <form:form method="post" action="../member/logout"> 
 			                            	<input type="image" src="../resources/img/header/logout.png" style="width:80px;height:33px;" />
 			                             </form:form> 
 			                             </div>

@@ -50,6 +50,24 @@
 			$('[name=editOrDelete]').submit();
 		}
 	}
+	
+	function black(id) {
+		if(confirm('블랙리스트에 등록하시겠습니까?')){
+			$('#blackid').val(id);
+			alert($('#blackid').val());
+			$('[name=blackfrm]').attr('action', '../admin/memberBlack.woo');
+			$('[name=blackfrm]').submit();
+		}
+	}
+	
+	function white(id) {
+		if(confirm('블랙리스트에서 해제하시겠습니까?')){
+			$('#blackid').val(id);
+			alert($('#blackid').val());
+			$('[name=blackfrm]').attr('action', '../admin/memberWhite.woo');
+			$('[name=blackfrm]').submit();
+		}
+	}
 </script>
 <body class="">
 	<jsp:include page="../include/left.jsp" />
@@ -100,11 +118,15 @@
 				<col width="50px" />
 				<col width="150px" />
 				<col width="150px" />
-				<col width="*" />
+				<col width="400px" />
 				<col width="120px" />
-				<col width="30px" />
-				<col width="30px" />
-				<col width="30px" />
+				<c:if test="${param.grade eq 'normal' }">
+					<col width="30px" />
+					<col width="30px" />
+					<col width="30px" />
+					<col width="30px" />
+				</c:if>
+					<col width="20px" />
 				<col width="30px" />
 				<col width="30px" />
 			</colgroup>
@@ -117,13 +139,17 @@
 					<th class="text-center">휴대폰번호</th>
 					<th class="text-center">주소</th>
 					<th class="text-center">가입일</th>
-					<c:if test="${param.grade eq 'normal' }">
+					<c:if test="${param.grade eq 'normal' || param.grade eq 'black'}">
 						<th class="text-center">평점</th>
 						<th class="text-center">등급</th>
 						<th class="text-center">거래횟수</th>
+						<th class="text-center">금칙어</th>
 					</c:if>
-					<th class="text-center">수정버튼</th>
-					<th class="text-center">삭제버튼</th>
+					<th class="text-center">블랙</th>
+					<c:if test="${param.grade ne 'black' }">
+						<th class="text-center">수정</th> 
+					</c:if>
+					<th class="text-center">삭제</th>
 
 				</tr>
 			</thead>
@@ -135,31 +161,47 @@
 						<td class="text-center">${row.mobile }</td>
 						<td class="text-center">${row.addr }</td>
 						<td class="text-center">${row.regidate }</td>
-						<c:if test="${param.grade eq 'normal' }">
+						<c:if test="${param.grade eq 'normal' || param.grade eq 'black' }">
 							<td class="text-center">${row.avg_score }</td>
 							<td class="text-center">${row.grade }</td>
 							<td class="text-center">${row.trade_count }</td>
+							<td class="text-center">${row.prohiditionCount }</td>
 						</c:if>
+						<c:if test="${param.grade eq 'normal' }">
+							<td class="text-center">
+								<button class="btn btn-dark" style="height: 20px; padding-top: 0px"  onclick="black('${row.id }');">블랙</button>
+							</td>
+						</c:if>
+						<c:if test="${param.grade eq 'black' }">
+							<td class="text-center">
+								<button class="btn btn-dark" style="height: 20px; padding-top: 0px"  onclick="white('${row.id }');">블랙해제</button>
+							</td>
+						</c:if>
+						<c:if test="${param.grade ne 'black'}">
 						<td class="text-center">
-							<form:form action="../admin/edit.woo">
+							<form:form action="../admin/edit.woo" method="post">
 								<input type="hidden" name="id" value="${row.id }" />
 								<input type="hidden" name="grade" value="${grade }" />
 								<select name="editgrade">
 									<option value="admin">관리자</option>
 									<option value="normal">회원</option>
 								</select>
-							<input type="submit" class="btn btn-primary" style="height: 20px; padding-top: 0px"  value="수정" />
+								<input type="submit" class="btn btn-primary" style="height: 20px; padding-top: 0px;"  value="수정" />
 							</form:form>
 						</td>
+						</c:if>
 						<td class="text-center">
-							<button class="btn btn-danger" style="height: 20px; padding-top: 0px"  onclick="isDelete(${row.id });">삭제</button>
+							<button class="btn btn-danger" style="height: 20px; padding-top: 0px"  onclick="isDelete('${row.id }');">삭제</button>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 			
 		</table>
 </div>
-	
+	<form:form name="blackfrm" method="post">
+		<input type="hidden" name="blackid" id="blackid" />
+	</form:form>
 	<div style="text-align: center">
 		<form:form name="editOrDelete">
 			<input type="hidden" name="grade" value="${grade }" />

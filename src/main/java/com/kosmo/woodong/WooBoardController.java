@@ -1,7 +1,9 @@
 package com.kosmo.woodong;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +31,11 @@ import model.WooBoardImpl;
 import model.WooBoardListImpl;
 import model.WooBoardListVO;
 import model.WooBoardVO;
-import model.WooMemberVO;
 import model.WooMypageImpl;
+import model.WooProhiditionImpl;
+import util.VerifyRecaptcha;
+import util.review;
+import util.FileUtils;
 
 @Controller
 public class WooBoardController {
@@ -63,6 +68,7 @@ public class WooBoardController {
 		parameterVO.setPriceEnd(req.getParameter("priceEnd"));
 		parameterVO.setPstate(req.getParameter("pstate"));
 		parameterVO.setOrder(req.getParameter("order"));
+		parameterVO.setBname(req.getParameter("bname"));
 		
 		
 		model.addAttribute("blists", blists);
@@ -147,8 +153,6 @@ public class WooBoardController {
 		parameterVO.setStart(start);
 		parameterVO.setEnd(end);
 		
-		System.out.println("start : " + start);
-		System.out.println("end : " + end);
 		
 		int total = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).getTotalCount(parameterVO);
 		ArrayList<WooBoardVO> lists = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).listPage(parameterVO);
@@ -159,11 +163,10 @@ public class WooBoardController {
 			if(principal!=null) {
 				user_id = principal.getName();
 				mv.addObject("user_id", user_id);
-				String str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
-				String[] splitStr = str.split("#");
+				List<String> str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
 				for (int i = 0; i < lists.size(); i++) {
-					for (int j = 0; j < splitStr.length; j++) {
-						if(splitStr[j].equals(lists.get(i).getBoardidx())) {
+					for (int j = 0; j < str.size(); j++) {
+						if(str.get(j).equals(lists.get(i).getBoardidx())) {
 							lists.get(i).setLike_check(1);
 						}
 					}
@@ -192,10 +195,8 @@ public class WooBoardController {
 		//DB에 있는 게시물의 total 과 start를 비교하여 state 설정
 		if (start > total) {
 			mv.addObject("state", "false");
-			System.out.println("state : false");
 		} else {
 			mv.addObject("state", "true");
-			System.out.println("state : true");
 		}
 
 		mv.setViewName("product/ajaxList");
@@ -210,134 +211,70 @@ public class WooBoardController {
 	public String productView(Model model, HttpServletRequest req,Principal principal, HttpServletResponse response) {
 		
 		String boardidx = req.getParameter("boardidx");
-		String user_id="";
 		String nowPage = req.getParameter("nowPage");
+		String user_id="";
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> getGrade = new HashMap<String, Object>();
+		int userGrade = 1;
 		String seller_id = sqlSession.getMapper(WooBoardImpl.class).selectId(boardidx);
+		String udong = "";
 		
-		//회원 등급 계산 start
-		ArrayList<String> review_score  = sqlSession.getMapper(WooMypageImpl.class).review_score(seller_id);
-		double review_scoreSum = 0;
-		for(int i=0; i<review_score.size(); i++) {
-			review_scoreSum += Double.parseDouble(review_score.get(i));
-		}
-		WooMemberVO memberVO = sqlSession.getMapper(WooMypageImpl.class).myInfo(seller_id);
-		
-		int trade_count = Integer.parseInt(memberVO.getTrade_count());
-		double avg_score1 = 0;
-		if(trade_count==0) {
-			avg_score1 = 1;
-		}
-		else {
-			avg_score1 = review_scoreSum / (double)trade_count;
-		}
-		double avg_score2 = ((double)Math.round(avg_score1*10)/10);
-		int avg_score_update = sqlSession.getMapper(WooMypageImpl.class).avg_score_update(avg_score2, seller_id);	
-		double avg_score = Double.parseDouble(memberVO.getAvg_score());
-
-		String score = "";
-
-		int full = (int) avg_score % 5;
-		int half = (int) ((avg_score - full) * 10);
-		for (int i = 1; i <= full; i++) {
-			score += "<img src='../resources/img/그냥튀김우동.png' alt='' />";
-		}
-		if (half < 5) {
-			for (int j = full + 1; j <= 5; j++) {
-				score += "<img src='../resources/img/회색우동.png' alt='' />";
-			}
-		} else {
-			score += "<img src='../resources/img/반쪽우동.png' alt='' />";
-			for (int j = full + 2; j <= 5; j++) {
-				score += "<img src='../resources/img/회색우동.png' alt='' />";
-			}
-		}
-
-		String udongGrade = "";
-
-		if (trade_count < 5) {
-			udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-		} else if (trade_count >= 5 && trade_count < 10) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-		} else if (trade_count >= 10 && trade_count < 15) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else if (avg_score >= 2 && avg_score < 4)
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-			else
-				udongGrade += "<img src='../resources/img/파랑온도계.png' alt='' />";
-		} else if (trade_count >= 15) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else if (avg_score >= 2 && avg_score < 4)
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-			else
-				udongGrade += "<img src='../resources/img/빨간온도계.png' alt='' />";
-		}
-		//회원 등급 계산 end
-		model.addAttribute("memberVO", memberVO);
-		model.addAttribute("score", score);
-		model.addAttribute("udongGrade", udongGrade);
-		
-		//상세보기
-		WooBoardVO dto = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(boardidx);
-		
-		//조회수 처리
-		int applyRow = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).visitcount(boardidx);
-
-		//파일 불러오기
-		ArrayList<FileVO> uploadFileList = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).viewFile(boardidx);
-		
-		dto.setContents(dto.getContents().replace("\r\n","<br/>"));
 		try {
+			map = review.revireScore(sqlSession, seller_id);
+			
 			if(principal!=null) {
-			user_id=principal.getName();
-			model.addAttribute("user_id", user_id); 
+				user_id = principal.getName();
+				getGrade = review.revireScore(sqlSession, user_id);
+				userGrade = Integer.parseInt(getGrade.get("getUserGrade").toString());//게시글 등급별 공개설정
+			}else {
+				userGrade = 1;
 			}
-		} catch (Exception e) {}
-		
-		String preCookie = "";
-		Cookie[] cookies = req.getCookies();
-		if(cookies!=null){
-			for(Cookie ck : cookies){
-				if(ck.getName().contains("product")){
-					System.out.println("쿠키값:"+ ck.getValue());
-					preCookie = ck.getValue();
+			//상세보기
+			WooBoardVO dto = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(boardidx);
+			dto.setContents(dto.getContents().replace("\r\n","<br/>"));//엔터 처리
+			
+			//게시글 등급별 공개설정
+			if(dto.getId().equals(user_id)){  }
+			else if(userGrade < dto.getPublicSet()) {
+				switch (dto.getPublicSet()) {
+				case 2:
+					udong="따뜻한 일반우동";
+					break;
+				case 3:
+					udong="차가운 튀김우동";
+					break;
+				case 4:
+					udong="따뜻한 튀김우동";
+					break;
 				}
 			}
-		}
-
-		String[] aa = preCookie.split("/");
-		for(int i=0; i<aa.length ; i++) {
-			System.out.println(i+"gg"+aa[i]);
-		}
-		
-		preCookie = boardidx + "/" + preCookie;
-
-		//쿠키생성
-		Cookie cookie = new Cookie("product", preCookie);
-		System.out.println("cookie:"+cookie);
-		cookie.setPath("/");
-		response.addCookie(cookie);
-		
-		
-		model.addAttribute("viewRow", dto); 
-		model.addAttribute("uploadFileList", uploadFileList);
-		model.addAttribute("nowPage", nowPage);
-		
-		//소영 추가(판매상태) 
-		String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(boardidx);
-		model.addAttribute("sellingStatus", sellingStatus);
-		
+			//조회수 처리
+			int applyRow = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).visitcount(boardidx);
+			//파일 불러오기
+			ArrayList<FileVO> uploadFileList = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).viewFile(boardidx);
+			//판매상태 update  
+			String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(boardidx);
+			
+			model.addAttribute("user_id", user_id); 
+			model.addAttribute("memberVO",map.get("memberVO"));
+			model.addAttribute("score",map.get("score"));
+			model.addAttribute("udongGrade",map.get("udongGrade"));
+			model.addAttribute("avg_score",map.get("avg_score"));
+			model.addAttribute("userGrade",userGrade);
+			model.addAttribute("viewRow", dto);
+			model.addAttribute("uploadFileList", uploadFileList);
+			model.addAttribute("nowPage", nowPage);
+			model.addAttribute("sellingStatus", sellingStatus);
+		} catch (Exception e){ }
+			
 		return "product/productView";
 	}
 	//4-1.글쓰기 폼으로 진입
 	@RequestMapping("/product/productWrite.woo")
 	public String productWrite(Principal principal,Model model) {
 		
-		List<WooBoardListVO> selectlist = null;
+		List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		List<WooBoardListVO> selectlist = new ArrayList<WooBoardListVO>();
 		String user_id="";
 		try {
 			user_id = principal.getName();
@@ -345,6 +282,7 @@ public class WooBoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		model.addAttribute("prohidition", prohiditionlists);
 		model.addAttribute("selectlist", selectlist);
 		model.addAttribute("user_id",user_id);
 		return "product/productWrite";
@@ -360,18 +298,13 @@ public class WooBoardController {
 		try {
 			user_id = principal.getName();
 			wooBoardVO.setId(user_id);
-			int applyRow = sqlSession.getMapper(WooBoardImpl.class).write(wooBoardVO);
-			List<Map<String, Object>> list = new util.FileUtils().parseInsertFileInfo(wooBoardVO, mreq); 
-			Map<String, Object> map = null;
-			int size = list.size();
-			for(int i=0; i<size; i++){//file table insert 
+			sqlSession.getMapper(WooBoardImpl.class).write(wooBoardVO);
+			List<Map<String, Object>> list = FileUtils.parseInsertFileInfo(wooBoardVO, mreq); 
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			for(int i=0; i<list.size(); i++){
 				map = list.get(i);
-				if(map.get("threeYN").equals("Y")) {
-					sqlSession.getMapper(WooBoardImpl.class).insertTDFile(map);//3D 파일 업로드 Y
-				}
-				else{
-					sqlSession.getMapper(WooBoardImpl.class).insertFile(map);
-				}
+				sqlSession.getMapper(WooBoardImpl.class).insertFile(map);//file table insert 
 			}
 		}
 		catch (Exception e) {
@@ -382,27 +315,24 @@ public class WooBoardController {
 	//5-1.글 수정 폼진입
 	@RequestMapping(method = RequestMethod.POST, value="/product/productUpdate.woo")
 	public String productUpdate(Model model , HttpServletRequest req,Principal principal) {
-		
+		List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
 		logger.info("update");
 		logger.debug("update");
 		String boardidx = req.getParameter("boardidx");
 		String nowPage = req.getParameter("nowPage");
 		String bname = req.getParameter("bname");
 		String user_id = "";
-		List<WooBoardListVO> selectlist = null;
+		List<WooBoardListVO> selectlist = new ArrayList<WooBoardListVO>();
 		try {
 			user_id = principal.getName();
 			WooBoardVO dto = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(boardidx);
 			if(!user_id.equals(dto.getId())) {//로그인한 아이디와 글 작성자의 아이디 비교
 				return "redirect:productList.woo";
 			}
-			//내용 엔터 처리
 			dto.setContents(dto.getContents().replace("\r\n","<br/>"));
-			//bname 가져오기
 			selectlist = ((WooBoardListImpl) sqlSession.getMapper(WooBoardListImpl.class)).selectBname("../product/productList.woo");
-			//파일 table 에서 select
 			ArrayList<FileVO> uploadFileList = ((WooBoardImpl) this.sqlSession.getMapper(WooBoardImpl.class)).viewFile(boardidx);
-			
+			model.addAttribute("prohidition", prohiditionlists);
 			model.addAttribute("viewRow", dto);
 			model.addAttribute("nowPage", nowPage);
 			model.addAttribute("bname", bname);
@@ -413,7 +343,7 @@ public class WooBoardController {
 	}
 	//5-2.글 수정 처리 하기
 	@RequestMapping(method = RequestMethod.POST,headers = "content-type=multipart/*", value="/product/updateAction.woo")
-	public String productupdateAction(WooBoardVO wooBoardVO ,Principal principal,
+	public String productupdateAction(WooBoardVO wooBoardVO ,Principal principal, 
 			 @RequestParam(value="fileNoDel[]") String[] files,
 			 @RequestParam(value="fileNameDel[]") String[] fileNames,MultipartHttpServletRequest mreq){
 			 
@@ -426,8 +356,8 @@ public class WooBoardController {
 			user_id = principal.getName();
 			wooBoardVO.setId(user_id);
 			int applyRow = sqlSession.getMapper(WooBoardImpl.class).update(wooBoardVO);
-			List<Map<String, Object>> list = new util.FileUtils().parseUpdateFileInfo(wooBoardVO,files,fileNames, mreq); 
-			Map<String, Object> map = null;
+			List<Map<String, Object>> list = FileUtils.parseUpdateFileInfo(wooBoardVO,files,fileNames, mreq); 
+			Map<String, Object> map = new HashMap<String, Object>();
 			int size = list.size();
 			for(int i=0; i<size; i++){ 
 				map = list.get(i);
@@ -443,50 +373,201 @@ public class WooBoardController {
 	}
 	//6.글 삭제하기
 	@RequestMapping("/product/productDelete.woo")
-	public String productDelete(HttpServletRequest req , Principal principal) {
+	public String productDelete(HttpServletRequest req ,Model model, Principal principal) {
 		
 		logger.info("delete");
 		ParameterVO parameterVO = new ParameterVO();
 		String boardidx = req.getParameter("boardidx");
+		String id = req.getParameter("id");
 		String user_id = "";
 		try {
 			user_id = principal.getName();
-			parameterVO.setId(user_id);
-			parameterVO.setBoardidx(boardidx);//id와 boardidx 로 게시글 삭제
-			int applyRow = sqlSession.getMapper(WooBoardImpl.class).delete(parameterVO);
+			if(user_id.equals(id)) {
+				parameterVO.setId(user_id);
+				parameterVO.setBoardidx(boardidx);//id와 boardidx 로 게시글 삭제
+				sqlSession.getMapper(WooBoardImpl.class).delete(parameterVO);
+			}
 		} catch (Exception e) {e.printStackTrace();}
 		return "redirect:./productList.woo";
 	}
-	//7.최근본 상품 처리중 쿠키값을 사이드바에 넘겨주기
+	
+	//끌올기능
+	@RequestMapping("/product/productJump.woo")
+	public String productJump(HttpServletRequest req ,Model model, Principal principal) {
+		
+		logger.info("productJump");
+		logger.debug("productJump");
+		ParameterVO parameterVO = new ParameterVO();
+		String boardidx = req.getParameter("boardidx");
+		String id = req.getParameter("id");
+		String user_id = "";
+		try {
+			user_id = principal.getName();
+			if(user_id.equals(id)) {
+				parameterVO.setId(user_id);
+				parameterVO.setBoardidx(boardidx);//id와 boardidx 로 게시글 삭제
+				int applyRow = sqlSession.getMapper(WooBoardImpl.class).jump(parameterVO);
+			}
+		} catch (Exception e) {e.printStackTrace();}
+		return "../product/productList.woo";
+	}
+
+	// 7.최근본 상품 처리중 쿠키값을 사이드바에 넘겨주기
 	@ResponseBody
 	@RequestMapping(value = "/product/itemSave.woo")
-	public List<WooBoardVO> itemSave(Model model, HttpServletRequest req) {
+	public List<WooBoardVO> itemSave(Model model, HttpServletRequest req , HttpServletResponse response) {
 		
+		logger.info("itemSave");
+		logger.debug("itemSave");
+		
+		String boardidx = req.getParameter("boardidx");
 		List<WooBoardVO> list = new ArrayList<WooBoardVO>();
 		
 		String preCookie = "";
-		Cookie[] cookies = req.getCookies();// 쿠키를 읽어온다.
+		// 쿠키를 읽어온다.
+		Cookie[] cookies = req.getCookies();
 		if (cookies != null) {
 			for (Cookie ck : cookies) {
-				if (ck.getName().contains("product")) {
+				if (ck.getName().contains("boardidx")) {
 					preCookie = ck.getValue();
 				}
 			}
 		}
-		String[] itemInform = preCookie.split("/");
-
-		for (int i = 0; i < itemInform.length; i++) {
-			WooBoardVO wooBoardVO = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(itemInform[i]);
-			// 파일 불러오기
-			ArrayList<FileVO> uploadFileList = ((WooBoardImpl) this.sqlSession.getMapper(WooBoardImpl.class)).viewFile(itemInform[i]);
-					
-			if (!uploadFileList.isEmpty() && uploadFileList.size() != 0) {
-				String image = uploadFileList.get(0).getSave_name();
-				wooBoardVO.setImagefile(image);
+		if(boardidx!=null){
+		
+			List<String> cookielist = new ArrayList<String>(); 
+			if(!preCookie.isEmpty()) {
+				String[] cookiesave = preCookie.split("/");
+				for (int i = 0; i < cookiesave.length; i++) {
+					cookielist.add(cookiesave[i]);
+				}
 			}
-			list.add(wooBoardVO);
+			
+				 
+			if(cookielist!=null && cookielist.size()!=0){
+				for(int i=0;i<cookielist.size();i++) {
+					if(cookielist.get(i).equals(boardidx)) {
+						cookielist.remove(i);
+					}
+				}
+				if(cookielist.size()>2) {
+					cookielist.remove(0);
+				}
+			}
+				cookielist.add(boardidx);
+				preCookie = "";
+			
+			
+			for(int i=0;i<cookielist.size();i++) {
+				preCookie += cookielist.get(i)+"/";
+			}
+			// 쿠키생성
+			Cookie cookie = new Cookie("boardidx", preCookie);
+			cookie.setPath("/");
+			response.addCookie(cookie);
+		
+		}
+		if(!preCookie.isEmpty()) { 
+			String[] cookiesave = preCookie.split("/");
+			for (int i = 0; i < cookiesave.length; i++) {
+				WooBoardVO dto = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(cookiesave[i]);
+				ArrayList<FileVO> uploadFileList = ((WooBoardImpl) this.sqlSession.getMapper(WooBoardImpl.class)).viewFile(cookiesave[i]);
+				dto.setBoardidx(cookiesave[i]);
+				
+				if (!uploadFileList.isEmpty() && uploadFileList.size() != 0) {
+					String image = uploadFileList.get(0).getSave_name();
+					dto.setImagefile(image);
+				}
+				list.add(dto);
+			}
+			
 		}
 		return list;
 	}
+	
+		//3-1.Ajax 상품리스트 상세보기 
+		@RequestMapping("/product/ajaxproductView.woo")
+		public String ajaxproductView(Model model, HttpServletRequest req,Principal principal, HttpServletResponse response) {
+			
+			logger.info("ajaxproductView");
+			logger.debug("ajaxproductView");
+			
+			String boardidx = req.getParameter("boardidx");
+			String nowPage = req.getParameter("nowPage");
+			String user_id="";
+			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> getGrade = new HashMap<String, Object>();
+			int userGrade = 1;
+			String seller_id = sqlSession.getMapper(WooBoardImpl.class).selectId(boardidx);
+			map = review.revireScore(sqlSession, seller_id);
+			
+			try {
+				if(principal!=null) {
+					user_id = principal.getName();
+					getGrade = review.revireScore(sqlSession, user_id);
+					userGrade = Integer.parseInt(getGrade.get("getUserGrade").toString());//게시글 등급별 공개설정
+				}else {
+					userGrade = 1;
+				}
+				
+				//상세보기
+				WooBoardVO dto = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(boardidx);
+				dto.setContents(dto.getContents().replace("\r\n","<br/>"));//엔터 처리
+				
+				String udong = "";
+				
+				if(user_id.equals(dto.getId())){  }
+				else if(userGrade < dto.getPublicSet()) {
+					return "../product/productList.woo";
+				}
+				//조회수 처리
+				int applyRow = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).visitcount(boardidx);
+				//파일 불러오기
+				ArrayList<FileVO> uploadFileList = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).viewFile(boardidx);
+				//판매상태 update  
+				String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(boardidx);
+				
+				model.addAttribute("user_id", user_id); 
+				model.addAttribute("memberVO",map.get("memberVO"));
+				model.addAttribute("score",map.get("score"));
+				model.addAttribute("udongGrade",map.get("udongGrade"));
+				model.addAttribute("avg_score",map.get("avg_score"));
+				model.addAttribute("publicSet", userGrade); 
+				////////////////////////////////////////////쿠키 start
+			
+				
+				//////////////////////////////////////////////////////////////쿠키 end
+				model.addAttribute("viewRow", dto);
+				model.addAttribute("uploadFileList", uploadFileList);
+				model.addAttribute("nowPage", nowPage);
+				model.addAttribute("sellingStatus", sellingStatus);
+			} catch (Exception e){ }
+			
+			return "product/ajaxproductView";
+		}
+		
+		//구글 Captcha API
+	    @RequestMapping(value = "/product/VerifyRecaptcha")
+	    @ResponseBody
+	    public Map<String, Object> VerifyRecaptcha(HttpServletRequest request) {
+	 		
+	 		Map<String, Object>map = new HashMap<String, Object>();
+	 		VerifyRecaptcha.setSecretKey("6LcN9rgZAAAAAPwE96NXGabUAl-5JL9d8hye3VdQ");//API비밀키
+	        String gRecaptchaResponse = request.getParameter("recaptcha");
+	        
+	        try {
+	            if(VerifyRecaptcha.verify(gRecaptchaResponse)) {//0 = 성공, 1 = 실패, -1 = 오류
+	            	map.put("msg",0);//성공
+	            }
+	            else {
+	            	map.put("msg",1);//실패
+	            }
+	        } catch (IOException e) {
+	        	e.printStackTrace();
+	        	map.put("msg",-1);//오류
+	            return map;
+	        }
+	        return map;
+    }
 
 }

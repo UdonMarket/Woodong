@@ -88,7 +88,7 @@ function writeValidate(f)
       <h4>어떤 점이 좋았나요?</h4>
       <form:form  name="writeFrm" method="post" onsubmit="return writeValidate(this);" action="writeReviewContents.woo">
 
-         	<input type ="hidden" value="" id="cal_reviewPoint" name="cal_reviewPoint"/>
+      <input type ="hidden" value="1" id="cal_reviewPoint" name="cal_reviewPoint"/>
       <input type="hidden" name ="write_idx" value="${boardidx}"/>
       <input type="hidden" name ="id" value="${id}"/>
       <input type="hidden" name ="title" value="${title}"/>
@@ -113,8 +113,8 @@ function writeValidate(f)
 
 	           <div class="col-9" style="display:inline-block;">
 	           	  <input type="text" id="sample4_jibunAddress" name="juso" class="form-control" readonly="readonly">
-	              <input type="hid den" id="latitude" name="latitude">
-	              <input type="hid den" id="longitude" name="longitude">
+	              <input type="hidden" id="latitude" name="latitude">
+	              <input type="hidden" id="longitude" name="longitude">
 	           </div>
               <div class="col-3" style="display:inline-block;"> 
                  <input class="btn_my" type="button" onclick="sample4_execDaumPostcode()" value="검색" style=""><br>

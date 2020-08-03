@@ -32,4 +32,8 @@ public interface WooBoardListImpl {
 	//bname 검색 
 	List<WooBoardListVO> selectBname(String location);
 	
+	String selectOneBname(String board);
+	
+	void updateBoardBname(String reBname, String bname);
+	
 }

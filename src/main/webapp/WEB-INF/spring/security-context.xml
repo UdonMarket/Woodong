@@ -4,6 +4,19 @@
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+	<security:http pattern="/**/*.jpg" security="none"/>
+	   <security:http pattern="/**/*.png" security="none"/>
+	   <security:http pattern="/android/**">
+	   
+	      <security:csrf disabled="true"/>
+	
+	      <security:form-login 
+	         login-page="/admin/login.woo" default-target-url="/admin/admin.woo"
+	         authentication-failure-url="/admin/login.woo?error"
+	         login-processing-url="/admin/login" username-parameter="admin_id"
+	         password-parameter="admin_pw" />
+	
+	   </security:http>
 
 	<!--admin 설정  -->
 	<security:http pattern="/admin/**">
@@ -11,9 +24,6 @@
 			
 		<security:intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
 			
-		<security:intercept-url pattern="/**" access="permitAll" />
-			
-
 		<security:form-login 
 			login-page="/admin/login.woo" default-target-url="/admin/admin.woo"
 			authentication-failure-url="/admin/login.woo?error"
@@ -30,20 +40,39 @@
 
 	<!--member 설정  -->
 	<security:http>
-		<security:intercept-url pattern="/member/login.do" access="permitAll" />
+		<security:intercept-url pattern="/member/login.woo" access="permitAll" /> 
+		<security:intercept-url pattern="/member/idSave.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/pwAccess.woo" access="isAnonymous()" />
 		<security:intercept-url pattern="/member/join.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/joinAction.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/idFind.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/idFindProc.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/pwFind.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/pwFindProc.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/sendSms.do" access="permitAll" />
+		<security:intercept-url pattern="/member/**" access="hasRole('USER')" />
+		
 		<security:intercept-url pattern="/mypage/**" access="hasRole('USER')" />
-		<security:intercept-url pattern="/main/chatting.woo" access="hasRole('USER')" />
-		<security:intercept-url pattern="/main/chat_main.woo" access="hasRole('USER')" />
-			
+		
+		<security:intercept-url pattern="/chatting/**" access="hasRole('USER')" />
+		
+		<security:intercept-url pattern="/product/productList.woo" access="permitAll" />
+		<security:intercept-url pattern="/product/ajaxList.woo" access="permitAll" />
+		<security:intercept-url pattern="/product/productView.woo" access="permitAll" />
+		<security:intercept-url pattern="/product/itemSave.woo" access="permitAll" />
+		<security:intercept-url pattern="/product/ajaxproductView.woo" access="permitAll" />
+		
+		<security:intercept-url pattern="/product/**" access="hasRole('USER')" />
+		
 		<security:intercept-url pattern="/**" access="permitAll" />
-
+		
+		
 		<security:form-login
 			login-page="/member/login.woo" default-target-url="/main/main.woo"
 			authentication-failure-url="/member/login.woo?error"
 			login-processing-url="/loginAction" username-parameter="name"
 			password-parameter="password" />
-		<security:logout logout-url="/logout"
+		<security:logout logout-url="/member/logout"
 			logout-success-url="/main/main.woo" invalidate-session="true" delete-cookies="JSESSIONID" />
 			
 

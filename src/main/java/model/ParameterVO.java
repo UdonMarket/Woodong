@@ -21,22 +21,28 @@ public class ParameterVO {
 	private String bname;
 	private String place;
 	
-	
 	private String idx;
 	private String seller_id;
-	
 	private String juso;
 	private String latitude;
 	private String longitude;
 	private String contents;
-	
 	private String pstate;
 	private String ispay;
 	private String priceStart;
 	private String priceEnd;
 	private String order;
+	private String chatroomidx;
+	private String likecount;
+	
 
 	
+	public String getChatroomidx() {
+		return chatroomidx;
+	}
+	public void setChatroomidx(String chatroomidx) {
+		this.chatroomidx = chatroomidx;
+	}
 	public String getPstate() {
 		return pstate;
 	}
@@ -227,4 +233,11 @@ public class ParameterVO {
 	public void setSearchTxt(String searchTxt) {
 		this.searchTxt = searchTxt;
 	}
+		public String getLikecount() {
+		return likecount;
+	}
+	public void setLikecount(String likecount) {
+		this.likecount = likecount;
+	}
+	
 }

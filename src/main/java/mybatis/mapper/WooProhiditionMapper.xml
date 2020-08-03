@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="model.WooProhiditionImpl">
+
+	<select id="selectProhiditionList" resultType="String">
+		SELECT prohidition FROM woo_prohidition
+	</select>
+	
+	<insert id="addProhidition">
+		INSERT INTO woo_prohidition VALUES (seq_woo_prohidition.nextval, #{0})
+	</insert>
+	
+	<delete id="deleteProhidition">
+		DELETE FROM woo_prohidition
+	</delete>
+</mapper> 

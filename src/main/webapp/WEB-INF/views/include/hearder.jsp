@@ -2,9 +2,22 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>  
-<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>	
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<script>
+   $(window).scroll(function(){
+      if($(window).scrollTop()==0){
+         $('.main-top').slideDown('slow');
+         $('.main-top').show();
+      }
+      else{
+    	  $('.main-top').slideUp('slow');
+         $('.main-top').hide();
+      }
+   });  
+</script>	
 <header class="main_menu home_menu">
 	<div class="container-fluid" style="padding-left: 90px;padding-right: 90px;">
+		<!-- 로그인 로그아웃 아이콘  start -->
 		<div class="main-top">
 	        <div class="container-fluid">
 	            <div class="row">
@@ -12,21 +25,20 @@
 						<div>
 		                    <div class="text-slid-box">
 		                        <div class="our-link">
-			                        <ul>
 		                        	  	<sec:authorize access="isAnonymous()">
-			                            <li><a href="../member/login.woo"><img src="../resources/img/header/login.png" style="width:80px;height:33px;"/></a></li>
-			                            <li><a href="../member/join.woo"><img src="../resources/img/header/join.png" style="width:80px;height:33px;"/></a></li>
+		                        	  	   <ul>
+				                            <li><a href="../member/login.woo"><img src="../resources/img/header/login.png" style="width:80px;height:33px;"/></a></li>
+				                            <li><a href="../member/join.woo"><img src="../resources/img/header/join.png" style="width:80px;height:33px;"/></a></li>
+			                               </ul>
 			                             </sec:authorize>
 			                              <sec:authorize access="isAuthenticated()">
+		                              		<a href="../member/memberModify.woo"><input type="image" src="../resources/img/header/edit.png" style="width:110px;height:33px;" /></a>
 			                              <div style="display: inline-block;">
-		                              		<li><a href="../member/memberModify.woo"><input type="image" src="../resources/img/header/edit.png" style="width:110px;height:33px;" /></a></li>
-			                              <div style="display: inline-block;">
-			                              <form:form method="post" action="${pageContext.request.contextPath }/logout"> 
-			                            <li><input type="image" src="../resources/img/header/logout.png" style="width:80px;height:33px;" /></li>
+			                              <form:form method="post" action="../member/logout"> 
+			                            	<input type="image" src="../resources/img/header/logout.png" style="width:80px;height:33px;" />
 			                             </form:form> 
 			                             </div>
 			                             </sec:authorize>
-			                        </ul>
 			                    </div>
 		                    </div>
 	                    </div>
@@ -34,18 +46,13 @@
 	            </div>
 	        </div>
 	    </div>
-
+	<!-- 로그인 로그아웃 아이콘  end -->
 		<div class="row align-items-center justify-content-center">
 			<div class="col-lg-12">
 				<nav class="navbar navbar-expand-lg navbar-light">
 					<a class="navbar-brand" href="../main/main.woo">
 						<img src="../resources/img/logo.png" alt="logo" style="width: 250px; height: 78; margin-bottom:10px;" />
 					</a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="menu_icon">
-							<i class="fas fa-bars"></i>
-						</span>
-					</button> 
  
 					<div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
 						<ul class="navbar-nav">
@@ -74,7 +81,7 @@
 					</div>
 					<div class="hearer_icon d-flex align-items-center">
 	                  	<div class="input-group mb-3">
-	              			<input type="text" placeholder="#태그로 검색하세요!" class="form-control search_input" id="headkeywordInput"
+	              			<input type="text" placeholder="찾는 상품을  # 태그  로 검색하세요 !" class="form-control search_input" id="headkeywordInput"
 	              			style="border:none; border-bottom: 2px solid #d9d9d9;width: 320px;border-radius: 0;margin-bottom: -5px;">
 
 	                       	<div class="input-group-append" style="margin-bottom: -20px;margin-left: 5px;">
@@ -112,38 +119,4 @@ function checkchat(){
    }
    window.open('../chatting/chatMain.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);
 }
-</script>
-<script>
-	function getCookie(name) {
-		var Found = false;
-		var start, end;
-		var i = 0;
-		
-		while (i<=document.cookie.length) {
-			start = i;
-			end = start + name.length;
-			
-			if(document.cookie.substring(start, end)==name){
-				Found = true;
-				break;
-			}
-			i++;
-		}
-		if(Found == true){
-			start = end + 1;
-			end = document.cookie.indexOf(";", start);
-			if(end<start){
-				end = document.cookie.length;
-			}
-			return document.cookie.substring(start, end);
-		}
-		return "";
-	}
-	function openPopup() {
-		var noticeCookie = getCookie("CookieName");
-		if(noticeCookie != "done"){
-			window.open('../main/popUp.woo',"pop","status=no,resize=no,scrollbars=no,width=400,height=480,top=10,left=10");
-		}
-		openPopup();
-	}
 </script>

@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import model.WooBoardListVO;
 import model.WooBoardVO;
+import model.WooChatImpl;
+import model.WooChatRoomVO;
+import model.WooChattingVO;
 import model.WooBoardListImpl;
 import model.WooMemberVO;
+import model.WooProhiditionImpl;
 import model.WooMemberImpl;
 import model.ParameterVO;
 import model.WooBoardImpl;
@@ -37,7 +41,21 @@ public class WooAdminController {
 	}
 
 	@RequestMapping("/admin/admin.woo")
-	public String admin2() {
+	public String admin2(Model model) {
+		ParameterVO parameterVO = new ParameterVO();
+		List<WooBoardListVO> bname = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../product/productList.woo");
+		List<String> bnamelist = new ArrayList<String>();
+		for(WooBoardListVO list : bname) {
+			bnamelist.add(list.getBname());
+		}
+		parameterVO.setList(bnamelist);
+		ArrayList<ParameterVO> bnamelists = sqlSession.getMapper(WooBoardImpl.class).bnameProductCount(parameterVO);
+		
+		List<String> lists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		
+		model.addAttribute("prohidition", lists);
+		model.addAttribute("bnameLists", bnamelists);
+		
 		return "admin/main/admin";
 	}
 
@@ -51,8 +69,12 @@ public class WooAdminController {
 	@RequestMapping("/admin/memberTable.woo")
 	public String memberTable(Model model, HttpServletRequest req) {
 		WooMemberVO memberVO = new WooMemberVO();
-		memberVO.setSearchField(req.getParameter("searchField"));
-		memberVO.setSearchTxt(req.getParameter("searchTxt"));
+		String search = "";
+		if(!"".equals(req.getParameter("searchTxt")) && req.getParameter("searchTxt")!=null) {
+			memberVO.setSearchField(req.getParameter("searchField"));
+			memberVO.setSearchTxt(req.getParameter("searchTxt"));
+			search = "&searchField=" + req.getParameter("searchField") + "&searchTxt=" + req.getParameter("searchTxt") + "&";
+		}
 		memberVO.setGrade(req.getParameter("grade"));
 		int totalRecordCount = sqlSession.getMapper(WooMemberImpl.class).getTotalCount(memberVO);
 		int pageSize = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.pageSize"));
@@ -65,7 +87,13 @@ public class WooAdminController {
 		memberVO.setEnd(end);
 		ArrayList<WooMemberVO> lists = sqlSession.getMapper(WooMemberImpl.class).listPage(memberVO);
 		String pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
-				req.getContextPath() + "/admin/memberTable.woo?grade=" + req.getParameter("grade") + "&");
+				req.getContextPath() + "/admin/memberTable.woo?grade=" + req.getParameter("grade") + "&" + search);
+		
+		for(WooMemberVO member : lists) {
+			member.setProhiditionCount(sqlSession.getMapper(WooMemberImpl.class).prohiditionCount(member.getId()));
+		}
+		
+		
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
 		model.addAttribute("grade", req.getParameter("grade"));
@@ -127,6 +155,9 @@ public class WooAdminController {
 	@RequestMapping("/admin/editBoard.woo")
 	public String editBoard(WooBoardListVO boardListVO){
 		try {
+			// 원래 이름
+			String bname = sqlSession.getMapper(WooBoardListImpl.class).selectOneBname(boardListVO.getBoardlistidx());
+			sqlSession.getMapper(WooBoardListImpl.class).updateBoardBname(boardListVO.getBname(), bname);
 			if(boardListVO.getLocation().equals(sqlSession.getMapper(WooBoardListImpl.class).selectLocation(boardListVO.getBoardlistidx()))) {
 				int boardorder = sqlSession.getMapper(WooBoardListImpl.class).selectorder(boardListVO.getBoardlistidx());
 				if(boardorder!=boardListVO.getBoardorder()) {
@@ -188,8 +219,12 @@ public class WooAdminController {
 		int pageSize = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.pageSize"));
 		int blockPage = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.blockPage"));
 		int nowPage = req.getParameter("nowPage") == null ? 1 : Integer.parseInt(req.getParameter("nowPage"));
-		parameterVO.setSearchField(req.getParameter("searchField"));
-		parameterVO.setSearchTxt(req.getParameter("searchTxt"));
+		String search = "";
+		if(!"".equals(req.getParameter("searchTxt")) && req.getParameter("searchTxt")!=null) {
+			parameterVO.setSearchField(req.getParameter("searchField"));
+			parameterVO.setSearchTxt(req.getParameter("searchTxt"));
+			search = "&searchField=" + req.getParameter("searchField") + "&searchTxt=" + req.getParameter("searchTxt") + "&";
+		}
 		int start = (nowPage - 1) * pageSize + 1;
 		int end = nowPage * pageSize;
 		
@@ -220,7 +255,7 @@ public class WooAdminController {
 			vo.setvNum(total - (((nowPage-1)*pageSize)+countNum++));
 		}
 		String pagingImg = PagingUtil.pagingImg(total, pageSize, blockPage, nowPage,
-				req.getContextPath() + "/admin/boardTable.woo?mode=" + mode + "&");
+				req.getContextPath() + "/admin/boardTable.woo?mode=" + mode + "&" + search);
 		model.addAttribute("pagingImg", pagingImg);
 		model.addAttribute("lists", lists);
 		return "admin/board/boardTable";
@@ -292,6 +327,103 @@ public class WooAdminController {
 		parameterVO.setList(idxList);
 		sqlSession.getMapper(WooBoardImpl.class).deleteBoard(parameterVO);
 		
-		return "redirect:../admin/boardTable.woo?mode=" + req.getParameter("mode") + "&asd";
+		return "redirect:../admin/boardTable.woo?mode=" + req.getParameter("mode") + "&";
 	}
+	
+	// 채팅관리
+	@RequestMapping("/admin/chatting.woo")
+	public String chatting(Model model, HttpServletRequest req) {
+		
+		ParameterVO parameterVO = new ParameterVO();
+		String search = "";
+		if(!"".equals(req.getParameter("searchTxt")) && req.getParameter("searchTxt")!=null) {
+			parameterVO.setSearchField(req.getParameter("searchField"));
+			parameterVO.setSearchTxt(req.getParameter("searchTxt"));
+			search = "&searchField=" + req.getParameter("searchField") + "&searchTxt=" + req.getParameter("searchTxt") + "&";
+		}
+		
+		int totalRecordCount = sqlSession.getMapper(WooChatImpl.class).getTotalCount(parameterVO);
+		int pageSize = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.pageSize"));
+		int blockPage = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.blockPage"));
+		int totalPage = (int) Math.ceil((double) totalRecordCount / (double) pageSize);
+		int nowPage = req.getParameter("nowPage") == null ? 1 : Integer.parseInt(req.getParameter("nowPage"));
+		int start = (nowPage - 1) * pageSize + 1;
+		int end = nowPage * pageSize;
+		parameterVO.setStart(start);
+		parameterVO.setEnd(end);
+		ArrayList<WooChatRoomVO> lists = sqlSession.getMapper(WooChatImpl.class).selectAllRoom(parameterVO);
+		for(WooChatRoomVO list : lists) {
+			list.setTitle(sqlSession.getMapper(WooBoardImpl.class).view(list.getBoardidx()).getTitle());
+		}
+		
+		String pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
+				req.getContextPath() + "/admin/chatting.woo?" + search);
+		model.addAttribute("pagingImg", pagingImg);
+		model.addAttribute("lists", lists);
+		
+		return "admin/homepage/chatting";
+	}
+	
+	// 채팅 상세보기
+	@RequestMapping("/admin/chattingView.woo")
+	public String chattingView(Model model, HttpServletRequest req) {
+		
+		ParameterVO parameterVO = new ParameterVO();
+		int totalRecordCount = sqlSession.getMapper(WooChatImpl.class).chatTotalCount(req.getParameter("chatroomidx"));
+		int pageSize = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.pageSize"));
+		int blockPage = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.blockPage"));
+		int totalPage = (int) Math.ceil((double) totalRecordCount / (double) pageSize);
+		int nowPage = req.getParameter("nowPage") == null ? 1 : Integer.parseInt(req.getParameter("nowPage"));
+		int start = (nowPage - 1) * pageSize + 1;
+		int end = nowPage * pageSize;
+		parameterVO.setStart(start);
+		parameterVO.setEnd(end);
+		parameterVO.setChatroomidx(req.getParameter("chatroomidx"));
+		List<WooChattingVO> chatList = sqlSession.getMapper(WooChatImpl.class).admminSelectChatting(parameterVO);
+		
+		String pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
+				req.getContextPath() + "/admin/chattingView.woo?chatroomidx=" + parameterVO.getChatroomidx() + "&");
+		model.addAttribute("pagingImg", pagingImg);
+		model.addAttribute("chatList", chatList);
+		model.addAttribute("chatroomidx", req.getParameter("chatroomidx"));
+		return "admin/homepage/chattingView";
+	}
+	
+	@RequestMapping("/admin/prohidition.woo")
+	public String prohidition(Model model, HttpServletRequest req) {
+		
+		String prohiditionList = req.getParameter("prohiditionList");
+		
+		String[] prohidition = null;
+		
+		if(prohiditionList.contains(",")) {
+			sqlSession.getMapper(WooProhiditionImpl.class).deleteProhidition();
+			prohidition = prohiditionList.split(",");
+			for(String hidi : prohidition) {
+				sqlSession.getMapper(WooProhiditionImpl.class).addProhidition(hidi);
+			}
+		}
+		else {
+			sqlSession.getMapper(WooProhiditionImpl.class).addProhidition(prohiditionList);
+		}
+		
+		return "redirect:../admin/admin.woo";
+	}
+	
+	@RequestMapping("/admin/memberBlack.woo")
+	public String blackMember(HttpServletRequest req) {
+		String id = req.getParameter("blackid");
+		sqlSession.getMapper(WooMemberImpl.class).memberblack(id);
+		return "redirect:../admin/memberTable.woo?grade=normal&"; 
+	}
+	
+	@RequestMapping("/admin/memberWhite.woo")
+	public String WhiteMember(HttpServletRequest req) {
+		String id = req.getParameter("blackid");
+		sqlSession.getMapper(WooMemberImpl.class).memberWhite(id);
+		return "redirect:../admin/memberTable.woo?grade=black&"; 
+	}
+	
+	
+
 }

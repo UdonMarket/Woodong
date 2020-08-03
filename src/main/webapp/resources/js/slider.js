@@ -23,9 +23,13 @@
         values: [1, 999],
         slide: function (event, ui) {
 			  $("#priceStart").val(ui.values[0]+"000");
+			  $("#priceviewStart").val(ui.values[0]+",000");
 			  $("#priceEnd").val(ui.values[1]+"0000");
+			  $("#priceviewEnd").val(ui.values[1]+",000");
         }
     });
      $("#priceStart").val($("#price-range").slider("values", 0)+"000"); 
+     $("#priceviewStart").val($("#price-range").slider("values", 0)+",000"); 
 	 $("#priceEnd").val($("#price-range").slider("values", 1)+"0000"); 
+	 $("#priceviewEnd").val($("#price-range").slider("values", 1)+",000"); 
 })(jQuery);

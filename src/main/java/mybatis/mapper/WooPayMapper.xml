@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="model.WooPayImpl" > 
+	<insert id="woopay" parameterType="model.WooPayVO">
+		INSERT INTO woo_pay (
+			PAY_IDX,
+			MERCHANT_UID,
+			PRODUCT_NAME,
+			PRODUCT_PRICE,
+			BOARD_IDX,
+			BUYER_ID,
+			SELLER_ID,
+			STATUS,
+			PAY_METHOD
+		) VALUES (
+			seq_woo_pay.NEXTVAL,
+			#{merchant_uid},
+			#{product_name},
+			#{product_price},
+			#{board_idx},
+			#{buyer_id},
+			#{seller_id},
+			#{status},
+			#{pay_method}
+		)
+	</insert>
+	
+	<update id="woopaySave" parameterType="String">
+ 		UPDATE woo_board set 
+ 			deal_type = '사용자 결제완료'
+ 		where boardidx = #{param1}
+ 	</update>
+ 	
+ 	<select id="getTotalCount" resultType="int" parameterType="model.ParameterVO">
+		SELECT count(*) FROM woo_pay WHERE 1=1
+	 </select>
+	 
+	 <select id="listPage" resultType="model.WooPayVO" parameterType="model.ParameterVO">
+ 		SELECT 
+ 			PAY_IDX,
+ 			MERCHANT_UID,
+ 			PRODUCT_NAME,
+ 			PRODUCT_PRICE,
+ 			PAYDATE,
+ 			BOARD_IDX,
+ 			BUYER_ID,
+ 			SELLER_ID,
+ 			STATUS,
+ 			PAY_METHOD
+ 		FROM 
+ 		(
+ 			SELECT Tb.*, rownum rNum FROM (
+ 				SELECT * FROM woo_pay WHERE 1=1
+ 			 	<if test="searchTxt!=null and !searchTxt.equals('')">
+ 					AND ${searchField} like '%'||#{searchTxt}||'%'
+ 				</if>
+ 				ORDER BY PAY_IDX DESC
+ 			) Tb
+ 		) 
+ 		WHERE rNum BETWEEN #{start} AND #{end}
+ 	</select> 
+ 	
+ 	<delete id="deleteBoard" parameterType="model.ParameterVO">
+		DELETE FROM woo_pay WHERE pay_idx in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+ 			#{item}
+		</foreach>
+	</delete>
+</mapper>

@@ -6,40 +6,30 @@
     Version: 1.0
     Created:
 ---------------------------------------------------------  */
-
 'use strict';
 
+
 (function ($) {
-
-  
-
     /*-------------------
 		Range Slider
     --------------------- */
     //price 1
     $("#price-range").slider({
         range: true,
-        min: 0,
-        max: 1600000,
-        values: [0, 1000000],
+        min: 1,
+        max: 999,
+		step: 1,
+		animate : 'slow',
+        values: [1, 999],
         slide: function (event, ui) {
-            $("#priceRange").val("[" + ui.values[0] + "-" + ui.values[1] + "]" + "Won");
+			  $("#priceStart").val(ui.values[0]+"000");
+			  $("#priceviewStart").val(ui.values[0]+",000");
+			  $("#priceEnd").val(ui.values[1]+"0000");
+			  $("#priceviewEnd").val(ui.values[1]+",000");
         }
     });
-    $("#priceRange").val("[" + $("#price-range").slider("values", 0) + "-" + $("#price-range").slider("values", 1) + "]" + "Won");
-
-    //price 2
-    $("#price-range-P").slider({
-        range: true,
-        min: 0,
-        max: 1600000,
-        step: 50,
-        values: [50, 1000000],
-        slide: function (event, ui) {
-            $("#priceRangeP").val("[ " + "Won" + ui.values[0] + " - " + "Won" + ui.values[1] + " ]");
-        }
-    });
-    $("#priceRangeP").val("[ " + "Won" + $("#price-range-P").slider("values", 0) + " - " + "Won" + $("#price-range-P").slider("values", 1) + " ]");
-
-   
+     $("#priceStart").val($("#price-range").slider("values", 0)+"000"); 
+     $("#priceviewStart").val($("#price-range").slider("values", 0)+",000"); 
+	 $("#priceEnd").val($("#price-range").slider("values", 1)+"0000"); 
+	 $("#priceviewEnd").val($("#price-range").slider("values", 1)+",000"); 
 })(jQuery);

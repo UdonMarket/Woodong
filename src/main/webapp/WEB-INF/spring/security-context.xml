@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+	<security:http pattern="/**/*.jpg" security="none"/>
+	   <security:http pattern="/**/*.png" security="none"/>
+	   <security:http pattern="/android/**">
+	   
+	      <security:csrf disabled="true"/>
+	
+	      <security:form-login 
+	         login-page="/admin/login.woo" default-target-url="/admin/admin.woo"
+	         authentication-failure-url="/admin/login.woo?error"
+	         login-processing-url="/admin/login" username-parameter="admin_id"
+	         password-parameter="admin_pw" />
+	
+	   </security:http>
+
+	<!--admin 설정  -->
+	<security:http pattern="/admin/**">
+		<security:intercept-url pattern="/admin/login.woo" access="permitAll" />
+			
+		<security:intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
+			
+		<security:form-login 
+			login-page="/admin/login.woo" default-target-url="/admin/admin.woo"
+			authentication-failure-url="/admin/login.woo?error"
+			login-processing-url="/admin/login" username-parameter="admin_id"
+			password-parameter="admin_pw" />
+
+		<security:remember-me key="remember-key" token-validity-seconds="604800" remember-me-parameter="remember-me-param" />
+
+		<security:logout logout-url="/admin/logout"
+			logout-success-url="/admin/admin.woo" invalidate-session="true" delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE" />
+		<security:access-denied-handler
+			error-page="/admin/login.woo" />
+	</security:http>
+
+	<!--member 설정  -->
+	<security:http>
+		<security:intercept-url pattern="/member/login.woo" access="permitAll" /> 
+		<security:intercept-url pattern="/member/idSave.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/pwAccess.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/join.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/joinAction.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/idFind.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/idFindProc.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/pwFind.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/pwFindProc.woo" access="isAnonymous()" />
+		<security:intercept-url pattern="/member/sendSms.do" access="permitAll" />
+		<security:intercept-url pattern="/member/**" access="hasRole('USER')" />
+		
+		<security:intercept-url pattern="/mypage/**" access="hasRole('USER')" />
+		
+		<security:intercept-url pattern="/chatting/**" access="hasRole('USER')" />
+		
+		<security:intercept-url pattern="/product/productList.woo" access="permitAll" />
+		<security:intercept-url pattern="/product/ajaxList.woo" access="permitAll" />
+		<security:intercept-url pattern="/product/productView.woo" access="permitAll" />
+		<security:intercept-url pattern="/product/itemSave.woo" access="permitAll" />
+		<security:intercept-url pattern="/product/ajaxproductView.woo" access="permitAll" />
+		
+		<security:intercept-url pattern="/product/**" access="hasRole('USER')" />
+		
+		<security:intercept-url pattern="/**" access="permitAll" />
+		
+		
+		<security:form-login
+			login-page="/member/login.woo" default-target-url="/main/main.woo"
+			authentication-failure-url="/member/login.woo?error"
+			login-processing-url="/loginAction" username-parameter="name"
+			password-parameter="password" />
+		<security:logout logout-url="/member/logout"
+			logout-success-url="/main/main.woo" invalidate-session="true" delete-cookies="JSESSIONID" />
+			
+
+		<security:access-denied-handler error-page="/main/main.woo" />
+	</security:http>
+
+ 
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:jdbc-user-service
+				data-source-ref="dataSource" role-prefix=""
+				users-by-username-query="SELECT id,pass,enabled FROM woo_member WHERE id=?"
+				authorities-by-username-query="SELECT id,authority FROM woo_member WHERE id=?" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+
+</beans> 

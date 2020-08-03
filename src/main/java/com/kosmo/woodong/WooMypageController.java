@@ -1,9 +1,9 @@
 package com.kosmo.woodong;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.FileVO;
-import model.WooMemberVO;
 import model.WooMypageImpl;
 import model.WooMyreviewVO;
 import model.ParameterVO;
 import model.WooBoardImpl;
 import model.WooBoardVO;
+import util.EnvFileReader;
 import util.PagingUtil;
+import util.review;
 
 @Controller
 public class WooMypageController {
@@ -37,75 +38,21 @@ public class WooMypageController {
 	@RequestMapping("/mypage/myPage.woo")
 	public String myPage(Model model, HttpServletRequest req, Principal principal) {
 		
-		String user_id = principal.getName();
+		String user_id = "";
 		
-		ArrayList<String> review_score  = sqlSession.getMapper(WooMypageImpl.class).review_score(user_id);
-		double review_scoreSum = 0;
-		for(int i=0; i<review_score.size(); i++) {
-			review_scoreSum += Double.parseDouble(review_score.get(i));
-		}
-		WooMemberVO memberVO = sqlSession.getMapper(WooMypageImpl.class).myInfo(user_id);
-		
-		int trade_count = Integer.parseInt(memberVO.getTrade_count());
-		
-		double avg_score1 = 0;
-		if(trade_count==0) {
-			avg_score1 = 1;
+		if(req.getParameter("seller_id") == null) {
+			 user_id = principal.getName();
 		}
 		else {
-			avg_score1 = review_scoreSum / (double)trade_count;
+			user_id = req.getParameter("seller_id");
+			model.addAttribute("realUser_id", principal.getName());
 		}
-		double avg_score2 = ((double)Math.round(avg_score1*10)/10);
-		int avg_score_update = sqlSession.getMapper(WooMypageImpl.class).avg_score_update(avg_score2, user_id);	
-		double avg_score = Double.parseDouble(memberVO.getAvg_score());
-
-		String score = "";
-
-		int full = (int) avg_score % 5;
-		int half = (int) ((avg_score - full) * 10);
 		
-		for (int i = 1; i <= full; i++) {
-			score += "<img src='../resources/img/그냥튀김우동.png' alt='' />";
-		}
-		if (half < 5) {
-			for (int j = full + 1; j <= 5; j++) {
-				score += "<img src='../resources/img/회색우동.png' alt='' />";
-			}
-		} else {
-			score += "<img src='../resources/img/반쪽우동.png' alt='' />";
-			for (int j = full + 2; j <= 5; j++) {
-				score += "<img src='../resources/img/회색우동.png' alt='' />";
-			}
-		}
-
-		String udongGrade = "";
-
-		if (trade_count < 5) {
-			udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-		} else if (trade_count >= 5 && trade_count < 10) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-		} else if (trade_count >= 10 && trade_count < 15) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else if (avg_score >= 2 && avg_score < 4)
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-			else
-				udongGrade += "<img src='../resources/img/파랑온도계.png' alt='' />";
-		} else if (trade_count >= 15) {
-			if (avg_score >= 1 && avg_score < 2)
-				udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
-			else if (avg_score >= 2 && avg_score < 4)
-				udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
-			else
-				udongGrade += "<img src='../resources/img/빨간온도계.png' alt='' />";
-		}
-
-		model.addAttribute("memberVO", memberVO);
-		model.addAttribute("score", score);
-		model.addAttribute("udongGrade", udongGrade);
+		Map<String, Object> map = review.revireScore(sqlSession, user_id);
+		
+		model.addAttribute("memberVO", map.get("memberVO"));
+		model.addAttribute("udongGrade", map.get("udongGrade"));
+		model.addAttribute("score", map.get("score"));
 		
 		String mode = req.getParameter("mode");
 		if(mode ==  null) mode = "";
@@ -115,8 +62,8 @@ public class WooMypageController {
 		parameterVO.setMode(mode);
 		parameterVO.setDealMode(dealMode);
 		
-		int pageSize = 6;
-		int blockPage = 5;
+		int pageSize = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.pageSize"));
+		int blockPage = Integer.parseInt(EnvFileReader.getValue("SpringBbsInit.properties", "springBoard.blockPage"));
 
 		// 현재페이지에 대한 파라미터 처리 및 시작/끝의 rownum 구하기
 		int nowPage = req.getParameter("nowPage") == null ? 1 : Integer.parseInt(req.getParameter("nowPage"));
@@ -127,70 +74,105 @@ public class WooMypageController {
 		parameterVO.setEnd(end);
 
 		parameterVO.setUser_id(user_id);
-		String str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
-		String[] splitStr = str.split("#");
-		List<String> list = new ArrayList<String>();
-
-		for (int i = 0; i < splitStr.length; i++) {
-			list.add(splitStr[i]);
-		}
-
+		List<String> list = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
 		parameterVO.setList(list);
+		
 		int totalRecordCount = sqlSession.getMapper(WooMypageImpl.class).getTotalCount(parameterVO);
+		
 		ArrayList<WooBoardVO> likeList = sqlSession.getMapper(WooMypageImpl.class).selectBoard(parameterVO);
 		ArrayList<WooMyreviewVO> riviewList = sqlSession.getMapper(WooMypageImpl.class).selectReview(parameterVO);
-		
 		for(WooMyreviewVO rv : riviewList) { 
 			
-			String idx = rv.getReviewidx();
+			String idx = rv.getBoardidx();
 			ArrayList<FileVO> uploadFileList = sqlSession.getMapper(WooBoardImpl.class).viewFile(idx);
 			//사진 중 첫번째 사진만 저장.
+			try {
+				String image = uploadFileList.get(0).getSave_name();
+				rv.setImagefile(image);
+			}
+			catch (Exception e) {
+			}
+		} 
+		for(WooBoardVO rv : likeList) { 
+			
+			String idx = rv.getBoardidx();
+			ArrayList<FileVO> uploadFileList = sqlSession.getMapper(WooBoardImpl.class).viewFile(idx);
+			//사진 중 첫번째 사진만 저장.
+
+      try {
 			String image = uploadFileList.get(0).getSave_name();
 			rv.setImagefile(image);
-			System.out.println("image : " + image);
+        }
+	      catch (Exception e) {
+	      }
+			String dealtype = sqlSession.getMapper(WooMypageImpl.class).dealtype(idx);
+			rv.setDeal_type(dealtype);
 		}
-		
-		for (WooBoardVO vo : likeList) {
-			// 내용에 대해 줄바꿈 처리
-			String temp = vo.getContents().replace("\r\n", "<br/>");
-			vo.setContents(temp);
-		}
-
 		model.addAttribute("likeList", likeList);
 		model.addAttribute("riviewList", riviewList);
-		
-		String dealPosition = req.getParameter("dealPosition");
-		String seller_id = req.getParameter("seller_id");
 		String pagingImg = "";
 		String page = "";
 		
+		String dealPosition = req.getParameter("dealPosition");
+		String seller_id = req.getParameter("seller_id");
+		if(seller_id != null) {
+			parameterVO.setSeller_id(seller_id);
+			ArrayList<WooMyreviewVO> sellerRiviewList = sqlSession.getMapper(WooMypageImpl.class).sellerReview(parameterVO);
+		for(WooMyreviewVO rv : sellerRiviewList) { 
+			
+			String idx = rv.getBoardidx();
+			ArrayList<FileVO> uploadFileList = sqlSession.getMapper(WooBoardImpl.class).viewFile(idx);
+			//사진 중 첫번째 사진만 저장.
+			try {
+				String image = uploadFileList.get(0).getSave_name();
+				rv.setImagefile(image);
+			}
+			catch (Exception e) {
+			}
+		}
+		model.addAttribute("sellerRiviewList", sellerRiviewList);
+		}
+		
+		model.addAttribute("seller_avgscore", map.get("avg_score"));
 		if(mode.equals("deal")) {
-			pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
-					"../mypage/myPage.woo?");
+			if(dealMode.equals("sell")) {
+				pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
+						"../mypage/myPage.woo?mode=deal&dealMode=sell&");
+			}
+			else {
+				pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
+						"../mypage/myPage.woo?mode=deal&dealMode=buy&");
+			}
 			page = "mypage/myList_W";
 		}
 		else if(mode.equals("sell")) {
 			pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
-					"../mypage/myPage.woo?");
+					"../mypage/myPage.woo?mode=sell&");
 			page = "mypage/myList_S";
 		}
 		else if(mode.equals("buy")) {
-			System.out.println("buy들어감");
 			pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
-					"../mypage/myPage.woo?");
+					"../mypage/myPage.woo?mode=buy&");
 			page = "mypage/myList_B";
 		}
 		else if(mode.equals("review")) {
 			if("seller".equals(dealPosition)) {
+				totalRecordCount = sqlSession.getMapper(WooMypageImpl.class).getTotalCountSellerReview(parameterVO);
 				page = "mypage/sellerReview";
+				pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
+						"../mypage/myPage.woo?mode=review&dealPosition=seller&seller_id="+seller_id+"&");
 			}
-			pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
-					"../mypage/myPage.woo?");
-			page = "mypage/myReview";
+			else if("buyer".equals(dealPosition)){
+				totalRecordCount = sqlSession.getMapper(WooMypageImpl.class).getTotalCountBuyerReview(parameterVO);
+				page = "mypage/myReview";
+				pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
+						"../mypage/myPage.woo?mode=review&dealPosition=buyer&");
+			}
+			model.addAttribute("user_id", user_id);
 		}
 		else if(mode.equals("like")){
-			PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
-					"../mypage/myPage.woo?");
+			pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
+					"../mypage/myPage.woo?mode=like&");
 			page = "mypage/myList_L";
 		}
 		else {
@@ -211,49 +193,26 @@ public class WooMypageController {
 		String like_flag = req.getParameter("like_flag");
 		String user_id = principal.getName();
 		String page = "";
-		System.out.println("like_flag : " + like_flag);
 		
 		if(like_flag.equals("-1")) {
 			
 			int likecountUpdate = sqlSession.getMapper(WooMypageImpl.class).likeCount_minus(idx);
-			System.out.println("관심목록에서 취소시 likecount +1:" + likecountUpdate);
-	
-			String str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
-	
-			String[] splitStr = str.split("#");
-	
-			List<String> list = new ArrayList<String>();
-	
-			for (int i = 0; i < splitStr.length; i++) {
-				list.add(splitStr[i]);
+			
+			sqlSession.getMapper(WooMypageImpl.class).deleteLike(user_id, idx);
+			
+			if("likemode".equals(req.getParameter("likemode"))) {
+				page = "mypage/myList_L";
 			}
-	
-			for (int i = 0; i < list.size(); i++) {
-	
-				if (list.get(i).equals(idx)) {
-	
-					list.remove(i);
-					String new_goodsStr = "";
-					for (int j = 0; j < list.size(); j++) {
-						new_goodsStr += list.get(j) + "#";
-	
-					}
-					int update1 = sqlSession.getMapper(WooMypageImpl.class).updateLike(new_goodsStr, user_id);
-					break;
-				}
-	
+			else {
+				page = "product/productList";
 			}
-			page = "product/productList";
 		}
 		else if(like_flag.equals("1")){
 			
 			int likecountUpdate = sqlSession.getMapper(WooMypageImpl.class).likeCount_puls(idx);
-			System.out.println("카테고리에서 좋아요 클릭시 likecount +1:" + likecountUpdate);
 			
-			String back_str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
-			String str = back_str + req.getParameter("str");
-
-			int update = sqlSession.getMapper(WooMypageImpl.class).updateLike(str, user_id);
+			int update = sqlSession.getMapper(WooMypageImpl.class).updateLike(user_id, idx);
+			
 			model.addAttribute("update", update);
 
 			page = "product/productList";
@@ -261,67 +220,80 @@ public class WooMypageController {
 		return page;
 		
 	}
-	
-	// 후기페이지
 	@RequestMapping("/mypage/myReview.woo")
-	public String myReview() {
-		return "mypage/myReview";
-	}
-	
-	// 리뷰작성글 팝업열기
-	@RequestMapping("/mypage/reviewPop.woo")
-	public String reviewPop(Model model, HttpServletRequest req) {
-		
-		String idx = req.getParameter("idx");
-		System.out.println("팝업" + idx); 
-		
-		model.addAttribute("idx", idx);
-		
-		return "mypage/reviewPop";
-	}
-	
-	// 리뷰버튼 클릭시 review테이블에 id, idx, title 저장
-	@RequestMapping("/mypage/writeReview.woo")
-	public String write_review(Model model, HttpServletRequest req, Principal principal) {
-			
-		String user_id = principal.getName();
-		String id = req.getParameter("id");
-		String idx = req.getParameter("idx");
-		String title = req.getParameter("title");
-		
-		ParameterVO parameterVO = new ParameterVO();
-		parameterVO.setId(id);
-		parameterVO.setIdx(idx);
-		parameterVO.setTitle(title);
-		parameterVO.setUser_id(user_id);
-		
-		int update = sqlSession.getMapper(WooMypageImpl.class).update_reviewTable(parameterVO);
-		System.out.println("review update : " + update);
-		
-		return "mypage/myList_B";
-	}
-	
-	
-	//리뷰팝업에서 contents DB저장
-	@RequestMapping(value="/mypage/writeReviewContents.woo", method = RequestMethod.POST)
-	public String writeReviewContents(Model model, HttpServletRequest req) {
-		
-		System.out.println("글내용 : " + req.getParameter("contents"));
-		System.out.println("글idx" + req.getParameter("write_idx"));
-		int update1 = sqlSession.getMapper(WooMypageImpl.class).update_reviewContents(req.getParameter("contents"), req.getParameter("write_idx"));
-		System.out.println("review contents update : " + update1);
-		int update = sqlSession.getMapper(WooMypageImpl.class).update_reviewScore(req.getParameter("cal_reviewPoint"), req.getParameter("write_idx"));
-		
-		return "mypage/myList_B_popclose";
-	}
+	   public String myReview() {
+	      return "mypage/myReview";
+	   }
+	   
+	   // 리뷰작성글 팝업열기
+	   @RequestMapping("/mypage/reviewPop.woo")
+	   public String reviewPop(Model model, HttpServletRequest req) {
+	      
+	      String boardidx = req.getParameter("boardidx");
+	      String title = req.getParameter("title");
+	      String id = req.getParameter("id");
+	      
+	      model.addAttribute("boardidx", boardidx);
+	      model.addAttribute("title", title);
+	      model.addAttribute("id", id);
+	      
+	      return "mypage/reviewPop";
+	   }
+
+  
+	   //리뷰팝업에서 contents DB저장
+	   @RequestMapping(value="/mypage/writeReviewContents.woo", method = RequestMethod.POST)
+	   public String writeReviewContents(Model model, HttpServletRequest req, Principal principal) {
+	      
+	      String user_id = principal.getName();
+	      
+	      String id = req.getParameter("id");
+	      String title = req.getParameter("title");
+	      String juso = req.getParameter("juso");
+	      String latitude = req.getParameter("latitude");
+	      String longitude = req.getParameter("longitude");
+	      String boardidx = req.getParameter("write_idx");
+	      String contents = req.getParameter("contents");
+	      
+	      ParameterVO parameterVO = new ParameterVO();
+	      parameterVO.setUser_id(user_id);
+	      parameterVO.setId(id);
+	      parameterVO.setTitle(title);
+	      parameterVO.setJuso(juso);
+	      parameterVO.setLatitude(latitude);
+	      parameterVO.setLongitude(longitude);
+	      parameterVO.setBoardidx(boardidx);
+	      parameterVO.setContents(contents);
+	      
+	      
+	      int update1 = sqlSession.getMapper(WooMypageImpl.class).update_reviewContents(parameterVO);
+	      int update = sqlSession.getMapper(WooMypageImpl.class).update_reviewScore(req.getParameter("cal_reviewPoint"), req.getParameter("write_idx"));
+	      
+	      return "mypage/myList_B_popclose";
+	   }
 	
 	// 후기삭제
 	@RequestMapping("/mypage/reviewDelete.woo")
-	public String deleteReview(HttpServletRequest req) {
-		String idx = req.getParameter("idx");
+	public String deleteReview(HttpServletRequest req) throws UnsupportedEncodingException {
+		String page = "";
+		String idx = req.getParameter("boardidx");
 		int delete = sqlSession.getMapper(WooMypageImpl.class).delete(idx);
+		String dealPosition = req.getParameter("dealPosition");
+		String seller_id = req.getParameter("seller_id");
+		String seller_avgscore = req.getParameter("seller_avgscore");
+		String score = req.getParameter("score");
 		
-		return "redirect:myPage.woo?mode=review";
+		if("seller".equals(dealPosition)) {
+			String encodedParam = URLEncoder.encode(score, "UTF-8");
+			page = "redirect:myPage.woo?mode=review&dealPosition=seller&seller_id=" + seller_id + "&seller_avgscore=" + seller_avgscore + "&score=" + encodedParam;
+		}
+		else if("buyer".equals(dealPosition)){
+			page = "redirect:myPage.woo?mode=review&dealPosition=buyer";
+		}
+		int update = sqlSession.getMapper(WooMypageImpl.class).default_reviewScore(idx);
+		
+		return page;
 	}
+
 	
 }

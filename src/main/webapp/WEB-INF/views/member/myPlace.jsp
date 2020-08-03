@@ -185,13 +185,9 @@
 									                            detailAddr + 
 									                        '</div>';
 									            document.getElementById('juso').value = result[0].address.address_name;
-									            // 마커를 클릭한 위치에 표시합니다 
 									            marker.setPosition(mouseEvent.latLng);
 									            marker.setMap(map);
 
-									            // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
-									            //infowindow.setContent(content);
-									           // infowindow.open(map, marker);
 									        }   
 									    });
 									});
@@ -317,8 +313,7 @@
 							              </div>
 							              <div class="col-6">
 							                <div class="form-group">
-							                  <input class="form-control" name="" id="" type="text" placeholder='동네인증을 해주세요' 
-							                  readonly="readonly"  value="${dto.addr}">
+							                  <input class="form-control" name="" id="" type="text" placeholder='동네인증을 해주세요' readonly="readonly"  value="${memberVO.addr}">
 							                </div>
 							              </div>
 							             

@@ -25,14 +25,26 @@ public class WooBoardVO {
 	private String deal_type;//거래 종류
 	private String latitude;//거래희망 위치 좌표
 	private String longitude;//거래희망 위치 좌표
-	private String buyer_id;
+	private String buyer_id;//구매자
 	private String review_score;
+	
+	private String deal_location;//거래 희망 위치
+	private int publicSet;//거래 희망 위치
+	
 	
 	// 기타
 	private String imagefile;
 	private List<MultipartFile> file;
 	private int seq_woo_board;
 	private String good_state;
+	private int vNum;
+	
+	public int getvNum() {
+		return vNum;
+	}
+	public void setvNum(int vNum) {
+		this.vNum = vNum;
+	}
 	public String getBoardidx() {
 		return boardidx;
 	}
@@ -176,6 +188,18 @@ public class WooBoardVO {
 	}
 	public void setGood_state(String good_state) {
 		this.good_state = good_state;
+	}
+	public String getDeal_location() {
+		return deal_location;
+	}
+	public void setDeal_location(String deal_location) {
+		this.deal_location = deal_location;
+	}
+	public int getPublicSet() {
+		return publicSet;
+	}
+	public void setPublicSet(int publicSet) {
+		this.publicSet = publicSet;
 	}
 	
 	

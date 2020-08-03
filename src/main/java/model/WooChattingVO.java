@@ -1,41 +1,50 @@
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class WooChattingVO {
 	
 	// 테이블 컬럼
-	private int chattionidx;
+	private String chattionidx;
+	private String id;
 	private String chatting;
-	private Date chatDate;
-	private int chatroomidx;
+	private Timestamp chatDate;
+	private String chatroomidx;
 
 	// 기타
 	
 	
-	public int getChattionidx() {
-		return chattionidx;
-	}
-	public void setChattionidx(int chattionidx) {
-		this.chattionidx = chattionidx;
-	}
+	
 	public String getChatting() {
 		return chatting;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	public void setChatting(String chatting) {
 		this.chatting = chatting;
 	}
-	public Date getChatDate() {
+	public Timestamp getChatDate() {
 		return chatDate;
 	}
-	public void setChatDate(Date chatDate) {
+	public void setChatDate(Timestamp chatDate) {
 		this.chatDate = chatDate;
 	}
-	public int getChatroomidx() {
+	public String getChattionidx() {
+		return chattionidx;
+	}
+	public void setChattionidx(String chattionidx) {
+		this.chattionidx = chattionidx;
+	}
+	public String getChatroomidx() {
 		return chatroomidx;
 	}
-	public void setChatroomidx(int chatroomidx) {
+	public void setChatroomidx(String chatroomidx) {
 		this.chatroomidx = chatroomidx;
 	}
+	
 	
 }

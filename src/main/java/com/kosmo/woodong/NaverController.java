@@ -55,7 +55,6 @@ public class NaverController {
 		// 3. 데이터 파싱
 		// Top레벨 단계 _response 파싱
 		JSONObject response_obj = (JSONObject) jsonObj.get("response");
-		System.out.println(response_obj);
 		// response의 nickname값 파싱
 		String id = (String) response_obj.get("id");
 		String email = (String) response_obj.get("email");
@@ -67,7 +66,7 @@ public class NaverController {
 		memberVO.setMobile(phoneNum);
 		try {
 		((WooMemberImpl)this.sqlSession.getMapper(WooMemberImpl.class))
-		.naverLoginAction(memberVO);
+		.regist(memberVO);
 		model.addAttribute("name", email);
 		return "member/naverloginAction";
 		}

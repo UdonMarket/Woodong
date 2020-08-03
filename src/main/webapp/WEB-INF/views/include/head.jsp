@@ -3,12 +3,14 @@
 
 <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
+    <meta charset="utf-8" id="_csrf" name="_csrf" content="${_csrf.token}">
+    <!-- default header name is X-CSRF-TOKEN -->
+	<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>우동마켓</title>
     <link rel="icon" href="../resources/img/main/favicon.png">
     
-        <!-- Required meta tags -->
+     <!-- Required meta tags -->
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 	<meta name='viewport' content='width=device-width, initial-scale=1'>
@@ -47,32 +49,19 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-
-    <style type="text/css">
-    .ui-state-active,
-	.ui-button.ui-state-active:hover {
-		border: 1px solid #ff4f4f;
-		background: #ff4f4f;
-		font-weight: normal;
-		color: #ffffff;
-	}
-<!-- 팝업용 CSS 추가 -->
-
-
-#popup{overflow:hidden; height:auto; display:block; border-radius:3px; box-shadow:0px 1px 1px #333; width:260px; z-index:100; position:absolute;  top:20%; left:10%;}
-#popup h4{background:#659fd5; font-size:15px; height:24px;  padding:8px 0 2px 15px ; color:#FFF; font-weight:normal;}
-#popup h4 a.close{float:right; padding-right:8px; color:#FFF; font-family:verdana}
-  .popCont{display:block; background: #FFF; border:2px solid #659fd5; padding:15px 20px;  }
-  .popCont li{height:24px; width:100%; display:inline-block; margin:0; border-top:1px solid #eaeaea;  font-size:12px; }
-  .popCont li:last-child{border-bottom:1px solid #eaeaea; padding-bottom:3px;}
-  .popCont strong{float:left; width:30%; background: #aaa; color:#FFF; padding:7px 0; text-align:center; border-right:1px solid #eaeaea; }
-  .popCont span{display:block; float:left; padding:7px 0  7px 8px;}
-
-
-<!-- //팝업용 CSS 추가 -->
+<style type="text/css">
+.ui-state-active,
+.ui-button.ui-state-active:hover {
+	border: 1px solid #ff4f4f;
+	background: #ff4f4f;
+	font-weight: normal;
+	color: #ffffff;
+}
 
 
 
     </style>
-
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 </head>

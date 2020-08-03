@@ -11,6 +11,18 @@
 	<select id="review_score" resultType="String"> 
 		select review_score from woo_board where id = #{0}
 	</select>
+	
+	<!-- 메인 추가 -->
+	<select id="review_score2" resultType="String"> 
+		select review_score from woo_board where boardidx = #{0}
+	</select>
+	<select id="selectReview2" resultType="model.WooMyreviewVO" >
+		SELECT * FROM WOO_REVIEW
+  	</select>
+	
+	
+	
+	 
 	<!-- avg-score update -->
 	<update id="avg_score_update">
 		update woo_member set avg_score = #{0} where id = #{1}
@@ -25,13 +37,20 @@
 	<!-- 카테고리에서 좋아요 누를 때 -->
 	<!--ㅡmypage goods에 연결된 String 가져오기 -->	
 	 <select id="selectLike" resultType="String">
-	 	select goods from woo_mypage where id = #{0}
+	 	<!-- select goods from woo_member where id = #{0} -->
+	 	select boardidx from woo_like where id = #{0}
 	 </select>
 	 
+	 
 	 <!--ㅡmypage goods에 새로운 idx update -->	
-	<update id="updateLike" >
- 		update woo_mypage set goods = #{0} where id = #{1}
- 	</update>
+	<insert id="updateLike" >
+		insert into woo_like values (seq_woo_like.nextval, #{0}, #{1})
+ 		<!-- update woo_member set goods = #{0} where id = #{1} -->
+ 	</insert>
+ 	
+ 	<delete id="deleteLike">
+ 		DELETE FROM woo_like WHERE id=#{0} AND boardidx=#{1}
+ 	</delete>
 
 
 	<!-- 좋아요 토글 -->
@@ -64,28 +83,33 @@
   				and woopay  = 'Y'
   					<!-- 거래중 & 판매목록 -->	
   				<if test="dealMode.equals('sell')">
-  					and id = #{user_id} 
+  					and id = #{user_id} and (deal_type = '판매중' or deal_type = '판매전' or deal_type = '구매자결제완료')
   				</if>
   					<!-- 거래중 & 구매목록 -->	
   				<if test="dealMode.equals('buy')">
-  					and buyer_id = #{user_id} 
+  					and buyer_id = #{user_id}  and (deal_type = '판매중' or deal_type = '판매전' or deal_type = '구매자결제완료')
   				</if>
   			</if>
   			<!-- 판매목록 -->
   			<if test="mode.equals('sell')">	
-  				and id = #{user_id} 
+  				and id = #{user_id} and deal_type = '판매완료'
   			</if>
   			<!-- 구매목록 -->
   			<!-- 에스크로 결제 버튼, qr결제 구매버튼 누를시 buyer_id 넘겨주어야함. -->
   			<if test="mode.equals('buy')">
-  				and buyer_id = #{user_id} 
+  				and buyer_id = #{user_id} and deal_type = '판매완료'
   			</if>
   			<!-- 관심목록 -->
   			<if test="mode.equals('like')">	
-  				and boardidx in
+  				<if test="list.size!=0">
+	  				and boardidx in
 				 	<foreach collection="list" item="item" open="(" close=")" separator=",">
 			 			#{item}
 					</foreach>
+				</if>
+				<if test="list.size==0">
+					and boardidx = -1
+				</if>
   			</if>	
 	  		ORDER BY boardidx DESC) TB) WHERE rNum BETWEEN #{start} AND #{end}
   	</select>
@@ -97,33 +121,91 @@
 	  				WHERE buyer_id = #{user_id} 
 	  		ORDER BY reviewidx DESC) TB) WHERE rNum BETWEEN #{start} AND #{end}
   	</select>
-	 
-	 
-	 
-	 <select id="getTotalCount" resultType="int" parameterType="model.ParameterVO">
-  		SELECT COUNT(*) from WOO_BOARD 	
-  		WHERE boardidx in
-  		 	<foreach collection="list" item="item" open="(" close=")" separator=",">
- 			#{item}
-		</foreach>	
+  	
+  	<select id="sellerReview" resultType="model.WooMyreviewVO" parameterType="model.ParameterVO">
+  	SELECT * FROM (
+	  			SELECT Tb.*, rownum rNum FROM(
+	  				SELECT * FROM WOO_REVIEW
+	  				WHERE seller_id = #{seller_id} 
+	  		ORDER BY reviewidx DESC) TB) WHERE rNum BETWEEN #{start} AND #{end}
+  	</select>
+  	
+  	<select id="getTotalCount" resultType="int" parameterType="model.ParameterVO"> 
+  		
+  		SELECT count(*) FROM WOO_BOARD
+  					WHERE 1=1
+  			<!-- 거래중 -->	
+  			<if test="mode.equals('deal')">
+  				and woopay  = 'Y'
+  					<!-- 거래중 & 판매목록 -->	
+  				<if test="dealMode.equals('sell')">
+  					and id = #{user_id} and (deal_type = '판매중' or deal_type = '판매전' or deal_type = '구매자결제완료')
+  				</if>
+  					<!-- 거래중 & 구매목록 -->	
+  				<if test="dealMode.equals('buy')">
+  					and buyer_id = #{user_id}  and (deal_type = '판매중' or deal_type = '판매전' or deal_type = '구매자결제완료')
+  				</if>
+  			</if>
+  			<!-- 판매목록 -->
+  			<if test="mode.equals('sell')">	
+  				and id = #{user_id} and deal_type = '판매완료'
+  			</if>
+  			<!-- 구매목록 -->
+  			<!-- 에스크로 결제 버튼, qr결제 구매버튼 누를시 buyer_id 넘겨주어야함. -->
+  			<if test="mode.equals('buy')">
+  				and buyer_id = #{user_id} and deal_type = '판매완료'
+  			</if>
+  			<!-- 관심목록 -->
+  			<if test="mode.equals('like')">	
+  				<if test="list.size!=0">
+	  				and boardidx in
+				 	<foreach collection="list" item="item" open="(" close=")" separator=",">
+			 			#{item}
+					</foreach>
+				</if>
+				<if test="list.size==0">
+					and boardidx = -1
+				</if>
+  			</if>	
   	</select>
   	
   	
-  	<!-- review table 업데이트 -->
-  	<insert id="update_reviewTable" parameterType="model.ParameterVO">
-  		insert into woo_review (seller_id, buyer_id, reviewidx, title) values (#{id}, #{user_id}, ${idx},#{title})
-  	</insert>
+  	<!-- dealType 가져오기 -->
+  	<select id="dealtype" resultType="String">
+  		select DEAL_TYPE from woo_board where boardidx = #{0}
+  	</select>
   	
-	<update id="update_reviewContents">
-		update woo_review set contents = #{0} where reviewidx = #{1}
-	</update>
+  	
+  	
+  	<!--후기용 getTotalCount -->
+	 <select id="getTotalCountBuyerReview" resultType="int" parameterType="model.ParameterVO">
+  		SELECT count(*) FROM WOO_REVIEW WHERE buyer_id = #{user_id} 
+  	</select>
+  	<!-- 셀러 후기용 getTotalCount -->
+	 <select id="getTotalCountSellerReview" resultType="int" parameterType="model.ParameterVO">
+  		SELECT count(*) FROM  WOO_REVIEW WHERE seller_id = #{user_id} 
+  	</select>
+  	
+  	
+  	
+  	
+  	
+
+  	<insert id="update_reviewContents" parameterType="model.ParameterVO">
+  		insert into woo_review (seller_id, buyer_id, boardidx, title, reviewidx, contents, juso, latitude, longitude) values (#{id}, #{user_id}, ${boardidx},#{title}, seq_woo_review.nextval, #{contents}, #{juso}, #{latitude}, #{longitude})
+  	</insert>
+
 	
 	<update id="update_reviewScore">
 		update woo_board set review_score = #{0} where boardidx = #{1}
 	</update>
 	
-	
+	<!-- review 삭제 -->
 	<delete id ="delete">
-		delete from woo_review where reviewidx = #{0}
+		delete from woo_review where boardidx = #{0}
 	</delete>
+	<!-- review 삭제 후  review_score 디폴트값인 '1'로 업데이트 -->
+	<update id="default_reviewScore">
+		update woo_board set review_score = '1' where boardidx = #{0}
+	</update>
 </mapper>

@@ -33,18 +33,12 @@ public class kakaoController {
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		
-	    System.out.println("로그인 할때 임시 코드값");
-	    //카카오 홈페이지에서 받은 결과 코드
-	    System.out.println(code);
-	    System.out.println("로그인 후 결과값");
-	   
 	    //카카오 rest api 객체 선언
 	    kakao_restapi kr = new kakao_restapi();
 	   
 	    //결과값을 node에 담아줌(코드)
 	    JsonNode node = kr.getAccessToken(code);
 	    //결과값 출력
-	    System.out.println(node);
 	    //노드 안에 있는 access_token값을 꺼내 문자열로 변환
 	    String token = node.get("access_token").toString();
 	    JsonNode accessToken = node.get("access_token");
@@ -56,7 +50,6 @@ public class kakaoController {
 	    //사용자 이메일 얻어오기
 	    String kemail = null;
 	    kemail = kakao_account.path("email").asText(); 
-	    System.out.println(kemail);
 	    session.setAttribute("kemail", kemail);
 	    //세션에 담아준다.
 	    session.setAttribute("token", token);
@@ -70,7 +63,7 @@ public class kakaoController {
 		memberVO.setMobile(phoneNum);
 		try {
 		((WooMemberImpl)this.sqlSession.getMapper(WooMemberImpl.class))
-		.kakaoLoginAction(memberVO);
+		.regist(memberVO);
 		model.addAttribute("name", kemail);
 		return "member/kakaologinAction";
 		}
@@ -90,7 +83,6 @@ public class kakaoController {
 	    //노드에 로그아웃한 결과값음 담아줌 매개변수는 세션에 잇는 token을 가져와 문자열로 변환
 	    JsonNode node = kr.Logout(session.getAttribute("token").toString());
 	    //결과 값 출력
-	    System.out.println("로그인 후 반환되는 아이디 : " + node.get("id"));
 	    return "home";
 	}    
 }

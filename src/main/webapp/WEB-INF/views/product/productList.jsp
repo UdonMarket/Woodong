@@ -138,10 +138,6 @@ function itemSave(boardidx){
 	 function sucFunc(d) {
 		 for(var i=1 ; i<=d.length ; i++){
 			 $("#img"+i).attr("src","../resources/Upload/"+d[i-1].imagefile);
-			 
-			 //alert(d[i-1].imagefile);
-			 alert(d[i-1].title);
-			 
 			 $("#title"+i).html(d[i-1].title);
 			 $("#title"+i).attr("href","../product/productView.woo?boardidx="+d[i-1].boardidx);
 		   }
@@ -156,29 +152,6 @@ function itemSave(boardidx){
 
 
  </script>
-<!-- <script>
-function itemSave(boardidx){
-	 $.ajax({
-			url : "../product/itemSave.woo",
-			dataType : "json",
-			type : "get",
-			contentType : "text/html;charset:utf-8",
-			success : sucFunc, 
-	    	error : errFunc
-		 });
-	 function sucFunc(d) {
-		  for(var i=1 ; i<=d.length ; i++){
-			  alert(d[i-1].boardidx);
-	  		 $("#img"+i).attr("src","../resources/Upload/"+d[i-1].imagefile);
-	  		 $("#title"+i).html(d[i-1].title);
-	  		 $("#title"+i).attr("href","../product/productView.woo?boardidx="+d[i-1].boardidx);
-		   }
-	 	}
-	 function errFunc(e){
-		 alert(e);
-	 }
-}
- </script> -->
 <script>
 //ajaxView 로 이동
 function ajaxView(boardidx){

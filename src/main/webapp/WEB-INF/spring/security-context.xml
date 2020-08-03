@@ -72,7 +72,7 @@
 			authentication-failure-url="/member/login.woo?error"
 			login-processing-url="/loginAction" username-parameter="name"
 			password-parameter="password" />
-		<security:logout logout-url="/logout"
+		<security:logout logout-url="/member/logout"
 			logout-success-url="/main/main.woo" invalidate-session="true" delete-cookies="JSESSIONID" />
 			
 

@@ -153,8 +153,6 @@ public class WooBoardController {
 		parameterVO.setStart(start);
 		parameterVO.setEnd(end);
 		
-		System.out.println("start : " + start);
-		System.out.println("end : " + end);
 		
 		int total = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).getTotalCount(parameterVO);
 		ArrayList<WooBoardVO> lists = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).listPage(parameterVO);
@@ -197,10 +195,8 @@ public class WooBoardController {
 		//DB에 있는 게시물의 total 과 start를 비교하여 state 설정
 		if (start > total) {
 			mv.addObject("state", "false");
-			System.out.println("state : false");
 		} else {
 			mv.addObject("state", "true");
-			System.out.println("state : true");
 		}
 
 		mv.setViewName("product/ajaxList");
@@ -231,7 +227,6 @@ public class WooBoardController {
 				getGrade = review.revireScore(sqlSession, user_id);
 				userGrade = Integer.parseInt(getGrade.get("getUserGrade").toString());//게시글 등급별 공개설정
 			}else {
-				System.out.println("로그인하지않은 사용자");
 				userGrade = 1;
 			}
 			//상세보기
@@ -266,46 +261,6 @@ public class WooBoardController {
 			model.addAttribute("udongGrade",map.get("udongGrade"));
 			model.addAttribute("avg_score",map.get("avg_score"));
 			model.addAttribute("userGrade",userGrade);
-			////////////////////////////////////////////쿠키 start
-			String preCookie = "";
-			// 쿠키를 읽어온다.
-			Cookie[] cookies = req.getCookies();
-			if (cookies != null) {
-				for (Cookie ck : cookies) {
-					if (ck.getName().contains("boardidx")) {
-						preCookie = ck.getValue();
-					}
-				}
-			}
-			List<String> cookielist = new ArrayList<String>(); 
-			if(!preCookie.isEmpty()) {
-				String[] cookiesave = preCookie.split("/");
-				for (int i = 0; i < cookiesave.length; i++) {
-					cookielist.add(cookiesave[i]);
-				}
-			}
-			preCookie = "";//preCookie 비워줌
-			
-			if(cookielist!=null && cookielist.size()!=0){
-				for(int i=0;i<cookielist.size();i++) {
-					if(cookielist.get(i).equals(boardidx)) {
-						cookielist.remove(i);
-					}
-				}
-				if(cookielist.size()>3) {
-					cookielist.remove(0);
-				}
-			}
-			cookielist.add(boardidx);
-			for(int i=0;i<cookielist.size();i++) {
-				preCookie += cookielist.get(i)+"/";
-			}
-			// 쿠키생성
-			Cookie cookie = new Cookie("boardidx", preCookie);
-			cookie.setPath("/");
-			response.addCookie(cookie);
-			
-			//////////////////////////////////////////////////////////////쿠키 end
 			model.addAttribute("viewRow", dto);
 			model.addAttribute("uploadFileList", uploadFileList);
 			model.addAttribute("nowPage", nowPage);
@@ -360,7 +315,7 @@ public class WooBoardController {
 	//5-1.글 수정 폼진입
 	@RequestMapping(method = RequestMethod.POST, value="/product/productUpdate.woo")
 	public String productUpdate(Model model , HttpServletRequest req,Principal principal) {
-		
+		List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
 		logger.info("update");
 		logger.debug("update");
 		String boardidx = req.getParameter("boardidx");
@@ -377,7 +332,7 @@ public class WooBoardController {
 			dto.setContents(dto.getContents().replace("\r\n","<br/>"));
 			selectlist = ((WooBoardListImpl) sqlSession.getMapper(WooBoardListImpl.class)).selectBname("../product/productList.woo");
 			ArrayList<FileVO> uploadFileList = ((WooBoardImpl) this.sqlSession.getMapper(WooBoardImpl.class)).viewFile(boardidx);
-			
+			model.addAttribute("prohidition", prohiditionlists);
 			model.addAttribute("viewRow", dto);
 			model.addAttribute("nowPage", nowPage);
 			model.addAttribute("bname", bname);
@@ -599,7 +554,6 @@ public class WooBoardController {
 	 		Map<String, Object>map = new HashMap<String, Object>();
 	 		VerifyRecaptcha.setSecretKey("6LcN9rgZAAAAAPwE96NXGabUAl-5JL9d8hye3VdQ");//API비밀키
 	        String gRecaptchaResponse = request.getParameter("recaptcha");
-	        System.out.println(gRecaptchaResponse);
 	        
 	        try {
 	            if(VerifyRecaptcha.verify(gRecaptchaResponse)) {//0 = 성공, 1 = 실패, -1 = 오류

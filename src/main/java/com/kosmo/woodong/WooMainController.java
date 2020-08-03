@@ -62,7 +62,6 @@ public class WooMainController {
 			System.out.println(e + idx);
 		
 			String review_score2  = sqlSession.getMapper(WooMypageImpl.class).review_score2(idx);
-				System.out.println("review_score2" + review_score2);
 				double review_score = Double.parseDouble(review_score2);
 			
 				int full = (int) review_score % 5;

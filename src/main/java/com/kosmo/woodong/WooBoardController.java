@@ -33,6 +33,7 @@ import model.WooBoardListVO;
 import model.WooBoardVO;
 import model.WooMemberVO;
 import model.WooMypageImpl;
+import model.WooProhiditionImpl;
 import util.VerifyRecaptcha;
 
 @Controller
@@ -162,11 +163,10 @@ public class WooBoardController {
 			if(principal!=null) {
 				user_id = principal.getName();
 				mv.addObject("user_id", user_id);
-				String str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
-				String[] splitStr = str.split("#");
+				List<String> str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
 				for (int i = 0; i < lists.size(); i++) {
-					for (int j = 0; j < splitStr.length; j++) {
-						if(splitStr[j].equals(lists.get(i).getBoardidx())) {
+					for (int j = 0; j < str.size(); j++) {
+						if(str.get(j).equals(lists.get(i).getBoardidx())) {
 							lists.get(i).setLike_check(1);
 						}
 					}
@@ -621,6 +621,7 @@ public class WooBoardController {
 	            	map.put("msg",1);//실패
 	            }
 	        } catch (IOException e) {
+	        	e.printStackTrace();
 	        	map.put("msg",-1);//오류
 	            return map;
 	        }

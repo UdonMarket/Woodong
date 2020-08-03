@@ -15,6 +15,10 @@
 		SELECT location FROM woo_boardlist WHERE boardlistidx=#{idx}
 	</select>	
 	
+	<select id="selectOneBname" resultType="String">
+		SELECT bname FROM woo_boardlist WHERE boardlistidx=#{idx}
+	</select>	
+	
 	<select id="selectLocationOrder" resultType="map">
 		SELECT count(*) c, locationname FROM woo_boardlist GROUP BY locationname
 	</select>
@@ -59,4 +63,8 @@
 	<select id="selectBname" resultType="model.WooBoardListVO">
 		SELECT * FROM woo_boardlist WHERE location=#{0}
 	</select>
+	
+	<update id="updateBoardBname">
+		UPDATE woo_board SET bname=#{0} WHERE bname=#{1}
+	</update>
 </mapper> 

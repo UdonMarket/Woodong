@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface WooMypageImpl {
 	
@@ -11,10 +12,10 @@ public interface WooMypageImpl {
 	
 	WooMemberVO myInfo(String var1);
 	
-	String selectLike(String var1);
+	List<String> selectLike(String var1);
 
 	int updateLike(String var1, String var2);
-
+	void deleteLike(String id, String boardidx);
 	ArrayList<WooBoardVO> selectBoard(ParameterVO var1);
 
 	int getTotalCount(ParameterVO var1);

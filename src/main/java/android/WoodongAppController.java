@@ -1,4 +1,4 @@
-package com.kosmo.woodong;
+package android;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -34,7 +34,6 @@ public class WoodongAppController {
 	@RequestMapping("/android/WooAppProductList.woo")
 	@ResponseBody
 	public Map<String, Object> ajaxList(Model model, HttpServletRequest req, Principal principal) {
-		System.out.println("1");
 		Map<String, Object> boardList = new HashMap<String, Object>();
 		
 		ParameterVO parameterVO = new ParameterVO();
@@ -73,17 +72,16 @@ public class WoodongAppController {
 		if(principal!=null) {
 			user_id = principal.getName();
 			boardList.put("user_id", user_id);
-			String str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
-			String[] splitStr = str.split("#");
-			
+			List<String> str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
 			for (int i = 0; i < lists.size(); i++) {
-				for (int j = 0; j < splitStr.length; j++) {
-					if(splitStr[j].equals(lists.get(i).getBoardidx())) {
+				for (int j = 0; j < str.size(); j++) {
+					if(str.get(j).equals(lists.get(i).getBoardidx())) {
 						lists.get(i).setLike_check(1);
 					}
 				}
 			}
 		}
+		
 		String boardidx = "";
 		while (itr.hasNext()) {
 			WooBoardVO dto = (WooBoardVO) itr.next();

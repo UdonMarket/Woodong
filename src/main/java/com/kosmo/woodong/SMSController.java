@@ -31,7 +31,6 @@ public class SMSController {
 	@ResponseBody
 	@RequestMapping(value = "/member/sendSms.do", method = RequestMethod.POST)
 	public String sendSms(HttpServletRequest request) throws Exception {
-		System.out.println("222");
 		String api_key = "NCSOLY9RS2UEFNGR";
 		String api_secret = "QXKQSZFVZEDF2R0H2RUFKFF4VNK3PN9U";
 
@@ -45,7 +44,6 @@ public class SMSController {
 		set.put("type", "sms"); // 문자 타입
 
 		JSONObject obj = (JSONObject) coolsms.send(set);
-		System.out.println(obj.toString());
 		return "member/memberModify";
 	}
 
@@ -53,7 +51,6 @@ public class SMSController {
 	@ResponseBody
 	@RequestMapping(value = "/member/pwAccess.woo")
 	public Map<String, String> pwAccess(HttpServletRequest request) throws Exception {
-		System.out.println("222");
 		String api_key = "NCSOLY9RS2UEFNGR";
 		String api_secret = "QXKQSZFVZEDF2R0H2RUFKFF4VNK3PN9U";
 
@@ -62,7 +59,6 @@ public class SMSController {
 		WooMemberVO vo = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class))
 				.pwFind(request.getParameter("mobile"));
 		String pw = vo.getPass();
-		System.out.println(pw);
 		
 		HashMap<String, String> set = new HashMap<String, String>();
 
@@ -72,7 +68,6 @@ public class SMSController {
 		set.put("type", "sms"); // 문자 타입
 
 		JSONObject obj = (JSONObject) coolsms.send(set);
-		System.out.println(obj.toString());
 		return set;
 	}
 }

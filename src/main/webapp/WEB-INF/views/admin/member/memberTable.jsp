@@ -169,12 +169,12 @@
 						</c:if>
 						<c:if test="${param.grade eq 'normal' }">
 							<td class="text-center">
-								<button class="btn btn-dark" style="height: 20px; padding-top: 0px"  onclick="black(${row.id });">블랙</button>
+								<button class="btn btn-dark" style="height: 20px; padding-top: 0px"  onclick="black('${row.id }');">블랙</button>
 							</td>
 						</c:if>
 						<c:if test="${param.grade eq 'black' }">
 							<td class="text-center">
-								<button class="btn btn-dark" style="height: 20px; padding-top: 0px"  onclick="white(${row.id });">블랙해제</button>
+								<button class="btn btn-dark" style="height: 20px; padding-top: 0px"  onclick="white('${row.id }');">블랙해제</button>
 							</td>
 						</c:if>
 						<c:if test="${param.grade ne 'black'}">
@@ -191,7 +191,7 @@
 						</td>
 						</c:if>
 						<td class="text-center">
-							<button class="btn btn-danger" style="height: 20px; padding-top: 0px"  onclick="isDelete(${row.id });">삭제</button>
+							<button class="btn btn-danger" style="height: 20px; padding-top: 0px"  onclick="isDelete('${row.id }');">삭제</button>
 						</td>
 					</tr>
 				</c:forEach>

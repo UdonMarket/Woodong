@@ -22,7 +22,7 @@
 	
 	
 	
-	
+	 
 	<!-- avg-score update -->
 	<update id="avg_score_update">
 		update woo_member set avg_score = #{0} where id = #{1}
@@ -37,13 +37,20 @@
 	<!-- 카테고리에서 좋아요 누를 때 -->
 	<!--ㅡmypage goods에 연결된 String 가져오기 -->	
 	 <select id="selectLike" resultType="String">
-	 	select goods from woo_member where id = #{0}
+	 	<!-- select goods from woo_member where id = #{0} -->
+	 	select boardidx from woo_like where id = #{0}
 	 </select>
 	 
+	 
 	 <!--ㅡmypage goods에 새로운 idx update -->	
-	<update id="updateLike" >
- 		update woo_member set goods = #{0} where id = #{1}
- 	</update>
+	<insert id="updateLike" >
+		insert into woo_like values (seq_woo_like.nextval, #{0}, #{1})
+ 		<!-- update woo_member set goods = #{0} where id = #{1} -->
+ 	</insert>
+ 	
+ 	<delete id="deleteLike">
+ 		DELETE FROM woo_like WHERE id=#{0} AND boardidx=#{1}
+ 	</delete>
 
 
 	<!-- 좋아요 토글 -->
@@ -94,10 +101,15 @@
   			</if>
   			<!-- 관심목록 -->
   			<if test="mode.equals('like')">	
-  				and boardidx in
+  				<if test="list.size!=0">
+	  				and boardidx in
 				 	<foreach collection="list" item="item" open="(" close=")" separator=",">
 			 			#{item}
 					</foreach>
+				</if>
+				<if test="list.size==0">
+					and boardidx = -1
+				</if>
   			</if>	
 	  		ORDER BY boardidx DESC) TB) WHERE rNum BETWEEN #{start} AND #{end}
   	</select>
@@ -145,10 +157,15 @@
   			</if>
   			<!-- 관심목록 -->
   			<if test="mode.equals('like')">	
-  				and boardidx in
+  				<if test="list.size!=0">
+	  				and boardidx in
 				 	<foreach collection="list" item="item" open="(" close=")" separator=",">
 			 			#{item}
 					</foreach>
+				</if>
+				<if test="list.size==0">
+					and boardidx = -1
+				</if>
   			</if>	
   	</select>
   	

@@ -22,7 +22,6 @@ import model.WooChattingVO;
 import model.WooBoardListImpl;
 import model.WooMemberVO;
 import model.WooProhiditionImpl;
-import model.WooProhiditionVO;
 import model.WooMemberImpl;
 import model.ParameterVO;
 import model.WooBoardImpl;
@@ -156,6 +155,9 @@ public class WooAdminController {
 	@RequestMapping("/admin/editBoard.woo")
 	public String editBoard(WooBoardListVO boardListVO){
 		try {
+			// 원래 이름
+			String bname = sqlSession.getMapper(WooBoardListImpl.class).selectOneBname(boardListVO.getBoardlistidx());
+			sqlSession.getMapper(WooBoardListImpl.class).updateBoardBname(boardListVO.getBname(), bname);
 			if(boardListVO.getLocation().equals(sqlSession.getMapper(WooBoardListImpl.class).selectLocation(boardListVO.getBoardlistidx()))) {
 				int boardorder = sqlSession.getMapper(WooBoardListImpl.class).selectorder(boardListVO.getBoardlistidx());
 				if(boardorder!=boardListVO.getBoardorder()) {
@@ -379,7 +381,6 @@ public class WooAdminController {
 		parameterVO.setChatroomidx(req.getParameter("chatroomidx"));
 		List<WooChattingVO> chatList = sqlSession.getMapper(WooChatImpl.class).admminSelectChatting(parameterVO);
 		
-		System.out.println(totalRecordCount);
 		String pagingImg = PagingUtil.pagingImg(totalRecordCount, pageSize, blockPage, nowPage,
 				req.getContextPath() + "/admin/chattingView.woo?chatroomidx=" + parameterVO.getChatroomidx() + "&");
 		model.addAttribute("pagingImg", pagingImg);
@@ -422,4 +423,7 @@ public class WooAdminController {
 		sqlSession.getMapper(WooMemberImpl.class).memberWhite(id);
 		return "redirect:../admin/memberTable.woo?grade=black&"; 
 	}
+	
+	
+
 }

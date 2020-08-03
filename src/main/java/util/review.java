@@ -39,49 +39,50 @@ public class review {
       int half = (int) ((avg_score - full) * 10);
       
       for (int i = 1; i <= full; i++) {
-         score += "<img src='../resources/img/그냥튀김우동.png' alt=''/>";
+         score += "<img src='../resources/img/그냥튀김우동.png' />";
+
       }
       if (half < 5) {
          for (int j = full + 1; j <= 5; j++) {
-            score += "<img src='../resources/img/회색우동.png' alt='' />";
+            score += "<img src='../resources/img/회색우동.png' />";
          }
       } else {
-         score += "<img src='../resources/img/반쪽우동.png' alt='' />";
+         score += "<img src='../resources/img/반쪽우동.png' />";
          for (int j = full + 2; j <= 5; j++) {
-            score += "<img src='../resources/img/회색우동.png' alt='' />";
+            score += "<img src='../resources/img/회색우동.png' />";
          }
       }
 
       String udongGrade = "";
       int getUserGrade = 1;
       if (trade_count < 5) {
-         udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
+         udongGrade += "<img src='../resources/img/파랑일반.png' />";
       } else if (trade_count >= 5 && trade_count < 10) {
          if (avg_score >= 1 && avg_score < 2)
-            udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
+            udongGrade += "<img src='../resources/img/파랑일반.png' />";
          else
-            udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
+            udongGrade += "<img src='../resources/img/빨간일반.png' />";
          	getUserGrade = 2;
       } else if (trade_count >= 10 && trade_count < 15) {
          if (avg_score >= 1 && avg_score < 2)
-            udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
+            udongGrade += "<img src='../resources/img/파랑일반.png' />";
          else if (avg_score >= 2 && avg_score < 4) {
-            udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
+            udongGrade += "<img src='../resources/img/빨간일반.png' />";
             getUserGrade = 2;
          }
          else {
-            udongGrade += "<img src='../resources/img/파랑온도계.png' alt='' />";
+            udongGrade += "<img src='../resources/img/파랑온도계.png'  />";
             getUserGrade = 3;
          }
       } else if (trade_count >= 15) {
          if (avg_score >= 1 && avg_score < 2)
-            udongGrade += "<img src='../resources/img/파랑일반.png' alt='' />";
+            udongGrade += "<img src='../resources/img/파랑일반.png' />";
          else if (avg_score >= 2 && avg_score < 4) {
-            udongGrade += "<img src='../resources/img/빨간일반.png' alt='' />";
+            udongGrade += "<img src='../resources/img/빨간일반.png' />";
             getUserGrade = 2;
          }
          else {
-            udongGrade += "<img src='../resources/img/빨간온도계.png' alt='' />";
+            udongGrade += "<img src='../resources/img/빨간온도계.png'  />";
             getUserGrade = 4;
          }
       }

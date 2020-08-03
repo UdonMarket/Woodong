@@ -93,14 +93,14 @@
   	</insert>
   	
   	<select id="prohiditionCount" resultType="int">
-  		SELECT COUNT(*) FROM woo_memberprohidition WHERE id=#{0}
+  		SELECT COUNT(*) FROM woo_memberprohidition WHERE id=#{0} 
   	</select>
   	
   	<update id="memberblack">
-  		UPDATE woo_member SET grade='black' WHERE id=#{0}
+  		UPDATE woo_member SET grade='black', enabled=0 WHERE id=#{0}
   	</update>
   	
   	<update id="memberWhite"> 
-  		UPDATE woo_member SET grade='normal' WHERE id=#{0}
+  		UPDATE woo_member SET grade='normal', enabled=1 WHERE id=#{0}
   	</update>
  </mapper>

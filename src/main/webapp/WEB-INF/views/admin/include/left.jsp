@@ -134,9 +134,10 @@
 						class="ni ni-bullet-list-67 text-red"></i> 채팅
 				</a></li>
 				<li class="nav-item"><a class="nav-link"
-					href="../admin/boardTable.woo?mode=product"> <i
-						class="ni ni-bullet-list-67 text-red"></i> 거래내역
+					href="../admin/payTable.woo"> <i
+						class="ni ni-bullet-list-67 text-red"></i> 결제관리
 				</a></li>
+
 			</ul>
 			<!-- Divider -->
 			<hr class="my-3">

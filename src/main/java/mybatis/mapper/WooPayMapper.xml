@@ -31,8 +31,43 @@
 	
 	<update id="woopaySave" parameterType="String">
  		UPDATE woo_board set 
- 			deal_type = '구매자결제완료',
- 			buyer_id = #{param2}
- 		where boardidx = #{param1} 
+ 			deal_type = '사용자 결제완료'
+ 		where boardidx = #{param1}
  	</update>
+ 	
+ 	<select id="getTotalCount" resultType="int" parameterType="model.ParameterVO">
+		SELECT count(*) FROM woo_pay WHERE 1=1
+	 </select>
+	 
+	 <select id="listPage" resultType="model.WooPayVO" parameterType="model.ParameterVO">
+ 		SELECT 
+ 			PAY_IDX,
+ 			MERCHANT_UID,
+ 			PRODUCT_NAME,
+ 			PRODUCT_PRICE,
+ 			PAYDATE,
+ 			BOARD_IDX,
+ 			BUYER_ID,
+ 			SELLER_ID,
+ 			STATUS,
+ 			PAY_METHOD
+ 		FROM 
+ 		(
+ 			SELECT Tb.*, rownum rNum FROM (
+ 				SELECT * FROM woo_pay WHERE 1=1
+ 			 	<if test="searchTxt!=null and !searchTxt.equals('')">
+ 					AND ${searchField} like '%'||#{searchTxt}||'%'
+ 				</if>
+ 				ORDER BY PAY_IDX DESC
+ 			) Tb
+ 		) 
+ 		WHERE rNum BETWEEN #{start} AND #{end}
+ 	</select> 
+ 	
+ 	<delete id="deleteBoard" parameterType="model.ParameterVO">
+		DELETE FROM woo_pay WHERE pay_idx in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+ 			#{item}
+		</foreach>
+	</delete>
 </mapper>

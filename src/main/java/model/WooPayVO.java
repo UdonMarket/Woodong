@@ -1,16 +1,25 @@
 package model;
 
+import java.sql.Date;
+
 public class WooPayVO {
-	private String pay_idx; 
-	private String merchant_uid;
-	private String product_name;
-	private String product_price;
-	private String board_idx;
-	private String buyer_id;
-	private String seller_id;
-	private String status;
-	private String pay_method;
+	private String pay_idx; //거래 번호
+	private String merchant_uid; //거래 고유 번호
+	private String product_name; //상품명
+	private String product_price; //상품가격
+	private String board_idx; //보드idx
+	private Date paydate; //결제일
+	private String buyer_id; //구매자 id
+	private String seller_id; //판매자 id
+	private String status; //결제상태
+	private String pay_method; //결제방법
 	
+	public Date getPaydate() {
+		return paydate;
+	}
+	public void setPaydate(Date paydate) {
+		this.paydate = paydate;
+	}
 	public String getPay_idx() {
 		return pay_idx;
 	}

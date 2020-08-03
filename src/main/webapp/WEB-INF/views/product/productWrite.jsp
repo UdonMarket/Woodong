@@ -539,24 +539,27 @@ function frmCheck(){
 		
 		for (var i = 0; i < prohiditionList.length-1; i++) {
 			if(frm.title.value.indexOf(prohiditionList[i].trim()) > -1) {
-				if(ban_word_list.indexOf('"' + ban_word_list + '"') < 0){
-					ban_word_list += prohiditionList[i] + ", ";
+				if(ban_word_list.indexOf('"' + prohiditionList[i] + '"') < 0){
+					ban_word_list += prohiditionList[i] + " ";
+
 				}
 			}
 			if(frm.contents.value.indexOf(prohiditionList[i].trim()) > -1) {
 				if(ban_word_list.indexOf('"' + prohiditionList[i] + '"') < 0){
-					ban_word_list += prohiditionList[i] + ", ";
+					ban_word_list += prohiditionList[i] + " ";
+
 				}
 			}
 			if(frm.product_tag.value.indexOf(prohiditionList[i].trim()) > -1) {
 				if(ban_word_list.indexOf('"' + prohiditionList[i] + '"') < 0){
-					ban_word_list += prohiditionList[i] + ", ";
+					ban_word_list += prohiditionList[i] + " ";
+
 				}
 			}
 		}
 		
 		if(ban_word_list.length > 0){
-			alert(ban_word_list + "은 사용할 수 없습니다.");
+			alert("(" + ban_word_list + ")은(는) 사용할 수 없습니다.");
 			return false;
 		}
 

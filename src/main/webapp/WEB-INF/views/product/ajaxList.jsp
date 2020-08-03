@@ -32,6 +32,7 @@
 				 		
 				</div>
 				<div style="padding-left: 15px;">
+
 					<h4><fmt:formatNumber type="number" maxFractionDigits="3" value="${row.price}"/>원<(임시${row.boardidx})</h4>
 					<div>
 					<c:if test="${row.woopay eq 'Y'}">

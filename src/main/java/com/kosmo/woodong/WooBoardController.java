@@ -31,8 +31,8 @@ import model.WooBoardImpl;
 import model.WooBoardListImpl;
 import model.WooBoardListVO;
 import model.WooBoardVO;
-import model.WooMemberVO;
 import model.WooMypageImpl;
+import model.WooProhiditionImpl;
 import util.VerifyRecaptcha;
 
 @Controller
@@ -312,7 +312,7 @@ public class WooBoardController {
 	@RequestMapping("/product/productWrite.woo")
 	public String productWrite(Principal principal,Model model) {
 		
-    List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
 		List<WooBoardListVO> selectlist = new ArrayList<WooBoardListVO>();
 		String user_id="";
 		try {
@@ -321,7 +321,7 @@ public class WooBoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    model.addAttribute("prohidition", prohiditionlists);
+		model.addAttribute("prohidition", prohiditionlists);
 		model.addAttribute("selectlist", selectlist);
 		model.addAttribute("user_id",user_id);
 		return "product/productWrite";
@@ -434,11 +434,6 @@ public class WooBoardController {
 				parameterVO.setBoardidx(boardidx);//id와 boardidx 로 게시글 삭제
 				sqlSession.getMapper(WooBoardImpl.class).delete(parameterVO);
 			}
-			else {
-				model.addAttribute("msg", "작성자 본인만 삭제 가능합니다."); 
-				model.addAttribute("url", "../product/productView.woo?boardidx="+boardidx); 
-				return "include/alert";
-			}
 		} catch (Exception e) {e.printStackTrace();}
 		return "redirect:./productList.woo";
 	}
@@ -461,9 +456,7 @@ public class WooBoardController {
 				int applyRow = sqlSession.getMapper(WooBoardImpl.class).jump(parameterVO);
 			}
 		} catch (Exception e) {e.printStackTrace();}
-		model.addAttribute("msg", "끌올 완료 !"); 
-		model.addAttribute("url", "../product/productList.woo"); 
-		return "include/alert";
+		return "../product/productList.woo";
 	}
 
 	// 7.최근본 상품 처리중 쿠키값을 사이드바에 넘겨주기
@@ -539,7 +532,6 @@ public class WooBoardController {
 					}
 					model.addAttribute("msg", "작성자가 공개 설정한 등급은 "+udong+" 입니다."); 
 					model.addAttribute("url", "../product/productList.woo"); 
-					return "include/alert";
 				}
 				//조회수 처리
 				int applyRow = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).visitcount(boardidx);

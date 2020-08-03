@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="../resources/css/3d.css">   
 </head>
 <!-- ajaxproductView.jsp (ajax View ) -->
-   <div class="container" style="padding-left: 200px; width: 100%; height: 900px;" >
+   <div class="container" style="padding-left: 200px; width: 100%; height: 900px;  " >
       <%-- 상품 상세보기 추가부분 --%>
       <section class="content1" style="padding-top: 0px;">
          <div class="item_list_area">
@@ -138,7 +138,9 @@
                                                 <div class="col-2" style="padding: 0px;"></div>
                                                 <div class="col-4" style="padding: 0px;">
                                                    <c:if test="${viewRow.three_dimens eq 'Y'}">
-                                                      <img src="../resources/img/product/3d 이미지.png" data-toggle="modal" data-target="#tdModal" style="width: 125px; height: 75px; margin-left: 8px;" />
+                                                    <!-- data-toggle="modal" data-target="#tdModal"  -->
+                                                      <img src="../resources/img/product/3d 이미지.png"  style="width: 125px; height: 75px; margin-left: 8px;" onclick="tdclick();"/>
+                                                      <button type="button" style="display: none;" id="tdopen" data-toggle="modal" data-target="#tdModal" ></button>
                                                    </c:if>
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
@@ -291,8 +293,8 @@
                <div class="cd-product-viewer-wrapper" data-frame="8"  data-friction="0.33">
                   <div>
                      <figure class="product-viewer">
-                        <img src="../resources/Upload/${tdimage}" alt="Product Preview"
-                           style="width: 550px; height: 500px;">
+                         <img src="../resources/Upload/${tdimage}" alt="Product Preview" style="width: 550px; height: 550px;"> 
+                           
                         <div class="product-sprite"
                            data-image="../resources/Upload/${tdimage}"
                            style="background: url(../resources/Upload/${tdimage}) no-repeat center center;"></div>

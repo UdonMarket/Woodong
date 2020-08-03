@@ -307,9 +307,9 @@
 		</div>
 <script src="https://www.google.com/recaptcha/api.js"></script>
  <script>
-var captcha = 1;
+/*  var captcha = 1;
 
-/*캡차 ajax 요청  */
+//캡차 ajax 요청  
 $(function() {
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
@@ -331,10 +331,10 @@ $(function() {
                         captcha = 0;
                 		break;
                     case 1:
-                    	console.log("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
+                    	alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
                         break;
                     default:
-                    	console.log("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다.");
+                    	alert("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다.");
                    		break;
                 }
             },
@@ -344,7 +344,7 @@ $(function() {
         });
 	});
 	
-});
+});  */
 </script>
 		<input type="hidden" id="sample4_postcode" placeholder="우편번호">
 		<input type="hidden" id="sample4_roadAddress" placeholder="도로명주소">
@@ -354,6 +354,44 @@ $(function() {
 	</section>
 	<!-- ================ contact section end ================= -->
 <script>
+
+//캡차 ajax 요청  
+$(function() {
+	var captcha = 1;
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	$('#btn_captha').click(function() {
+		$.ajax({
+          url: './VerifyRecaptcha',
+          type: 'post',
+          beforeSend:function(xhr){
+          	xhr.setRequestHeader(header, token);
+          },
+          data: {
+              recaptcha: $("#g-recaptcha-response").val()
+          },
+          cache :false, // 캐시 여부
+          success: function(data) {
+              switch (data.msg) {
+                  case 0:
+                	  captcha = 0;
+                      console.log("자동 가입 방지 봇 통과");
+              		break;
+                  case 1:
+                  	alert("자동 글 쓰기 방지 봇을 확인 한뒤 진행 해 주세요.");
+                      break;
+                  default:
+                  	alert("자동 글 쓰기  방지 봇을 실행 하던 중 오류가 발생 했습니다.");
+                 		break;
+              }
+          },
+          error:function(xhr,status,error){
+				console.log('error:'+error);
+			}
+      });
+	});
+	
+}); 
 //파일체크
 var fileCount = 1;
 var maxfile = 9;
@@ -363,7 +401,7 @@ var tagmsg='';
 //폼값 유효성 체크
 var frm = document.writeFrm;
 
-var prohidition = '<c:forEach items="${prohidition }" var="row">${row},</c:forEach>';
+var prohidition = '<c:forEach items="${prohidition}" var="row">${row},</c:forEach>';
 //사진 미리보기	  
 function readFile(f) {
    if(f.files && f.files[0]) {
@@ -491,13 +529,12 @@ function delspan(tag) {
 }
 
 function frmCheck(){
-
 	
 	 var paychk = $('input:checkbox[name=woopay_check]').is(':checked');
 	 var price = frm.price.value;
 	 
 
-	$(function() {
+ 	$(function() { 
 		var check = false;
 		var ban_word_list = "";
 		var prohiditionList = prohidition.split(',');
@@ -525,7 +562,7 @@ function frmCheck(){
 			return false;
 		}
 
-	});
+	 }); 
 
 	  //폼값 유효성 체크  2. 사진 : 1장 이상 첨부 해야함
 	 if(frm.file[0].value==""){
@@ -578,8 +615,12 @@ function frmCheck(){
 		 frm.deal_location.focus();
 	     return false;
 	 }
+	 if (grecaptcha.getResponse() == ""){
+		 alert("자동 글 쓰기 방지 봇을 체크해야 합니다.");
+		 return false; 
+	 }
 	 if(captcha != 0) {
-		 alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
+		 alert("자동 글 쓰기 방지 봇을 다시 진행해주세요");
 		return false;
 	 }
 	 return true;

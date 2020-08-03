@@ -2,11 +2,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
-<head>
-<link rel="stylesheet" href="../resources/css/3d.css">   
-</head>
+
 <!-- ajaxproductView.jsp (ajax View ) -->
-   <div class="container" style="padding-left: 200px; width: 100%; height: 900px;  " >
       <%-- 상품 상세보기 추가부분 --%>
       <section class="content1" style="padding-top: 0px;">
          <div class="item_list_area">
@@ -45,11 +42,13 @@
                                              </c:if>
                                           </c:forEach>
                                        </div>
+                                       
                                        <c:forEach var="file" items="${uploadFileList}" varStatus="status">
                                           <c:if test="${not empty file.threedimage}">
                                              <c:set var="tdimage" value="${file.threedimage}" />
                                           </c:if>
                                        </c:forEach>
+                                       
                                        <!-- Left and right controls -->
                                        <a class="carousel-control-prev" href="#demo" data-slide="prev"> <span class="carousel-control-prev-icon"></span></a>
                                         <a class="carousel-control-next" href="#demo"   data-slide="next">
@@ -139,8 +138,8 @@
                                                 <div class="col-4" style="padding: 0px;">
                                                    <c:if test="${viewRow.three_dimens eq 'Y'}">
                                                     <!-- data-toggle="modal" data-target="#tdModal"  -->
-                                                      <img src="../resources/img/product/3d 이미지.png"  style="width: 125px; height: 75px; margin-left: 8px;" onclick="tdclick();"/>
-                                                      <button type="button" style="display: none;" id="tdopen" data-toggle="modal" data-target="#tdModal" ></button>
+                                                      <img src="../resources/img/product/3d 이미지.png"  style="width: 125px; height: 75px; margin-left: 8px;" 
+                                                      data-toggle="modal" data-target="#tdModal" />
                                                    </c:if>
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
@@ -228,7 +227,6 @@
          </div>
 
       </section>
-   </div>
     <script>
       $(document).ready(function() {
          var formObj = $("[name='viewForm']");
@@ -279,7 +277,7 @@
    </form:form>
    <!-- The Modal start-->
    <!-- margin-top: 100px; -->
-   <div class="modal fade" id="tdModal"  style="">
+   <div class="modal fade" id="tdModal"  >
       <div class="modal-dialog modal-dialog-centered modal-lg">
          <div class="modal-content">
             <!-- Modal Header -->
@@ -296,13 +294,13 @@
                          <img src="../resources/Upload/${tdimage}" alt="Product Preview" style="width: 550px; height: 550px;"> 
                            
                         <div class="product-sprite"
-                           data-image="../resources/Upload/${tdimage}"
+                           data-image="../resources/Upload/${tdimage}"	
                            style="background: url(../resources/Upload/${tdimage}) no-repeat center center;"></div>
                      </figure>
                      <!-- .product-viewer -->
                      <div class="cd-product-viewer-handle">
-                        <span class="fill" style="transform: scaleX(1);"></span> <span
-                           class="handle">Handle</span>
+                        <span class="fill" style="transform: scaleX(1);"></span> <span class="handle">Handle</span>
+                           
                      </div>
                   </div>
                </div>

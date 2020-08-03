@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
-var boardidx='';
  $(document).ready(function(){
 	 $.ajax({
 		url : "../product/itemSave.woo",
@@ -14,13 +14,12 @@ var boardidx='';
  	});
   	function sucFunc(d) {
 	  for(var i=1 ; i<=d.length ; i++){
-		  //alert(d[i-1].boardidx);
   		 $("#img"+i).attr("src","../resources/Upload/"+d[i-1].imagefile);
   		 $("#title"+i).html(d[i-1].title);
   		 $("#title"+i).attr("href","../product/productView.woo?boardidx="+d[i-1].boardidx);
 	   }
  	}
-	function errFunc() {}
+	function errFunc() {} 
  </script>
 	
 <div id="floatMenu">
@@ -44,10 +43,8 @@ var boardidx='';
 			</div>
 		</div>
 	</div>
-	<!--  text-overflow: ellipsis; overflow: hidden; white-space: nowrap; -->
 	<div id="floatMenuBox1"  style="background:none; height:300px;border:1px solid black;">
 		<div style="font-weight:bold;"><h5><small><b>최근 본 상품</b></small></h5></div>
-		
 			<div id="floatMenuBox1"  style="background:none;border:none;margin-bottom: 50px; margin-top: -15px;" >
 				<img id="img1" src="../resources/img/sidebar/none.png"  style="width: 150px; height: 70px;"/>
 				<div style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin-left:20px; width: 150px;"><a href="../product/productView.woo?boardidx=" id="title1" ></a></div>
@@ -87,5 +84,3 @@ $(function() {
 	}).scroll();
 });
 </script>
-
-

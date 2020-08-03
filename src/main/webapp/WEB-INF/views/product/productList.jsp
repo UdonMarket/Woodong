@@ -6,6 +6,9 @@
 
 <!doctype html>
 <html lang="zxx">
+<head>
+<link rel="stylesheet" href="../resources/css/3d.css">   
+</head>
 <style>
 /* 모달 창 style */
 .modal-content{
@@ -62,8 +65,6 @@ function like_toggle(idx) {
 </script>
 
  <script>
- 
-// var totallist; //ajax로 받아온 rdata를 이 변수에 계속 누적시킴  
  var scrollchk = true; //스크롤 체크 여부 플래그  
  var nowPage = 1;//현재페이지 
  var state="true"; 
@@ -99,7 +100,6 @@ var loadlist = function(){
       	    
 	       if(state=='true'){ 
 				$('#boardHTML').append(rdata);
-				//totallist += rdata;
 				nowPage++;
 	      		scrollchk = true; //데이터 로딩이 끝나면 스크롤체크를 풀어준다.  
 	        }
@@ -122,24 +122,84 @@ $(window).scroll(function(){
         }  
     } 
 });  
+
 </script>
 <script>
-	function ajaxView(boardidx){
-	    $.ajax({  
-	        url : './ajaxproductView.woo',  
-	        type : 'get',  
-	        data : {boardidx : boardidx},
-	        async: false,
-	        success : function(data){
-	       		$('.modal-content').html(data);
-	       		$('#modalview').click();
-	        },  
-		   	error : function(request,status,error) {
-			console.log("code : "+request.status+"\n"+"message : "
-			 + request.responseText+"\n"+"error : "+error);
-			}
-	   });
-	}    
+function itemSave(boardidx){
+	 $.ajax({
+			url : "../product/itemSave.woo",
+			data : {boardidx : boardidx},
+			dataType : "json",
+			type : "get",
+			contentType : "text/html;charset:utf-8",
+			success : sucFunc, 
+	    	error : errFunc
+		 });
+	 function sucFunc(d) {
+		 for(var i=1 ; i<=d.length ; i++){
+			 $("#img"+i).attr("src","../resources/Upload/"+d[i-1].imagefile);
+			 
+			 //alert(d[i-1].imagefile);
+			 alert(d[i-1].title);
+			 
+			 $("#title"+i).html(d[i-1].title);
+			 $("#title"+i).attr("href","../product/productView.woo?boardidx="+d[i-1].boardidx);
+		   }
+		  
+	}
+	function errFunc(e){
+		 alert(e);
+	}
+}
+
+
+
+
+ </script>
+<!-- <script>
+function itemSave(boardidx){
+	 $.ajax({
+			url : "../product/itemSave.woo",
+			dataType : "json",
+			type : "get",
+			contentType : "text/html;charset:utf-8",
+			success : sucFunc, 
+	    	error : errFunc
+		 });
+	 function sucFunc(d) {
+		  for(var i=1 ; i<=d.length ; i++){
+			  alert(d[i-1].boardidx);
+	  		 $("#img"+i).attr("src","../resources/Upload/"+d[i-1].imagefile);
+	  		 $("#title"+i).html(d[i-1].title);
+	  		 $("#title"+i).attr("href","../product/productView.woo?boardidx="+d[i-1].boardidx);
+		   }
+	 	}
+	 function errFunc(e){
+		 alert(e);
+	 }
+}
+ </script> -->
+<script>
+//ajaxView 로 이동
+function ajaxView(boardidx){
+
+    $.ajax({  
+        url : './ajaxproductView.woo',  
+        type : 'get',  
+        data : {boardidx : boardidx},
+        success : function(data){
+        	itemSave(boardidx);
+        	$('.modal-content').html("");
+       		$('.modal-content').html(data);
+       		$('#modalview').click();
+        },  
+	   	error : function(request,status,error) {
+		console.log("code : "+request.status+"\n"+"message : " + request.responseText+"\n"+"error : "+error);
+		}
+   });
+} 
+	
+//이중 모달 처리	
 var modalcount = 0; // 모달이 열릴 때 마다 count 해서  z-index값을 높여줌
 $(function() {
 	$(document).on('show.bs.modal', '.modal', function () {
@@ -156,9 +216,6 @@ $(function() {
 	    $('.modal:visible').length && $(document.body).addClass('modal-open');
 	});
 });  
-function tdclick() {
-	$('#tdopen').click();
-}
 </script>
 	<div class="col-md-9" >
 		<div class="row" id="boardHTML"></div>

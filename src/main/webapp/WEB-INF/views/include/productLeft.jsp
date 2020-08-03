@@ -96,7 +96,7 @@
 	                        <div class="search-text"><i class="fa fa-search"></i> 원하는 조건으로  검색해보세요 ! </div>
 	                        <div class="home-text"> <i class="fa fa-home"></i> Find Your Product in WOODONG </div>
 	                    </div>
-	                     <form:form class="filter-form" action="./productList.woo">
+	                     <form:form class="filter-form">
 	                        <div class="first-row" >
 	                            <select name="order">
 	                                <option value="" <c:out value="${parameterVO.order == null ? 'selected' : ''}"/>> ---  최신순 ( 정렬방식 ) --- </option>
@@ -132,7 +132,7 @@
 	                            <!-- price-range-wrap -->
 	                            <input type="hidden" id="priceStart" name="priceStart"/>
 	                            <input type="hidden" id="priceEnd" name="priceEnd"/>
-								 
+	                            <input type="hidden" id="bname" value="${parameterVO.bname}"/>
 	                        </div>
 	                        <div class="second-row">
 							  	<select name="searchField">
@@ -154,8 +154,8 @@
 <script>
 $(function(){
 	$('#searchBtn').click(function() {
-	self.location = "./productList.woo?"
-	 + "order=" + $("select[name=order]").val() 
+	self.location = "./productList.woo?bname="+$("#bname").val() 
+	 + "&order=" + $("select[name=order]").val() 
 	 + "&pstate=" + $("select[name=pstate]").val() 
 	 + "&ispay=" + $("select[name=ispay]").val() 
 	 + "&priceStart=" + $("#priceStart").val()  + "&priceEnd=" + $("#priceEnd").val() 

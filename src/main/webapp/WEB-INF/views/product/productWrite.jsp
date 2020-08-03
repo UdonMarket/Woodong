@@ -354,13 +354,12 @@ $(function() {
 	</section>
 	<!-- ================ contact section end ================= -->
 <script>
-
 //캡차 ajax 요청  
 $(function() {
-	var captcha = 1;
+	
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
-	$('#btn_captha').click(function() {
+	$('#subtn').click(function() {
 		$.ajax({
           url: './VerifyRecaptcha',
           type: 'post',
@@ -370,11 +369,10 @@ $(function() {
           data: {
               recaptcha: $("#g-recaptcha-response").val()
           },
-          cache :false, // 캐시 여부
+          cache :true, // 캐시 여부
           success: function(data) {
               switch (data.msg) {
                   case 0:
-                	  captcha = 0;
                       console.log("자동 가입 방지 봇 통과");
               		break;
                   case 1:
@@ -539,19 +537,19 @@ function frmCheck(){
 		var ban_word_list = "";
 		var prohiditionList = prohidition.split(',');
 		
-		for (var i = 0; i < prohiditionList.length; i++) {
+		for (var i = 0; i < prohiditionList.length-1; i++) {
 			if(frm.title.value.indexOf(prohiditionList[i].trim()) > -1) {
-				if(ban_word_list.indexOf('"' + word_list + '"') < 0){
+				if(ban_word_list.indexOf('"' + ban_word_list + '"') < 0){
 					ban_word_list += prohiditionList[i] + ", ";
 				}
 			}
 			if(frm.contents.value.indexOf(prohiditionList[i].trim()) > -1) {
-				if(ban_word_list.indexOf('"' + word_list + '"') < 0){
+				if(ban_word_list.indexOf('"' + prohiditionList[i] + '"') < 0){
 					ban_word_list += prohiditionList[i] + ", ";
 				}
 			}
 			if(frm.product_tag.value.indexOf(prohiditionList[i].trim()) > -1) {
-				if(ban_word_list.indexOf('"' + word_list + '"') < 0){
+				if(ban_word_list.indexOf('"' + prohiditionList[i] + '"') < 0){
 					ban_word_list += prohiditionList[i] + ", ";
 				}
 			}
@@ -618,10 +616,6 @@ function frmCheck(){
 	 if (grecaptcha.getResponse() == ""){
 		 alert("자동 글 쓰기 방지 봇을 체크해야 합니다.");
 		 return false; 
-	 }
-	 if(captcha != 0) {
-		 alert("자동 글 쓰기 방지 봇을 다시 진행해주세요");
-		return false;
 	 }
 	 return true;
 }

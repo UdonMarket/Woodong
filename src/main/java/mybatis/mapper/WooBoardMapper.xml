@@ -272,4 +272,22 @@
 	 	
 	 	 Group by bname order by num
 	 </select>
+	 
+	 <update id="updateDeal" parameterType="model.WooBoardVO">
+	 	UPDATE woo_board SET deal_type=#{deal_type} WHERE boardidx=#{boardidx}
+	 </update>
+	 
+	 
+	 <select id="selectList" resultType="model.WooBoardVO">
+	 	SELECT * FROM woo_board WHERE bname in 
+	 	<foreach collection="list" item="item" open="(" close=")" separator=",">
+    		#{item}
+		</foreach>  
+	 </select>
+	 
+	 <update id="updateJuso">
+	 	UPDATE woo_board SET latitude=#{1}, longitude=#{2} WHERE boardidx=#{0}
+	 </update>
+	 
+	 
 </mapper>  

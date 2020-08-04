@@ -71,7 +71,11 @@
 	    </selectKey>
   	</insert>
   	
-  	<select id="selectChatRoom" parameterType="model.WooChatRoomVO" resultType="String">
-  		SELECT chatroomidx FROM woo_chatroom WHERE boardidx=#{boardidx} AND buyerid=#{buyerid}
+  	<select id="selectChatRoom" parameterType="model.WooChatRoomVO" resultType="model.WooChatRoomVO">
+  		SELECT * FROM woo_chatroom WHERE boardidx=#{boardidx} AND buyerid=#{buyerid}
+  	</select>
+  	
+  	<select id="selectRoomVO" resultType="model.WooChatRoomVO">
+  		SELECT * FROM woo_chatroom WHERE chatroomidx=#{0}
   	</select>
 </mapper> 

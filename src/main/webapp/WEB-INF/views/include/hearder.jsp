@@ -73,7 +73,7 @@
 							</li>
 
 							<li class="nav-item" style="margin-right: 100px;margin-top:5px;">
-								<a class="nav-link" href="../community/community.woo">
+								<a class="nav-link" href="../community/community.woo?bname=공지사항&">
 									<img src="../resources/img/header/comm.png" alt="커뮤니티" />
 								</a>
 							</li>
@@ -89,7 +89,8 @@
 	                    			<i style="font-size:22px;color: #ff4f4f;" class="ti-search"></i>
 	                    		</button>
 	                    		<button style="cursor:pointer; border: 0;background: none;color: #ff4f4f;" 
-			                 	onclick="window.open('../chatting/chatMain.woo', 'name(우동톡톡)', 'height=600; width=480; top=200; left=150;', true);">
+			                 	onclick="window.open('http://localhost:8282/woodong/chatting/chatMain.woo', 'name(우동톡톡)', 'height=600; width=480; top=200; left=150;', true);">
+			                 	<!-- onclick="window.open('http://192.168.219.139:8282/woodong/chatting/chatMain.woo', 'name(우동톡톡)', 'height=600; width=480; top=200; left=150;', true);"> -->
 			                     	<i style="font-size:26px;margin: 5px;margin-top: 2px;" class="fa">&#xf0e6;</i>
                   				</button>
 	                       	</div>

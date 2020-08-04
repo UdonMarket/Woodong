@@ -19,7 +19,9 @@ public interface WooChatImpl {
 	
 	public int createChatroom(WooChatRoomVO wooChatRoomVO);
 	
-	public String selectChatRoom(WooChatRoomVO wooChatRoomVO);
+	public WooChatRoomVO selectChatRoom(WooChatRoomVO wooChatRoomVO);
+	
+	public WooChatRoomVO selectRoomVO(String chatroomidx);
 	
 	public ArrayList<WooChatRoomVO> selectAllRoom(ParameterVO parameterVO);
 	

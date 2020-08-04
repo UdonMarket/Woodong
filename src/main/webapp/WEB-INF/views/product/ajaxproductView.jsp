@@ -143,9 +143,10 @@
                                                    </c:if>
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
-                                                   <c:if test="${viewRow.woopay eq 'Y'}">
-                                                      <img src="../resources/img/product/우동페이.png" />
-                                                   </c:if>
+                                                  <c:if test="${viewRow.woopay eq 'Y'}">
+                                       				<a href="../product/woopay.woo?boardidx=${viewRow.boardidx}&price=${viewRow.price}&title=${viewRow.title}&sellerID=${viewRow.id}">
+                                       					<img src="../resources/img/product/우동페이.png" /></a>
+                                   					 </c:if>
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
                                                    <img src="../resources/img/product/우동톡톡.png" onclick="chatting();" />
@@ -273,18 +274,18 @@
 
    <form:form name="chattingFrm">
       <input type="hidden" name="boardidx" value="${viewRow.boardidx}" />
-      <input type="hidden" name="sellerid" value="${viewRow.id }" />
+      <input type="hidden" name="sellerid" value="'${viewRow.id}'" />
    </form:form>
    <!-- The Modal start-->
    <!-- margin-top: 100px; -->
-   <div class="modal fade" id="tdModal"  >
+   <div class="modal fade" id="tdModal" >
       <div class="modal-dialog modal-dialog-centered modal-lg">
          <div class="modal-content">
             <!-- Modal Header -->
-            <div class="modal-header">
+          <!--   <div class="modal-header">
                <h4 class="modal-title">3D이미지</h4>
                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-            </div>
+            </div> -->
             <!-- Modal body -->
             <div class="modal-body">
                <!--3D .product-viewer   -->

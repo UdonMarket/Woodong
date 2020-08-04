@@ -284,7 +284,7 @@
 
    <form:form name="chattingFrm">
       <input type="hidden" name="boardidx" value="${viewRow.boardidx }" />
-      <input type="hidden" name="sellerid" value="${viewRow.id }" />
+      <input type="hidden" name="sellerid" value="'${viewRow.id}'" />
    </form:form>
    <!-- subscribe part end -->
    <!-- bottom.jsp -->

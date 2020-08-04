@@ -124,7 +124,7 @@
 	    	overlay.setMap(map);
 	    	overlay.setPosition(position);
 	    	overlay.setContent(content);
-	    });
+	    	});
 		}
 		//다중마커s
 		//////////////////////////////////////////////////////////////////////////

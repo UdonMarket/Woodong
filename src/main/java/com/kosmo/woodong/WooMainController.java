@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -254,5 +255,37 @@ public class WooMainController {
 
 		return map;
 	}
+	
+	@RequestMapping("/juso")
+	   public void juso() {
+	      ArrayList<String> list = new ArrayList<String>();
+	      List<WooBoardListVO> blists = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../product/productList.woo");
+	      for(WooBoardListVO lists : blists) {
+	         list.add(lists.getBname());
+	      }
+	      List<WooBoardVO> wooboardVOList = sqlSession.getMapper(WooBoardImpl.class).selectList(list);
+	      
+	      Random ran = new Random();
+	      
+	      for(WooBoardVO board : wooboardVOList) {
+	         String lngStr = "";
+	         String latStr = "";
+	         while(true) {
+	            Double lat = 37 + ran.nextDouble();
+	            if(lat>37.3) {
+	               latStr = String.valueOf(lat);
+	               break;
+	            }
+	         }
+	         while(true) {
+	            Double lng = 126 + ran.nextDouble();
+	            if(lng>126.7) {
+	               lngStr = String.valueOf(lng);
+	               break;
+	            }
+	         }
+	         sqlSession.getMapper(WooBoardImpl.class).updateJuso(board.getBoardidx(), latStr, lngStr);
+	      }
+	   }
 
 }

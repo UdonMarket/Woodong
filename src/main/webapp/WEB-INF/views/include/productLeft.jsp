@@ -75,19 +75,19 @@
 		        		<div style="display: inline-block;">
 	        			    <form:form action="../product/productList.woo?mode=map&bname=${parameterVO.bname}&" method="post">
 					    <!-- 현재위치 위경도 입력상자 -->
-								<input type="hidden" id="lat" name="lat" />
-								<input type="hidden" id="lon" name="lon" />
+								<input type="hidden" id="lat" name="lat" /><!-- 37.478862 -->
+								<input type="hidden" id="lon" name="lon" /><!-- 126.878702 -->
 								<input type="image" src="../resources/img/product/map1.png" style="margin-bottom: 0px;width: 120px;cursor: pointer;" />
 						    </form:form>
 	        			</div>
-	        			<div style="display: inline-block;">
-	        				 <form:form action="../product/productList.woo?bname=${parameterVO.bname}&" method="post">
 					    <!-- 현재위치 위경도 입력상자 -->
-								<input type="hidden" id="lat1" name="lat" />
-								<input type="hidden" id="lon1" name="lon" />
+	        			 <div style="display: inline-block;">
+	        				 <form:form action="../product/productList.woo?bname=${parameterVO.bname}&" method="post">
+								<input type="hidden" id="lat1" name="lat" value=""/>
+								<input type="hidden" id="lon1" name="lon" value=""/>
 								<input type="image" src="../resources/img/product/이미지로보기.png" style="margin-bottom: -12px;width: 155px; cursor: pointer;" />
 						    </form:form>
-	        			</div>
+	        			</div> 
 	        		</div>
 	        	</div>
 	            <div class="row" style="padding-top: 20px">

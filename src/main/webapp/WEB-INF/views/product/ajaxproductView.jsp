@@ -264,7 +264,8 @@
          var chattingFrm = document.chattingFrm;
          window.open('', '1', 'height=640; width=480; top=200; left=150;',
                true);
-         chattingFrm.action = "../chatting/chatting.woo";
+         /* chattingFrm.action = "http://192.168.219.139:8282/woodong/chatting/chatting.woo"; */
+         chattingFrm.action = "http://localhost:8282/woodong/chatting/chatting.woo";
          chattingFrm.method = "post";
          chattingFrm.target = "1";
          chattingFrm.testVal = 'test';

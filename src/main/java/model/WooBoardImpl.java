@@ -63,8 +63,9 @@ public interface WooBoardImpl {
 	public ArrayList<ParameterVO> bnameProductCount(ParameterVO parameterVO);
 	
 	public List<WooBoardVO> selectList(List<String> list);
-	   
+	
 	public void updateJuso(String boardidx, String lat, String lng);
 	
-	
+	public void updateDeal(WooBoardVO wooBoardVO);
+
 }

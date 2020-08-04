@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%> 
 
-<!doctype html>
-<html lang="zxx">
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <head>
 <link rel="stylesheet" href="../resources/css/3d.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -12,12 +11,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
-<!-- head.jsp -->
 <jsp:include page="../include/head.jsp" />
-
 <body>
-<jsp:include page="../include/hearder.jsp" />
-   <div class="container" style="padding-left: 200px; margin-top: 200px;">
+   <div class="container" style="padding-left: 200px;">
       <%-- 상품 상세보기 추가부분 --%>
       <section class="content1" style="padding-top: 0px;">
          <div class="item_list_area">
@@ -275,7 +271,7 @@
       function chatting() {
          var chattingFrm = document.chattingFrm;
          window.open('', '1', 'height=640; width=480; top=200; left=150;',  true);
-         chattingFrm.action = "http://192.168.219.139:8282/woodong/chatting/chatting.woo";
+         chattingFrm.action = "../chatting/chatting.woo";
          chattingFrm.method = "post";
          chattingFrm.target = "1";
          chattingFrm.testVal = 'test';
@@ -283,12 +279,36 @@
       }
    </script>
 
-<jsp:include page="../include/bottom.jsp" />
-<jsp:include page="../include/sidebar2.jsp" />
    <form:form name="chattingFrm">
       <input type="hidden" name="boardidx" value="${viewRow.boardidx }" />
-      <input type="hidden" name="sellerid" value="'${viewRow.id}'" />
+      <input type="hidden" name="sellerid" value="${viewRow.id }" />
    </form:form>
+   <!-- subscribe part end -->
+   <!-- bottom.jsp -->
+   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- 	<script src="../resources/js/jquery-1.12.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
+    <script src="../resources/js/popper.min.js"></script>
+    <script src="../resources/js/bootstrap.min.js"></script>
+    <script src="../resources/js/jquery.magnific-popup.js"></script>
+    <script src="../resources/js/owl.carousel.min.js"></script>
+    <script src="../resources/js/jquery.nice-select.min.js"></script>
+    <script src="../resources/js/slick.min.js"></script>
+    <script src="../resources/js/jquery.counterup.min.js"></script>
+    <script src="../resources/js/waypoints.min.js"></script>
+    <script src="../resources/js/contact.js"></script>
+    <script src="../resources/js/jquery.ajaxchimp.min.js"></script>
+    <script src="../resources/js/jquery.form.js"></script>
+    <script src="../resources/js/jquery.validate.min.js"></script>
+    <script src="../resources/js/mail-script.js"></script>
+    <script src="../resources/js/custom.js"></script>
+    <!-- 추가 -->
+	<!-- masonry js -->
+	<script src="../resources/js/masonry.pkgd.js"></script>
+	<script src="../resources/js/custom_review.js"></script>
+	<script src="../resources/js/slider.js"></script>
+	<script src="../resources/js/gijgo.min.js"></script>
    <!-- The Modal start-->
    <div class="modal fade" id="myModal"
       style="top: 0; left: 0; margin-top: 100px;">
@@ -329,5 +349,3 @@
    <!-- The Modal end-->
 
 </body>
-
-</html>

@@ -24,6 +24,7 @@
 			sendMessage();
 			$('#inputMessage').val('');
 		});
+
 		let sock = new SockJS("http://192.168.219.139:8282/woodong/echo");///진슬 고정 IP
 		sock.onmessage = onMessage;
 		sock.onclose = onClose;
@@ -31,6 +32,7 @@
 		
 		// 메시지 전송
 		function sendMessage() {
+
 			sock.send('${userid}' + "//" + $("#inputMessage").val());
 			saveMessageDB($("#inputMessage").val());
 			var msg ='';
@@ -85,6 +87,7 @@
 			url : "../chatting/saveMessageDB.woo",
 			type:"get",
 		    contentType:"text/html;charset:utf-8",
+
 		    data:{chatting : msg, chatroomidx : ${chatroomidx }, id : '${userid}'},
 		    dataType : "json" ,
 	 	  	success : function(d) {
@@ -95,21 +98,36 @@
 	}
 	
 	
-	/* function enterkey(){
-		
-		if(window.event.keyCode==13){
-			alert("22222");
-			sendMessage();
-		}
-	} */
 </script>
 
 <script>
 	$(function() {
+		
+		
 		$("input:radio").checkboxradio({
 			icon:false
 		});
+		
+		$("input:radio").click(function() {
+			if(confirm("상품을 " + $(this).val() + "로 변경하시겠습니까?")){
+				$.ajax({
+					url : "../chatting/updateStatus.woo",
+					type:"get",
+				    contentType:"text/html;charset:utf-8",
+				    data:{boardidx : '${wooChatRoomVO.boardidx}', deal_type : $(this).val()},
+				    dataType : "json" ,
+			 	  	success : function() {
+			 	  		alert("변경되었습니다.");
+					},
+					error : function(e) {
+						alert("변경되었습니다.");
+				    }
+				});
+			}
+		});
+		
 	});
+	
 </script>
 </head>
 <body>
@@ -145,14 +163,16 @@
 		</div>
 		
 		<footer id="chat-footer">
-		<div style="text-align: right;">
-		    <label for="radio-1">판매전</label>
-		    <input type="radio" name="radio-1" id="radio-1">
-		    <label for="radio-2">판매중</label>
-		    <input type="radio" name="radio-1" id="radio-2">
-		    <label for="radio-3">판매완료</label>
-		    <input type="radio" name="radio-1" id="radio-3">
-		</div>
+		<c:if test="${wooChatRoomVO.sellerid eq userid}">
+			<div style="text-align: right;">
+			    <label for="radio-1">판매전</label>
+			    <input type="radio" name="radio-1" id="radio-1" value="판매전" >
+			    <label for="radio-2">판매중</label>
+			    <input type="radio" name="radio-1" id="radio-2" value="판매중">
+			    <label for="radio-3">판매완료</label>
+			    <input type="radio" name="radio-1" id="radio-3" value="판매완료">
+			</div>
+		</c:if>
 			<p class="text-area">
 				<input type="text" id="inputMessage" style="width:310px; height:60px; font-size:1.5em; border:0px;" placeholder="개인정보 공유를 주의바랍니다" autofocus/>
 				<button type="button" id="sendBtn">보내기</button>
@@ -161,3 +181,13 @@
 		</footer>
 	</div>
 </body>
+<!-- <script>
+	$(function() {
+		$('input:radio').each(function() {
+			if($(this).val()=='${deal_type}'){
+				$(this).attr("checked", "checked");
+			}
+		});
+	});
+</script> -->
+

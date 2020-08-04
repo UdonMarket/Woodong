@@ -24,15 +24,16 @@
 			sendMessage();
 			$('#inputMessage').val('');
 		});
-		//let sock = new SockJS("http://192.168.219.142:8282/woodong/echo");//채훈 고정 IP
-		let sock = new SockJS("http://localhost:8282/woodong/echo");
+
+		let sock = new SockJS("http://192.168.219.139:8282/woodong/echo");///진슬 고정 IP
 		sock.onmessage = onMessage;
 		sock.onclose = onClose;
 		sock.onerror = onError;
 		
 		// 메시지 전송
 		function sendMessage() {
-			sock.send('${id}' + "//" + $("#inputMessage").val());
+
+			sock.send('${userid}' + "//" + $("#inputMessage").val());
 			saveMessageDB($("#inputMessage").val());
 			var msg ='';
 			msg += '<div class="chat chat-right">';
@@ -86,7 +87,8 @@
 			url : "../chatting/saveMessageDB.woo",
 			type:"get",
 		    contentType:"text/html;charset:utf-8",
-		    data:{chatting : msg, chatroomidx : ${chatroomidx }, id : '${id }'},
+
+		    data:{chatting : msg, chatroomidx : ${chatroomidx }, id : '${userid}'},
 		    dataType : "json" ,
 	 	  	success : function(d) {
 			},
@@ -150,7 +152,7 @@
 				<c:if test="${userid ne row.id}">
 					<div class="chat chat-left">
 						<div class="chat-box">
-							<p style = "font-weight:bold;font-size:1.1em;margin-bottom:5px;">${row.id }</p>
+							<p style = "font-weight:bold;font-size:1.1em;margin-bottom:5px;">'${row.id}'</p>
 							<p class="bubble">${row.chatting }</p>
 							<span class="bubble-tail"></span>
 						</div>

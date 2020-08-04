@@ -287,7 +287,7 @@
 <jsp:include page="../include/sidebar2.jsp" />
    <form:form name="chattingFrm">
       <input type="hidden" name="boardidx" value="${viewRow.boardidx }" />
-      <input type="hidden" name="sellerid" value="${viewRow.id }" />
+      <input type="hidden" name="sellerid" value="'${viewRow.id}'" />
    </form:form>
    <!-- The Modal start-->
    <div class="modal fade" id="myModal"

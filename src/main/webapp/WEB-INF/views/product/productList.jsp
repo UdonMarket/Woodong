@@ -9,16 +9,6 @@
 <head>
 <link rel="stylesheet" href="../resources/css/3d.css">   
 </head>
-<style>
-/* 모달 창 style */
-.modal-content{
-  width: 1200px;
-}
-body .modal-content{
-  width: 160%!important;
-  margin-left: -30%!important;
-}
-</style>
 <!-- head.jsp -->
 <jsp:include page="../include/head.jsp" />
 <body>
@@ -144,7 +134,7 @@ function itemSave(boardidx){
 		  
 	}
 	function errFunc(e){
-		 alert(e);
+		 //alert(e);
 	}
 }
 
@@ -173,7 +163,7 @@ function ajaxView(boardidx){
 } 
 	
 //이중 모달 처리	
-var modalcount = 0; // 모달이 열릴 때 마다 count 해서  z-index값을 높여줌
+/* var modalcount = 0; // 모달이 열릴 때 마다 count 해서  z-index값을 높여줌
 $(function() {
 	$(document).on('show.bs.modal', '.modal', function () {
 
@@ -188,7 +178,7 @@ $(function() {
 	$(document).on('hidden.bs.modal', '.modal', function () {
 	    $('.modal:visible').length && $(document.body).addClass('modal-open');
 	});
-});  
+});   */
 </script>
 	<div class="col-md-9" >
 		<div class="row" id="boardHTML"></div>
@@ -199,8 +189,8 @@ $(function() {
 	</section>
 	
 	<!-- The Modal -->
-  <div class="modal mainModal" id="viewModal" style="margin-top: 200px;">
-  	 <div class="modal-dialog modal-xl" style="max-width: 100%; width: auto; display: table;max-height: 100%; height: auto;">
+  <div class="modal mainModal" id="viewModal" style="margin-top: 200px; overflow: auto; height: 700px;">
+  	 <div class="modal-dialog modal-xl" >
       <div class="modal-content">   
       
        </div>

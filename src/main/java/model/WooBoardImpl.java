@@ -67,4 +67,5 @@ public interface WooBoardImpl {
 	public void updateJuso(String boardidx, String lat, String lng);
 	
 	public void updateDeal(WooBoardVO wooBoardVO);
+
 }

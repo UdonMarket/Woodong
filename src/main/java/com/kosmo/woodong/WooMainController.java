@@ -257,35 +257,35 @@ public class WooMainController {
 	}
 	
 	@RequestMapping("/juso")
-	public void juso() {
-		ArrayList<String> list = new ArrayList<String>();
-		List<WooBoardListVO> blists = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../product/productList.woo");
-		for(WooBoardListVO lists : blists) {
-			list.add(lists.getBname());
-		}
-		List<WooBoardVO> wooboardVOList = sqlSession.getMapper(WooBoardImpl.class).selectList(list);
-		
-		Random ran = new Random();
-		
-		for(WooBoardVO board : wooboardVOList) {
-			String lngStr = "";
-			String latStr = "";
-			while(true) {
-				Double lat = 37 + ran.nextDouble();
-				if(lat>37.3) {
-					latStr = String.valueOf(lat);
-					break;
-				}
-			}
-			while(true) {
-				Double lng = 126 + ran.nextDouble();
-				if(lng>126.7) {
-					lngStr = String.valueOf(lng);
-					break;
-				}
-			}
-			sqlSession.getMapper(WooBoardImpl.class).updateJuso(board.getBoardidx(), latStr, lngStr);
-		}
-	}
+	   public void juso() {
+	      ArrayList<String> list = new ArrayList<String>();
+	      List<WooBoardListVO> blists = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../product/productList.woo");
+	      for(WooBoardListVO lists : blists) {
+	         list.add(lists.getBname());
+	      }
+	      List<WooBoardVO> wooboardVOList = sqlSession.getMapper(WooBoardImpl.class).selectList(list);
+	      
+	      Random ran = new Random();
+	      
+	      for(WooBoardVO board : wooboardVOList) {
+	         String lngStr = "";
+	         String latStr = "";
+	         while(true) {
+	            Double lat = 37 + ran.nextDouble();
+	            if(lat>37.3) {
+	               latStr = String.valueOf(lat);
+	               break;
+	            }
+	         }
+	         while(true) {
+	            Double lng = 126 + ran.nextDouble();
+	            if(lng>126.7) {
+	               lngStr = String.valueOf(lng);
+	               break;
+	            }
+	         }
+	         sqlSession.getMapper(WooBoardImpl.class).updateJuso(board.getBoardidx(), latStr, lngStr);
+	      }
+	   }
 
 }

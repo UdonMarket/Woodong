@@ -33,9 +33,10 @@
 				</div>
 				<div style="padding-left: 15px;">
 
-					<h4><fmt:formatNumber type="number" maxFractionDigits="3" value="${row.price}"/>원<(임시${row.boardidx})</h4>
+					<h4><fmt:formatNumber type="number" maxFractionDigits="3" value="${row.price}"/>원</h4>
 					<div class="row">
 					<div class="col-5" >
+
 					<c:if test="${row.woopay eq 'Y'}">
                        <img src="../resources/img/product/우동페이.png" style="width: 50px; height: 30px;"/>
                    	</c:if>

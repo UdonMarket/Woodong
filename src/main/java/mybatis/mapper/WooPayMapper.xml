@@ -31,7 +31,8 @@
 	
 	<update id="woopaySave" parameterType="String">
  		UPDATE woo_board set 
- 			deal_type = '사용자 결제완료'
+ 			deal_type = '구매자결제완료',
+ 			BUYER_ID = #{param2}
  		where boardidx = #{param1}
  	</update>
  	

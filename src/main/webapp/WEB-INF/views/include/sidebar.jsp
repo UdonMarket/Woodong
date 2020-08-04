@@ -16,7 +16,7 @@
 	  for(var i=1 ; i<=d.length ; i++){
   		 $("#img"+i).attr("src","../resources/Upload/"+d[i-1].imagefile);
   		 $("#title"+i).html(d[i-1].title);
-  		 $("#title"+i).attr("href","../product/productView.woo?boardidx="+d[i-1].boardidx);
+  		 $("#title"+i).attr("href","http://192.168.219.139:8282/woodong/product/productView.woo?boardidx="+d[i-1].boardidx);
 	   }
  	}
 	function errFunc() {} 
@@ -47,7 +47,8 @@
 		<div style="font-weight:bold;"><h5><small><b>최근 본 상품</b></small></h5></div>
 			<div id="floatMenuBox1"  style="background:none;border:none;margin-bottom: 50px; margin-top: -15px;" >
 				<img id="img1" src="../resources/img/sidebar/none.png"  style="width: 150px; height: 70px;"/>
-				<div style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin-left:20px; width: 150px;"><a href="../product/productView.woo?boardidx=" id="title1" ></a></div>
+				<div style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin-left:20px; width: 150px;">
+				<a href="http://192.168.219.139:8282/woodong/product/productView.woo?boardidx=" id="title1" ></a></div>
 			</div>		
 			<div id="floatMenuBox1"  style="background:none;border:none;margin-bottom: 50px; ">
 				<img id="img2" src="../resources/img/sidebar/none.png"  style="width:150px; height: 70px;"/>

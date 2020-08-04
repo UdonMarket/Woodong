@@ -82,8 +82,9 @@ public class WooChattingController {
 			}
 			else {
 				sqlSession.getMapper(WooChatImpl.class).createChatroom(wooChatRoomVO);
-	            chatroomidx = String.valueOf(wooChatRoomVO.getSeq_woo_chatroom());
+	      chatroomidx = String.valueOf(wooChatRoomVO.getSeq_woo_chatroom());
 				wooChatRoomVO = sqlSession.getMapper(WooChatImpl.class).selectRoomVO(chatroomidx);
+
 			}
 			
 		}

@@ -16,7 +16,7 @@
 			<div class="container-fluid">
 				<div class="header-body">
 					<div style="text-align: center">
-						<img src="../resources/admin/img/멤버관리.png" alt="" style="width: 200px;"/>
+						<img src="../resources/admin/img/homepage.png" alt="" style="width: 200px;"/>
 					</div>
 				</div>
 			</div>

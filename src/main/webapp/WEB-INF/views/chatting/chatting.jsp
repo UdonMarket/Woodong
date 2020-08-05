@@ -15,7 +15,10 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+	$(window).bind("beforeunload", function (e){
 	
+	
+	});
 	$(function() {
 		
 		$("#chat-container").scrollTop($('#chat-container')[0].scrollHeight);
@@ -25,7 +28,7 @@
 			$('#inputMessage').val('');
 		});
 
-		let sock = new SockJS("http://192.168.219.139:8282/woodong/echo");///진슬 고정 IP
+		let sock = new SockJS("http://192.168.219.142:8282/woodong/echo");///진슬 고정 IP
 		sock.onmessage = onMessage;
 		sock.onclose = onClose;
 		sock.onerror = onError;
@@ -69,6 +72,7 @@
 		// 서버와 연결을 끊었을 때
 		function onClose(evt) {
 			$("#chat-container").append("연결 끊김");
+			saveLastTime();
 			$("#chat-container").scrollTop($('#chat-container')[0].scrollHeight);
 		}
 		function onError(evt){
@@ -92,9 +96,25 @@
 		    dataType : "json" ,
 	 	  	success : function(d) {
 			},
-			error : function(request,status,error) {
+			error : function() {
 		    }
 		});
+	}
+	
+	function saveLastTime(){
+		
+		/* $.ajax({
+			url : "../chatting/saveLastTime.woo",
+			type:"get",
+		    contentType:"text/html;charset:utf-8",
+
+		    data:{chatroomidx : ${chatroomidx }, id : '${userid}'},
+		    dataType : "json" ,
+	 	  	success : function(d) {
+			},
+			error : function() {
+		    }
+		}); */
 	}
 	
 	

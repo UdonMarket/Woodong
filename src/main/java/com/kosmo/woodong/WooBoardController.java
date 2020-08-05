@@ -31,6 +31,7 @@ import model.WooBoardImpl;
 import model.WooBoardListImpl;
 import model.WooBoardListVO;
 import model.WooBoardVO;
+import model.WooMemberImpl;
 import model.WooMypageImpl;
 import model.WooProhiditionImpl;
 import util.VerifyRecaptcha;
@@ -112,11 +113,17 @@ public class WooBoardController {
 	@RequestMapping("/product/ajaxList.woo")
 	public ModelAndView ajaxList(Model model, HttpServletRequest req, Principal principal) {
 		
+		String user_id = "";
+		ParameterVO parameterVO = new ParameterVO();
+		if(principal!=null) {
+			user_id = principal.getName();
+			parameterVO.setId(user_id);
+			parameterVO.setJuso(sqlSession.getMapper(WooMemberImpl.class).selectMember(parameterVO).getAddr());
+		}
 		logger.info("ajaxList");
 		logger.debug("ajaxList");
 		
 		ModelAndView mv = new ModelAndView();
-		ParameterVO parameterVO = new ParameterVO();
 		ArrayList<String> list = new ArrayList<String>();
 		List<WooBoardListVO> bnamelists = null;
 		if(req.getParameter("bname")!=null && !"".equals(req.getParameter("bname"))) {
@@ -152,16 +159,12 @@ public class WooBoardController {
 		parameterVO.setOrder(req.getParameter("order"));
 		parameterVO.setStart(start);
 		parameterVO.setEnd(end);
-		
-		
 		int total = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).getTotalCount(parameterVO);
 		ArrayList<WooBoardVO> lists = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).listPage(parameterVO);
 		Iterator itr = lists.iterator();
 		//소영 추가부분
-		String user_id = "";
 		try {
-			if(principal!=null) {
-				user_id = principal.getName();
+			if(user_id!=null) {
 				mv.addObject("user_id", user_id);
 				List<String> str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
 				for (int i = 0; i < lists.size(); i++) {
@@ -518,7 +521,10 @@ public class WooBoardController {
 				
 				if(user_id.equals(dto.getId())){  }
 				else if(userGrade < dto.getPublicSet()) {
-					return "../product/productList.woo";
+					model.addAttribute("check", 1);
+				}
+				else {
+					model.addAttribute("check", 0);
 				}
 				//조회수 처리
 				int applyRow = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).visitcount(boardidx);

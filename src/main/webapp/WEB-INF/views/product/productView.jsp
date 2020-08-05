@@ -170,7 +170,9 @@
 												</c:if>
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
+
                                                    <img src="../resources/img/product/우동톡톡.png" onclick="window.open('http://192.168.219.139:8282/woodong/chatting/chatting.woo?boardidx=${viewRow.boardidx}&sellerid=${viewRow.id}', 'name(${row.chatroomidx})', 'height=640; width=480; top=200; left=700;', true);" />
+
                                                 </div>
                                              </div>
                                           </div>
@@ -273,15 +275,6 @@
          })
       });
 
-      function chatting() {
-         var chattingFrm = document.chattingFrm;
-         window.open('', '1', 'height=640; width=480; top=200; left=150;',  true);
-         chattingFrm.action = "http://192.168.219.139:8282/woodong/chatting/chatting.woo";
-         chattingFrm.method = "post";
-         chattingFrm.target = "1";
-         chattingFrm.testVal = 'test';
-         chattingFrm.submit();
-      }
    </script>
 
 <jsp:include page="../include/bottom.jsp" />

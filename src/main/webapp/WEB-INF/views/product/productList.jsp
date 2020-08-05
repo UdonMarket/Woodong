@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>	
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -151,10 +152,26 @@ function ajaxView(boardidx){
         type : 'get',  
         data : {boardidx : boardidx},
         success : function(data){
-        	itemSave(boardidx);
-        	$('.modal-content').html("");
-       		$('.modal-content').html(data);
-       		$('#modalview').click();
+        	var test = data.split(' ');
+        	if(test[0].indexOf('!!!!!!!')>-1){
+        		switch (test[1]){
+        			case '4' : 
+        				alert('따듯한 튀김우동 이상만 볼 수 있습니다.');
+        				break;
+        			case '3' : 
+        				alert('차가운 튀김우동 이상만 볼 수 있습니다.');
+        				break;
+        			case '2' : 
+        				alert('따듯한 일반우동 이상만 볼 수 있습니다.');
+        				break;
+        		}
+        	}
+        	else{
+	        	itemSave(boardidx);
+	        	$('.modal-content').html("");
+	       		$('.modal-content').html(data);
+	       		$('#modalview').click();
+        	}
         },  
 	   	error : function(request,status,error) {
 		console.log("code : "+request.status+"\n"+"message : " + request.responseText+"\n"+"error : "+error);
@@ -162,23 +179,6 @@ function ajaxView(boardidx){
    });
 } 
 	
-//이중 모달 처리	
-/* var modalcount = 0; // 모달이 열릴 때 마다 count 해서  z-index값을 높여줌
-$(function() {
-	$(document).on('show.bs.modal', '.modal', function () {
-
-	    var zIndex = 1040 + (10 * modalcount);
-	    $(this).css('z-index', zIndex);
-	    setTimeout(function() {
-	        $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
-	    }, 0);
-	    modalcount = modalcount + 1
-	});
-	// multiple modal Scrollbar fix
-	$(document).on('hidden.bs.modal', '.modal', function () {
-	    $('.modal:visible').length && $(document.body).addClass('modal-open');
-	});
-});   */
 </script>
 	<div class="col-md-9" >
 		<div class="row" id="boardHTML"></div>

@@ -47,4 +47,6 @@ public interface WooMemberImpl {
 	public void memberblack(String id);
 	
 	public void memberWhite(String id);
+	
+	public WooMemberVO selectMember(ParameterVO parameterVO);
 }

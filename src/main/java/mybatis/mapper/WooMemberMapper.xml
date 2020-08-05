@@ -103,4 +103,8 @@
   	<update id="memberWhite"> 
   		UPDATE woo_member SET grade='normal', enabled=1 WHERE id=#{0}
   	</update>
+  	
+  	<select id="selectMember" parameterType="model.ParameterVO" resultType="model.WooMemberVO">
+  		SELECT * FROM woo_member WHERE id=#{id}
+  	</select>
  </mapper>

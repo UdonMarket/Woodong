@@ -54,7 +54,6 @@
 	function black(id) {
 		if(confirm('블랙리스트에 등록하시겠습니까?')){
 			$('#blackid').val(id);
-			alert($('#blackid').val());
 			$('[name=blackfrm]').attr('action', '../admin/memberBlack.woo');
 			$('[name=blackfrm]').submit();
 		}
@@ -63,7 +62,6 @@
 	function white(id) {
 		if(confirm('블랙리스트에서 해제하시겠습니까?')){
 			$('#blackid').val(id);
-			alert($('#blackid').val());
 			$('[name=blackfrm]').attr('action', '../admin/memberWhite.woo');
 			$('[name=blackfrm]').submit();
 		}
@@ -145,7 +143,9 @@
 						<th class="text-center">거래횟수</th>
 						<th class="text-center">금칙어</th>
 					</c:if>
-					<th class="text-center">블랙</th>
+					<c:if test="${param.grade ne 'admin' }">
+						<th class="text-center">블랙</th>
+					</c:if>
 					<c:if test="${param.grade ne 'black' }">
 						<th class="text-center">수정</th> 
 					</c:if>

@@ -66,8 +66,10 @@ public class WooChattingController {
 		String user_id = principal.getName();
 		String chatroomidx = req.getParameter("chatroomidx");
 		WooChatRoomVO wooChatRoomVO = new WooChatRoomVO();
+		System.out.println("1");
 		if(chatroomidx!=null) {
 			wooChatRoomVO = sqlSession.getMapper(WooChatImpl.class).selectRoomVO(chatroomidx);
+			System.out.println("존재");
 		}
 		else {
 			String sellerid = req.getParameter("sellerid");
@@ -79,11 +81,13 @@ public class WooChattingController {
 			if(roomCheck!=null && !"".equals(roomCheck.getChatroomidx())) {
 				chatroomidx = roomCheck.getChatroomidx();
 				wooChatRoomVO = roomCheck;
+				System.out.println("존재222");
 			}
 			else {
 				sqlSession.getMapper(WooChatImpl.class).createChatroom(wooChatRoomVO);
 	      chatroomidx = String.valueOf(wooChatRoomVO.getSeq_woo_chatroom());
 				wooChatRoomVO = sqlSession.getMapper(WooChatImpl.class).selectRoomVO(chatroomidx);
+				System.out.println("생성");
 
 			}
 			
@@ -97,6 +101,7 @@ public class WooChattingController {
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("userid", user_id);
 		model.addAttribute("chatroomidx", chatroomidx);
+		
 		return "chatting/chatting";
 	}
 	
@@ -164,6 +169,11 @@ public class WooChattingController {
 		wooBoardVO.setBoardidx(boardidx);
 		wooBoardVO.setDeal_type(deal_type);
 		sqlSession.getMapper(WooBoardImpl.class).updateDeal(wooBoardVO);
+	}
+	
+	@RequestMapping("/chatting/saveLastTime")
+	public void saveLastTime() {
+		System.out.println(":dsasdadsasa");
 	}
 	
 }

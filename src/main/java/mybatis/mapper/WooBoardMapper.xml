@@ -8,6 +8,9 @@
 	 <!--1. 게시물 갯수 카운트 -->
 	 <select id="getTotalCount" resultType="int" parameterType="model.ParameterVO">
 		SELECT  count(*) FROM woo_board WHERE 1=1
+		<if test="juso != null">
+		 	AND (deal_location=#{juso} or deal_location='N')
+		</if>
     	<if test="list.size!=0">
 	    	AND bname in
 	    	<foreach collection="list" item="item" open="(" close=")" separator=",">
@@ -15,14 +18,17 @@
 			</foreach>
 		</if>	
 		<include refid="search"></include>	
-	 </select> 
+	 </select>  
 
 	 
 	 <!--2. start 와 end 에 해당하는 게시물 가져오기 (페이지 처리 & 검색 처리 )  -->
 	 <select id="listPage" resultType="model.WooBoardVO"  parameterType="model.ParameterVO">
 	 SELECT *  FROM
 	 	( SELECT Tb.*, rownum rNum FROM 
-	 		( SELECT * FROM woo_board WHERE 1=1 
+	 		( SELECT * FROM woo_board WHERE 1=1
+ 		<if test="juso != null">
+		 	AND (deal_location=#{juso} or deal_location='N')
+		</if>
     	<if test="list.size!=0">
 	    	AND bname in
 	    	<foreach collection="list" item="item" open="(" close=")" separator=",">

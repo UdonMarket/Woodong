@@ -16,7 +16,7 @@
 	  for(var i=1 ; i<=d.length ; i++){
   		 $("#img"+i).attr("src","../resources/Upload/"+d[i-1].imagefile);
   		 $("#title"+i).html(d[i-1].title);
-  		 $("#title"+i).attr("href","http://192.168.219.139:8282/woodong/product/productView.woo?boardidx="+d[i-1].boardidx);
+  		 $("#title"+i).attr("href","http://localhost:8282/woodong/product/productView.woo?boardidx="+d[i-1].boardidx);
 	   }
  	}
 	function errFunc() {} 

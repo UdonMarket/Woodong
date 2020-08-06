@@ -88,8 +88,8 @@
 				<colgroup>
 					<col width="100px" />
 					<col width="200px" />
-					<col width="*" />
-					<col width="200px" />
+					<col width="300px" />
+					<%-- <col width="200px" /> --%>
 					<col width="100px" />
 					<col width="100px" />
 				</colgroup>
@@ -99,7 +99,7 @@
 						<th class="text-center">순서</th>
 						<th class="text-center">위치</th>
 						<th class="text-center">이름</th>
-						<th class="text-center">유형</th>
+						<!-- <th class="text-center">유형</th> -->
 						<th class="text-center">수정</th>
 						<th class="text-center">삭제</th>
 					</tr>
@@ -134,12 +134,13 @@
 								<td class="text-center">
 									<input type="text" name="bname" value="${row.bname }" required/>
 								</td>
-								<td class="text-center">
+								<!-- <td class="text-center">
 									<select name="type">
 										<option value="commonboard">일반게시판</option>
 										<option value="photoboard">사진게시판</option>
 									</select>
-								</td>
+								</td> -->
+								<input type="hidden" name="type" value="commonboard"/>
 								<td class="text-center">
 									<input type="submit" class="btn btn-primary" style="height: 20px; padding-top: 0px" value="수정" />
 								</td>

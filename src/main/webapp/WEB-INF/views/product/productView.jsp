@@ -218,9 +218,10 @@
                                                 
                                                 <c:choose>
                                                 <c:when test="${viewRow.id eq user_id}">
-	                                                <div style="margin-left:80px; margin-top: 20px;">
+	                                                <div style="margin-left:40px; margin-top: 20px;">
 	                                                 	 <img src="../resources/img/myPage/삭제.png" style="width: 70px; height: 50px;" id="delete_btn" />
 	                                            		 <img src="../resources/img/myPage/수정.png" style="width: 70px; height: 50px;" id="update_btn" />
+	                                            		  <img src="../resources/img/product/jumpboard.png" style="width: 70px; height: 50px;" id="jump_btn" />
 	                                           		 </div>
                                                 </c:when>
                                                 <c:otherwise>
@@ -262,7 +263,7 @@
             formObj.attr("action", "./productUpdate.woo");
             formObj.attr("method", "post");
             formObj.submit();
-         })
+         });
          // 삭제
          $("#delete_btn").on("click", function() {
 
@@ -272,7 +273,17 @@
                formObj.attr("method", "post");
                formObj.submit();
             }
-         })
+         });
+         // 끌올
+         $("#jump_btn").on("click", function() {
+
+            var jumpYN = confirm("끌올 하시겠습니까? 끌올시 우동페이 수수료가 3.0% 에서 3.4% 로 증가합니다!");
+            if (jumpYN) {
+               formObj.attr("action", "./productJump.woo");
+               formObj.attr("method", "post");
+               formObj.submit();
+            }
+         });
       });
 
    </script>

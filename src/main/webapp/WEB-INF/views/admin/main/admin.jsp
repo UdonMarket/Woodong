@@ -35,7 +35,7 @@
 						</div>
 						<div class="card-body">
 							<!-- Chart -->
-							<div class="chart" style="width: 100%;">
+							<div class="chart" style="width: 100%; overflow: auto;">
 								<canvas id="myChart" class="chart-canvas" height="100%"></canvas>
 							</div>
 						</div>
@@ -50,7 +50,7 @@
 						<div class="card-header border-0">
 							<div class="row align-items-center">
 								<div class="col">
-									<h3 class="mb-0">동네 가입자 수</h3>
+									<h3 class="mb-0">동네별 가입자 수</h3>
 								</div>
 								<div class="col text-right">
 									<a href="#!" class="btn btn-sm btn-primary">See all</a>
@@ -135,9 +135,7 @@ var myChart = new Chart(ctx, {
         datasets: [{
             label: '# of Votes',
             data: [
-            	<c:forEach items="${bnameLists}" var="row">
-					'${row.num }',
-				</c:forEach>
+            	150, 320, 200, 155, 320, 280, 300, 140, 10, 240, 220, 310
             ],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -167,11 +165,11 @@ var myChart = new Chart(ctx, {
                 'rgba(153, 102, 255, 1)',
                 'rgba(255, 159, 64, 1)'
             ],
-            borderWidth: 1
+            borderWidth: 5
         }]
     },
     options: {
-        maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+        maintainAspectRatio: false, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
         scales: {
             yAxes: [{
                 ticks: {
@@ -185,5 +183,9 @@ var myChart = new Chart(ctx, {
 	<!-- Footer -->
 	<jsp:include page="../include/bottom.jsp" />
 </body>
-
+<!-- 
+<c:forEach items="${bnameLists}" var="row">
+					'${row.num }',
+				</c:forEach>
+ -->
 </html>

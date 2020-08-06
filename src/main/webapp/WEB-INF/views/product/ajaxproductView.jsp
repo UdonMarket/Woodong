@@ -158,7 +158,7 @@
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
 
-                                                   <img src="../resources/img/product/우동톡톡.png" onclick="window.open('http://192.168.219.139:8282/woodong/chatting/chatting.woo?boardidx=${viewRow.boardidx}&sellerid=${viewRow.id}', 'name(${row.chatroomidx})', 'height=640; width=480; top=200; left=700;', true);" />
+                                                   <img src="../resources/img/product/우동톡톡.png" onclick="window.open('http://192.168.219.142:8282/woodong/chatting/chatting.woo?boardidx=${viewRow.boardidx}&sellerid=${viewRow.id}', 'name(${row.chatroomidx})', 'height=640; width=480; top=200; left=700;', true);" />
 
                                                 </div>
                                              </div>

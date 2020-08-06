@@ -14,7 +14,7 @@
       <%-- 상품 상세보기 추가부분 --%>
       
       <section class="content1" style="padding-top: 0px;">
-         <div class="item_list_area">
+         <div class="item_list_area" style="margin-top:50px; margin-bottom:200px; overflow: auto;">
             <div class="item_list_area_box">
                <div class="breadcrumbs"> </div>
                <div class="main_area">

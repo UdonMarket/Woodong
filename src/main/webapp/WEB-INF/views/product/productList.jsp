@@ -189,9 +189,9 @@ function ajaxView(boardidx){
 	</section>
 	
 	<!-- The Modal -->
-  <div class="modal mainModal" id="viewModal" style="margin-top: 200px; overflow: auto; height: 700px;">
+  <div class="modal mainModal" id="viewModal" style="margin-top: 200px; height: 1000px;">
   	 <div class="modal-dialog modal-xl" >
-      <div class="modal-content">   
+      <div class="modal-content" >   
       
        </div>
      </div>

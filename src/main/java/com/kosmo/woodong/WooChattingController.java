@@ -168,9 +168,13 @@ public class WooChattingController {
 		System.out.println("진입");
 		String boardidx = req.getParameter("boardidx");
 		String deal_type = req.getParameter("deal_type");
+		
+		WooChatRoomVO wooChatRoomVO = sqlSession.getMapper(WooChatImpl.class).selectBuyer(boardidx);
+		
 		WooBoardVO wooBoardVO = new WooBoardVO();
 		wooBoardVO.setBoardidx(boardidx);
 		wooBoardVO.setDeal_type(deal_type);
+		wooBoardVO.setBuyer_id(wooChatRoomVO.getBuyerid());
 		sqlSession.getMapper(WooBoardImpl.class).updateDeal(wooBoardVO);
 	}
 	

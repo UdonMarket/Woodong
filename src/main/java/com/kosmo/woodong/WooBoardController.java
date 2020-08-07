@@ -402,22 +402,18 @@ public class WooBoardController {
 	//끌올기능
 	@RequestMapping("/product/productJump.woo")
 	public String productJump(HttpServletRequest req ,Model model, Principal principal) {
-		
 		logger.info("productJump");
 		logger.debug("productJump");
 		ParameterVO parameterVO = new ParameterVO();
 		String boardidx = req.getParameter("boardidx");
-		String id = req.getParameter("id");
 		String user_id = "";
 		try {
 			user_id = principal.getName();
-			if(user_id.equals(id)) {
 				parameterVO.setId(user_id);
 				parameterVO.setBoardidx(boardidx);//id와 boardidx 로 게시글 삭제
 				int applyRow = sqlSession.getMapper(WooBoardImpl.class).jump(parameterVO);
-			}
 		} catch (Exception e) {e.printStackTrace();}
-		return "../product/productList.woo";
+		return "redirect:../product/productList.woo";
 	}
 
 	// 7.최근본 상품 처리중 쿠키값을 사이드바에 넘겨주기

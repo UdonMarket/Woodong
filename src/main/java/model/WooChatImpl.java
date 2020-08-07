@@ -20,6 +20,7 @@ public interface WooChatImpl {
 	public int createChatroom(WooChatRoomVO wooChatRoomVO);
 	
 	public WooChatRoomVO selectChatRoom(WooChatRoomVO wooChatRoomVO);
+	public WooChatRoomVO selectBuyer(String boardidx);
 	
 	public WooChatRoomVO selectRoomVO(String chatroomidx);
 	

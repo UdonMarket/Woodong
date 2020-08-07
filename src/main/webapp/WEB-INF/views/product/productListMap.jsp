@@ -40,7 +40,7 @@
 		var uluru = {lat: latVar, lng: lngVar};
 		var map = new kakao.maps.Map(document.getElementById('map'), {
 			center: new kakao.maps.LatLng(latVar, lngVar),
-			level: 6 
+			level: 5 
 	});
 		
 		var imageSrc = '../resources/img/map/지도마커1-1.png', // 마커이미지의 주소입니다    

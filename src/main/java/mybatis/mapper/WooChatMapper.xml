@@ -75,6 +75,10 @@
   		SELECT * FROM woo_chatroom WHERE boardidx=#{boardidx} AND buyerid=#{buyerid}
   	</select>
   	
+  	<select id="selectBuyer" parameterType="String" resultType="model.WooChatRoomVO">
+  		SELECT * FROM woo_chatroom WHERE boardidx=#{boardidx}
+  	</select>
+  	
   	<select id="selectRoomVO" resultType="model.WooChatRoomVO">
   		SELECT * FROM woo_chatroom WHERE chatroomidx=#{0}
   	</select>

@@ -9,7 +9,7 @@
 	<!-- 우동좌측이미지 -->
 	<!-- id마다 평점불러오기 -->
 	<select id="review_score" resultType="String"> 
-		select review_score from woo_board where id = #{0}
+		select review_score from woo_board where id = #{0} and deal_type = '판매완료'
 	</select>
 	
 	<!-- 메인 추가 -->

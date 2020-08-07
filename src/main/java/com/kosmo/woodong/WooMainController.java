@@ -257,7 +257,7 @@ public class WooMainController {
 	}
 	
 	@RequestMapping("/juso")
-	   public void juso() {
+	   public void juso() {//37.481201, 126.877798
 	      ArrayList<String> list = new ArrayList<String>();
 	      List<WooBoardListVO> blists = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../product/productList.woo");
 	      for(WooBoardListVO lists : blists) {
@@ -272,14 +272,14 @@ public class WooMainController {
 	         String latStr = "";
 	         while(true) {
 	            Double lat = 37 + ran.nextDouble();
-	            if(lat>37.3) {
+	            if(lat>37.4 && lat<37.6) {
 	               latStr = String.valueOf(lat);
 	               break;
 	            }
 	         }
 	         while(true) {
 	            Double lng = 126 + ran.nextDouble();
-	            if(lng>126.7) {
+	            if(lng>126.7 && lng <126.9) {
 	               lngStr = String.valueOf(lng);
 	               break;
 	            }

@@ -39,10 +39,12 @@ img {
 					</div>
 					<div class="col-6">
 						<c:if test="${id eq row.sellerid }">
-							<div style="text-align: left;font-size: 1.4em;font-weight: bold;">${row.buyerid }</div>
+							
+							<div style="text-align: left;font-size: 1.4em;font-weight: bold;"><h2 style="text-align: left;font-size: 1.2em;font-weight: bold;">구매자 </h2> ${row.buyerid }</div>
 						</c:if>
 						<c:if test="${id ne row.sellerid }">
-							<div style="text-align: left;font-size: 1.4em;font-weight: bold;">${row.sellerid }</div>
+							
+							<div style="text-align: left;font-size: 1.4em;font-weight: bold;"><h2 style="text-align: left;font-size: 1.2em;font-weight: bold;">판매자 </h2>${row.sellerid }</div>
 						</c:if>
 							<div style="text-align: left;font-size: 1em;padding-top: 5px;">${row.lastChat }</div>
 

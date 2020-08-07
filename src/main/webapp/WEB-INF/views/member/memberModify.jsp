@@ -93,9 +93,7 @@ $(function() {
 	       var con_test = confirm("해당번호로 인증문자를 발송하시겠습니까?");   /* 문자를 보낼껀지 물어본다 */
 	          
 	          if(con_test == true){
-	             alert("11");
 	             if(count < 3){      /* 추후 데이터베이스에 컬럼 값을 확인하여 count 값을 비교 할 예정 */
-	               alert("22");
 	               $.ajax({
 	                   url:"../member/sendSms.do",
 	                   type:"post",
@@ -106,10 +104,10 @@ $(function() {
 	                   alert("해당 휴대폰으로 인증번호를 발송했습니다");
 	                   count++;
 	                   
-	                   alert(count);
+	                   //alert(count);
 	                   },
 	                   error: function(e){
-	                      alert("실패"+e.status);
+	                      //alert("실패"+e.status);
 	                   }
 	                   
 	                });
@@ -137,7 +135,7 @@ $(function() {
               alert("성공");
            }
            else {
-              alert("실패");
+              //alert("실패");
            }          
        }
     });

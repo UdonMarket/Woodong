@@ -115,7 +115,7 @@ $(window).scroll(function(){
 });  
 
 </script>
-<script>
+<!-- <script>
 function itemSave(boardidx){
 	 $.ajax({
 			url : "../product/itemSave.woo",
@@ -179,7 +179,7 @@ function ajaxView(boardidx){
    });
 } 
 	
-</script>
+</script> -->
 	<div class="col-md-9" >
 		<div class="row" id="boardHTML"></div>
 	</div>
@@ -189,13 +189,13 @@ function ajaxView(boardidx){
 	</section>
 	
 	<!-- The Modal -->
-  <div class="modal mainModal" id="viewModal" style="margin-top: 200px; height: 1000px;">
+  <!-- <div class="modal mainModal" id="viewModal" style="margin-top: 200px; height: 1000px;">
   	 <div class="modal-dialog modal-xl" >
       <div class="modal-content" >   
       
        </div>
      </div>
-  </div>
+  </div> -->
 	<jsp:include page="../include/bottom.jsp" />
 	<jsp:include page="../include/sidebar.jsp" />
 </body>

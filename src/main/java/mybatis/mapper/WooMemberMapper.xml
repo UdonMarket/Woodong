@@ -107,4 +107,10 @@
   	<select id="selectMember" parameterType="model.ParameterVO" resultType="model.WooMemberVO">
   		SELECT * FROM woo_member WHERE id=#{id}
   	</select>
+  	<select  id="getDong" resultType="String">
+  		SELECT addr FROM woo_member WHERE id=#{id} ㄴ
+  	</select>
+  	<select id="selectDongMember" resultType="model.WooMemberVO">
+  		SELECT count(*) cnt, substr(addr, 1, instr(addr, ' ', -1)) addr FROM woo_member GROUP BY addr ORDER BY cnt
+  	</select>
  </mapper>

@@ -49,4 +49,8 @@ public interface WooMemberImpl {
 	public void memberWhite(String id);
 	
 	public WooMemberVO selectMember(ParameterVO parameterVO);
+	
+	public String getDong(String id);
+	
+	public List<WooMemberVO> selectDongMember();
 }

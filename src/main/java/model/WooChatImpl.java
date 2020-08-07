@@ -28,4 +28,6 @@ public interface WooChatImpl {
 	public int getTotalCount(ParameterVO parameterVO);
 	
 	public int chatTotalCount(String chatroomidx);
+	
+	public void prohidition(String chatroomidx);
 }

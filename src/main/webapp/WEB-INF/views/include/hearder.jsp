@@ -89,7 +89,7 @@
 	                    			<i style="font-size:22px;color: #ff4f4f;" class="ti-search"></i>
 	                    		</button>
 	                    		<button style="cursor:pointer; border: 0;background: none;color: #ff4f4f;" 
-			                 	onclick="window.open('http://192.168.219.139:8282/woodong/chatting/chatMain.woo', 'name(우동톡톡)', 'height=600; width=480; top=200; left=150;', true);">
+			                 	onclick="window.open('http://192.168.219.142:8282/woodong/chatting/chatMain.woo', 'name(우동톡톡)', 'height=600; width=480; top=200; left=150;', true);">
 			                     	<i style="font-size:26px;margin: 5px;margin-top: 2px;" class="fa">&#xf0e6;</i>
                   				</button>
 	                       	</div>
@@ -119,4 +119,68 @@ function checkchat(){
    }
    window.open('../chatting/chatMain.woo', '_blank', 'height=600; width=480; top=200; left=150;', true);
 }
+</script>
+<script>
+function itemSave(boardidx){
+	 $.ajax({
+			url : "../product/itemSave.woo",
+			data : {boardidx : boardidx},
+			dataType : "json",
+			type : "get",
+			contentType : "text/html;charset:utf-8",
+			success : sucFunc, 
+	    	error : errFunc
+		 });
+	 function sucFunc(d) {
+		  for(var i=1 ; i<=d.length ; i++){
+	  		 $("#img"+i).attr("src","../resources/Upload/"+d[i-1].imagefile);
+	  		 $("#title"+i).html(d[i-1].title);
+	  		 $('#title'+i).attr('href', "javascript:void(0);")
+	  		 $("#title"+i).attr("onclick","ajaxView(" + d[i-1].boardidx + ")");
+		   }
+	 	}
+		  
+	
+	function errFunc(e){
+		 //alert(e);
+	}
+}
+
+ </script>
+<script>
+//ajaxView 로 이동
+function ajaxView(boardidx){
+
+    $.ajax({  
+        url : '../product/ajaxproductView.woo',  
+        type : 'get',  
+        data : {boardidx : boardidx},
+        success : function(data){
+        	var test = data.split(' ');
+        	if(test[0].indexOf('!!!!!!!')>-1){
+        		switch (test[1]){
+        			case '4' : 
+        				alert('따듯한 튀김우동 이상만 볼 수 있습니다.');
+        				break;
+        			case '3' : 
+        				alert('차가운 튀김우동 이상만 볼 수 있습니다.');
+        				break;
+        			case '2' : 
+        				alert('따듯한 일반우동 이상만 볼 수 있습니다.');
+        				break;
+        		}
+        	}
+        	else{
+	        	itemSave(boardidx);
+	        	$('.modal-content').html("");
+	       		$('.modal-content').html(data);
+	       		$('#modalview').click();
+        	}
+        },  
+	   	error : function(request,status,error) {
+		console.log("code : "+request.status+"\n"+"message : " + request.responseText+"\n"+"error : "+error);
+		}
+   });
+} 
+	
 </script>

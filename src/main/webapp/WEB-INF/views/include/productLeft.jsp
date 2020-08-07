@@ -178,6 +178,11 @@ $(function(){
     <!-- product list part start-->
     <section class="product_list section_padding" style="padding-top: 50px">
         <div class="container">
+        <div class="row">
+	      <div class="col-lg-3"style=" height:60px; padding-left: 16px;">
+			<div style="font-weight:bold; font-size:17px;color:#ff4f4f;width:100%; height:100%; padding-left:25px; padding-top:16px; text-align:center;background-image: url('../resources/img/동네.png')">${dong }</div>
+	      </div>
+        </div>
             <div class="row">
 			<div class="col-lg-3">
 			                

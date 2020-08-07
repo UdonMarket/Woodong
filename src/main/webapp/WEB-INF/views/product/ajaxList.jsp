@@ -50,7 +50,6 @@
 				</div>
 			</div>
 		 </c:forEach> 
-				 	<button type="button" style="display: none;" id="modalview" data-toggle="modal" data-target="#viewModal" ></button>
 		 <c:if test="${empty lists}">
 		 	<h2 style="color: #ff4f4f; margin-left: 200px; margin-top: 100px;" >게시물이 없습니다.</h2>
 		 </c:if>  

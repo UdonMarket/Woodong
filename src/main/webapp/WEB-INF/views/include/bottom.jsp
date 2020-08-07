@@ -18,7 +18,16 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             </div>
         </div>
         
+        
     </footer>
+    <button type="button" style="display: none;" id="modalview" data-toggle="modal" data-target="#viewModal" ></button>
+    <div class="modal mainModal" id="viewModal" style="margin-top: 200px; height: 1000px;">
+  	 <div class="modal-dialog modal-xl" >
+      <div class="modal-content" >   
+      
+       </div>
+     </div>
+  </div>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- 	<script src="../resources/js/jquery-1.12.1.min.js"></script>

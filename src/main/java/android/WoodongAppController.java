@@ -55,7 +55,7 @@ public class WoodongAppController {
       }
       
       parameterVO.setList(list);
-      int pageSize = 15;
+      int pageSize = 6;
       int nowPage = req.getParameter("nowPage") == null ? 1 : Integer.parseInt(req.getParameter("nowPage"));
       
       int start = (nowPage - 1) * pageSize + 1;
@@ -63,7 +63,7 @@ public class WoodongAppController {
       
       if(nowPage==1) {
          start = 1;
-         end = 15;
+         end = 6;
       }
       
       parameterVO.setStart(start);

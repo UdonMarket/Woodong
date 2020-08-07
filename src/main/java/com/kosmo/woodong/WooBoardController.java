@@ -54,7 +54,9 @@ public class WooBoardController {
 			model.addAttribute("dong", dong.substring(0, dong.lastIndexOf(" ")));
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute("dong", "동네인증을 해주세요");
+			return "redirect:../member/myPlace.woo";
 		}
 		String location = ".." + req.getServletPath();
 		List<WooBoardListVO> blists = ((WooBoardListImpl) sqlSession.getMapper(WooBoardListImpl.class))

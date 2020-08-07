@@ -139,7 +139,6 @@
 					<th class="text-center">가입일</th>
 					<c:if test="${param.grade eq 'normal' || param.grade eq 'black'}">
 						<th class="text-center">평점</th>
-						<th class="text-center">등급</th>
 						<th class="text-center">거래횟수</th>
 						<th class="text-center">금칙어</th>
 					</c:if>
@@ -163,7 +162,6 @@
 						<td class="text-center">${row.regidate }</td>
 						<c:if test="${param.grade eq 'normal' || param.grade eq 'black' }">
 							<td class="text-center">${row.avg_score }</td>
-							<td class="text-center">${row.grade }</td>
 							<td class="text-center">${row.trade_count }</td>
 							<td class="text-center">${row.prohiditionCount }</td>
 						</c:if>

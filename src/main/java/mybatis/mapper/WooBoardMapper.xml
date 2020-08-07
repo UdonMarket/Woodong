@@ -42,7 +42,7 @@
 	 				ORDER BY ${order} 
 	 			</when>
 	 			<otherwise>
-	 				ORDER BY postdate DESC 
+	 				ORDER BY postdate DESC ,boardidx DESC
 	 			</otherwise>
 	 		</choose>
 	 		) Tb) 
@@ -280,7 +280,7 @@
 	 </select>
 	 
 	 <update id="updateDeal" parameterType="model.WooBoardVO">
-	 	UPDATE woo_board SET deal_type=#{deal_type} WHERE boardidx=#{boardidx}
+	 	UPDATE woo_board SET deal_type=#{deal_type}, buyer_id=#{buyer_id} WHERE boardidx=#{boardidx}
 	 </update>
 	 
 	 

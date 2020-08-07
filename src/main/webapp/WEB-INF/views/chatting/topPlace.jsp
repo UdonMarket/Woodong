@@ -104,7 +104,6 @@ var marker = new kakao.maps.Marker({
 </script>
 <jsp:include page="../include/bottom.jsp" />
 	
-	<jsp:include page="../include/sidebar.jsp" />
 
 </body>
 </html>

@@ -13,6 +13,7 @@
 <!-- ajaxproductView.jsp (ajax View ) -->
       <%-- 상품 상세보기 추가부분 --%>
       
+
       <section class="content1" style="padding-top: 0px; margin-bottom:100px; margin-top: 50px;">
          <div class="item_list_area">
             <div class="item_list_area_box">

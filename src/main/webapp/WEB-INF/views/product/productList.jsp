@@ -192,6 +192,7 @@ $(function () {
 	</section>
 	
 	<!-- The Modal -->
+
   <div class="modal mainModal" id="viewModal" style="margin-top: 200px; overflow: auto; height: 800px;">
   	 <div class="modal-dialog modal-xl" >
       <div class="modal-content">   

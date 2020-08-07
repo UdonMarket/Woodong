@@ -81,6 +81,7 @@
 					</div>
 					<div class="hearer_icon d-flex align-items-center">
 	                  	<div class="input-group mb-3">
+
 	              			<input type="text" placeholder="찾는 상품을  #태그 로 검색하세요 !" class="form-control search_input" id="headkeywordInput"
 	              			style="border:none; border-bottom: 2px solid #d9d9d9;width: 250px;border-radius: 0;margin-bottom: -5px;">
 

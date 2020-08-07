@@ -154,7 +154,14 @@
 	<div id="chat-wrapper" style="border: 2px solid #d9d9d9;">
 		<header id="chat-header" style="text-align: center;">
 			<img src="../resources/img/main/favicon.png" alt="우동톡톡" style="width: 50px;" />
-			<span style="font-size: 1.2em;font-weight: bold;padding: 5px;">우동톡톡 - 우동이에게 물어보세요</span>
+			<span style="font-size: 1.2em;font-weight: bold;padding: 5px;">우동톡톡 
+			<c:if test="${wooChatRoomVO.sellerid ne userid}">
+				- 판매자와 우동톡톡중
+			</c:if>
+			<c:if test="${wooChatRoomVO.sellerid eq userid}">
+				- 구매자와 우동톡톡중
+			</c:if>
+			</span>
 		</header>	
 		
 		
@@ -164,7 +171,7 @@
 				<c:if test="${userid eq row.id}">
 					<div class="chat chat-right">
 						<div class="chat-box">
-							<p class="bubble-me">${row.chatting }</p>
+							<p class="bubble-me">${row.chatting}</p>
 							<span class="bubble-tail"></span>
 						</div>
 					</div>
@@ -172,7 +179,14 @@
 				<c:if test="${userid ne row.id}">
 					<div class="chat chat-left">
 						<div class="chat-box">
-							<p style = "font-weight:bold;font-size:1.1em;margin-bottom:5px;">'${row.id}'</p>
+							<c:if test="${wooChatRoomVO.sellerid eq userid}">
+							<p style = "font-weight:bold;font-size:1.1em;margin-bottom:5px;">
+								구매자 : ${row.id} </p>
+							</c:if>
+							<c:if test="${wooChatRoomVO.sellerid ne userid}">
+							<p style = "font-weight:bold;font-size:1.1em;margin-bottom:5px;">
+								판매자 : ${row.id} </p>
+							</c:if>
 							<p class="bubble">${row.chatting }</p>
 							<span class="bubble-tail"></span>
 						</div>

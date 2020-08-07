@@ -21,10 +21,10 @@
    <div class="container" style="padding-left: 200px; margin-top: 200px;">
       <%-- 상품 상세보기 추가부분 --%>
       <section class="content1" style="padding-top: 0px;">
-         <div class="item_list_area">
+        <!--  <div class="item_list_area"> -->
             <div class="item_list_area_box">
                <div class="breadcrumbs">
-                  <ul style="color: #ff4f4f;">
+                  <ul style="color: #ff4f4f; ">
                      <li><a href="./productList.woo" style="color: #ff4f4f;">상품 리스트</a></li>
                      <li><a href="./productList.woo?bname=${viewRow.bname}" style="color: #ff4f4f;">&gt;&nbsp;&nbsp;${viewRow.bname}</a></li>
                   </ul>
@@ -171,7 +171,7 @@
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
 
-                                                   <img src="../resources/img/product/우동톡톡.png" onclick="window.open('http://192.168.219.142:8282/woodong/chatting/chatting.woo?boardidx=${viewRow.boardidx}&sellerid=${viewRow.id}', 'name(${row.chatroomidx})', 'height=640; width=480; top=200; left=700;', true);" />
+                                                   <img src="../resources/img/product/우동톡톡.png" onclick="window.open('http://192.168.219.139:8282/woodong/chatting/chatting.woo?boardidx=${viewRow.boardidx}&sellerid=${viewRow.id}', 'name(${row.chatroomidx})', 'height=640; width=480; top=200; left=700;', true);" />
 
                                                 </div>
                                              </div>
@@ -279,7 +279,7 @@
 
             var jumpYN = confirm("끌올 하시겠습니까? 끌올시 우동페이 수수료가 3.0% 에서 3.4% 로 증가합니다!");
             if (jumpYN) {
-               formObj.attr("action", "./productJump.woo");
+               formObj.attr("action", "../product/productJump.woo");
                formObj.attr("method", "post");
                formObj.submit();
             }
@@ -291,7 +291,7 @@
 <jsp:include page="../include/bottom.jsp" />
 <jsp:include page="../include/sidebar2.jsp" />
    <form:form name="chattingFrm">
-      <input type="hidden" name="boardidx" value="${viewRow.boardidx }" />
+      <input type="hidden" name="boardidx" value="${viewRow.boardidx}" />
       <input type="hidden" name="sellerid" value="'${viewRow.id}'" />
    </form:form>
    <!-- The Modal start-->
@@ -301,9 +301,8 @@
          <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">3D이미지</h4> 
                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border: none; background: none;">
-               	 <img src="../resources/img/close.png"  style="width: 100px; height: 50px;"> </button>
+               	 <img src="../resources/img/close.png" style="width: 100px; height: 50px;margin-left: 650px;"> </button>
             </div>
             <!-- Modal body -->
             <div class="modal-body">

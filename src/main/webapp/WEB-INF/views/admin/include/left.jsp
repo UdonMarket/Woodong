@@ -131,24 +131,13 @@
 				</li>
 				<li class="nav-item"><a class="nav-link"
 					href="../admin/chatting.woo"> <i
-						class="ni ni-bullet-list-67 text-red"></i> 채팅
+						class="ni ni-bullet-list-67 text-red"></i> 채팅관리
 				</a></li>
 				<li class="nav-item"><a class="nav-link"
 					href="../admin/payTable.woo"> <i
 						class="ni ni-bullet-list-67 text-red"></i> 결제관리
 				</a></li>
 
-			</ul>
-			<!-- Divider -->
-			<hr class="my-3">
-			<!-- Heading -->
-			<h6 class="navbar-heading text-muted">Documentation</h6>
-			<!-- Navigation -->
-			<ul class="navbar-nav mb-md-3">
-				<li class="nav-item"><a class="nav-link"
-					href="https://demos.creative-tim.com/argon-dashboard/docs/getting-started/overview.html">
-						<i class="ni ni-spaceship"></i> Getting started
-				</a></li>
 			</ul>
 		</div>
 	</div>

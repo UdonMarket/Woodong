@@ -101,7 +101,7 @@
 	                            <select name="order">
 	                                <option value="" <c:out value="${parameterVO.order == null ? 'selected' : ''}"/>> ---  최신순 ( 정렬방식 ) --- </option>
 	                                <option value="visitcount desc" <c:out value="${parameterVO.order eq 'visitcount' ? 'selected' : ''}"/>>조회순</option>
-	                                <option value="likecount desc" <c:out value="${parameterVO.order eq 'likecount' ? 'selected' : ''}"/>>좋아요 순</option>
+	                                <option value="likecount desc" <c:out value="${parameterVO.order eq 'likecount desc' ? 'selected' : ''}"/>>좋아요 순</option>
 	                                <option value="price" <c:out value="${parameterVO.order eq 'price' ?  'selected': ''}"/>>저가순</option>
 	                                <option value="price desc" <c:out value="${parameterVO.order eq 'price desc' ? 'selected' : ''}"/>>고가순</option>
 	                            </select>

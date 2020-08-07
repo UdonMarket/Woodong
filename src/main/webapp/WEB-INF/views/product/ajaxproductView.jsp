@@ -13,8 +13,9 @@
 <!-- ajaxproductView.jsp (ajax View ) -->
       <%-- 상품 상세보기 추가부분 --%>
       
-      <section class="content1" style="padding-top: 0px;">
-         <div class="item_list_area" style="margin-top:50px; margin-bottom:200px; overflow: auto;">
+
+      <section class="content1" style="padding-top: 0px; margin-bottom:100px; margin-top: 50px;">
+         <div class="item_list_area">
             <div class="item_list_area_box">
                <div class="breadcrumbs"> </div>
                <div class="main_area">
@@ -158,7 +159,7 @@
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
 
-                                                   <img src="../resources/img/product/우동톡톡.png" onclick="window.open('http://192.168.219.142:8282/woodong/chatting/chatting.woo?boardidx=${viewRow.boardidx}&sellerid=${viewRow.id}', 'name(${row.chatroomidx})', 'height=640; width=480; top=200; left=700;', true);" />
+                                                   <img src="../resources/img/product/우동톡톡.png" onclick="window.open('http://192.168.219.139:8282/woodong/chatting/chatting.woo?boardidx=${viewRow.boardidx}&sellerid=${viewRow.id}', 'name(${row.chatroomidx})', 'height=640; width=480; top=200; left=700;', true);" />
 
                                                 </div>
                                              </div>
@@ -197,8 +198,9 @@
                                                 </div>
                                                 <div class="col-3"></div>
                                              </div> 
-                                             <div class="my_profile_nick"style="text-align: center; font-size: 18px; font-weight: bold; padding-bottom: 5px; padding-top: 5px; color: black;">
-                                          										   판매자 : ${viewRow.id}</div>
+                                             <div class="my_profile_nick"style="text-align: center; font-size: 18px; font-weight: bold;
+                                              padding-bottom: 5px; padding-top: 5px; color: black; ">   판매자 : ${viewRow.id}</div>
+                                          										
                                              <div class="my_profile_pro_review">
                                                 <div class="my_profile_pro_review_box">
                                                 <c:choose>
@@ -222,13 +224,13 @@
                                                       </div>
                                                 </c:otherwise>
                                                 </c:choose> 
-                                                
                                                 </div>
                                              </div>
                                           </div>
                                        </div>
                                     </div>
                            </div>
+                         
                            <!--  -->
                         </div>
                      </div>
@@ -282,11 +284,6 @@
    <div class="modal fade" id="tdModal" >
       <div class="modal-dialog modal-dialog-centered modal-lg">
          <div class="modal-content">
-            <!-- Modal Header -->
-          <!--   <div class="modal-header">
-               <h4 class="modal-title">3D이미지</h4>
-               <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-            </div> -->
             <!-- Modal body -->
             <div class="modal-body">
                <!--3D .product-viewer   -->

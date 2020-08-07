@@ -33,7 +33,7 @@
 				</div>
 				<div style="padding-left: 15px;">
 
-					<h4><fmt:formatNumber type="number" maxFractionDigits="3" value="${row.price}"/>원${row.boardidx}</h4>
+					<h4><fmt:formatNumber type="number" maxFractionDigits="3" value="${row.price}"/>원 임시  : ${row.boardidx}</h4>
 					<div class="row">
 					<div class="col-5" >
 

@@ -67,6 +67,8 @@
 					<th class="text-center">판매자</th>
 					<th class="text-center">구매자</th>
 					<th class="text-center">마지막 채팅</th> 
+					<th class="text-center">금칙어 사용횟수</th> 
+					
 
 				</tr>
 			</thead>
@@ -79,6 +81,7 @@
 							<td class="text-center">${row.sellerid }</td>
 							<td class="text-center">${row.buyerid }</td>
 							<td class="text-center">${row.lastchatdate }</td>
+							<td class="text-center">${row.prohiditioncount }</td>
 						
 					</tr>
 				</c:forEach>

@@ -48,10 +48,14 @@ public class WooBoardController {
 	
 	//1. 상품게시판 진입
 	@RequestMapping("/product/productList.woo")
-	public String productList(Model model, HttpServletRequest req) {
-		logger.info("productList");
-		logger.debug("productList");
-		
+	public String productList(Model model, HttpServletRequest req, Principal principal) {
+		try {
+			String dong = sqlSession.getMapper(WooMemberImpl.class).getDong(principal.getName());
+			model.addAttribute("dong", dong.substring(0, dong.lastIndexOf(" ")));
+		}
+		catch (Exception e) {
+			model.addAttribute("dong", "동네인증을 해주세요");
+		}
 		String location = ".." + req.getServletPath();
 		List<WooBoardListVO> blists = ((WooBoardListImpl) sqlSession.getMapper(WooBoardListImpl.class))
 				.selectBoard(location);
@@ -118,10 +122,9 @@ public class WooBoardController {
 		if(principal!=null) {
 			user_id = principal.getName();
 			parameterVO.setId(user_id);
-			parameterVO.setJuso(sqlSession.getMapper(WooMemberImpl.class).selectMember(parameterVO).getAddr());
+			String juso = sqlSession.getMapper(WooMemberImpl.class).selectMember(parameterVO).getAddr();
+			parameterVO.setJuso(juso.substring(0, juso.lastIndexOf(" ")));
 		}
-		logger.info("ajaxList");
-		logger.debug("ajaxList");
 		
 		ModelAndView mv = new ModelAndView();
 		ArrayList<String> list = new ArrayList<String>();
@@ -276,7 +279,8 @@ public class WooBoardController {
 	@RequestMapping("/product/productWrite.woo")
 	public String productWrite(Principal principal,Model model) {
 		
-		List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		String prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		String[] prohidition = prohiditionlists.split(",");
 		List<WooBoardListVO> selectlist = new ArrayList<WooBoardListVO>();
 		String user_id="";
 		try {
@@ -285,7 +289,7 @@ public class WooBoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("prohidition", prohiditionlists);
+		model.addAttribute("prohidition", prohidition);
 		model.addAttribute("selectlist", selectlist);
 		model.addAttribute("user_id",user_id);
 		return "product/productWrite";
@@ -318,7 +322,8 @@ public class WooBoardController {
 	//5-1.글 수정 폼진입
 	@RequestMapping(method = RequestMethod.POST, value="/product/productUpdate.woo")
 	public String productUpdate(Model model , HttpServletRequest req,Principal principal) {
-		List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		String prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		String[] prohidition = prohiditionlists.split(",");
 		logger.info("update");
 		logger.debug("update");
 		String boardidx = req.getParameter("boardidx");
@@ -335,7 +340,7 @@ public class WooBoardController {
 			dto.setContents(dto.getContents().replace("\r\n","<br/>"));
 			selectlist = ((WooBoardListImpl) sqlSession.getMapper(WooBoardListImpl.class)).selectBname("../product/productList.woo");
 			ArrayList<FileVO> uploadFileList = ((WooBoardImpl) this.sqlSession.getMapper(WooBoardImpl.class)).viewFile(boardidx);
-			model.addAttribute("prohidition", prohiditionlists);
+			model.addAttribute("prohidition", prohidition);
 			model.addAttribute("viewRow", dto);
 			model.addAttribute("nowPage", nowPage);
 			model.addAttribute("bname", bname);
@@ -488,9 +493,6 @@ public class WooBoardController {
 		@RequestMapping("/product/ajaxproductView.woo")
 		public String ajaxproductView(Model model, HttpServletRequest req,Principal principal, HttpServletResponse response) {
 			
-			logger.info("ajaxproductView");
-			logger.debug("ajaxproductView");
-			
 			String boardidx = req.getParameter("boardidx");
 			String nowPage = req.getParameter("nowPage");
 			String user_id="";
@@ -570,6 +572,7 @@ public class WooBoardController {
 	            return map;
 	        }
 	        return map;
-    }
+	    }
+	    
 
 }

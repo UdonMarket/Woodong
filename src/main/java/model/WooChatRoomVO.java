@@ -10,11 +10,19 @@ public class WooChatRoomVO {
 	private String sellerid;
 	private String buyerid;
 	private Timestamp lastchatdate;
-	
+	private String prohiditioncount;
 	private int seq_woo_chatroom;
 	private String title;
 	
 	
+
+	public String getProhiditioncount() {
+		return prohiditioncount;
+	}
+
+	public void setProhiditioncount(String prohiditioncount) {
+		this.prohiditioncount = prohiditioncount;
+	}
 
 	public String getTitle() {
 		return title;

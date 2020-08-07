@@ -289,7 +289,7 @@
    </script>
 
 <jsp:include page="../include/bottom.jsp" />
-<jsp:include page="../include/sidebar2.jsp" />
+<jsp:include page="../include/sidebar.jsp" />
    <form:form name="chattingFrm">
       <input type="hidden" name="boardidx" value="${viewRow.boardidx}" />
       <input type="hidden" name="sellerid" value="'${viewRow.id}'" />

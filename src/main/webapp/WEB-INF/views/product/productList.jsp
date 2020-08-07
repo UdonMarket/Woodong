@@ -94,7 +94,8 @@ var loadlist = function(){
 				nowPage++;
 	      		scrollchk = true; //데이터 로딩이 끝나면 스크롤체크를 풀어준다.  
 	        }
-		    else if(state=='false'){ //sate가 false 일시 스크롤이 더이상 움직이지 않음 
+		    else if(state=='false'){ 
+	   	    	//alert("데이터가 없습니다.");
 	   	    }
         },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 	   error : function(request,status,error) {
@@ -114,7 +115,7 @@ $(window).scroll(function(){
 });  
 
 </script>
-<script>
+<!-- <script>
 function itemSave(boardidx){
 	 $.ajax({
 			url : "../product/itemSave.woo",
@@ -167,8 +168,8 @@ function ajaxView(boardidx){
         	}
         	else{
 	        	itemSave(boardidx);
-	        	$('.modal-body').html("");
-	       		$('.modal-body').html(data);
+	        	$('.modal-content').html("");
+	       		$('.modal-content').html(data);
 	       		$('#modalview').click();
         	}
         },  
@@ -178,11 +179,7 @@ function ajaxView(boardidx){
    });
 } 
 	
-$(function () {
-	   $('#viewModal').modal(toggle);
-	   $('#tdModal').modal(toggle);
-	});	
-</script>
+</script> -->
 	<div class="col-md-9" >
 		<div class="row" id="boardHTML"></div>
 	</div>
@@ -192,21 +189,13 @@ $(function () {
 	</section>
 	
 	<!-- The Modal -->
-
-  <div class="modal mainModal" id="viewModal" style="margin-top: 200px; overflow: auto; height: 800px;">
+  <!-- <div class="modal mainModal" id="viewModal" style="margin-top: 200px; height: 1000px;">
   	 <div class="modal-dialog modal-xl" >
-      <div class="modal-content">   
-      <!-- Modal Header -->
-            <div class="modal-header">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border: none; background: none;">
-               	 <img src="../resources/img/close.png"  style="width: 100px; height: 50px;margin-left: 1000px;"></button>
-            </div>
-             <div class="modal-body">
-             </div>
+      <div class="modal-content" >   
       
        </div>
      </div>
-  </div>
+  </div> -->
 	<jsp:include page="../include/bottom.jsp" />
 	<jsp:include page="../include/sidebar.jsp" />
 </body>

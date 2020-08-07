@@ -82,4 +82,8 @@
   	<select id="selectRoomVO" resultType="model.WooChatRoomVO">
   		SELECT * FROM woo_chatroom WHERE chatroomidx=#{0}
   	</select>
+  	
+  	<update id="prohidition">
+  		UPDATE woo_chatroom SET prohiditioncount = prohiditioncount+1 WHERE chatroomidx=#{0}
+  	</update>
 </mapper> 

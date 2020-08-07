@@ -19,8 +19,19 @@ public class WooMemberVO {
 	private int start;
 	private int end;
 	private int prohiditionCount;
+	private int cnt;
 	
 	
+	
+	
+
+	public int getCnt() {
+		return cnt;
+	}
+
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
 
 	public int getProhiditionCount() {
 		return prohiditionCount;

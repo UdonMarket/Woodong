@@ -138,11 +138,14 @@ public class WooChattingController {
 		String chatting = req.getParameter("chatting");
 		String chatroomidx = req.getParameter("chatroomidx");
 		String id = req.getParameter("id");
-		List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		String prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
 		
-		for(String prohidition : prohiditionlists) {
-			if(chatting.contains(prohidition)) {
-				sqlSession.getMapper(WooMemberImpl.class).prohidition(id, prohidition);
+		String[] prohidition = prohiditionlists.split(",");
+		
+		for(String pro : prohidition) {
+			if(chatting.contains(pro)) {
+				sqlSession.getMapper(WooMemberImpl.class).prohidition(id, pro);
+				sqlSession.getMapper(WooChatImpl.class).prohidition(chatroomidx);
 			}
 		}
 		

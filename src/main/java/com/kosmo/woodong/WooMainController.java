@@ -3,6 +3,7 @@ package com.kosmo.woodong;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -20,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import model.FileVO;
 import model.ParameterVO;
@@ -117,6 +119,7 @@ public class WooMainController {
 	return "main/main";
 	}
 
+	
 	// 소개
 	@RequestMapping("/about/about.woo")
 	public String about() {

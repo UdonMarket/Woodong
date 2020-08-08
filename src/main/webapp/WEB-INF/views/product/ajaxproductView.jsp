@@ -144,11 +144,16 @@
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
                                                    <c:if test="${viewRow.woopay eq 'Y'}">
+                                                    <a href="../product/woopay.woo?boardidx=${viewRow.boardidx}&price=${viewRow.price}&title=${viewRow.title}&sellerID=${viewRow.id}">
                                                       <img src="../resources/img/product/우동페이.png" />
+                                                        </a>
                                                    </c:if>
+                                                  
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
+                                               
                                                    <img src="../resources/img/product/우동톡톡.png" onclick="chatting();" />
+                                               
                                                 </div>
                                              </div>
                                           </div>

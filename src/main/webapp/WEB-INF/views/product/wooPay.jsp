@@ -14,7 +14,7 @@
 var IMP = window.IMP; // 생략가능
 IMP.init('imp95906061'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
 IMP.request_pay({
-    pg : 'inicis', // version 1.1.0부터 지원.
+    pg : 'kakaopay', // version 1.1.0부터 지원.
     pay_method : 'card',
     merchant_uid : 'merchant_' + new Date().getTime(),
     name : '${title}',

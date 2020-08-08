@@ -24,6 +24,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import model.FileVO;
 import model.ParameterVO;
+import model.WooAndroidImpl;
+import model.WooAndroidVO;
 import model.WooBoardImpl;
 import model.WooBoardListImpl;
 import model.WooBoardListVO;
@@ -205,5 +207,164 @@ public class WoodongAppController {
       return returnObj;
    }
 
+   
+   	/*
+	위치 저장
+	 */
+	@RequestMapping("/android/WoolocationSave.woo")
+	@ResponseBody
+	public Map<String, Object> memberLogin(HttpServletRequest req){
+		WooAndroidVO vo = new WooAndroidVO();
+		
+		String user_id = req.getParameter("id");
+		String latitude = req.getParameter("latitude");
+		String longitude = req.getParameter("longitude");
+		
+		vo.setLatitude(latitude);
+		vo.setLongitude(longitude);
+		vo.setUser_id(user_id);
+		/*
+		 매개변수로 커맨드객체(VO)를 사용하므로 파라미터명은 VO의 필드와
+		 동일하게 id, pass, name과 같이 사용하면 된다. 
+		 
+		 요청 URL
+		 	-> http://localhost:8080/k12springapi/android/memberLogin.do?id=kos&pass=kos1
+		 */
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		
+		int res = sqlSession.getMapper(WooAndroidImpl.class).WoolocationSave(vo);
+		
+		if(res==0) {
+			//회원정보가 일치하지 않는다면...
+			returnMap.put("islocationSave", 0);
+		}
+		else {
+			//회원정보가 일치하면 회원정보 전체를 반환한다.
+			//returnMap.put("memberInfo", memberInfo);
+			returnMap.put("islocationSave", 1);
+		}
+		
+		return returnMap;
+	}
+	
+	/*
+	 위치 업데이트  
+	 */
+	@RequestMapping("/android/WoolocationUpdate.woo")
+	@ResponseBody
+	public Map<String, Object> WoolocationUpdate(HttpServletRequest req){
+		WooAndroidVO vo = new WooAndroidVO();
+		
+		String user_id = req.getParameter("id");
+		String latitude = req.getParameter("latitude");
+		String longitude = req.getParameter("longitude");
+		
+		vo.setUser_id(user_id);
+		vo.setLatitude(latitude);
+		vo.setLongitude(longitude);
+		/*
+		 매개변수로 커맨드객체(VO)를 사용하므로 파라미터명은 VO의 필드와
+		 동일하게 id, pass, name과 같이 사용하면 된다. 
+		 
+		 요청 URL
+		 	-> http://localhost:8080/k12springapi/android/memberLogin.do?id=kos&pass=kos1
+		 */
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		
+		int res = sqlSession.getMapper(WooAndroidImpl.class).WoolocationUpdate(vo);
+		
+		if(res==0) {
+			//회원정보가 일치하지 않는다면...
+			returnMap.put("islocationUpdate", 0);
+		}
+		else {
+			//회원정보가 일치하면 회원정보 전체를 반환한다.
+			//returnMap.put("memberInfo", memberInfo);
+			returnMap.put("islocationUpdate", 1);
+		}
+		
+		return returnMap;
+	}
+	
+	/*
+	 유저 아이디에 맞는 위치 값 가져오기 
+	 */
+	@RequestMapping("/WoolocationSelect.woo")
+	public String WoolocationSelect(HttpServletRequest req, Model model){
+		WooAndroidVO vo = new WooAndroidVO();
+		/*
+		 매개변수로 커맨드객체(VO)를 사용하므로 파라미터명은 VO의 필드와
+		 동일하게 id, pass, name과 같이 사용하면 된다. 
+		 
+		 요청 URL
+		 	-> http://localhost:8080/k12springapi/android/memberLogin.do?id=kos&pass=kos1
+		 */
+		
+		String user_id = req.getParameter("id");
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		vo.setUser_id(user_id);
+		
+		WooAndroidVO locationvo = sqlSession.getMapper(WooAndroidImpl.class).WoolocationSelect(vo);
+		
+		if(locationvo!=null) {
+			returnMap.put("latitue", locationvo.getLatitude());
+			returnMap.put("longitude", locationvo.getLongitude());
+			returnMap.put("res", 1);
+		}
+		else {
+			returnMap.put("res", 0);
+		}
+		//String url = "http://maps.google.com/maps?z=16&q="+locationvo.getLatitude()+","+locationvo.getLongitude();
+		//returnMap.put("url", url);
+		String latitude = locationvo.getLatitude();
+		String logitude = locationvo.getLongitude();
+		model.addAttribute("user_id", user_id);
+		model.addAttribute("latitude", latitude);
+		model.addAttribute("logitude", logitude);
+		
+		return "member/location";
+	}
+	
+	@RequestMapping(value = "/Wooajaxmap.woo")
+	@ResponseBody
+	public Map<String, Object> Wooajaxmap(HttpServletRequest req, Model model){
+		WooAndroidVO vo = new WooAndroidVO();
+		/*
+		 매개변수로 커맨드객체(VO)를 사용하므로 파라미터명은 VO의 필드와
+		 동일하게 id, pass, name과 같이 사용하면 된다. 
+		 
+		 요청 URL
+		 	-> http://localhost:8080/k12springapi/android/memberLogin.do?id=kos&pass=kos1
+		 */
+		
+		String user_id = req.getParameter("user_id");
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		vo.setUser_id(user_id);
+		
+		WooAndroidVO locationvo = sqlSession.getMapper(WooAndroidImpl.class).WoolocationSelect(vo);
+		if(locationvo!=null) {
+			returnMap.put("latitude", locationvo.getLatitude());
+			returnMap.put("longitude", locationvo.getLongitude());
+			returnMap.put("id", vo.getUser_id());
+			returnMap.put("res", 1);
+		}
+		else {
+			returnMap.put("res", 0);
+		}
+		//String url = "http://maps.google.com/maps?z=16&q="+locationvo.getLatitude()+","+locationvo.getLongitude();
+		//returnMap.put("url", url);
+		
+		return returnMap;
+	}
+	
+	@RequestMapping("/android/aa")
+	public String aa() {
+		
+		
+		return "redirect:http://maps.google.com/maps?z=16&q=37.4770822,126.8781996";
+	}
 
 }

@@ -7,7 +7,7 @@
 	<security:http pattern="/**/*.jpg" security="none"/>
 	   <security:http pattern="/**/*.png" security="none"/>
 	   <security:http pattern="/android/**">
-	   
+	   <security:intercept-url pattern="/android/WoolocationSelect.woo" access="permitAll" />
 	      <security:csrf disabled="true"/>
 	
 	      <security:form-login 
@@ -50,6 +50,7 @@
 		<security:intercept-url pattern="/member/pwFind.woo" access="isAnonymous()" />
 		<security:intercept-url pattern="/member/pwFindProc.woo" access="isAnonymous()" />
 		<security:intercept-url pattern="/member/sendSms.do" access="permitAll" />
+		
 		<security:intercept-url pattern="/member/**" access="hasRole('USER')" />
 		
 		<security:intercept-url pattern="/mypage/**" access="hasRole('USER')" />

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="model.WooAndroidImpl" > 
+	<update id="WoolocationSave" parameterType="model.WooAndroidVO">
+		INSERT INTO woo_pushlocation (
+			pushsms_idx,
+			latitude,
+			longitude,
+			user_id
+		) VALUES (
+			seq_woo_pushlocation.NEXTVAL,
+			#{latitude},
+			#{longitude},
+			#{user_id}
+		)
+	</update>
+	
+	<update id="WoolocationUpdate" parameterType="model.WooAndroidVO">
+		UPDATE 
+			woo_pushlocation 
+		SET 
+			latitude=#{latitude} , longitude=#{longitude}
+		WHERE user_id=#{user_id}
+	</update>
+	
+	<select id="WoolocationSelect" parameterType="model.WooAndroidVO" resultType="model.WooAndroidVO">
+  		SELECT 
+  			* 
+  		FROM 
+  			woo_pushlocation 
+  		WHERE 
+  			user_id=#{user_id}
+  	</select>
+</mapper>

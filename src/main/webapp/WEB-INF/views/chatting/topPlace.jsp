@@ -88,9 +88,7 @@ var marker = new kakao.maps.Marker({
  	kakao.maps.event.addListener(marker, 'click', function() {
     	// 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
     	var content = '<div class="customoverlay">' +
-	    '  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
 	    '    <span class="title">'+location[0]+'</span>' +
-	    '  </a>' +
 	    '</div>';
     	// 커스텀 오버레이가 표시될 위치입니다 
     	var position = new kakao.maps.LatLng(location[1], location[2]);  
@@ -106,7 +104,6 @@ var marker = new kakao.maps.Marker({
 </script>
 <jsp:include page="../include/bottom.jsp" />
 	
-	<jsp:include page="../include/sidebar.jsp" />
 
 </body>
 </html>

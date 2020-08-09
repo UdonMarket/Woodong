@@ -1,11 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
-
+<c:choose>
+	<c:when test="${check eq 1}">
+		!!!!!!! ${viewRow.publicSet}
+	</c:when>
+	<c:otherwise>
+	
+	
 <!-- ajaxproductView.jsp (ajax View ) -->
       <%-- 상품 상세보기 추가부분 --%>
-      <section class="content1" style="padding-top: 0px;">
+      
+
+      <section class="content1" style="padding-top: 0px; margin-bottom:100px; margin-top: 50px;">
          <div class="item_list_area">
             <div class="item_list_area_box">
                <div class="breadcrumbs"> </div>
@@ -143,12 +152,15 @@
                                                    </c:if>
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
-                                                   <c:if test="${viewRow.woopay eq 'Y'}">
-                                                      <img src="../resources/img/product/우동페이.png" />
-                                                   </c:if>
+                                                  <c:if test="${viewRow.woopay eq 'Y'}">
+                                       				<a href="../product/woopay.woo?boardidx=${viewRow.boardidx}&price=${viewRow.price}&title=${viewRow.title}&sellerID=${viewRow.id}">
+                                       					<img src="../resources/img/product/우동페이.png" /></a>
+                                   					 </c:if>
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
-                                                   <img src="../resources/img/product/우동톡톡.png" onclick="chatting();" />
+
+                                                   <img src="../resources/img/product/우동톡톡.png" onclick="window.open('http://192.168.219.139:8282/woodong/chatting/chatting.woo?boardidx=${viewRow.boardidx}&sellerid=${viewRow.id}', 'name(${row.chatroomidx})', 'height=640; width=480; top=200; left=700;', true);" />
+
                                                 </div>
                                              </div>
                                           </div>
@@ -186,8 +198,9 @@
                                                 </div>
                                                 <div class="col-3"></div>
                                              </div> 
-                                             <div class="my_profile_nick"style="text-align: center; font-size: 18px; font-weight: bold; padding-bottom: 5px; padding-top: 5px; color: black;">
-                                          										   판매자 : ${viewRow.id}</div>
+                                             <div class="my_profile_nick"style="text-align: center; font-size: 18px; font-weight: bold;
+                                              padding-bottom: 5px; padding-top: 5px; color: black; ">   판매자 : ${viewRow.id}</div>
+                                          										
                                              <div class="my_profile_pro_review">
                                                 <div class="my_profile_pro_review_box">
                                                 <c:choose>
@@ -211,13 +224,13 @@
                                                       </div>
                                                 </c:otherwise>
                                                 </c:choose> 
-                                                
                                                 </div>
                                              </div>
                                           </div>
                                        </div>
                                     </div>
                            </div>
+                         
                            <!--  -->
                         </div>
                      </div>
@@ -259,32 +272,18 @@
          });
       });
 
-      function chatting() {
-         var chattingFrm = document.chattingFrm;
-         window.open('', '1', 'height=640; width=480; top=200; left=150;',
-               true);
-         chattingFrm.action = "../chatting/chatting.woo";
-         chattingFrm.method = "post";
-         chattingFrm.target = "1";
-         chattingFrm.testVal = 'test';
-         chattingFrm.submit();
-      }
+
    </script>
 
    <form:form name="chattingFrm">
       <input type="hidden" name="boardidx" value="${viewRow.boardidx}" />
-      <input type="hidden" name="sellerid" value="${viewRow.id }" />
+      <input type="hidden" name="sellerid" value="'${viewRow.id}'" />
    </form:form>
    <!-- The Modal start-->
    <!-- margin-top: 100px; -->
-   <div class="modal fade" id="tdModal"  >
+   <div class="modal fade" id="tdModal" >
       <div class="modal-dialog modal-dialog-centered modal-lg">
          <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-               <h4 class="modal-title">3D이미지</h4>
-               <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-            </div>
             <!-- Modal body -->
             <div class="modal-body">
                <!--3D .product-viewer   -->
@@ -312,3 +311,6 @@
       </div>
    </div>
    <!-- The Modal end-->
+   </c:otherwise>
+</c:choose>
+   

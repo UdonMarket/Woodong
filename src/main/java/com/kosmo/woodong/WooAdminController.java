@@ -51,10 +51,15 @@ public class WooAdminController {
 		parameterVO.setList(bnamelist);
 		ArrayList<ParameterVO> bnamelists = sqlSession.getMapper(WooBoardImpl.class).bnameProductCount(parameterVO);
 		
-		List<String> lists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		String lists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
 		
 		model.addAttribute("prohidition", lists);
 		model.addAttribute("bnameLists", bnamelists);
+		
+		List<WooMemberVO> memberList = sqlSession.getMapper(WooMemberImpl.class).selectDongMember();
+		
+		model.addAttribute("memberList", memberList);
+		
 		
 		return "admin/main/admin";
 	}

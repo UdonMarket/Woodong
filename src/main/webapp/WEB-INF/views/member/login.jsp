@@ -72,7 +72,7 @@
 		
 	});
 	function errFunc() {
-		alert("쿠키에러");
+		//alert("쿠키에러");
 	}
 
 	/*
@@ -80,9 +80,9 @@
 	 외부함수로 정의되어 있고 함수명만으로 호출하더라도 콜백데이터는 파라미터로 받을수 있다.
 	 */
 	function sucFunc(resData) {
-		alert(resData)
+		//alert(resData)
 		var num = resData.num;
-		alert(num);
+		//alert(num);
 		num = num + 1;
 		$('#num').html(num);
 	}

@@ -90,7 +90,7 @@
 												<div class="image_wrapper">
 													<div class="image_outside">
 														<div class="image_centerbox">
-														<a href="../product/productView.woo?boardidx=${list.boardidx}"  > 
+														<a href="javascript:void(0);" onclick="ajaxView(${list.boardidx});"> 
 																
 															<c:if test="${list.deal_type eq '구매자결제완료'}">
 																<img src="../resources/img/myPage/구매자결제완료.png" style="position: absolute; z-index : 2;  right: 50%; width:130px; height:40px; margin-top: 60px;"/>

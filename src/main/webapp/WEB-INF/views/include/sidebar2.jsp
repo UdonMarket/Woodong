@@ -16,8 +16,7 @@
 	  for(var i=1 ; i<=d.length ; i++){
   		 $("#img"+i).attr("src","../resources/Upload/"+d[i-1].imagefile);
   		 $("#title"+i).html(d[i-1].title);
-  		 $('#title'+i).attr('href', "javascript:void(0);")
-  		 $("#title"+i).attr("onclick","ajaxView(" + d[i-1].boardidx + ")");
+  		 $("#title"+i).attr("href","http://localhost:8282/woodong/product/productView.woo?boardidx="+d[i-1].boardidx);
 	   }
  	}
 	function errFunc() {} 
@@ -46,27 +45,23 @@
 	</div>
 	<div id="floatMenuBox1"  style="background:none; height:300px;border:1px solid black;">
 		<div style="font-weight:bold;"><h5><small><b>최근 본 상품</b></small></h5></div>
-			<div id="floatMenuBox1"  style="background:none;border:none;margin-bottom: 50px; margin-top: -15px;">
-				<img id="img3" src="../resources/img/sidebar/none.png"  style="width: 150px; height: 70px;"/>
-				<div style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin-left:20px; width: 150px;">
-				<a href="javascript:void(0);" id="title3"></a></div>
-			</div>
+			<div id="floatMenuBox1"  style="background:none;border:none;margin-bottom: 50px; margin-top: -15px;" >
+				<img id="img1" src="../resources/img/sidebar/none.png"  style="width: 150px; height: 70px;"/>
+				<div style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin-left:20px; width: 150px;"><a href="../product/productView.woo?boardidx=" id="title1" ></a></div>
+			</div>		
 			<div id="floatMenuBox1"  style="background:none;border:none;margin-bottom: 50px; ">
 				<img id="img2" src="../resources/img/sidebar/none.png"  style="width:150px; height: 70px;"/>
-				<div style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin-left:20px; width: 150px;">
-				<a href="javascript:void(0);" id="title2"></a></div>
+				<div style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin-left:20px; width: 150px;"><a href="../product/productView.woo?boardidx=" id="title2"></a></div>
 			</div>
-			<div id="floatMenuBox1"  style="background:none;border:none;" >
-				<img id="img1" src="../resources/img/sidebar/none.png"  style="width: 150px; height: 70px;"/>
-				<div style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin-left:20px; width: 150px;">
-				<a href="javascript:void(0);" id="title1" ></a></div>
-			</div>	
+			<div id="floatMenuBox1"  style="background:none;border:none;">
+				<img id="img3" src="../resources/img/sidebar/none.png"  style="width: 150px; height: 70px;"/>
+				<div style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin-left:20px; width: 150px;"><a href="../product/productView.woo?boardidx=" id="title3"></a></div>
+			</div>
 		</div>
 	<a href="">
 		<button style="width:205px; height:60px;margin-top:5px;background-color:white;border:1px solid black;" > TOP </button>
 	</a>
 	</div>
-	
 <script>
 //Side Bar 설정 
 $(function() {
@@ -77,15 +72,15 @@ $(function() {
 		// 현재 스크롤 위치를 가져온다.
 		var scrollTop = $(window).scrollTop();
 		var newPosition = scrollTop + floatPosition + "px";
-		if(scrollTop<500){
-			newPosition = 500 + floatPosition + "px";
+		if(scrollTop<50){
+			newPosition = 50 + floatPosition + "px";
 		}
 		/* 애니메이션 없이 바로 따라감
 		 $("#floatMenu").css('top', newPosition);
 		 */
 		$("#floatMenu").stop().animate({
 			"top" : newPosition
-		}, 500);
+		}, 50);
 	}).scroll();
 });
 </script>

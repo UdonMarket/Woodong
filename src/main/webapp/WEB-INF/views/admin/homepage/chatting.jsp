@@ -16,7 +16,7 @@
 			<div class="container-fluid">
 				<div class="header-body">
 					<div style="text-align: center">
-						<img src="../resources/admin/img/멤버관리.png" alt="" style="width: 200px;"/>
+						<img src="../resources/admin/img/homepage.png" alt="" style="width: 200px;"/>
 					</div>
 				</div>
 			</div>
@@ -67,6 +67,8 @@
 					<th class="text-center">판매자</th>
 					<th class="text-center">구매자</th>
 					<th class="text-center">마지막 채팅</th> 
+					<th class="text-center">금칙어 사용횟수</th> 
+					
 
 				</tr>
 			</thead>
@@ -79,6 +81,7 @@
 							<td class="text-center">${row.sellerid }</td>
 							<td class="text-center">${row.buyerid }</td>
 							<td class="text-center">${row.lastchatdate }</td>
+							<td class="text-center">${row.prohiditioncount }</td>
 						
 					</tr>
 				</c:forEach>

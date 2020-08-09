@@ -63,10 +63,10 @@ function deleteRow(boardidx) {
 												style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px; border-bottom: 1px solid #d9d9d9;">
 												<div class="col-3">
 													<div class="member_image_box1">
-														<a href="../product/productView.woo?boardidx=${list.boardidx}"  > 
+														<a href="javascript:void(0);" onclick="ajaxView(${list.boardidx});">  
 														<img src="../resources/Upload/${list.imagefile}">
 														</a> 
-														<a href="/s/@16078391?tab=item">
+														<a href="javascript:void(0);" onclick="ajaxView(${list.boardidx});"> 
 															<div class="" style="font-weight: bold; font-size: 15px; padding-top: 30px; padding-left: 8px;">
 																판매자 : ${list.seller_id}</div>
 														</a>

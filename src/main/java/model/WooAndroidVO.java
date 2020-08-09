@@ -7,8 +7,16 @@ public class WooAndroidVO {
 	private String user_id;  //로그인한 사용자 ID
 	private String latitude; //사용자 위도
 	private String longitude; //사용자 경도
+	private String num; //인증번호
 	private Date pushlocationDate; //위치 저장 날짜
 	
+	
+	public String getNum() {
+		return num;
+	}
+	public void setNum(String num) {
+		this.num = num;
+	}
 	public String getPushsms_idx() {
 		return pushsms_idx;
 	}

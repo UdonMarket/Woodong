@@ -15,7 +15,10 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+	$(window).bind("beforeunload", function (e){
 	
+	
+	});
 	$(function() {
 		
 		$("#chat-container").scrollTop($('#chat-container')[0].scrollHeight);
@@ -24,15 +27,16 @@
 			sendMessage();
 			$('#inputMessage').val('');
 		});
-		//let sock = new SockJS("http://192.168.219.142:8282/woodong/echo");//채훈 고정 IP
-		let sock = new SockJS("http://192.168.219.139:8282/woodong/echo");
+
+		let sock = new SockJS("http://192.168.219.142:8282/woodong/echo");///진슬 고정 IP
 		sock.onmessage = onMessage;
 		sock.onclose = onClose;
 		sock.onerror = onError;
 		
 		// 메시지 전송
 		function sendMessage() {
-			sock.send(${id} + "//" + $("#inputMessage").val());
+
+			sock.send('${userid}' + "//" + $("#inputMessage").val());
 			saveMessageDB($("#inputMessage").val());
 			var msg ='';
 			msg += '<div class="chat chat-right">';
@@ -68,6 +72,7 @@
 		// 서버와 연결을 끊었을 때
 		function onClose(evt) {
 			$("#chat-container").append("연결 끊김");
+			saveLastTime();
 			$("#chat-container").scrollTop($('#chat-container')[0].scrollHeight);
 		}
 		function onError(evt){
@@ -86,38 +91,77 @@
 			url : "../chatting/saveMessageDB.woo",
 			type:"get",
 		    contentType:"text/html;charset:utf-8",
-		    data:{chatting : msg, chatroomidx : ${chatroomidx }, id : ${id }},
+
+		    data:{chatting : msg, chatroomidx : ${chatroomidx }, id : '${userid}'},
 		    dataType : "json" ,
 	 	  	success : function(d) {
 			},
-			error : function(request,status,error) {
+			error : function() {
 		    }
 		});
 	}
 	
-	
-	/* function enterkey(){
+	function saveLastTime(){
 		
-		if(window.event.keyCode==13){
-			alert("22222");
-			sendMessage();
-		}
-	} */
+		/* $.ajax({
+			url : "../chatting/saveLastTime.woo",
+			type:"get",
+		    contentType:"text/html;charset:utf-8",
+
+		    data:{chatroomidx : ${chatroomidx }, id : '${userid}'},
+		    dataType : "json" ,
+	 	  	success : function(d) {
+			},
+			error : function() {
+		    }
+		}); */
+	}
+	
+	
 </script>
 
 <script>
 	$(function() {
+		
+		
 		$("input:radio").checkboxradio({
 			icon:false
 		});
+		
+		$("input:radio").click(function() {
+			if(confirm("상품을 " + $(this).val() + "로 변경하시겠습니까?")){
+				$.ajax({
+					url : "../chatting/updateStatus.woo",
+					type:"get",
+				    contentType:"text/html;charset:utf-8",
+				    data:{boardidx : '${wooChatRoomVO.boardidx}', deal_type : $(this).val()},
+				    dataType : "json" ,
+			 	  	success : function() {
+			 	  		alert("변경되었습니다.");
+					},
+					error : function(e) {
+						alert("변경되었습니다.");
+				    }
+				});
+			}
+		});
+		
 	});
+	
 </script>
 </head>
 <body>
 	<div id="chat-wrapper" style="border: 2px solid #d9d9d9;">
 		<header id="chat-header" style="text-align: center;">
 			<img src="../resources/img/main/favicon.png" alt="우동톡톡" style="width: 50px;" />
-			<span style="font-size: 1.2em;font-weight: bold;padding: 5px;">우동톡톡 - 우동이에게 물어보세요</span>
+			<span style="font-size: 1.2em;font-weight: bold;padding: 5px;">우동톡톡 
+			<c:if test="${wooChatRoomVO.sellerid ne userid}">
+				- 판매자와 우동톡톡중
+			</c:if>
+			<c:if test="${wooChatRoomVO.sellerid eq userid}">
+				- 구매자와 우동톡톡중
+			</c:if>
+			</span>
 		</header>	
 		
 		
@@ -127,7 +171,7 @@
 				<c:if test="${userid eq row.id}">
 					<div class="chat chat-right">
 						<div class="chat-box">
-							<p class="bubble-me">${row.chatting }</p>
+							<p class="bubble-me">${row.chatting}</p>
 							<span class="bubble-tail"></span>
 						</div>
 					</div>
@@ -135,7 +179,14 @@
 				<c:if test="${userid ne row.id}">
 					<div class="chat chat-left">
 						<div class="chat-box">
-							<p style = "font-weight:bold;font-size:1.1em;margin-bottom:5px;">${row.id }</p>
+							<c:if test="${wooChatRoomVO.sellerid eq userid}">
+							<p style = "font-weight:bold;font-size:1.1em;margin-bottom:5px;">
+								구매자 : ${row.id} </p>
+							</c:if>
+							<c:if test="${wooChatRoomVO.sellerid ne userid}">
+							<p style = "font-weight:bold;font-size:1.1em;margin-bottom:5px;">
+								판매자 : ${row.id} </p>
+							</c:if>
 							<p class="bubble">${row.chatting }</p>
 							<span class="bubble-tail"></span>
 						</div>
@@ -146,14 +197,16 @@
 		</div>
 		
 		<footer id="chat-footer">
-		<div style="text-align: right;">
-		    <label for="radio-1">판매전</label>
-		    <input type="radio" name="radio-1" id="radio-1">
-		    <label for="radio-2">판매중</label>
-		    <input type="radio" name="radio-1" id="radio-2">
-		    <label for="radio-3">판매완료</label>
-		    <input type="radio" name="radio-1" id="radio-3">
-		</div>
+		<c:if test="${wooChatRoomVO.sellerid eq userid}">
+			<div style="text-align: right;">
+			    <label for="radio-1">판매전</label>
+			    <input type="radio" name="radio-1" id="radio-1" value="판매전" >
+			    <label for="radio-2">판매중</label>
+			    <input type="radio" name="radio-1" id="radio-2" value="판매중">
+			    <label for="radio-3">판매완료</label>
+			    <input type="radio" name="radio-1" id="radio-3" value="판매완료">
+			</div>
+		</c:if>
 			<p class="text-area">
 				<input type="text" id="inputMessage" style="width:310px; height:60px; font-size:1.5em; border:0px;" placeholder="개인정보 공유를 주의바랍니다" autofocus/>
 				<button type="button" id="sendBtn">보내기</button>
@@ -162,3 +215,13 @@
 		</footer>
 	</div>
 </body>
+<!-- <script>
+	$(function() {
+		$('input:radio').each(function() {
+			if($(this).val()=='${deal_type}'){
+				$(this).attr("checked", "checked");
+			}
+		});
+	});
+</script> -->
+

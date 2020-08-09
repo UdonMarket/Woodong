@@ -40,7 +40,7 @@
 		var uluru = {lat: latVar, lng: lngVar};
 		var map = new kakao.maps.Map(document.getElementById('map'), {
 			center: new kakao.maps.LatLng(latVar, lngVar),
-			level: 6 
+			level: 5 
 	});
 		
 		var imageSrc = '../resources/img/map/지도마커1-1.png', // 마커이미지의 주소입니다    
@@ -103,7 +103,8 @@
 	    	// 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 	    	var content = '<div class="wrap">' + 
             '    <div class="info">' + 
-            '	 	<a href="./productView.woo?boardidx='+location[8]+'" target="_blank" class="link">'+
+            
+            '	 	<a href="javascript:void(0);" onclick="ajaxView(' + location[8] + ');"> '+
             '       	 <div class="title">'+location[0]+'</div>' + 
             '        		<div class="body">' + 
             '            		<div class="img">' +
@@ -124,7 +125,7 @@
 	    	overlay.setMap(map);
 	    	overlay.setPosition(position);
 	    	overlay.setContent(content);
-	    });
+	    	});
 		}
 		//다중마커s
 		//////////////////////////////////////////////////////////////////////////

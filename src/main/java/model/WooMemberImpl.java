@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface WooMemberImpl {
+
 	int regist(WooMemberVO var1);
 
 	ArrayList<WooMemberVO> listPage(WooMemberVO var1);
@@ -47,4 +48,13 @@ public interface WooMemberImpl {
 	public void memberblack(String id);
 	
 	public void memberWhite(String id);
+	
+	public WooMemberVO selectMember(ParameterVO parameterVO);
+	
+	public String getDong(String id);
+	
+	public List<WooMemberVO> selectDongMember();
+	
+	public String selectphoneNum(String mobile);
 }
+

@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%> 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
-<!doctype html>
-<html lang="zxx">
 <head>
 <link rel="stylesheet" href="../resources/css/3d.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -13,18 +10,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
-<!-- head.jsp -->
 <jsp:include page="../include/head.jsp" />
-
 <body>
-<jsp:include page="../include/hearder.jsp" />
-   <div class="container" style="padding-left: 200px; margin-top: 200px;">
+   <div class="container" style="padding-left: 200px;">
       <%-- 상품 상세보기 추가부분 --%>
       <section class="content1" style="padding-top: 0px;">
-        <!--  <div class="item_list_area"> -->
+         <div class="item_list_area">
             <div class="item_list_area_box">
                <div class="breadcrumbs">
-                  <ul style="color: #ff4f4f; ">
+                  <ul style="color: #ff4f4f;">
                      <li><a href="./productList.woo" style="color: #ff4f4f;">상품 리스트</a></li>
                      <li><a href="./productList.woo?bname=${viewRow.bname}" style="color: #ff4f4f;">&gt;&nbsp;&nbsp;${viewRow.bname}</a></li>
                   </ul>
@@ -170,9 +164,7 @@
 												</c:if>
                                                 </div>
                                                 <div class="col-3" style="padding: 0px;">
-
-                                                   <img src="../resources/img/product/우동톡톡.png" onclick="window.open('http://192.168.219.139:8282/woodong/chatting/chatting.woo?boardidx=${viewRow.boardidx}&sellerid=${viewRow.id}', 'name(${row.chatroomidx})', 'height=640; width=480; top=200; left=700;', true);" />
-
+                                                   <img src="../resources/img/product/우동톡톡.png" onclick="chatting();" />
                                                 </div>
                                              </div>
                                           </div>
@@ -218,10 +210,9 @@
                                                 
                                                 <c:choose>
                                                 <c:when test="${viewRow.id eq user_id}">
-	                                                <div style="margin-left:40px; margin-top: 20px;">
+	                                                <div style="margin-left:80px; margin-top: 20px;">
 	                                                 	 <img src="../resources/img/myPage/삭제.png" style="width: 70px; height: 50px;" id="delete_btn" />
 	                                            		 <img src="../resources/img/myPage/수정.png" style="width: 70px; height: 50px;" id="update_btn" />
-	                                            		  <img src="../resources/img/product/jumpboard.png" style="width: 70px; height: 50px;" id="jump_btn" />
 	                                           		 </div>
                                                 </c:when>
                                                 <c:otherwise>
@@ -263,7 +254,7 @@
             formObj.attr("action", "./productUpdate.woo");
             formObj.attr("method", "post");
             formObj.submit();
-         });
+         })
          // 삭제
          $("#delete_btn").on("click", function() {
 
@@ -273,27 +264,50 @@
                formObj.attr("method", "post");
                formObj.submit();
             }
-         });
-         // 끌올
-         $("#jump_btn").on("click", function() {
-
-            var jumpYN = confirm("끌올 하시겠습니까? 끌올시 우동페이 수수료가 3.0% 에서 3.4% 로 증가합니다!");
-            if (jumpYN) {
-               formObj.attr("action", "../product/productJump.woo");
-               formObj.attr("method", "post");
-               formObj.submit();
-            }
-         });
+         })
       });
 
+      function chatting() {
+         var chattingFrm = document.chattingFrm;
+         window.open('', '1', 'height=640; width=480; top=200; left=150;',  true);
+         chattingFrm.action = "../chatting/chatting.woo";
+         chattingFrm.method = "post";
+         chattingFrm.target = "1";
+         chattingFrm.testVal = 'test';
+         chattingFrm.submit();
+      }
    </script>
 
-<jsp:include page="../include/bottom.jsp" />
-<jsp:include page="../include/sidebar.jsp" />
    <form:form name="chattingFrm">
-      <input type="hidden" name="boardidx" value="${viewRow.boardidx}" />
-      <input type="hidden" name="sellerid" value="'${viewRow.id}'" />
+      <input type="hidden" name="boardidx" value="${viewRow.boardidx }" />
+      <input type="hidden" name="sellerid" value="${viewRow.id }" />
    </form:form>
+   <!-- subscribe part end -->
+   <!-- bottom.jsp -->
+   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- 	<script src="../resources/js/jquery-1.12.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
+    <script src="../resources/js/popper.min.js"></script>
+    <script src="../resources/js/bootstrap.min.js"></script>
+    <script src="../resources/js/jquery.magnific-popup.js"></script>
+    <script src="../resources/js/owl.carousel.min.js"></script>
+    <script src="../resources/js/jquery.nice-select.min.js"></script>
+    <script src="../resources/js/slick.min.js"></script>
+    <script src="../resources/js/jquery.counterup.min.js"></script>
+    <script src="../resources/js/waypoints.min.js"></script>
+    <script src="../resources/js/contact.js"></script>
+    <script src="../resources/js/jquery.ajaxchimp.min.js"></script>
+    <script src="../resources/js/jquery.form.js"></script>
+    <script src="../resources/js/jquery.validate.min.js"></script>
+    <script src="../resources/js/mail-script.js"></script>
+    <script src="../resources/js/custom.js"></script>
+    <!-- 추가 -->
+	<!-- masonry js -->
+	<script src="../resources/js/masonry.pkgd.js"></script>
+	<script src="../resources/js/custom_review.js"></script>
+	<script src="../resources/js/slider.js"></script>
+	<script src="../resources/js/gijgo.min.js"></script>
    <!-- The Modal start-->
    <div class="modal fade" id="myModal"
       style="top: 0; left: 0; margin-top: 100px;">
@@ -301,8 +315,9 @@
          <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
+                <h4 class="modal-title">3D이미지</h4> 
                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border: none; background: none;">
-               	 <img src="../resources/img/close.png" style="width: 100px; height: 50px;margin-left: 650px;"> </button>
+               	 <img src="../resources/img/close.png"  style="width: 100px; height: 50px;"> </button>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
@@ -333,5 +348,3 @@
    <!-- The Modal end-->
 
 </body>
-
-</html>

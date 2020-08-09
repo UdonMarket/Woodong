@@ -35,7 +35,7 @@
                if(count == 1){
                   document.getElementById("main").src = "../resources/img/main/우동메인1.png";
                   count++;
-               }
+               } 
                else if(count == 2){
                   document.getElementById("main").src = "../resources/img/main/우동메인2.png";
                   count++;;
@@ -59,8 +59,8 @@
                </div>
             </div>
 	<c:forEach items="${searchLists}" var="row">	
-				<div class="col-4" ">
-					<a href="../product/productView.woo?boardidx=${row.boardidx}">
+				<div class="col-4">
+					<a href="javascript:void(0);" onclick="ajaxView(${row.boardidx })">
 						<div class="productList_div" style="width: 300px;height: 300px;">
 							<img class="productList_image" src="../resources/Upload/${row.imagefile}" style="padding-top: 20px;;"/>
 						</div>

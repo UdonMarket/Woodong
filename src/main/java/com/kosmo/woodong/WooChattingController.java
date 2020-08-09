@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.ParameterVO;
@@ -64,38 +65,46 @@ public class WooChattingController {
 	public String chatting(Principal principal, HttpServletRequest req, HttpSession session, Model model) {
 		String user_id = principal.getName();
 		String chatroomidx = req.getParameter("chatroomidx");
-		if(chatroomidx==null) {
+		WooChatRoomVO wooChatRoomVO = new WooChatRoomVO();
+		System.out.println("1");
+		if(chatroomidx!=null) {
+			wooChatRoomVO = sqlSession.getMapper(WooChatImpl.class).selectRoomVO(chatroomidx);
+			System.out.println("존재");
+		}
+		else {
 			String sellerid = req.getParameter("sellerid");
 			String boardidx = req.getParameter("boardidx");
-			WooChatRoomVO wooChatRoomVO = new WooChatRoomVO();
 			wooChatRoomVO.setBoardidx(boardidx);
 			wooChatRoomVO.setBuyerid(user_id);
 			wooChatRoomVO.setSellerid(sellerid);
-			String roomCheck = sqlSession.getMapper(WooChatImpl.class).selectChatRoom(wooChatRoomVO);
-			if(roomCheck!=null && !"".equals(roomCheck)) {
-				chatroomidx = roomCheck;
+			WooChatRoomVO roomCheck = sqlSession.getMapper(WooChatImpl.class).selectChatRoom(wooChatRoomVO);
+			if(roomCheck!=null && !"".equals(roomCheck.getChatroomidx())) {
+				chatroomidx = roomCheck.getChatroomidx();
+				wooChatRoomVO = roomCheck;
+				System.out.println("존재222");
 			}
 			else {
-				chatroomidx = String.valueOf(sqlSession.getMapper(WooChatImpl.class).createChatroom(wooChatRoomVO));
+				sqlSession.getMapper(WooChatImpl.class).createChatroom(wooChatRoomVO);
+	      chatroomidx = String.valueOf(wooChatRoomVO.getSeq_woo_chatroom());
+				wooChatRoomVO = sqlSession.getMapper(WooChatImpl.class).selectRoomVO(chatroomidx);
+				System.out.println("생성");
+
 			}
 			
 		}
 		List<WooChattingVO> chatList = sqlSession.getMapper(WooChatImpl.class).selectChatting(chatroomidx);
+		WooBoardVO wooBoardVO = sqlSession.getMapper(WooBoardImpl.class).view(wooChatRoomVO.getBoardidx());
+		
 		session.setAttribute("id", user_id);
+		model.addAttribute("deal_type", wooBoardVO.getDeal_type());
+		model.addAttribute("wooChatRoomVO", wooChatRoomVO);
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("userid", user_id);
 		model.addAttribute("chatroomidx", chatroomidx);
+		
 		return "chatting/chatting";
 	}
 	
-	/* 우동이
-	@RequestMapping("/chatting/woodongtalk.woo")
-	public String woodongtalk(Principal principal, HttpSession session, Model model) {
-		String user_id = principal.getName();
-		session.setAttribute("id", user_id);
-		model.addAttribute("id", user_id);
-		return "chatting/woodongtalk";
-	}*/
 	//챗봇 장소추천
 	@RequestMapping("/chatting/jusoList.woo")
 	@ResponseBody
@@ -124,16 +133,19 @@ public class WooChattingController {
 		model.addAttribute("searchLists",searchLists);
 		return "chatting/topPlace";
 	}
-	@RequestMapping("/chatting/saveMessageDB.woo")
+	@RequestMapping(value="/chatting/saveMessageDB.woo")
 	public void saveMessageDB(HttpServletRequest req){
 		String chatting = req.getParameter("chatting");
 		String chatroomidx = req.getParameter("chatroomidx");
 		String id = req.getParameter("id");
-		List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		String prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
 		
-		for(String prohidition : prohiditionlists) {
-			if(chatting.contains(prohidition)) {
-				sqlSession.getMapper(WooMemberImpl.class).prohidition(id, prohidition);
+		String[] prohidition = prohiditionlists.split(",");
+		
+		for(String pro : prohidition) {
+			if(chatting.contains(pro)) {
+				sqlSession.getMapper(WooMemberImpl.class).prohidition(id, pro);
+				sqlSession.getMapper(WooChatImpl.class).prohidition(chatroomidx);
 			}
 		}
 		
@@ -149,6 +161,26 @@ public class WooChattingController {
 			lastChat = chatList.get(chatList.size()-1).getChatDate();
 		}
 		sqlSession.getMapper(WooChatImpl.class).updateLastChatTime(chatroomidx, lastChat);
+	}
+	
+	@RequestMapping(value="/chatting/updateStatus.woo")
+	public void updateStatus(HttpServletRequest req) {
+		System.out.println("진입");
+		String boardidx = req.getParameter("boardidx");
+		String deal_type = req.getParameter("deal_type");
+		
+		WooChatRoomVO wooChatRoomVO = sqlSession.getMapper(WooChatImpl.class).selectBuyer(boardidx);
+		
+		WooBoardVO wooBoardVO = new WooBoardVO();
+		wooBoardVO.setBoardidx(boardidx);
+		wooBoardVO.setDeal_type(deal_type);
+		wooBoardVO.setBuyer_id(wooChatRoomVO.getBuyerid());
+		sqlSession.getMapper(WooBoardImpl.class).updateDeal(wooBoardVO);
+	}
+	
+	@RequestMapping("/chatting/saveLastTime")
+	public void saveLastTime() {
+		System.out.println(":dsasdadsasa");
 	}
 	
 }

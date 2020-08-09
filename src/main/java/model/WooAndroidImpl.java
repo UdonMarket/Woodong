@@ -10,4 +10,7 @@ public interface WooAndroidImpl {
 	public int WoolocationUpdate(WooAndroidVO vo);
 	
 	public WooAndroidVO WoolocationSelect(WooAndroidVO vo);
+	
+	public int WoolocationDelete(WooAndroidVO vo);
 }
+

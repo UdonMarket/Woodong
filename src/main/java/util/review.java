@@ -94,6 +94,7 @@ public class review {
       map.put("score", score);
       map.put("memberVO", memberVO);
       map.put("avg_score", avg_score);
+      map.put("trade_count", trade_count);
       return map;
    }
    

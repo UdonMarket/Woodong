@@ -3,7 +3,7 @@ package model;
 import java.util.List;
 
 public interface WooProhiditionImpl {
-	public List<String> selectProhiditionList();
+	public String selectProhiditionList();
 	
 	public void addProhidition(String prohidition);
 	

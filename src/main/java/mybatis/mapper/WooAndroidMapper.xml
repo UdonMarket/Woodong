@@ -10,12 +10,14 @@
 			pushsms_idx,
 			latitude,
 			longitude,
-			user_id
+			user_id,
+			confirmnum
 		) VALUES (
 			seq_woo_pushlocation.NEXTVAL,
 			#{latitude},
 			#{longitude},
-			#{user_id}
+			#{user_id},
+			#{num}
 		)
 	</update>
 	
@@ -24,7 +26,7 @@
 			woo_pushlocation 
 		SET 
 			latitude=#{latitude} , longitude=#{longitude}
-		WHERE user_id=#{user_id}
+		WHERE user_id=#{user_id} and confirmnum=#{num}
 	</update>
 	
 	<select id="WoolocationSelect" parameterType="model.WooAndroidVO" resultType="model.WooAndroidVO">
@@ -33,6 +35,11 @@
   		FROM 
   			woo_pushlocation 
   		WHERE 
-  			user_id=#{user_id}
+  			user_id=#{user_id} and confirmnum=#{num}
   	</select>
+  	
+  	<delete id="WoolocationDelete" parameterType="model.WooAndroidVO">
+ 		DELETE FROM woo_pushlocation WHERE id=#{user_id} and confirmnum=#{num}
+ 	</delete>
+
 </mapper>

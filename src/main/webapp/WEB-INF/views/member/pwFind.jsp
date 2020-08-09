@@ -55,7 +55,7 @@
 								alert(count);
 							},
 							error : function(e) {
-								alert("실패" + e.status);
+								//alert("실패" + e.status);
 							}
 
 						});
@@ -161,7 +161,6 @@
 					alert("해당 휴대폰으로 비밀번호를 발송했습니다");
 				},
 				error : function(e) {
-					alert("실패" + e.status);
 				}
 			});
 		});

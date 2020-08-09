@@ -108,9 +108,12 @@
   		SELECT * FROM woo_member WHERE id=#{id}
   	</select>
   	<select  id="getDong" resultType="String">
-  		SELECT addr FROM woo_member WHERE id=#{id} ㄴ
+  		SELECT addr FROM woo_member WHERE id=#{id}
   	</select>
   	<select id="selectDongMember" resultType="model.WooMemberVO">
   		SELECT count(*) cnt, substr(addr, 1, instr(addr, ' ', -1)) addr FROM woo_member GROUP BY addr ORDER BY cnt
   	</select>
+  	<select id="selectphoneNum" resultType="String">
+        select id from woo_member where mobile = #{0}
+     </select>
  </mapper>

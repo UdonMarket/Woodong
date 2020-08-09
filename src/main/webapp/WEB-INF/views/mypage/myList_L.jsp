@@ -92,6 +92,12 @@ function restartFunc(){
 												<div class="image_wrapper">
 													<div class="image_outside">
 														<div class="image_centerbox">
+														<div class="">
+											<img src="../resources/img/1.png" style="width: 30px; height: 30px; position: absolute; left: 83%; padding-top: 5px; padding-left: 3px;" name="${list.boardidx}"
+												onclick="like_toggle(${list.boardidx});" />
+
+
+										</div>
 															<a href="javascript:void(0);" onclick="ajaxView(${list.boardidx});"> 
 															<img src="../resources/Upload/${list.imagefile}"
 																data-src="https://ccimg.hellomarket.com/images/2020/item/04/28/15/1709868_4830039_1.jpg?size=s4"
@@ -112,15 +118,7 @@ function restartFunc(){
 												</div>
 											</div>
 									</a>
-										<div class="image_wish_box">
-
-
-											<img src="../resources/img/1.png" width="30px;" height="30px"
-												name="${list.boardidx}"
-												onclick="like_toggle(${list.boardidx});" />
-
-
-										</div></li>
+										</li>
 								</c:forEach>
 							</c:otherwise>
 						</c:choose>

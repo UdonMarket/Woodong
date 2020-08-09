@@ -3,7 +3,10 @@ package android;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -11,6 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +32,14 @@ import model.WooBoardImpl;
 import model.WooBoardListImpl;
 import model.WooBoardListVO;
 import model.WooBoardVO;
+import model.WooChatImpl;
+import model.WooChatRoomVO;
+import model.WooMemberImpl;
 import model.WooMypageImpl;
+import model.WooMyreviewVO;
+import util.EnvFileReader;
+import util.PagingUtil;
+import util.review;
 
 @Controller
 public class WoodongAppController {
@@ -38,24 +49,35 @@ public class WoodongAppController {
    
    @RequestMapping("/android/WooAppProductList.woo")
    @ResponseBody
-   public Map<String, Object> ajaxList(Model model, HttpServletRequest req, Principal principal) {
-      Map<String, Object> boardList = new HashMap<String, Object>();
-      
-      ParameterVO parameterVO = new ParameterVO();
-      ArrayList<String> list = new ArrayList<String>();
+   public Map<String, Object> ajaxList(Model model, HttpServletRequest req) {
+	   Map<String, Object> boardList = new HashMap<String, Object>();
+	   
+	   ParameterVO parameterVO = new ParameterVO();
+	   ArrayList<String> list = new ArrayList<String>();
+	   String mobile = req.getParameter("mobile");
+	   String user_id = sqlSession.getMapper(WooMemberImpl.class).selectphoneNum(mobile.substring(0,3) + "-" + mobile.substring(3,7) + "-" + mobile.substring(7));
+		  
+		parameterVO.setId(user_id);
+		String juso1 = sqlSession.getMapper(WooMemberImpl.class).selectMember(parameterVO).getAddr();
+		String juso2 = juso1.substring(0, juso1.lastIndexOf(" "));
+		parameterVO.setJuso(juso2);
+		String dong = juso2.substring(juso2.lastIndexOf(" "));
+		String location = ".." + req.getServletPath();
+	   
       List<WooBoardListVO> bnamelists = null;
       if(req.getParameter("bname")!=null && !"".equals(req.getParameter("bname"))) {
          list.add(req.getParameter("bname"));
       }
       else {
          bnamelists = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../product/productList.woo");
+         
          for(WooBoardListVO lists : bnamelists) {
             list.add(lists.getBname());
          }
       }
       
       parameterVO.setList(list);
-      int pageSize = 15;
+      int pageSize = 12;
       int nowPage = req.getParameter("nowPage") == null ? 1 : Integer.parseInt(req.getParameter("nowPage"));
       
       int start = (nowPage - 1) * pageSize + 1;
@@ -63,7 +85,7 @@ public class WoodongAppController {
       
       if(nowPage==1) {
          start = 1;
-         end = 15;
+         end = 12;
       }
       
       parameterVO.setStart(start);
@@ -73,19 +95,19 @@ public class WoodongAppController {
       ArrayList<WooBoardVO> lists = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).listPage(parameterVO);
       Iterator itr = lists.iterator();
       //소영 추가부분
-      String user_id = "";
-      if(principal!=null) {
-			user_id = principal.getName();
-			boardList.put("user_id", user_id);
-			List<String> str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
-			for (int i = 0; i < lists.size(); i++) {
-				for (int j = 0; j < str.size(); j++) {
-					if(str.get(j).equals(lists.get(i).getBoardidx())) {
-						lists.get(i).setLike_check(1);
-					}
-				}
-			}
-		}
+      
+     
+      if(user_id!=null) {
+         boardList.put("user_id", user_id);
+         List<String> str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
+         for (int i = 0; i < lists.size(); i++) {
+            for (int j = 0; j < str.size(); j++) {
+               if(str.get(j).equals(lists.get(i).getBoardidx())) {
+                  lists.get(i).setLike_check(1);
+               }
+            }
+         }
+      }
       String boardidx = "";
       while (itr.hasNext()) {
          WooBoardVO dto = (WooBoardVO) itr.next();
@@ -109,7 +131,7 @@ public class WoodongAppController {
       }
 
       boardList.put("lists", lists);
-      
+      boardList.put("dong", dong);
       
       return boardList;
    }
@@ -143,7 +165,9 @@ public class WoodongAppController {
          List resultList =  new ArrayList();
          //파일외의 폼값 받음(여기서는 제목만 있음 )
          String title = req.getParameter("title");
+         String price = req.getParameter("price");
          System.out.println("title:" + title);
+         System.out.println("price:" + price);
          
          /*
           물리적경로를 기반으로 File 객체 생성한 후 지정된 
@@ -204,6 +228,97 @@ public class WoodongAppController {
       
       return returnObj;
    }
-
+   
+   // 좋아요 
+	@RequestMapping("/android/likeToggle.woo")
+	@ResponseBody
+	public Map<String, Object> likeToggle(Model model, HttpServletRequest req, Principal principal) {
+		String idx = req.getParameter("idx");
+		String likeflag = req.getParameter("likeflag");
+		String mobile = req.getParameter("mobile");
+		String user_id = sqlSession.getMapper(WooMemberImpl.class).selectphoneNum(mobile.substring(0,3) + "-" + mobile.substring(3,7) + "-" + mobile.substring(7));
+		if(likeflag.equals("1")) {
+			System.out.println("취소");
+			int likecountUpdate = sqlSession.getMapper(WooMypageImpl.class).likeCount_minus(idx);
+			sqlSession.getMapper(WooMypageImpl.class).deleteLike(user_id, idx);
+			
+		}
+		else if(likeflag.equals("-1")){
+			System.out.println("성공");
+			int likecountUpdate = sqlSession.getMapper(WooMypageImpl.class).likeCount_puls(idx);
+			int update = sqlSession.getMapper(WooMypageImpl.class).updateLike(user_id, idx);
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("check", "1");
+		return map;
+		
+	}
+	@RequestMapping("/android/myPlaceAction.woo")
+	@ResponseBody
+	public String myPlaceAction(HttpServletRequest req) {
+		System.out.println("시작");
+		String juso = req.getParameter("juso").substring(0, req.getParameter("juso").lastIndexOf(" "));
+		String mobile = req.getParameter("mobile");
+		String user_id = sqlSession.getMapper(WooMemberImpl.class).selectphoneNum(mobile.substring(0,3) + "-" + mobile.substring(3,7) + "-" + mobile.substring(7));
+		
+		sqlSession.getMapper(WooMemberImpl.class).modify(juso, user_id);
+		
+		return "redirect:myPlace.woo";
+	}
+	
+	//3.상품리스트 상세보기 
+		@RequestMapping("/android/productView.woo")
+		@ResponseBody
+		public Map<String, Object> productView(Model model, HttpServletRequest req,Principal principal, HttpServletResponse response) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> getGrade = new HashMap<String, Object>();
+			String boardidx = req.getParameter("boardidx");
+			String seller_id = sqlSession.getMapper(WooBoardImpl.class).selectId(boardidx);
+			String mobile = req.getParameter("mobile");
+			String user_id = "";
+			String udong = "";
+			// map = review.revireScore(sqlSession, seller_id);
+			int userGrade = 1;
+			
+			if(mobile!=null) {
+				user_id = sqlSession.getMapper(WooMemberImpl.class).selectphoneNum(mobile.substring(0,3) + "-" + mobile.substring(3,7) + "-" + mobile.substring(7));
+				getGrade = review.revireScore(sqlSession, user_id);
+				userGrade = Integer.parseInt(getGrade.get("getUserGrade").toString());//게시글 등급별 공개설정
+			}
+			else {
+				userGrade = 1;
+			}
+			
+			//상세보기
+			WooBoardVO dto = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(boardidx);
+			dto.setContents(dto.getContents().replace("\r\n","<br/>"));//엔터 처리
+			
+			//게시글 등급별 공개설정
+			if(dto.getId().equals(user_id)){  }
+			else if(userGrade < dto.getPublicSet()) {
+				switch (dto.getPublicSet()) {
+				case 2:
+					udong="따뜻한 일반우동";
+					break;
+				case 3:
+					udong="차가운 튀김우동";
+					break;
+				case 4:
+					udong="따뜻한 튀김우동";
+					break;
+				}
+			}
+			//조회수 처리
+			int applyRow = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).visitcount(boardidx);
+			//파일 불러오기
+			ArrayList<FileVO> uploadFileList = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).viewFile(boardidx);
+			//판매상태 update  
+			String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(boardidx);
+			
+			map.put("WooBoardVO", dto);
+			
+				
+			return map;
+		}
 
 }

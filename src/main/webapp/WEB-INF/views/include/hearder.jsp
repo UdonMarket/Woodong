@@ -173,8 +173,8 @@ function ajaxView(boardidx){
         	}
         	else{
 	        	itemSave(boardidx);
-	        	$('.modal-content').html("");
-	       		$('.modal-content').html(data);
+	        	$('.modal-body').html("");
+	       		$('.modal-body').html(data);
 	       		$('#modalview').click();
         	}
         },  
@@ -185,3 +185,6 @@ function ajaxView(boardidx){
 } 
 	
 </script>
+<head>
+<link rel="stylesheet" href="../resources/css/3d.css">   
+</head>

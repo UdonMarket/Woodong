@@ -7,9 +7,9 @@
 
 <!doctype html>
 <html lang="zxx">
-<head>
+<!-- <head>
 <link rel="stylesheet" href="../resources/css/3d.css">   
-</head>
+</head> -->
 <!-- head.jsp -->
 <jsp:include page="../include/head.jsp" />
 <body>

@@ -19,13 +19,18 @@ public interface WooChatImpl {
 	
 	public int createChatroom(WooChatRoomVO wooChatRoomVO);
 	
-	public String selectChatRoom(WooChatRoomVO wooChatRoomVO);
+	public WooChatRoomVO selectChatRoom(WooChatRoomVO wooChatRoomVO);
+	public WooChatRoomVO selectBuyer(String boardidx);
+	
+	public WooChatRoomVO selectRoomVO(String chatroomidx);
 	
 	public ArrayList<WooChatRoomVO> selectAllRoom(ParameterVO parameterVO);
 	
 	public int getTotalCount(ParameterVO parameterVO);
 	
 	public int chatTotalCount(String chatroomidx);
+	
+	public void prohidition(String chatroomidx);
 
 	public ArrayList<WooChatRoomVO> selectChatRoomList(String seller_id);
 	

@@ -31,6 +31,7 @@ import model.WooBoardImpl;
 import model.WooBoardListImpl;
 import model.WooBoardListVO;
 import model.WooBoardVO;
+import model.WooMemberImpl;
 import model.WooMypageImpl;
 import model.WooProhiditionImpl;
 import util.VerifyRecaptcha;
@@ -47,10 +48,14 @@ public class WooBoardController {
 	
 	//1. 상품게시판 진입
 	@RequestMapping("/product/productList.woo")
-	public String productList(Model model, HttpServletRequest req) {
-		logger.info("productList");
-		logger.debug("productList");
-		
+	public String productList(Model model, HttpServletRequest req, Principal principal) {
+		try {
+			String dong = sqlSession.getMapper(WooMemberImpl.class).getDong(principal.getName());
+			model.addAttribute("dong", dong.substring(0, dong.lastIndexOf(" ")));
+		}
+		catch (Exception e) {
+			model.addAttribute("dong", "동네인증을 해주세요");
+		}
 		String location = ".." + req.getServletPath();
 		List<WooBoardListVO> blists = ((WooBoardListImpl) sqlSession.getMapper(WooBoardListImpl.class))
 				.selectBoard(location);
@@ -112,11 +117,16 @@ public class WooBoardController {
 	@RequestMapping("/product/ajaxList.woo")
 	public ModelAndView ajaxList(Model model, HttpServletRequest req, Principal principal) {
 		
-		logger.info("ajaxList");
-		logger.debug("ajaxList");
+		String user_id = "";
+		ParameterVO parameterVO = new ParameterVO();
+		if(principal!=null) {
+			user_id = principal.getName();
+			parameterVO.setId(user_id);
+			String juso = sqlSession.getMapper(WooMemberImpl.class).selectMember(parameterVO).getAddr();
+			parameterVO.setJuso(juso.substring(0, juso.lastIndexOf(" ")));
+		}
 		
 		ModelAndView mv = new ModelAndView();
-		ParameterVO parameterVO = new ParameterVO();
 		ArrayList<String> list = new ArrayList<String>();
 		List<WooBoardListVO> bnamelists = null;
 		if(req.getParameter("bname")!=null && !"".equals(req.getParameter("bname"))) {
@@ -152,16 +162,12 @@ public class WooBoardController {
 		parameterVO.setOrder(req.getParameter("order"));
 		parameterVO.setStart(start);
 		parameterVO.setEnd(end);
-		
-		
 		int total = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).getTotalCount(parameterVO);
 		ArrayList<WooBoardVO> lists = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).listPage(parameterVO);
 		Iterator itr = lists.iterator();
 		//소영 추가부분
-		String user_id = "";
 		try {
-			if(principal!=null) {
-				user_id = principal.getName();
+			if(user_id!=null) {
 				mv.addObject("user_id", user_id);
 				List<String> str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
 				for (int i = 0; i < lists.size(); i++) {
@@ -273,7 +279,8 @@ public class WooBoardController {
 	@RequestMapping("/product/productWrite.woo")
 	public String productWrite(Principal principal,Model model) {
 		
-		List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		String prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		String[] prohidition = prohiditionlists.split(",");
 		List<WooBoardListVO> selectlist = new ArrayList<WooBoardListVO>();
 		String user_id="";
 		try {
@@ -282,7 +289,7 @@ public class WooBoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("prohidition", prohiditionlists);
+		model.addAttribute("prohidition", prohidition);
 		model.addAttribute("selectlist", selectlist);
 		model.addAttribute("user_id",user_id);
 		return "product/productWrite";
@@ -315,7 +322,8 @@ public class WooBoardController {
 	//5-1.글 수정 폼진입
 	@RequestMapping(method = RequestMethod.POST, value="/product/productUpdate.woo")
 	public String productUpdate(Model model , HttpServletRequest req,Principal principal) {
-		List<String> prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		String prohiditionlists = sqlSession.getMapper(WooProhiditionImpl.class).selectProhiditionList();
+		String[] prohidition = prohiditionlists.split(",");
 		logger.info("update");
 		logger.debug("update");
 		String boardidx = req.getParameter("boardidx");
@@ -332,7 +340,7 @@ public class WooBoardController {
 			dto.setContents(dto.getContents().replace("\r\n","<br/>"));
 			selectlist = ((WooBoardListImpl) sqlSession.getMapper(WooBoardListImpl.class)).selectBname("../product/productList.woo");
 			ArrayList<FileVO> uploadFileList = ((WooBoardImpl) this.sqlSession.getMapper(WooBoardImpl.class)).viewFile(boardidx);
-			model.addAttribute("prohidition", prohiditionlists);
+			model.addAttribute("prohidition", prohidition);
 			model.addAttribute("viewRow", dto);
 			model.addAttribute("nowPage", nowPage);
 			model.addAttribute("bname", bname);
@@ -394,22 +402,18 @@ public class WooBoardController {
 	//끌올기능
 	@RequestMapping("/product/productJump.woo")
 	public String productJump(HttpServletRequest req ,Model model, Principal principal) {
-		
 		logger.info("productJump");
 		logger.debug("productJump");
 		ParameterVO parameterVO = new ParameterVO();
 		String boardidx = req.getParameter("boardidx");
-		String id = req.getParameter("id");
 		String user_id = "";
 		try {
 			user_id = principal.getName();
-			if(user_id.equals(id)) {
 				parameterVO.setId(user_id);
 				parameterVO.setBoardidx(boardidx);//id와 boardidx 로 게시글 삭제
 				int applyRow = sqlSession.getMapper(WooBoardImpl.class).jump(parameterVO);
-			}
 		} catch (Exception e) {e.printStackTrace();}
-		return "../product/productList.woo";
+		return "redirect:../product/productList.woo";
 	}
 
 	// 7.최근본 상품 처리중 쿠키값을 사이드바에 넘겨주기
@@ -489,9 +493,6 @@ public class WooBoardController {
 		@RequestMapping("/product/ajaxproductView.woo")
 		public String ajaxproductView(Model model, HttpServletRequest req,Principal principal, HttpServletResponse response) {
 			
-			logger.info("ajaxproductView");
-			logger.debug("ajaxproductView");
-			
 			String boardidx = req.getParameter("boardidx");
 			String nowPage = req.getParameter("nowPage");
 			String user_id="";
@@ -518,7 +519,10 @@ public class WooBoardController {
 				
 				if(user_id.equals(dto.getId())){  }
 				else if(userGrade < dto.getPublicSet()) {
-					return "../product/productList.woo";
+					model.addAttribute("check", 1);
+				}
+				else {
+					model.addAttribute("check", 0);
 				}
 				//조회수 처리
 				int applyRow = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).visitcount(boardidx);
@@ -568,6 +572,7 @@ public class WooBoardController {
 	            return map;
 	        }
 	        return map;
-    }
+	    }
+	    
 
 }

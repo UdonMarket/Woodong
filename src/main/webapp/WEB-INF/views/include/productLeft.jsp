@@ -75,19 +75,19 @@
 		        		<div style="display: inline-block;">
 	        			    <form:form action="../product/productList.woo?mode=map&bname=${parameterVO.bname}&" method="post">
 					    <!-- 현재위치 위경도 입력상자 -->
-								<input type="hidden" id="lat" name="lat" />
-								<input type="hidden" id="lon" name="lon" />
+								<input type="hidden" id="lat" name="lat" /><!-- 37.478862 -->
+								<input type="hidden" id="lon" name="lon" /><!-- 126.878702 -->
 								<input type="image" src="../resources/img/product/map1.png" style="margin-bottom: 0px;width: 120px;cursor: pointer;" />
 						    </form:form>
 	        			</div>
-	        			<div style="display: inline-block;">
-	        				 <form:form action="../product/productList.woo?bname=${parameterVO.bname}&" method="post">
 					    <!-- 현재위치 위경도 입력상자 -->
-								<input type="hidden" id="lat1" name="lat" />
-								<input type="hidden" id="lon1" name="lon" />
+	        			 <div style="display: inline-block;">
+	        				 <form:form action="../product/productList.woo?bname=${parameterVO.bname}&" method="post">
+								<input type="hidden" id="lat1" name="lat" value=""/>
+								<input type="hidden" id="lon1" name="lon" value=""/>
 								<input type="image" src="../resources/img/product/이미지로보기.png" style="margin-bottom: -12px;width: 155px; cursor: pointer;" />
 						    </form:form>
-	        			</div>
+	        			</div> 
 	        		</div>
 	        	</div>
 	            <div class="row" style="padding-top: 20px">
@@ -101,7 +101,7 @@
 	                            <select name="order">
 	                                <option value="" <c:out value="${parameterVO.order == null ? 'selected' : ''}"/>> ---  최신순 ( 정렬방식 ) --- </option>
 	                                <option value="visitcount desc" <c:out value="${parameterVO.order eq 'visitcount' ? 'selected' : ''}"/>>조회순</option>
-	                                <option value="likecount desc" <c:out value="${parameterVO.order eq 'likecount' ? 'selected' : ''}"/>>좋아요 순</option>
+	                                <option value="likecount desc" <c:out value="${parameterVO.order eq 'likecount desc' ? 'selected' : ''}"/>>좋아요 순</option>
 	                                <option value="price" <c:out value="${parameterVO.order eq 'price' ?  'selected': ''}"/>>저가순</option>
 	                                <option value="price desc" <c:out value="${parameterVO.order eq 'price desc' ? 'selected' : ''}"/>>고가순</option>
 	                            </select>
@@ -178,6 +178,11 @@ $(function(){
     <!-- product list part start-->
     <section class="product_list section_padding" style="padding-top: 50px">
         <div class="container">
+        <div class="row">
+	      <div class="col-lg-3"style=" height:60px; padding-left: 16px;">
+			<div style="font-weight:bold; font-size:17px;color:#ff4f4f;width:100%; height:100%; padding-left:25px; padding-top:16px; text-align:center;background-image: url('../resources/img/동네.png')">${dong }</div>
+	      </div>
+        </div>
             <div class="row">
 			<div class="col-lg-3">
 			                

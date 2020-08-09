@@ -33,20 +33,23 @@
 				</div>
 				<div style="padding-left: 15px;">
 
-					<h4><fmt:formatNumber type="number" maxFractionDigits="3" value="${row.price}"/>원<(임시${row.boardidx})</h4>
-					<div>
+					<h4><fmt:formatNumber type="number" maxFractionDigits="3" value="${row.price}"/>원 임시  : ${row.boardidx}</h4>
+					<div class="row">
+					<div class="col-5" >
+
 					<c:if test="${row.woopay eq 'Y'}">
                        <img src="../resources/img/product/우동페이.png" style="width: 50px; height: 30px;"/>
                    	</c:if>
+                   	</div>
+                   	<div class="col-5" >  
                       <c:if test="${row.three_dimens eq 'Y'}">
-                        <img src="../resources/img/product/3d 이미지.png" style="width: 50px; height: 40px;" />
+                        <img src="../resources/img/product/3d 이미지.png" style="width: 50px; height: 40px;margin-left: -40px;" />
                      </c:if> 
                      </div>
-				 		
+				 		</div>
 				</div>
 			</div>
 		 </c:forEach> 
-				 	<button type="button" style="display: none;" id="modalview" data-toggle="modal" data-target="#viewModal" ></button>
 		 <c:if test="${empty lists}">
 		 	<h2 style="color: #ff4f4f; margin-left: 200px; margin-top: 100px;" >게시물이 없습니다.</h2>
 		 </c:if>  

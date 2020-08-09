@@ -29,15 +29,16 @@
 						<div class="card-header bg-transparent">
 							<div class="row align-items-center">
 								<div class="col">
-									<h2 class="mb-0">카테고리별 게시글 수</h2>
 								</div>
 							</div>
 						</div>
 						<div class="card-body">
 							<!-- Chart -->
-							<div class="chart" style="width: 100%;">
+							<%-- <div class="chart" style="width: 100%; overflow: auto;">
 								<canvas id="myChart" class="chart-canvas" height="100%"></canvas>
-							</div>
+							</div> --%>
+							<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+								
 						</div>
 					</div>
 				</div>
@@ -49,33 +50,10 @@
 					<div class="card shadow">
 						<div class="card-header border-0">
 							<div class="row align-items-center">
-								<div class="col">
-									<h3 class="mb-0">동네 가입자 수</h3>
-								</div>
-								<div class="col text-right">
-									<a href="#!" class="btn btn-sm btn-primary">See all</a>
-								</div>
 							</div>
 						</div>
 						<div class="table-responsive">
-							<!-- Projects table -->
-							<table class="table align-items-center table-flush">
-								
-								<thead class="thead-light">
-									<tr>
-										<th scope="col">순위</th>
-										<th scope="col">이름</th>
-										<th scope="col">가입자수</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<th scope="row">/argon/</th>
-										<td>4,569</td>
-										<td>340</td>
-									</tr>
-								</tbody>
-							</table>
+							<div id="member" style="height: 370px; width: 100%;"></div>
 						</div>
 					</div>
 				</div>
@@ -116,74 +94,72 @@
 			<div class="col-2"></div>
 			</div>
 		</div>
-	<script>
-// 우선 컨텍스트를 가져옵니다. 
-var ctx = document.getElementById("myChart").getContext('2d');
-/*
-- Chart를 생성하면서, 
-- ctx를 첫번째 argument로 넘겨주고, 
-- 두번째 argument로 그림을 그릴때 필요한 요소들을 모두 넘겨줍니다. 
-*/
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: [
-        	<c:forEach items="${bnameLists}" var="row">
-				'${row.bname }',
-			</c:forEach>
-		],
-        datasets: [{
-            label: '# of Votes',
-            data: [
-            	<c:forEach items="${bnameLists}" var="row">
-					'${row.num }',
+
+<script>
+	window.onload = function () {
+		
+	var chart = new CanvasJS.Chart("chartContainer", {
+		animationEnabled: true,
+		title: {
+			text: "카테고리별 게시글 수"
+		},
+		axisX: {
+			interval: 1
+		},
+		axisY: {
+			title: "",
+			includeZero: true,
+			scaleBreaks: {
+				type: "wavy"
+				}
+		},
+		data: [{
+			type: "bar",
+			toolTipContent: "<b>{label}</b><br>{count}개",
+			dataPoints: [
+				<c:forEach items="${bnameLists}" var="row">
+					{ label: "${row.bname}", y: ${row.num }, count : ${row.num } },
 				</c:forEach>
-            ],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-});
+			]
+		}]
+	});
+	chart.render();
+	
+	var chart2 = new CanvasJS.Chart("member", {
+		animationEnabled: true,
+		title: {
+			text: "동네별 가입자 수"
+		},
+		axisX: {
+			interval: 1
+		},
+		axisY: {
+			title: "",
+			includeZero: true,
+			scaleBreaks: {
+				type: "wavy"
+				}
+		},
+		data: [{
+			type: "bar",
+			toolTipContent: "<b>{label}</b><br>{count}개",
+			dataPoints: [
+				<c:forEach items="${memberList }" var="row">
+					{ label: "${row.addr }", y: ${row.cnt }, count : ${row.cnt } },
+				</c:forEach>
+			]
+		}]
+	});
+	chart2.render();
+	
+	}
 </script>
+
 	<!-- Footer -->
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 	<jsp:include page="../include/bottom.jsp" />
 </body>
+<!-- 
 
+ -->
 </html>

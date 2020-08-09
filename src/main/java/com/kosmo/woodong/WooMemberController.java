@@ -140,9 +140,7 @@ public class WooMemberController {
 		if(memberVO.getAddr().equals("x")) {
 			memberVO.setAddr(null);
 		}
-		if(memberVO.getAddr()!=null) {
-			memberVO.setAddr(memberVO.getAddr().substring(0, memberVO.getAddr().lastIndexOf(" ")));
-		}
+		
 		model.addAttribute("memberVO", map.get("memberVO"));
 		model.addAttribute("udongGrade", map.get("udongGrade"));
 		model.addAttribute("score", map.get("score"));
@@ -150,14 +148,12 @@ public class WooMemberController {
 	}
 	
 	@RequestMapping("/member/myPlaceAction.woo")
-	public String myPlaceAction(HttpServletRequest req, Authentication authentication) {
-		if (authentication.getName() == null) {
-			return "redirect:login.woo";
-		} else {
-			sqlSession.getMapper(WooMemberImpl.class).modify(req.getParameter("selectJuso"), authentication.getName());
-			
-			return "redirect:myPlace.woo";
-		}
+	public String myPlaceAction(HttpServletRequest req, Principal principal) {
+		String juso = req.getParameter("selectJuso").substring(0, req.getParameter("selectJuso").lastIndexOf(" "));
+		
+		sqlSession.getMapper(WooMemberImpl.class).modify(juso, principal.getName());
+		
+		return "redirect:myPlace.woo";
 	}
 
 	//동네인증 거리계산

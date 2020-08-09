@@ -26,4 +26,12 @@ public interface WooChatImpl {
 	public int getTotalCount(ParameterVO parameterVO);
 	
 	public int chatTotalCount(String chatroomidx);
+
+	public ArrayList<WooChatRoomVO> selectChatRoomList(String seller_id);
+	
+	public ArrayList<WooChatRoomVO> selectChatRoomFromidx(String chatroomidx);
+	
+	public ArrayList<String>selectChatText(String chatroomIdx, String seller_id);
+	
+	public ArrayList<WooBoardVO> selectBuyerid(String boardIdx);
 }

@@ -208,4 +208,20 @@
 	<update id="default_reviewScore">
 		update woo_board set review_score = '1' where boardidx = #{0}
 	</update>
+	
+	
+	
+	<!-- 안드로이드 -->
+	<select id="selectphoneNum" resultType="String">
+        select id from woo_member where mobile = #{0}
+     </select>
+     
+     <select id="selectregidateNum" resultType="String">
+        select regidate from woo_member where id = #{0}
+     </select>
+     
+ 	<update id="updateDealtype" >
+      update woo_board set deal_type = '판매완료' where buyer_id = #{0} and boardidx = #{1}
+   </update>    
+	
 </mapper>

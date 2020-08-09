@@ -56,5 +56,12 @@ public interface WooMypageImpl {
 	
 	public String dealtype(String idx);
 	
+	public String selectphoneNum(String phoneNum);
+	   
+    public String selectregidateNum(String id);
+   
+    public int updateDealtype(String id, String idx);
+	
+	
 }
 

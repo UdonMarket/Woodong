@@ -13,8 +13,34 @@ public class WooChatRoomVO {
 	private String prohiditioncount;
 	private int seq_woo_chatroom;
 	private String title;
+	private String chatting;
+	private String lastchatdateString;
+	private String getUserGrade;
+
 	
-	
+	public String getGetUserGrade() {
+		return getUserGrade;
+	}
+
+	public void setGetUserGrade(String getUserGrade) {
+		this.getUserGrade = getUserGrade;
+	}
+
+	public String getLastchatdateString() {
+		return lastchatdateString;
+	}
+
+	public void setLastchatdateString(String lastchatdateString) {
+		this.lastchatdateString = lastchatdateString;
+	}
+
+	public String getChatting() {
+		return chatting;
+	}
+
+	public void setChatting(String chatting) {
+		this.chatting = chatting;
+	} 
 
 	public String getProhiditioncount() {
 		return prohiditioncount;

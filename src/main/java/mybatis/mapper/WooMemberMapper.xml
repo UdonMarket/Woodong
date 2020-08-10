@@ -117,4 +117,3 @@
         select id from woo_member where mobile = #{0}
      </select>
  </mapper>
-

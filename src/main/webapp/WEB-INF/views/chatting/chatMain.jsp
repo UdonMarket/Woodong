@@ -20,7 +20,7 @@ img {
 <div class="continer" id="chat-wrapper" style="border: 2px solid #d9d9d9;height: 535px;margin: 30px; overflow-x:hidden; overflow-y: auto">
 	<header id="chat-header" style="text-align: center;">
 		<img src="../resources/img/main/favicon.png" alt="우동톡톡" style="width: 50px;" />
-		<span style="font-size: 1.2em;font-weight: bold;padding: 5px;">우동톡톡</span>
+		<span style="font-size: 1.2em;font-weight: bold;padding: 5px;">우동톡톡 - 문의 사항은 우동이에게 ! </span>
 	</header>		
 	<input type="hidden" id="chat_id" value="${param.chat_id }" style="border:1px dotted red;" />
 	<input type="hidden" id="chat_room" value="${param.chat_room }" style="border:1px dotted red;" />
@@ -46,7 +46,7 @@ img {
 							
 							<div style="text-align: left;font-size: 1.4em;font-weight: bold;"><h2 style="text-align: left;font-size: 1.2em;font-weight: bold;">판매자 </h2>${row.sellerid }</div>
 						</c:if>
-							<div style="text-align: left;font-size: 1em;padding-top: 5px;">${row.lastChat }</div>
+							<div style="text-align: left;font-size: 1.2em;padding-top: 5px;">${row.lastChat }</div>
 
 					</div>
 				</div>

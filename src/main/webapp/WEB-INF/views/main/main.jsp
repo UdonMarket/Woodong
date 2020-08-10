@@ -48,8 +48,7 @@
             </script>
          </div>
    </section>
-   
-   <!-- 상품 보여주기 수정부분 -->
+    <!-- 상품 보여주기 수정부분 -->
    <section class="trending_items" style="padding-top: 0px;margin-top: -80px;">
       <div class="container">
          <div class="row">
@@ -58,7 +57,7 @@
                   <img src="../resources/img/main/우동마켓인기매물1.png" alt="최신매물" style="width: 450px;"/>
                </div>
             </div>
-	<c:forEach items="${searchLists}" var="row">	
+			<c:forEach items="${searchLists}" var="row">	
 				<div class="col-4">
 					<a href="javascript:void(0);" onclick="ajaxView(${row.boardidx })">
 						<div class="productList_div" style="width: 300px;height: 300px;">

@@ -28,7 +28,7 @@
 			$('#inputMessage').val('');
 		});
 
-		let sock = new SockJS("http://192.168.219.142:8282/woodong/echo");///진슬 고정 IP
+		let sock = new SockJS("http://192.168.219.139:8282/woodong/echo");///진슬 고정 IP
 		sock.onmessage = onMessage;
 		sock.onclose = onClose;
 		sock.onerror = onError;
@@ -92,7 +92,7 @@
 			type:"get",
 		    contentType:"text/html;charset:utf-8",
 
-		    data:{chatting : msg, chatroomidx : ${chatroomidx }, id : '${userid}'},
+		    data:{chatting : msg, chatroomidx : ${chatroomidx}, id : '${userid}'},
 		    dataType : "json" ,
 	 	  	success : function(d) {
 			},
@@ -123,7 +123,6 @@
 <script>
 	$(function() {
 		
-		
 		$("input:radio").checkboxradio({
 			icon:false
 		});
@@ -138,6 +137,7 @@
 				    dataType : "json" ,
 			 	  	success : function() {
 			 	  		alert("변경되었습니다.");
+			 	  		
 					},
 					error : function(e) {
 						alert("변경되었습니다.");
@@ -200,11 +200,15 @@
 		<c:if test="${wooChatRoomVO.sellerid eq userid}">
 			<div style="text-align: right;">
 			    <label for="radio-1">판매전</label>
-			    <input type="radio" name="radio-1" id="radio-1" value="판매전" >
+			    <input type="radio" name="radio-1" id="radio-1" value="판매전" 
+			    <c:if test="${deal_type eq '판매전'}">checked</c:if> >
+			   
 			    <label for="radio-2">판매중</label>
-			    <input type="radio" name="radio-1" id="radio-2" value="판매중">
+			    <input type="radio" name="radio-1" id="radio-2" value="판매중"
+			      <c:if test="${deal_type eq '판매중'}">checked</c:if>>
 			    <label for="radio-3">판매완료</label>
-			    <input type="radio" name="radio-1" id="radio-3" value="판매완료">
+			    <input type="radio" name="radio-1" id="radio-3" value="판매완료"
+			     <c:if test="${deal_type eq '판매완료'}">checked</c:if>>
 			</div>
 		</c:if>
 			<p class="text-area">
@@ -215,7 +219,7 @@
 		</footer>
 	</div>
 </body>
-<!-- <script>
+<!--  <script>
 	$(function() {
 		$('input:radio').each(function() {
 			if($(this).val()=='${deal_type}'){

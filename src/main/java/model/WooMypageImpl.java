@@ -54,6 +54,8 @@ public interface WooMypageImpl {
 	
 	public int default_reviewScore(String idx);
 	
+	
+	//
 	public String dealtype(String idx);
 	
 	public String selectphoneNum(String phoneNum);
@@ -61,7 +63,6 @@ public interface WooMypageImpl {
     public String selectregidateNum(String id);
    
     public int updateDealtype(String id, String idx);
-	
-	
+
 }
 

@@ -56,7 +56,7 @@
  
 					<div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
 						<ul class="navbar-nav">
-							<li class="nav-item" style="margin-right: 85px;margin-top:5px;" >
+							<li class="nav-item" style="margin-right: 90px;margin-top:5px;" >
 								<a class="nav-link" href="../about/about.woo">
 									<img src="../resources/img/header/about.png" alt="소개" />
 								</a>
@@ -72,25 +72,25 @@
 								</a>
 							</li>
 
-							<li class="nav-item" style="margin-right: 100px;margin-top:5px;">
+							<li class="nav-item" style="margin-top:5px;">
 								<a class="nav-link" href="../community/community.woo?bname=공지사항&">
 									<img src="../resources/img/header/comm.png" alt="커뮤니티" />
 								</a>
 							</li>
 						</ul>
 					</div>
-					<div class="hearer_icon d-flex align-items-center">
+					<div class="hearer_icon d-flex align-items-center" >
 	                  	<div class="input-group mb-3">
 
 	              			<input type="text" placeholder="찾는 상품을  #태그 로 검색하세요 !" class="form-control search_input" id="headkeywordInput"
-	              			style="border:none; border-bottom: 2px solid #d9d9d9;width: 250px;border-radius: 0;margin-bottom: -5px;">
+	              			style="border:none; border-bottom: 2px solid #d9d9d9;width: 230px;border-radius: 0;margin-bottom: -5px;">
 
-	                       	<div class="input-group-append" style="margin-bottom: -20px;margin-left: 5px;">
+	                       	<div class="input-group-append" style="margin: 0;padding: 0">
 	                    		<button class="btn btn-basic" type="button" id="headsearchBtn">
 	                    			<i style="font-size:22px;color: #ff4f4f;" class="ti-search"></i>
 	                    		</button>
-	                    		<button style="cursor:pointer; border: 0;background: none;color: #ff4f4f;" 
-			                 	onclick="window.open('http://192.168.219.142:8282/woodong/chatting/chatMain.woo', 'name(우동톡톡)', 'height=600; width=480; top=200; left=150;', true);">
+	                    		<button style="cursor:pointer; border: 0;background: none;color: #ff4f4f;margin: 0;padding: 0" 
+			                 	onclick="window.open('http://192.168.219.139:8282/woodong/chatting/chatMain.woo', 'name(우동톡톡)', 'height=640; width=480; top=200; left=150;', true);">
 			                     	<i style="font-size:26px;margin: 5px;margin-top: 2px;" class="fa">&#xf0e6;</i>
                   				</button>
 	                       	</div>

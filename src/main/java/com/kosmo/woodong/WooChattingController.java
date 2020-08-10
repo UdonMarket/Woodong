@@ -85,7 +85,7 @@ public class WooChattingController {
 			}
 			else {
 				sqlSession.getMapper(WooChatImpl.class).createChatroom(wooChatRoomVO);
-	      chatroomidx = String.valueOf(wooChatRoomVO.getSeq_woo_chatroom());
+				chatroomidx = String.valueOf(wooChatRoomVO.getSeq_woo_chatroom());
 				wooChatRoomVO = sqlSession.getMapper(WooChatImpl.class).selectRoomVO(chatroomidx);
 				System.out.println("생성");
 
@@ -123,7 +123,7 @@ public class WooChattingController {
 		return "chatting/location";
 	}
 	@RequestMapping("/chatting/topPlace.woo")
-	public String topPlace(Model model, HttpServletRequest req) {
+	public String topPlace(Model model, HttpServletRequest req){
 		ParameterVO parameterVO = new ParameterVO();
 		parameterVO.setPlace(req.getParameter("place"));
 		parameterVO.setLatTxt((req.getParameter("latitude")==null)? 0 : Double.parseDouble(req.getParameter("latitude")));

@@ -3,7 +3,7 @@
 Primary style
 
 -------------------------------- */
-html * {
+/* html * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -12,19 +12,19 @@ html * {
   box-sizing: border-box;
 }
 
-/* html {
+html {
   font-size: 62.5%;
-} */
+}
 
-/* body {
+body {
   font-size: 1.6rem;
   font-family: "Lato", sans-serif;
   color: #ffffff;
    background-color: #000000;
- } */
+ }
 
 a {
-  /* color: #b54240; */
+  color: #b54240;
   text-decoration: none;
 }
 
@@ -36,10 +36,10 @@ header {
   position: relative;
 }
 header h1 {
-  /* text-align: center;
+  text-align: center;
   padding: 2em 5%;
-  font-size: 2rem; */
-}
+  font-size: 2rem;
+} */
 @media only screen and (min-width: 768px) {
   header h1 {
     font-size: 3rem;

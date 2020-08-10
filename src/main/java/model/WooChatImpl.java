@@ -31,7 +31,6 @@ public interface WooChatImpl {
 	public int chatTotalCount(String chatroomidx);
 	
 	public void prohidition(String chatroomidx);
-
 	public ArrayList<WooChatRoomVO> selectChatRoomList(String seller_id);
 	
 	public ArrayList<WooChatRoomVO> selectChatRoomFromidx(String chatroomidx);

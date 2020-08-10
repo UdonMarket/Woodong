@@ -16,31 +16,34 @@ public class WooChatRoomVO {
 	private String chatting;
 	private String lastchatdateString;
 	private String getUserGrade;
+  private String deal_location;
+	private String latitude;
+	private String longitude;
 
 	
-	public String getGetUserGrade() {
-		return getUserGrade;
+	public String getLatitude() {
+		return latitude;
 	}
 
-	public void setGetUserGrade(String getUserGrade) {
-		this.getUserGrade = getUserGrade;
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
 	}
 
-	public String getLastchatdateString() {
-		return lastchatdateString;
+	public String getLongitude() {
+		return longitude;
 	}
 
-	public void setLastchatdateString(String lastchatdateString) {
-		this.lastchatdateString = lastchatdateString;
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 
-	public String getChatting() {
-		return chatting;
+	public String getDeal_location() {
+		return deal_location;
 	}
 
-	public void setChatting(String chatting) {
-		this.chatting = chatting;
-	} 
+	public void setDeal_location(String deal_location) {
+		this.deal_location = deal_location;
+	}
 
 	public String getProhiditioncount() {
 		return prohiditioncount;
@@ -115,6 +118,30 @@ public class WooChatRoomVO {
 
 	public void setLastChat(String lastChat) {
 		this.lastChat = lastChat;
+	}
+
+	public String getGetUserGrade() {
+		return getUserGrade;
+	}
+
+	public void setGetUserGrade(String getUserGrade) {
+		this.getUserGrade = getUserGrade;
+	}
+
+	public String getLastchatdateString() {
+		return lastchatdateString;
+	}
+
+	public void setLastchatdateString(String lastchatdateString) {
+		this.lastchatdateString = lastchatdateString;
+	}
+
+	public String getChatting() {
+		return chatting;
+	}
+
+	public void setChatting(String chatting) {
+		this.chatting = chatting;
 	}
 	
 	

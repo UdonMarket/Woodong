@@ -113,7 +113,6 @@ $(window).scroll(function(){
         }  
     } 
 });  
-
 </script>
 <!-- <script>
 function itemSave(boardidx){

@@ -24,14 +24,11 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
      <div class="modal mainModal" id="viewModal" style="margin-top: 200px; overflow: auto; height: 800px;">
   	 <div class="modal-dialog modal-xl" >
       <div class="modal-content">   
-      <!-- Modal Header -->
-            <div class="modal-header">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border: none; background: none;">
-               	 <img src="../resources/img/close.png"  style="width: 100px; height: 50px;margin-left: 1000px;"></button>
+            <div class="modal-header" style="padding:0px; margin-top: 10px">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border: none; background: none;padding:0px; margin-left: 1050px;">
+               	 <img src="../resources/img/close.png"  style="width: 70px;"></button>
             </div>
-             <div class="modal-body">
-             </div>
-      
+             <div class="modal-body"> </div>
        </div>
      </div>
   </div>

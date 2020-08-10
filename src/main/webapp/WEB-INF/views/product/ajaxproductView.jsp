@@ -246,7 +246,7 @@
 
          // 수정 
          $("#update_btn").on("click", function() {
-            formObj.attr("action", "./productUpdate.woo");
+            formObj.attr("action", "../product/productUpdate.woo");
             formObj.attr("method", "post");
             formObj.submit();
          });
@@ -255,7 +255,7 @@
 
             var deleteYN = confirm("삭제하시겠습니까?");
             if (deleteYN) {
-               formObj.attr("action", "./productDelete.woo");
+               formObj.attr("action", "../product/productDelete.woo");
                formObj.attr("method", "post");
                formObj.submit();
             }
@@ -265,7 +265,7 @@
 
             var jumpYN = confirm("끌올 하시겠습니까? 끌올시 우동페이 수수료가 3.0% 에서 3.4% 로 증가합니다!");
             if (jumpYN) {
-               formObj.attr("action", "./productJump.woo");
+               formObj.attr("action", "../product/productJump.woo");
                formObj.attr("method", "post");
                formObj.submit();
             }

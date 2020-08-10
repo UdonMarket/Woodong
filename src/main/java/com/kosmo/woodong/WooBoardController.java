@@ -51,9 +51,14 @@ public class WooBoardController {
 	public String productList(Model model, HttpServletRequest req, Principal principal) {
 		try {
 			String dong = sqlSession.getMapper(WooMemberImpl.class).getDong(principal.getName());
-			model.addAttribute("dong", dong.substring(0, dong.lastIndexOf(" ")));
+			if(dong.lastIndexOf(" ")<0) {
+				model.addAttribute("dong", "동네인증을 해주세요");
+			}else {
+				model.addAttribute("dong", dong.substring(0, dong.lastIndexOf(" ")));
+			}
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute("dong", "동네인증을 해주세요");
 		}
 		String location = ".." + req.getServletPath();
@@ -123,7 +128,10 @@ public class WooBoardController {
 			user_id = principal.getName();
 			parameterVO.setId(user_id);
 			String juso = sqlSession.getMapper(WooMemberImpl.class).selectMember(parameterVO).getAddr();
-			parameterVO.setJuso(juso.substring(0, juso.lastIndexOf(" ")));
+			if(juso.lastIndexOf(" ")<0) {
+			}else {
+				parameterVO.setJuso(juso.substring(0, juso.lastIndexOf(" ")));
+			}
 		}
 		
 		ModelAndView mv = new ModelAndView();

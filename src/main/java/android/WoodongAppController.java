@@ -914,6 +914,7 @@ public class WoodongAppController {
 		
 		map.put("WooBoardVO", dto);
 		return map;
+		
 	}
    
 	@RequestMapping("/android/chatting.woo")
@@ -944,6 +945,8 @@ public class WoodongAppController {
 				chatroomidx = String.valueOf(wooChatRoomVO.getSeq_woo_chatroom());
 				wooChatRoomVO = sqlSession.getMapper(WooChatImpl.class).selectRoomVO(chatroomidx);
 			}
+			
+
 		}
 		List<WooChattingVO> chatList = sqlSession.getMapper(WooChatImpl.class).selectChatting(chatroomidx);
 		WooBoardVO wooBoardVO = sqlSession.getMapper(WooBoardImpl.class).view(wooChatRoomVO.getBoardidx());

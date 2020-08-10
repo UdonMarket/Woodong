@@ -57,4 +57,3 @@ public interface WooMemberImpl {
 	
 	public String selectphoneNum(String mobile);
 }
-

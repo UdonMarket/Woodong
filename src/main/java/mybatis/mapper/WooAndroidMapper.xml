@@ -41,4 +41,9 @@
   	<delete id="WoolocationDelete" parameterType="model.WooAndroidVO">
  		DELETE FROM woo_pushlocation WHERE id=#{user_id} and confirmnum=#{num}
  	</delete>
+ 	
+ 	<select id="checkmember"  parameterType="model.WooAndroidVO" resultType="int">
+        SELECT COUNT(*) FROM woo_member WHERE mobile=#{mobile}
+     </select>
+ 	
 </mapper>

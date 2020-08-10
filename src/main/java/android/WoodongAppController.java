@@ -52,20 +52,20 @@ public class WoodongAppController {
    @RequestMapping("/android/WooAppProductList.woo")
    @ResponseBody
    public Map<String, Object> ajaxList(Model model, HttpServletRequest req) {
-      Map<String, Object> boardList = new HashMap<String, Object>();
-      
-      ParameterVO parameterVO = new ParameterVO();
-      ArrayList<String> list = new ArrayList<String>();
-      String mobile = req.getParameter("mobile");
-      String user_id = sqlSession.getMapper(WooMemberImpl.class).selectphoneNum(mobile.substring(0,3) + "-" + mobile.substring(3,7) + "-" + mobile.substring(7));
-        
-      parameterVO.setId(user_id);
-      String juso1 = sqlSession.getMapper(WooMemberImpl.class).selectMember(parameterVO).getAddr();
-      String juso2 = juso1.substring(0, juso1.lastIndexOf(" "));
-      parameterVO.setJuso(juso2);
-      String dong = juso2.substring(juso2.lastIndexOf(" "));
-      String location = ".." + req.getServletPath();
-      
+	   Map<String, Object> boardList = new HashMap<String, Object>();
+	   
+	   ParameterVO parameterVO = new ParameterVO();
+	   ArrayList<String> list = new ArrayList<String>();
+	   String mobile = req.getParameter("mobile");
+	   String user_id = sqlSession.getMapper(WooMemberImpl.class).selectphoneNum(mobile.substring(0,3) + "-" + mobile.substring(3,7) + "-" + mobile.substring(7));
+		  
+		parameterVO.setId(user_id);
+		String juso1 = sqlSession.getMapper(WooMemberImpl.class).selectMember(parameterVO).getAddr();
+		String juso2 = juso1.substring(0, juso1.lastIndexOf(" "));
+		parameterVO.setJuso(juso2);
+		String dong = juso2.substring(juso2.lastIndexOf(" "));
+		String location = ".." + req.getServletPath();
+	   
 
       List<WooBoardListVO> bnamelists = null;
       if(req.getParameter("bname")!=null && !"".equals(req.getParameter("bname"))) {
@@ -237,10 +237,10 @@ public class WoodongAppController {
    @RequestMapping("/android/WooAppChatList.woo")
    @ResponseBody
    public Map<String, Object> WooAppChatList(HttpServletRequest req) {
-     Map<String, Object> chatList = new HashMap<String, Object>();
-      
-     String seller_num = req.getParameter("id");
-      
+	  Map<String, Object> chatList = new HashMap<String, Object>();
+	   
+	  String seller_num = req.getParameter("id");
+	   
       String seller_num1 = seller_num.substring(0, 3);
       String seller_num2 = seller_num.substring(3, 7);
       String seller_num3 = seller_num.substring(7);
@@ -254,47 +254,37 @@ public class WoodongAppController {
       String chattingText = "";
       review review = new review();
       Map<String,Object> reviewmap = new HashMap<String, Object>();
-      String buyerid;
       
       for(WooChatRoomVO wc:chatroom) {
-         String chatroomIdx = wc.getChatroomidx();
-         chatText = sqlSession.getMapper(WooChatImpl.class).selectChatText(chatroomIdx,wc.getBuyerid());
-         System.out.println("chatText : " + chatText);
-         System.out.println("1:" + wc.getBoardidx());
-         System.out.println("2:" + wc.getBuyerid());
-         System.out.println("3:" + wc.getSellerid());
-         System.out.println("4:" + wc.getChatroomidx());
-         System.out.println("5:" + wc.getLastchatdate());
-         
-         if(seller_id.equals(wc.getBuyerid())) {//내가 구매가 입장일 때
-            buyerid = wc.getSellerid();
-            wc.setBuyerid(buyerid);
-         }
-         else {//내가 판매자 입장일 때 
-            buyerid = wc.getBuyerid();
-            wc.setBuyerid(buyerid);
-         }
-         
-         reviewmap = review.revireScore(sqlSession, wc.getBuyerid());
-         wc.setGetUserGrade(reviewmap.get("getUserGrade").toString());
+    	  String chatroomIdx = wc.getChatroomidx();
+    	  chatText = sqlSession.getMapper(WooChatImpl.class).selectChatText(chatroomIdx,wc.getBuyerid());
+    	  System.out.println("chatText : " + chatText);
+    	  System.out.println("1:" + wc.getBoardidx());
+    	  System.out.println("2:" + wc.getBuyerid());
+    	  System.out.println("3:" + wc.getSellerid());
+    	  System.out.println("4:" + wc.getChatroomidx());
+    	  System.out.println("5:" + wc.getLastchatdate());
+    	  
+    	  reviewmap = review.revireScore(sqlSession, wc.getBuyerid());
+    	  wc.setGetUserGrade(reviewmap.get("getUserGrade").toString());
 
-         chatList.put("chatroom",  reviewmap.get("getUserGrade"));
-         System.out.println("getUserGrade : " + reviewmap.get("getUserGrade"));
-         
-         Timestamp ts = wc.getLastchatdate();
+    	  chatList.put("chatroom",  reviewmap.get("getUserGrade"));
+    	  System.out.println("getUserGrade : " + reviewmap.get("getUserGrade"));
+    	  
+    	  Timestamp ts = wc.getLastchatdate();
           Date date = new Date();
           date.setTime(ts.getTime());
           String formattedDate = new SimpleDateFormat("hh:mm").format(date);
-         wc.setLastchatdateString(formattedDate);
-         
-         if(chatText.size()!=0) {
-            chattingText = chatText.get(0);
-            wc.setChatting(chattingText);
-         }
-        System.out.println("chattingText" + chattingText);
+    	  wc.setLastchatdateString(formattedDate);
+    	  
+    	  if(chatText.size()!=0) {
+	    	  chattingText = chatText.get(0);
+	    	  wc.setChatting(chattingText);
+    	  }
+    	 System.out.println("chattingText" + chattingText);
       }
-     chatList.put("chatroom", chatroom);
-     
+	  chatList.put("chatroom", chatroom);
+	  
       return chatList;
    }
    
@@ -302,52 +292,44 @@ public class WoodongAppController {
    @RequestMapping("/android/WooAppChatLocation.woo")
    @ResponseBody
    public Map<String,Object> WooAppChatLocation(HttpServletRequest req) {
-      Map<String, Object> chatList = new HashMap<String, Object>();
-      String chatroomIdx = req.getParameter("chatroomIdx");
-      System.out.println("chatroomIdx : " + chatroomIdx);
-      
-      ArrayList<WooChatRoomVO> chatroom =  sqlSession.getMapper(WooChatImpl.class).selectChatRoomFromidx(chatroomIdx);     
-      String boardIdx;
-      String buyeriId;
-      ArrayList<WooBoardVO> Wooboard;
-      String boardbuyerId;
-      String boardsellerId;
-      String latitude;
-      String longitude;
-      String deal_location;
-      
-      for(WooChatRoomVO wc:chatroom) {
-         System.out.println("1 getBoardidx:" + wc.getBoardidx());
-         System.out.println("2 getBuyerid:" + wc.getBuyerid());
-         boardIdx = wc.getBoardidx();
-         buyeriId = wc.getBuyerid();
-         
-         Wooboard = sqlSession.getMapper(WooChatImpl.class).selectBuyerid(boardIdx);
-         boardbuyerId = Wooboard.get(0).getBuyer_id();
-         boardsellerId = Wooboard.get(0).getId();
-         latitude = Wooboard.get(0).getLatitude();
-         longitude = Wooboard.get(0).getLongitude();
-         deal_location = Wooboard.get(0).getDeal_location();
-         System.out.println("boardbuyerId : " + Wooboard.get(0).getBuyer_id());
-         System.out.println("latitude : " + Wooboard.get(0).getLatitude());
-         System.out.println("longitude : " + Wooboard.get(0).getLongitude());
-         System.out.println("deal_location : " + Wooboard.get(0).getDeal_location());
-        
-         if(buyeriId.equals(boardbuyerId)) {
-            System.out.println("성공");
-            chatList.put("success", 1);
-            chatList.put("latitude", Wooboard.get(0).getLatitude());
-            chatList.put("longitude", Wooboard.get(0).getLongitude());
-            chatList.put("deal_location",  Wooboard.get(0).getDeal_location());
-            chatList.put("boardbuyerId", Wooboard.get(0).getBuyer_id());
-            chatList.put("boardsellerId", Wooboard.get(0).getId());
-         }
-         else {
-            chatList.put("success", 0);
-         }
-      }
-      
-      return chatList;
+	   Map<String, Object> chatList = new HashMap<String, Object>();
+	   String chatroomIdx = req.getParameter("chatroomIdx");
+	   System.out.println("chatroomIdx : " + chatroomIdx);
+	   
+	   ArrayList<WooChatRoomVO> chatroom =  sqlSession.getMapper(WooChatImpl.class).selectChatRoomFromidx(chatroomIdx);	  
+	   String boardIdx;
+	   String buyeriId;
+	   ArrayList<WooBoardVO> Wooboard;
+	   String boardbuyerId;
+	   String latitude;
+	   String longitude;
+	   
+	   for(WooChatRoomVO wc:chatroom) {
+    	  System.out.println("1 getBoardidx:" + wc.getBoardidx());
+    	  System.out.println("2 getBuyerid:" + wc.getBuyerid());
+    	  boardIdx = wc.getBoardidx();
+    	  buyeriId = wc.getBuyerid();
+    	  
+    	  Wooboard = sqlSession.getMapper(WooChatImpl.class).selectBuyerid(boardIdx);
+    	  boardbuyerId = Wooboard.get(0).getBuyer_id();
+    	  latitude = Wooboard.get(0).getLatitude();
+    	  longitude = Wooboard.get(0).getLongitude();
+    	  System.out.println("boardbuyerId : " + Wooboard.get(0).getBuyer_id());
+    	  System.out.println("latitude : " + Wooboard.get(0).getLatitude());
+    	  System.out.println("longitude : " + Wooboard.get(0).getLongitude());
+    	 
+    	  if(buyeriId.equals(boardbuyerId)) {
+    		  System.out.println("성공");
+    		  chatList.put("success", 1);
+    		  chatList.put("latitude", Wooboard.get(0).getLatitude());
+    		  chatList.put("longitude", Wooboard.get(0).getLongitude());
+    	  }
+    	  else {
+    		  chatList.put("success", 0);
+    	  }
+	   }
+	   
+	   return chatList;
    }
    
    
@@ -836,62 +818,56 @@ public class WoodongAppController {
       return returnMap;
    }
    //3.상품리스트 상세보기 
-      @RequestMapping("/android/productView.woo")
-      @ResponseBody
-      public Map<String, Object> productView(Model model, HttpServletRequest req,Principal principal, HttpServletResponse response) {
-         Map<String, Object> map = new HashMap<String, Object>();
-         Map<String, Object> getGrade = new HashMap<String, Object>();
-         String boardidx = req.getParameter("boardidx");
-         String seller_id = sqlSession.getMapper(WooBoardImpl.class).selectId(boardidx);
-         String mobile = req.getParameter("mobile");
-         String user_id = "";
-         String udong = "";
-         // map = review.revireScore(sqlSession, seller_id);
-         int userGrade = 1;
-         
-         if(mobile!=null) {
-            user_id = sqlSession.getMapper(WooMemberImpl.class).selectphoneNum(mobile.substring(0,3) + "-" + mobile.substring(3,7) + "-" + mobile.substring(7));
-            getGrade = review.revireScore(sqlSession, user_id);
-            userGrade = Integer.parseInt(getGrade.get("getUserGrade").toString());//게시글 등급별 공개설정
-         }
-         else {
-            userGrade = 1;
-         }
-         
-         //상세보기
-         WooBoardVO dto = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(boardidx);
-         dto.setContents(dto.getContents().replace("\r\n","<br/>"));//엔터 처리
-         
-         //게시글 등급별 공개설정
-         if(dto.getId().equals(user_id)){  }
-         else if(userGrade < dto.getPublicSet()) {
-            switch (dto.getPublicSet()) {
-            case 2:
-               udong="따뜻한 일반우동";
-               break;
-            case 3:
-               udong="차가운 튀김우동";
-               break;
-            case 4:
-               udong="따뜻한 튀김우동";
-               break;
-            }
-         }
-         //조회수 처리
-         int applyRow = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).visitcount(boardidx);
-         //파일 불러오기
-         ArrayList<FileVO> uploadFileList = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).viewFile(boardidx);
-         //판매상태 update  
-         String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(boardidx);
-         
-         map.put("WooBoardVO", dto);
-         
-            
-         return map;
-      }
-   
-   
-   
-   
-   
-}
+		@RequestMapping("/android/productView.woo")
+		@ResponseBody
+		public Map<String, Object> productView(Model model, HttpServletRequest req,Principal principal, HttpServletResponse response) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> getGrade = new HashMap<String, Object>();
+			String boardidx = req.getParameter("boardidx");
+			String seller_id = sqlSession.getMapper(WooBoardImpl.class).selectId(boardidx);
+			String mobile = req.getParameter("mobile");
+			String user_id = "";
+			String udong = "";
+			// map = review.revireScore(sqlSession, seller_id);
+			int userGrade = 1;
+			
+			if(mobile!=null) {
+				user_id = sqlSession.getMapper(WooMemberImpl.class).selectphoneNum(mobile.substring(0,3) + "-" + mobile.substring(3,7) + "-" + mobile.substring(7));
+				getGrade = review.revireScore(sqlSession, user_id);
+				userGrade = Integer.parseInt(getGrade.get("getUserGrade").toString());//게시글 등급별 공개설정
+			}
+			else {
+				userGrade = 1;
+			}
+			
+			//상세보기
+			WooBoardVO dto = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(boardidx);
+			dto.setContents(dto.getContents().replace("\r\n","<br/>"));//엔터 처리
+			
+			//게시글 등급별 공개설정
+			if(dto.getId().equals(user_id)){  }
+			else if(userGrade < dto.getPublicSet()) {
+				switch (dto.getPublicSet()) {
+				case 2:
+					udong="따뜻한 일반우동";
+					break;
+				case 3:
+					udong="차가운 튀김우동";
+					break;
+				case 4:
+					udong="따뜻한 튀김우동";
+					break;
+				}
+			}
+			//조회수 처리
+			int applyRow = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).visitcount(boardidx);
+			//파일 불러오기
+			ArrayList<FileVO> uploadFileList = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).viewFile(boardidx);
+			//판매상태 update  
+			String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(boardidx);
+			
+			map.put("WooBoardVO", dto);
+			
+				
+			return map;
+		}

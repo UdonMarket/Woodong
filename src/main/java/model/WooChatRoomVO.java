@@ -13,20 +13,12 @@ public class WooChatRoomVO {
 	private String prohiditioncount;
 	private int seq_woo_chatroom;
 	private String title;
-	
-	//추가
-	private String getUserGrade;
-	private String lastchatdateString;
 	private String chatting;
-	
-	private String deal_location;
+	private String lastchatdateString;
+	private String getUserGrade;
+  private String deal_location;
 	private String latitude;
 	private String longitude;
-	
-	
-	
-	
-	
 
 	
 	public String getLatitude() {

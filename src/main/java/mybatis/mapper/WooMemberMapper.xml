@@ -6,19 +6,19 @@
   
  <mapper namespace="model.WooMemberImpl"> 
  
- 	<select id="getTotalCount" resultType="int" parameterType="model.WooMemberVO">
- 		SELECT COUNT(*) from woo_member WHERE 1=1
- 		<if test="searchTxt!=null and !searchTxt.equals('')"> 
- 			AND ${searchField} like '%'||#{searchTxt}||'%' 
- 		</if>
- 		<if test="grade!=null">
- 			AND grade = #{grade}
- 		</if>
- 		
- 	</select>
- 	 
- 	<insert id="regist" parameterType="model.WooMemberVO">
- 		 insert into woo_member(id, pass, mobile)
+    <select id="getTotalCount" resultType="int" parameterType="model.WooMemberVO">
+       SELECT COUNT(*) from woo_member WHERE 1=1
+       <if test="searchTxt!=null and !searchTxt.equals('')"> 
+          AND ${searchField} like '%'||#{searchTxt}||'%' 
+       </if>
+       <if test="grade!=null">
+          AND grade = #{grade}
+       </if>
+       
+    </select>
+     
+    <insert id="regist" parameterType="model.WooMemberVO">
+        insert into woo_member(id, pass, mobile)
       values(#{id},#{pass},#{mobile})  
  	</insert>
  	
@@ -113,8 +113,7 @@
   	<select id="selectDongMember" resultType="model.WooMemberVO">
   		SELECT count(*) cnt, substr(addr, 1, instr(addr, ' ', -1)) addr FROM woo_member GROUP BY addr ORDER BY cnt
   	</select>
-  	
-  	 <select id="selectphoneNum" resultType="String">
+  	<select id="selectphoneNum" resultType="String">
         select id from woo_member where mobile = #{0}
      </select>
  </mapper>

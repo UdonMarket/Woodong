@@ -15,7 +15,7 @@
 </div>
 <script>
 //위경도를 가져온후 지도 표시
-initMap(${latitude}, ${logitude}); 
+initMap(${latitude}, ${logitude});
 
 var map;
 var marker;
@@ -61,7 +61,7 @@ $(document).ready(function() {
 			dataType : "json",
 			contentType : "text/html;charset:utf-8",
 			data : {
-				user_id : '${user_id }', pw : '${pw}'
+				user_id : '${user_id }'
 			},
 			async : false,
 			success : function(d) {
@@ -76,7 +76,7 @@ $(document).ready(function() {
 			}
 			
 			});
-	}, 5000);
+	}, 1000);
 });
 </script>
 

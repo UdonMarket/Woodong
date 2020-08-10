@@ -53,4 +53,6 @@ public interface WooMemberImpl {
 	public String getDong(String id);
 	
 	public List<WooMemberVO> selectDongMember();
+	
+	public String selectphoneNum(String mobile);
 }

@@ -14,7 +14,44 @@ public class WooChatRoomVO {
 	private int seq_woo_chatroom;
 	private String title;
 	
+	//추가
+	private String getUserGrade;
+	private String lastchatdateString;
+	private String chatting;
 	
+	private String deal_location;
+	private String latitude;
+	private String longitude;
+	
+	
+	
+	
+	
+
+	
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getDeal_location() {
+		return deal_location;
+	}
+
+	public void setDeal_location(String deal_location) {
+		this.deal_location = deal_location;
+	}
 
 	public String getProhiditioncount() {
 		return prohiditioncount;
@@ -89,6 +126,30 @@ public class WooChatRoomVO {
 
 	public void setLastChat(String lastChat) {
 		this.lastChat = lastChat;
+	}
+
+	public String getGetUserGrade() {
+		return getUserGrade;
+	}
+
+	public void setGetUserGrade(String getUserGrade) {
+		this.getUserGrade = getUserGrade;
+	}
+
+	public String getLastchatdateString() {
+		return lastchatdateString;
+	}
+
+	public void setLastchatdateString(String lastchatdateString) {
+		this.lastchatdateString = lastchatdateString;
+	}
+
+	public String getChatting() {
+		return chatting;
+	}
+
+	public void setChatting(String chatting) {
+		this.chatting = chatting;
 	}
 	
 	

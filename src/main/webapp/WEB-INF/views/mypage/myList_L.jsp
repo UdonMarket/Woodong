@@ -35,7 +35,7 @@ function like_toggle(idx) {
 
 
 function restartFunc(){  
-	    location.reload();
+   location.reload();
 }
 </script>
 <body>
@@ -47,7 +47,7 @@ function restartFunc(){
 	<jsp:include page="../include/mypageLeft.jsp" />
 	<section class="left_main"
 		style="padding-top: 100px; padding-left: 70px;">
-		<div class="col-12" style="text-align: center; border-bottom: 1px solid #d9d9d9; padding-bottom: 15px;"">
+		<div class="col-12" style="text-align: center; border-bottom: 1px solid #d9d9d9; padding-bottom: 15px;">
 			<img src="../resources/img/myPage/관심목록1.png" alt="" width="280px;" />
 		</div>
 		<div class="cat_box">
@@ -66,10 +66,7 @@ function restartFunc(){
 						<c:choose>
 							<c:when test="${empty likeList}">
 							<li>
-								<span style="font-size: 20px; padding-left: 250px;">게시물이
-									없습니다.</span>
-
-
+								<span style="font-size: 20px; padding-left: 250px;">게시물이 없습니다.</span>
 								<div class="row"
 									style="padding-top: 50px; padding-left: 50px; padding-bottom: 50px; border-bottom: 1px solid #d9d9d9;">
 									<div class="col-3">
@@ -79,33 +76,23 @@ function restartFunc(){
 									<div class="member_box col-8"></div>
 
 								</div>
-
 							</li>
 							</c:when>
 							<c:otherwise>
 								<c:forEach var="list" items="${likeList }">
-									<li class="main_col_3" style="padding: 5px"><a
-										class="card card_list"
-										href="/item/166608634?viewPath=wish_list&amp;clickPath=member">
-
+									<li class="main_col_3" style="padding: 5px">
 											<div class="card_box">
 												<div class="image_wrapper">
 													<div class="image_outside">
 														<div class="image_centerbox">
-															<a href="javascript:void(0);" onclick="ajaxView(${list.boardidx});"> 
-															<img src="../resources/Upload/${list.imagefile}"
-																data-src="https://ccimg.hellomarket.com/images/2020/item/04/28/15/1709868_4830039_1.jpg?size=s4"
-																class="thumbnail_img" 	/>
-															
-															
+													<a href="javascript:void(0);" onclick="ajaxView(${list.boardidx});"> 
+															<img src="../resources/Upload/${list.imagefile}" class="thumbnail_img" />
 														</div>
 														<div class="dealer_text_position"></div>
 													</div>
 												</div>
 												<div class="cont">
-													<div class="item_title related_item_icon">
-														${list.title }</div>
-														</a> 
+													<div class="item_title related_item_icon"> ${list.title }</div>
 													<div class="item_price profile_price">
 													<fmt:formatNumber type="number" maxFractionDigits="3" value="${list.price}"/>원 
 													</div>
@@ -113,13 +100,9 @@ function restartFunc(){
 											</div>
 									</a>
 										<div class="image_wish_box">
-
-
-											<img src="../resources/img/1.png" width="30px;" height="30px"
-												name="${list.boardidx}"
-												onclick="like_toggle(${list.boardidx});" />
-
-
+											<img src="../resources/img/1.png" width="30px" height="30px" 
+											style="position: ;"
+											name="${list.boardidx}" onclick="like_toggle(${list.boardidx});" />
 										</div></li>
 								</c:forEach>
 							</c:otherwise>

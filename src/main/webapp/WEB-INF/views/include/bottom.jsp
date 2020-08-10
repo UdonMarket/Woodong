@@ -32,11 +32,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
        </div>
      </div>
   </div>
-  <script>
-  	function aa() {
-		alert("asd");
-	}
-  </script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- 	<script src="../resources/js/jquery-1.12.1.min.js"></script>

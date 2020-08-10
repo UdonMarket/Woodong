@@ -86,4 +86,23 @@
   	<update id="prohidition">
   		UPDATE woo_chatroom SET prohiditioncount = prohiditioncount+1 WHERE chatroomidx=#{0}
   	</update>
+  	
+  <!-- 안드로이드 chatlist가져오기 -->
+     <select id="selectChatRoomList" resultType="model.WooChatRoomVO">
+        select * from woo_chatroom where sellerid = #{0} or buyerid = #{0}
+     </select>
+     
+   <!-- 안드로이드 chatlist chatroomidx로 가져오기 -->
+     <select id="selectChatRoomFromidx" resultType="model.WooChatRoomVO">
+        select * from woo_chatroom where chatroomidx = #{0}
+     </select>
+     
+     <!-- chatting text 가져오기 -->
+     <select id="selectChatText" resultType="String">
+        select chatting from woo_chatting where chatroomIdx = #{0} and id = #{1}
+     </select>
+     
+     <select id="selectBuyerid" resultType="model.WooBoardVO">
+        select * from woo_board where boardidx = #{0}
+     </select>
 </mapper> 

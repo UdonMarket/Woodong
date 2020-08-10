@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,9 @@ import model.WooBoardListVO;
 import model.WooBoardVO;
 import model.WooChatImpl;
 import model.WooChatRoomVO;
+import model.WooChattingVO;
 import model.WooMemberImpl;
+import model.WooMemberVO;
 import model.WooMypageImpl;
 import model.WooMyreviewVO;
 import util.EnvFileReader;
@@ -65,11 +68,45 @@ public class WoodongAppController {
 		parameterVO.setJuso(juso2);
 		String dong = juso2.substring(juso2.lastIndexOf(" "));
 		String location = ".." + req.getServletPath();
-	   
+	   String uBname = req.getParameter("bname");
+	   String bname = "";
 
       List<WooBoardListVO> bnamelists = null;
-      if(req.getParameter("bname")!=null && !"".equals(req.getParameter("bname"))) {
-         list.add(req.getParameter("bname"));
+      if(uBname!=null && !"".equals(uBname) &&!"allfont".equals(uBname)) {
+  		if(uBname.equals("manfont")) {
+  			bname = "남성의류";
+  		}
+  		else if(uBname.equals("womanfont")) {
+  			bname = "여성의류";
+  		}
+  		else if(uBname.equals("babyfont")) {
+  			bname = "아동복";
+  		}
+  		else if(uBname.equals("digifont")) {
+  			bname = "디지털/가전";
+  		}
+  		else if(uBname.equals("spofont")) {
+  			bname = "스포츠";
+  		}
+  		else if(uBname.equals("babytoolfont")) {
+  			bname = "유아용품";
+  		}
+  		else if(uBname.equals("beautyfont")) {
+  			bname = "뷰티";
+  		}
+  		else if(uBname.equals("womantoolfont")) {
+  			bname = "여성잡화";
+  		}
+  		else if(uBname.equals("gamefont")) {
+  			bname = "게임/도서";
+  		}
+  		else if(uBname.equals("petfont")) {
+  			bname = "반려동물";
+  		}
+  		else if(uBname.equals("etcfont")) {
+  			bname = "기타";
+  		}
+         list.add(bname);
       }
       else {
          bnamelists = sqlSession.getMapper(WooBoardListImpl.class).selectBname("../product/productList.woo");
@@ -624,7 +661,7 @@ public class WoodongAppController {
    public Map<String, Object> memberLogin(HttpServletRequest req){
       WooAndroidVO vo = new WooAndroidVO();
       
-      String user_id = req.getParameter("id");
+      String user_id = req.getParameter("phoneNo");
       String latitude = req.getParameter("latitude");
       String longitude = req.getParameter("longitude");
       
@@ -673,7 +710,7 @@ public class WoodongAppController {
       WooAndroidVO vo = new WooAndroidVO();
       
       System.out.println("update start");
-      String user_id = req.getParameter("id");
+      String user_id = req.getParameter("phoneNo");
       String latitude = req.getParameter("latitude");
       String longitude = req.getParameter("longitude");
       
@@ -682,10 +719,6 @@ public class WoodongAppController {
       vo.setLatitude(latitude);
       vo.setLongitude(longitude);
       
-      System.out.println("update save : " + user_id);
-      System.out.println("update latitude : " + latitude);
-      System.out.println("update longitude : " + longitude);
-      System.out.println("update num : " + req.getParameter("num"));
       /*
        매개변수로 커맨드객체(VO)를 사용하므로 파라미터명은 VO의 필드와
        동일하게 id, pass, name과 같이 사용하면 된다. 
@@ -725,7 +758,7 @@ public class WoodongAppController {
           -> http://localhost:8080/k12springapi/android/memberLogin.do?id=kos&pass=kos1
        */
       
-      String user_id = req.getParameter("id");
+      String user_id = req.getParameter("phoneNo");
       String pw = req.getParameter("pw");
       
       Map<String, Object> returnMap = new HashMap<String, Object>();
@@ -798,7 +831,7 @@ public class WoodongAppController {
           -> http://localhost:8080/k12springapi/android/memberLogin.do?id=kos&pass=kos1
        */
       
-      String user_id = req.getParameter("id");
+      String user_id = req.getParameter("phoneNo");
       String pw = req.getParameter("num");
       
       Map<String, Object> returnMap = new HashMap<String, Object>();
@@ -818,56 +851,182 @@ public class WoodongAppController {
       return returnMap;
    }
    //3.상품리스트 상세보기 
-		@RequestMapping("/android/productView.woo")
-		@ResponseBody
-		public Map<String, Object> productView(Model model, HttpServletRequest req,Principal principal, HttpServletResponse response) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			Map<String, Object> getGrade = new HashMap<String, Object>();
+	@RequestMapping("/android/productView.woo")
+	@ResponseBody
+	public Map<String, Object> productView(Model model, HttpServletRequest req,Principal principal, HttpServletResponse response) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> getGrade = new HashMap<String, Object>();
+		String boardidx = req.getParameter("boardidx");
+		String seller_id = sqlSession.getMapper(WooBoardImpl.class).selectId(boardidx);
+		String mobile = req.getParameter("mobile");
+		String user_id = "";
+		String udong = "";
+		// map = review.revireScore(sqlSession, seller_id);
+		int userGrade = 1;
+		
+		if(mobile!=null) {
+			user_id = sqlSession.getMapper(WooMemberImpl.class).selectphoneNum(mobile.substring(0,3) + "-" + mobile.substring(3,7) + "-" + mobile.substring(7));
+			getGrade = review.revireScore(sqlSession, user_id);
+			userGrade = Integer.parseInt(getGrade.get("getUserGrade").toString());//게시글 등급별 공개설정
+		}
+		else {
+			userGrade = 1;
+		}
+		
+		//상세보기
+		WooBoardVO dto = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(boardidx);
+		if(user_id!=null) {
+	        List<String> str = sqlSession.getMapper(WooMypageImpl.class).selectLike(user_id);
+            for (int j = 0; j < str.size(); j++) {
+            	System.out.println(str.get(j));
+               if(str.get(j).equals(boardidx)) {
+                  dto.setLike_check(1);
+                  break;
+               }
+            }
+	      }
+		//게시글 등급별 공개설정
+		if(dto.getId().equals(user_id)){  }
+		else if(userGrade < dto.getPublicSet()) {
+			switch (dto.getPublicSet()) {
+			case 2:
+				udong="따뜻한 일반우동";
+				break;
+			case 3:
+				udong="차가운 튀김우동";
+				break;
+			case 4:
+				udong="따뜻한 튀김우동";
+				break;
+			}
+		}
+		//조회수 처리
+		sqlSession.getMapper(WooBoardImpl.class).visitcount(boardidx);
+		//파일 불러오기
+		ArrayList<FileVO> uploadFileList = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).viewFile(boardidx);
+		//판매상태 update  
+		String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(boardidx);
+		
+		Map<String, Object> reviewmap = review.revireScore(sqlSession, seller_id);
+		map.put("imagefile", uploadFileList);
+		map.put("getUserGrade", reviewmap.get("getUserGrade"));
+		map.put("avg_score", reviewmap.get("avg_score"));
+		
+		map.put("WooBoardVO", dto);
+		return map;
+		
+	}
+   
+	@RequestMapping("/android/chatting.woo")
+	@ResponseBody
+	public Map<String, Object> chatting(Principal principal, HttpServletRequest req, HttpSession session, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String mobile = req.getParameter("mobile");
+		String user_id = sqlSession.getMapper(WooMemberImpl.class).selectphoneNum(mobile.substring(0,3) + "-" + mobile.substring(3,7) + "-" + mobile.substring(7));
+			 
+		String chatroomidx = req.getParameter("chatroomidx");
+		WooChatRoomVO wooChatRoomVO = new WooChatRoomVO();
+		if(chatroomidx!=null) {
+			wooChatRoomVO = sqlSession.getMapper(WooChatImpl.class).selectRoomVO(chatroomidx);
+		}
+		else {
+			String sellerid = req.getParameter("sellerid");
 			String boardidx = req.getParameter("boardidx");
-			String seller_id = sqlSession.getMapper(WooBoardImpl.class).selectId(boardidx);
-			String mobile = req.getParameter("mobile");
-			String user_id = "";
-			String udong = "";
-			// map = review.revireScore(sqlSession, seller_id);
-			int userGrade = 1;
-			
-			if(mobile!=null) {
-				user_id = sqlSession.getMapper(WooMemberImpl.class).selectphoneNum(mobile.substring(0,3) + "-" + mobile.substring(3,7) + "-" + mobile.substring(7));
-				getGrade = review.revireScore(sqlSession, user_id);
-				userGrade = Integer.parseInt(getGrade.get("getUserGrade").toString());//게시글 등급별 공개설정
+			wooChatRoomVO.setBoardidx(boardidx);
+			wooChatRoomVO.setBuyerid(user_id);
+			wooChatRoomVO.setSellerid(sellerid);
+			WooChatRoomVO roomCheck = sqlSession.getMapper(WooChatImpl.class).selectChatRoom(wooChatRoomVO);
+			if(roomCheck!=null && !"".equals(roomCheck.getChatroomidx())) {
+				chatroomidx = roomCheck.getChatroomidx();
+				wooChatRoomVO = roomCheck;
 			}
 			else {
-				userGrade = 1;
+				sqlSession.getMapper(WooChatImpl.class).createChatroom(wooChatRoomVO);
+				chatroomidx = String.valueOf(wooChatRoomVO.getSeq_woo_chatroom());
+				wooChatRoomVO = sqlSession.getMapper(WooChatImpl.class).selectRoomVO(chatroomidx);
 			}
 			
-			//상세보기
-			WooBoardVO dto = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).view(boardidx);
-			dto.setContents(dto.getContents().replace("\r\n","<br/>"));//엔터 처리
-			
-			//게시글 등급별 공개설정
-			if(dto.getId().equals(user_id)){  }
-			else if(userGrade < dto.getPublicSet()) {
-				switch (dto.getPublicSet()) {
-				case 2:
-					udong="따뜻한 일반우동";
-					break;
-				case 3:
-					udong="차가운 튀김우동";
-					break;
-				case 4:
-					udong="따뜻한 튀김우동";
-					break;
-				}
-			}
-			//조회수 처리
-			int applyRow = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).visitcount(boardidx);
-			//파일 불러오기
-			ArrayList<FileVO> uploadFileList = ((WooBoardImpl) sqlSession.getMapper(WooBoardImpl.class)).viewFile(boardidx);
-			//판매상태 update  
-			String sellingStatus = sqlSession.getMapper(WooBoardImpl.class).selectSellingStatus(boardidx);
-			
-			map.put("WooBoardVO", dto);
-			
-				
-			return map;
+
 		}
+		List<WooChattingVO> chatList = sqlSession.getMapper(WooChatImpl.class).selectChatting(chatroomidx);
+		WooBoardVO wooBoardVO = sqlSession.getMapper(WooBoardImpl.class).view(wooChatRoomVO.getBoardidx());
+		
+		
+		map.put("chatroomidx", chatroomidx);
+		map.put("chatList", chatList);
+		
+		return map;
+	}
+		
+	 // 안스 인증번호 확인후 멤버인지 체크 후 회원아니면 회원가입 창으로 이동
+    @RequestMapping("/android/AndroidJoinCheck.woo")
+    @ResponseBody
+       public Map<String, Object> JoinCheck(HttpServletRequest req, Model model) {
+          Map<String, Object> map = new HashMap<String, Object>();
+          
+          WooAndroidVO memberVO = new WooAndroidVO();
+          String phoneNo = req.getParameter("phoneNo");
+          
+             System.out.println(req.getParameter("phoneNo"));
+            String seller_num1 = phoneNo.substring(0, 3);
+             String seller_num2 = phoneNo.substring(3, 7);
+             String seller_num3 = phoneNo.substring(7);
+             String s_Num = seller_num1 + "-" + seller_num2 + "-" + seller_num3;
+             
+             System.out.println(s_Num);
+          memberVO.setMobile(s_Num);
+          //memberVO.setPass(req.getParameter("pw"));
+          //memberVO.setMobile(req.getParameter("id"));
+          
+          int res = ((WooAndroidImpl) this.sqlSession.getMapper(WooAndroidImpl.class)).checkmember(memberVO);
+          System.out.println(res);
+          if (res == 0) {
+             map.put("check", 0);
+             map.put("msg", "회원가입창으로");
+             System.out.println("회원가입창으로");
+          } else {
+             map.put("check", 1);
+             map.put("msg", "기존회원임");
+             System.out.println("기존회원임");
+          }
+          
+          return map;
+       }
+    
+ // 안스 로그인시 회원가입 처리
+ @RequestMapping("/android/AndroidJoin.woo")
+ @ResponseBody
+    public Map<String, Object> joinAction(HttpServletRequest req, Model model) {
+       Map<String, Object> map = new HashMap<String, Object>();
+       
+       WooMemberVO memberVO = new WooMemberVO();
+       
+       memberVO.setId(req.getParameter("Email"));
+       memberVO.setPass(req.getParameter("Pass"));
+       
+       String phoneNo = req.getParameter("Phone");
+       
+       System.out.println(req.getParameter("phoneNo"));
+      String seller_num1 = phoneNo.substring(0, 3);
+       String seller_num2 = phoneNo.substring(3, 7);
+       String seller_num3 = phoneNo.substring(7);
+       String s_Num = seller_num1 + "-" + seller_num2 + "-" + seller_num3;
+       
+       System.out.println(s_Num);
+       memberVO.setMobile(s_Num);
+    
+       int res = ((WooMemberImpl) this.sqlSession.getMapper(WooMemberImpl.class)).regist(memberVO);
+       
+       if (res == 0) {
+          map.put("islocationJoin", 0);
+          map.put("msg", "회원가입 실패");
+       } else {
+          map.put("islocationJoin", 1);
+          map.put("msg", "회원가입 성공");
+          System.out.println("회원가입 성공");
+       }
+       
+       return map;
+    }
+   
+}

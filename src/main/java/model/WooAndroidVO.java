@@ -9,8 +9,17 @@ public class WooAndroidVO {
 	private String longitude; //사용자 경도
 	private String num; //인증번호
 	private Date pushlocationDate; //위치 저장 날짜
+	private String mobile;
 	
 	
+	
+	
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 	public String getNum() {
 		return num;
 	}
